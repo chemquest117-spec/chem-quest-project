@@ -8,7 +8,8 @@
                     <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                          x-transition:enter-start="opacity-0 -translate-y-4"
                          x-transition:enter-end="opacity-100 translate-y-0">
-                         <h1 class="text-3xl font-bold text-white mb-2">🎯 Learning Stages</h1>
+                         <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-2"><x-icon name="target"
+                                   class="w-7 h-7 text-pink-400" /> Learning Stages</h1>
                          <p class="text-slate-400 mb-4">Complete each stage to unlock the next. You need
                               {{ $stages->first()->passing_percentage ?? 75 }}% to pass.</p>
 
@@ -24,7 +25,13 @@
                                                                      {{ $done ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 scale-110' :
                                    ($unlocked ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30 animate-pulse' :
                                         'bg-slate-700 text-slate-500') }}">
-                                                                 @if($done) ✓ @elseif($unlocked) {{ $s->order }} @else 🔒 @endif
+                                                                 @if($done)
+                                                                      <x-icon name="check" class="w-5 h-5" />
+                                                                 @elseif($unlocked)
+                                                                      {{ $s->order }}
+                                                                 @else
+                                                                      <x-icon name="lock-closed" class="w-4 h-4" />
+                                                                 @endif
                                                             </div>
                                                             @if(!$loop->last)
                                                                  <div
@@ -39,7 +46,6 @@
 
                     {{-- Vertical Roadmap --}}
                     <div class="relative">
-                         {{-- Connecting line --}}
                          <div
                               class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-purple-500 to-slate-700">
                          </div>
@@ -52,7 +58,6 @@
                                                             $delay = ($index + 1) * 150;
                                                           @endphp
 
-                                                       {{-- Each card animates in with stagger --}}
                                                        <div x-show="shown" x-transition:enter="transition ease-out duration-600"
                                                             x-transition:enter-start="opacity-0 translate-x-8"
                                                             x-transition:enter-end="opacity-100 translate-x-0"
@@ -60,13 +65,16 @@
                                                             class="relative flex items-start space-x-6 group">
 
                                                             {{-- Node dot --}}
-                                                            <div class="relative z-10 flex-shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3
+                                                            <div class="relative z-10 flex-shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3
                                                                      {{ $isCompleted ? 'bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-emerald-500/30' :
                                    ($isUnlocked ? 'bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-blue-500/30 animate-pulse' :
                                         'bg-slate-700/80 text-slate-500') }}">
-                                                                 @if($isCompleted) ✓
-                                                                 @elseif(!$isUnlocked) 🔒
-                                                                 @else ▶
+                                                                 @if($isCompleted)
+                                                                      <x-icon name="check" class="w-7 h-7" />
+                                                                 @elseif(!$isUnlocked)
+                                                                      <x-icon name="lock-closed" class="w-6 h-6" />
+                                                                 @else
+                                                                      <x-icon name="play" class="w-6 h-6" />
                                                                  @endif
                                                             </div>
 
@@ -85,7 +93,9 @@
                                                                                      Stage {{ $stage->order }}
                                                                                 </span>
                                                                                 @if($isCompleted)
-                                                                                     <span class="text-xs text-emerald-400 font-medium">✓
+                                                                                     <span
+                                                                                          class="flex items-center gap-1 text-xs text-emerald-400 font-medium"><x-icon
+                                                                                               name="check-circle" class="w-3.5 h-3.5" />
                                                                                           Completed</span>
                                                                                 @elseif($isUnlocked)
                                                                                      <span class="relative flex h-2 w-2">
@@ -105,14 +115,18 @@
 
                                                                            <div
                                                                                 class="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-500">
-                                                                                <span class="flex items-center gap-1">⏱
-                                                                                     {{ $stage->time_limit_minutes }} min</span>
-                                                                                <span class="flex items-center gap-1">📝
+                                                                                <span class="flex items-center gap-1"><x-icon name="clock"
+                                                                                          class="w-3 h-3" /> {{ $stage->time_limit_minutes }}
+                                                                                     min</span>
+                                                                                <span class="flex items-center gap-1"><x-icon
+                                                                                          name="document-text" class="w-3 h-3" />
                                                                                      {{ $stage->questions_count }} questions</span>
-                                                                                <span class="flex items-center gap-1">🎯
-                                                                                     {{ $stage->passing_percentage }}% to pass</span>
+                                                                                <span class="flex items-center gap-1"><x-icon name="target"
+                                                                                          class="w-3 h-3" /> {{ $stage->passing_percentage }}% to
+                                                                                     pass</span>
                                                                                 <span
-                                                                                     class="flex items-center gap-1 {{ $isCompleted ? 'text-emerald-400' : '' }}">🏅
+                                                                                     class="flex items-center gap-1 {{ $isCompleted ? 'text-emerald-400' : '' }}"><x-icon
+                                                                                          name="medal" class="w-3 h-3" />
                                                                                      +{{ $stage->points_reward }} pts</span>
                                                                            </div>
                                                                       </div>
@@ -121,17 +135,17 @@
                                                                            @if($isCompleted)
                                                                                 <a href="{{ route('stages.show', $stage) }}"
                                                                                      class="inline-flex items-center gap-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">
-                                                                                     🔄 Retry
+                                                                                     <x-icon name="refresh" class="w-4 h-4" /> Retry
                                                                                 </a>
                                                                            @elseif($isUnlocked)
                                                                                 <a href="{{ route('stages.show', $stage) }}"
                                                                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-blue-500/25 hover:scale-105">
-                                                                                     Start Quiz →
+                                                                                     Start Quiz <x-icon name="arrow-right" class="w-4 h-4" />
                                                                                 </a>
                                                                            @else
                                                                                 <span
-                                                                                     class="bg-slate-700/50 text-slate-500 px-4 py-2 rounded-xl text-sm cursor-not-allowed">
-                                                                                     Locked 🔒
+                                                                                     class="flex items-center gap-1 bg-slate-700/50 text-slate-500 px-4 py-2 rounded-xl text-sm cursor-not-allowed">
+                                                                                     Locked <x-icon name="lock-closed" class="w-3.5 h-3.5" />
                                                                                 </span>
                                                                            @endif
                                                                       </div>

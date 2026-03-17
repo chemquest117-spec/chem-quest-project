@@ -7,7 +7,8 @@
             {{-- Welcome Header --}}
             <div class="mb-8" x-show="shown" x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h1 class="text-3xl font-bold text-white">Welcome back, {{ $user->name }}! 👋</h1>
+                <h1 class="text-3xl font-bold text-white flex items-center gap-2">Welcome back, {{ $user->name }}!
+                    <x-icon name="hand-wave" class="w-8 h-8 text-amber-400" /></h1>
                 <p class="text-slate-400 mt-1">Continue your chemistry journey</p>
             </div>
 
@@ -20,7 +21,8 @@
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-slate-400 text-sm">Progress</span>
-                        <span class="text-2xl group-hover:scale-125 transition-transform duration-300">📈</span>
+                        <x-icon name="trending-up"
+                            class="w-5 h-5 text-cyan-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-3xl font-bold text-white">{{ $user->progressPercentage() }}%</div>
                     <div class="mt-3 w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
@@ -36,7 +38,8 @@
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-slate-400 text-sm">Total Points</span>
-                        <span class="text-2xl group-hover:scale-125 transition-transform duration-300">🏅</span>
+                        <x-icon name="medal"
+                            class="w-5 h-5 text-emerald-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-3xl font-bold text-emerald-400">{{ number_format($user->total_points) }}</div>
                     <p class="text-slate-500 text-sm mt-1">Keep earning!</p>
@@ -49,8 +52,8 @@
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-slate-400 text-sm">Stars Earned</span>
-                        <span
-                            class="text-2xl group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300">⭐</span>
+                        <x-icon name="star"
+                            class="w-5 h-5 text-amber-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                     </div>
                     <div class="text-3xl font-bold text-amber-400">{{ $user->stars }}</div>
                     <p class="text-slate-500 text-sm mt-1">{{ $stages->count() - count($completedIds) }} more to go</p>
@@ -63,15 +66,16 @@
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-slate-400 text-sm">Current Stage</span>
-                        <span class="text-2xl group-hover:scale-125 transition-transform duration-300">🎯</span>
+                        <x-icon name="target"
+                            class="w-5 h-5 text-purple-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-lg font-bold text-purple-400">
-                        {{ $currentStage ? $currentStage->title : '🎉 All Complete!' }}
+                        {{ $currentStage ? $currentStage->title : 'All Complete!' }}
                     </div>
                     @if($currentStage)
                         <a href="{{ route('stages.show', $currentStage) }}"
-                            class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-block group-hover:translate-x-1 transition-transform">Start
-                            now →</a>
+                            class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">Start
+                            now <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
                     @endif
                 </div>
             </div>
@@ -120,7 +124,8 @@
                     x-transition:enter-start="opacity-0 -translate-x-4"
                     x-transition:enter-end="opacity-100 translate-x-0" style="transition-delay: 600ms"
                     class="lg:col-span-2 bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                    <h2 class="text-xl font-bold text-white mb-4">🗺️ Your Roadmap</h2>
+                    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><x-icon name="map"
+                            class="w-5 h-5 text-blue-400" /> Your Roadmap</h2>
                     <div class="space-y-3">
                         @foreach($stages as $stage)
                                             @php
@@ -134,13 +139,16 @@
                             ($isCurrent ? 'bg-blue-500/10 border border-blue-500/30' :
                                 ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-white/[0.02] border border-white/5 opacity-50')) }}">
                                                 <div
-                                                    class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300
+                                                    class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
                                                                 {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 animate-pulse' :
                                 ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-white/5 text-slate-600')) }}">
-                                                    @if($isCompleted) ✓
-                                                    @elseif(!$isUnlocked) 🔒
-                                                    @else {{ $stage->order }}
+                                                    @if($isCompleted)
+                                                        <x-icon name="check" class="w-5 h-5" />
+                                                    @elseif(!$isUnlocked)
+                                                        <x-icon name="lock-closed" class="w-4 h-4" />
+                                                    @else
+                                                        <span class="text-sm font-bold">{{ $stage->order }}</span>
                                                     @endif
                                                 </div>
                                                 <div class="flex-1 min-w-0">
@@ -148,8 +156,12 @@
                                                         class="font-medium {{ $isCompleted ? 'text-emerald-300' : ($isCurrent ? 'text-blue-300' : 'text-slate-300') }}">
                                                         {{ $stage->title }}
                                                     </p>
-                                                    <p class="text-xs text-slate-500">{{ $stage->time_limit_minutes }} min •
-                                                        {{ $stage->passing_percentage }}% to pass</p>
+                                                    <p class="text-xs text-slate-500 flex items-center gap-2">
+                                                        <span class="flex items-center gap-0.5"><x-icon name="clock" class="w-3 h-3" />
+                                                            {{ $stage->time_limit_minutes }} min</span>
+                                                        <span>&middot;</span>
+                                                        <span>{{ $stage->passing_percentage }}% to pass</span>
+                                                    </p>
                                                 </div>
                                                 @if($isUnlocked && !$isCompleted)
                                                     <a href="{{ route('stages.show', $stage) }}"
@@ -157,7 +169,8 @@
                                                         Start
                                                     </a>
                                                 @elseif($isCompleted)
-                                                    <span class="text-emerald-400 text-sm font-medium">Passed ✓</span>
+                                                    <span class="flex items-center gap-1 text-emerald-400 text-sm font-medium"><x-icon
+                                                            name="check-circle" class="w-4 h-4" /> Passed</span>
                                                 @endif
                                             </div>
                         @endforeach
@@ -171,7 +184,8 @@
 
                     {{-- Recent Attempts --}}
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                        <h2 class="text-lg font-bold text-white mb-4">📝 Recent Attempts</h2>
+                        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon
+                                name="document-text" class="w-5 h-5 text-blue-400" /> Recent Attempts</h2>
                         @forelse($recentAttempts as $attempt)
                             <div
                                 class="flex items-center justify-between py-2 border-b border-white/5 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-lg transition">
@@ -180,9 +194,10 @@
                                     <p class="text-xs text-slate-500">{{ $attempt->created_at->diffForHumans() }}</p>
                                 </div>
                                 <span
-                                    class="text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
+                                    class="flex items-center gap-1 text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
                                     {{ $attempt->score }}/{{ $attempt->total_questions }}
-                                    {{ $attempt->passed ? '✓' : '✗' }}
+                                    @if($attempt->passed) <x-icon name="check" class="w-3.5 h-3.5" /> @else <x-icon
+                                    name="x-circle" class="w-3.5 h-3.5" /> @endif
                                 </span>
                             </div>
                         @empty
@@ -192,14 +207,16 @@
 
                     {{-- Notifications --}}
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                        <h2 class="text-lg font-bold text-white mb-4">🔔 Notifications</h2>
+                        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon name="bell"
+                                class="w-5 h-5 text-amber-400" /> Notifications</h2>
                         @forelse($notifications as $notif)
                             <div class="py-2 border-b border-white/5 last:border-0">
                                 <p class="text-sm text-slate-300">{{ $notif->data['message'] ?? '' }}</p>
                                 <p class="text-xs text-slate-500 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
                             </div>
                         @empty
-                            <p class="text-slate-500 text-sm">All caught up! 🎉</p>
+                            <p class="text-slate-500 text-sm flex items-center gap-1.5"><x-icon name="sparkles"
+                                    class="w-4 h-4 text-emerald-400" /> All caught up!</p>
                         @endforelse
                     </div>
                 </div>

@@ -7,11 +7,15 @@
                {{-- Result Header --}}
                <div class="text-center mb-8">
                     @if($attempt->passed)
-                         <div class="text-6xl mb-4 animate-bounce">🎉</div>
+                         <div class="mb-4 animate-bounce">
+                              <x-icon name="sparkles" class="w-16 h-16 text-emerald-400 mx-auto" />
+                         </div>
                          <h1 class="text-3xl font-bold text-emerald-400">Congratulations!</h1>
                          <p class="text-slate-400 mt-1">You passed {{ $attempt->stage->title }}!</p>
                     @else
-                         <div class="text-6xl mb-4">💪</div>
+                         <div class="mb-4">
+                              <x-icon name="lightning-bolt" class="w-16 h-16 text-amber-400 mx-auto" />
+                         </div>
                          <h1 class="text-3xl font-bold text-amber-400">Keep Going!</h1>
                          <p class="text-slate-400 mt-1">You need {{ $attempt->stage->passing_percentage }}% to pass. Don't
                               give up!</p>
@@ -20,7 +24,7 @@
 
                {{-- Score Card --}}
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border mb-8
-                        {{ $attempt->passed ? 'border-emerald-500/30' : 'border-amber-500/30' }}">
+                     {{ $attempt->passed ? 'border-emerald-500/30' : 'border-amber-500/30' }}">
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
                          <div>
                               <div
@@ -31,7 +35,8 @@
                          </div>
                          <div>
                               <div class="text-4xl font-bold text-white">
-                                   {{ $attempt->score }}/{{ $attempt->total_questions }}</div>
+                                   {{ $attempt->score }}/{{ $attempt->total_questions }}
+                              </div>
                               <div class="text-sm text-slate-400 mt-1">Correct</div>
                          </div>
                          <div>
@@ -41,9 +46,12 @@
                               <div class="text-sm text-slate-400 mt-1">Time Taken</div>
                          </div>
                          <div>
-                              <div
-                                   class="text-4xl font-bold {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
-                                   {{ $attempt->passed ? '✓' : '✗' }}
+                              <div class="flex justify-center">
+                                   @if($attempt->passed)
+                                        <x-icon name="check-circle" class="w-10 h-10 text-emerald-400" />
+                                   @else
+                                        <x-icon name="x-circle" class="w-10 h-10 text-red-400" />
+                                   @endif
                               </div>
                               <div class="text-sm text-slate-400 mt-1">{{ $attempt->passed ? 'Passed' : 'Failed' }}
                               </div>
@@ -53,17 +61,22 @@
 
                {{-- Question Review --}}
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-8">
-                    <h2 class="text-xl font-bold text-white mb-4">📝 Question Review</h2>
+                    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><x-icon name="document-text"
+                              class="w-5 h-5 text-blue-400" /> Question Review</h2>
                     <div class="space-y-4">
                          @foreach($attempt->answers as $index => $answer)
                               <div
                                    class="p-4 rounded-xl border
-                                         {{ $answer->is_correct ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-red-500/5 border-red-500/20' }}">
+                                       {{ $answer->is_correct ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-red-500/5 border-red-500/20' }}">
                                    <div class="flex items-start space-x-3">
                                         <span
                                              class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                                                 {{ $answer->is_correct ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white' }}">
-                                             {{ $answer->is_correct ? '✓' : '✗' }}
+                                             {{ $answer->is_correct ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white' }}">
+                                             @if($answer->is_correct)
+                                                  <x-icon name="check" class="w-4 h-4" />
+                                             @else
+                                                  <x-icon name="x-circle" class="w-4 h-4" />
+                                             @endif
                                         </span>
                                         <div class="flex-1">
                                              <p class="text-white font-medium mb-2">{{ $answer->question->question_text }}
@@ -72,18 +85,19 @@
                                              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                   @foreach(['a', 'b', 'c', 'd'] as $opt)
                                                                                      <div class="p-2 rounded-lg text-sm flex items-center space-x-2
-                                                                                                {{ $opt === $answer->question->correct_answer ? 'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/30' :
+                                                                                                   {{ $opt === $answer->question->correct_answer ? 'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/30' :
                                                        ($opt === $answer->selected_answer && !$answer->is_correct ? 'bg-red-500/20 text-red-300 ring-1 ring-red-500/30' :
                                                             'bg-white/5 text-slate-400') }}">
                                                                                           <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs
-                                                                                                     {{ $opt === $answer->question->correct_answer ? 'border-emerald-500 bg-emerald-500 text-white' :
+                                                                                                       {{ $opt === $answer->question->correct_answer ? 'border-emerald-500 bg-emerald-500 text-white' :
                                                        ($opt === $answer->selected_answer && !$answer->is_correct ? 'border-red-500 bg-red-500 text-white' :
                                                             'border-white/20') }}">
                                                                                                {{ strtoupper($opt) }}
                                                                                           </span>
                                                                                           <span>{{ $answer->question->{'option_' . $opt} }}</span>
                                                                                           @if($opt === $answer->question->correct_answer)
-                                                                                               <span class="text-emerald-400 ml-auto">✓ Correct</span>
+                                                                                               <span class="flex items-center gap-0.5 text-emerald-400 ml-auto"><x-icon
+                                                                                                         name="check" class="w-3 h-3" /> Correct</span>
                                                                                           @elseif($opt === $answer->selected_answer && !$answer->is_correct)
                                                                                                <span class="text-red-400 ml-auto">Your answer</span>
                                                                                           @endif
@@ -92,7 +106,9 @@
                                              </div>
 
                                              @if(!$answer->selected_answer)
-                                                  <p class="text-xs text-slate-500 mt-1 italic">⚠ Not answered</p>
+                                                  <p class="flex items-center gap-1 text-xs text-slate-500 mt-1 italic">
+                                                       <x-icon name="x-circle" class="w-3 h-3" /> Not answered
+                                                  </p>
                                              @endif
                                         </div>
                                    </div>
@@ -107,18 +123,18 @@
                          <form action="{{ route('quiz.start', $attempt->stage) }}" method="POST">
                               @csrf
                               <button type="submit"
-                                   class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold transition-all duration-200 shadow-lg">
-                                   🔄 Retry Quiz
+                                   class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold transition-all duration-200 shadow-lg">
+                                   <x-icon name="refresh" class="w-5 h-5" /> Retry Quiz
                               </button>
                          </form>
                     @endif
                     <a href="{{ route('stages.index') }}"
-                         class="text-center bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200">
-                         ← Back to Stages
+                         class="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200">
+                         <x-icon name="arrow-right" class="w-4 h-4 rotate-180" /> Back to Stages
                     </a>
                     <a href="{{ route('dashboard') }}"
-                         class="text-center bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200">
-                         📊 Dashboard
+                         class="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200">
+                         <x-icon name="chart-bar" class="w-4 h-4" /> Dashboard
                     </a>
                </div>
           </div>

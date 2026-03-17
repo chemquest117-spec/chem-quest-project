@@ -67,7 +67,8 @@
 
         {{-- Footer --}}
         <footer class="bg-black/20 border-t border-white/10 py-6 text-center text-sm text-slate-400">
-            <p>🧪 ChemQuest &copy; {{ date('Y') }} — Making Chemistry Fun!</p>
+            <p class="flex items-center justify-center gap-1.5"><x-chemquest-logo size="xs" /> ChemQuest &copy;
+                {{ date('Y') }} — Making Chemistry Fun!</p>
         </footer>
     </div>
 </body>

@@ -3,9 +3,11 @@
 
      <div class="py-8">
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-               <a href="{{ route('admin.dashboard') }}" class="text-slate-400 hover:text-white text-sm">← Admin
-                    Dashboard</a>
-               <h1 class="text-3xl font-bold text-white mt-1 mb-8">👥 Student Progress</h1>
+               <a href="{{ route('admin.dashboard') }}"
+                    class="flex items-center gap-1 text-slate-400 hover:text-white text-sm">
+                    <x-icon name="arrow-right" class="w-4 h-4 rotate-180" /> Admin Dashboard</a>
+               <h1 class="text-3xl font-bold text-white mt-1 mb-8 flex items-center gap-2"><x-icon name="users"
+                         class="w-7 h-7 text-cyan-400" /> Student Progress</h1>
 
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
                     <div class="overflow-x-auto">
@@ -41,14 +43,19 @@
                                                   </div>
                                              </td>
                                              <td class="px-6 py-4 text-center text-emerald-400 font-bold">
-                                                  {{ number_format($student->total_points) }}</td>
-                                             <td class="px-6 py-4 text-center text-amber-400">{{ $student->stars }} ⭐</td>
+                                                  {{ number_format($student->total_points) }}
+                                             </td>
+                                             <td class="px-6 py-4 text-center">
+                                                  <span class="flex items-center justify-center gap-0.5 text-amber-400">
+                                                       <x-icon name="star" class="w-3.5 h-3.5" /> {{ $student->stars }}
+                                                  </span>
+                                             </td>
                                              <td class="px-6 py-4 text-center text-slate-300">{{ $student->attempts_count }}
                                              </td>
                                              @foreach($stages as $stage)
                                                   <td class="px-4 py-4 text-center">
                                                        @if(in_array($stage->id, $completedIds))
-                                                            <span class="text-emerald-400" title="Completed">✓</span>
+                                                            <x-icon name="check" class="w-4 h-4 text-emerald-400 mx-auto" />
                                                        @else
                                                             <span class="text-slate-600">—</span>
                                                        @endif

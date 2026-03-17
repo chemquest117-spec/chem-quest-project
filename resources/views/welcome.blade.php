@@ -15,9 +15,9 @@
 
     <div class="flex-1 flex items-center justify-center px-4 py-16">
         <div class="text-center max-w-3xl">
-            {{-- Logo --}}
+            {{-- Creative Animated Logo --}}
             <div class="mb-8">
-                <span class="text-7xl inline-block animate-bounce">🧪</span>
+                <x-chemquest-logo size="2xl" class="mx-auto" />
             </div>
 
             <h1 class="text-5xl sm:text-6xl font-extrabold mb-4">
@@ -33,29 +33,34 @@
 
             {{-- Feature Pills --}}
             <div class="flex flex-wrap justify-center gap-3 mb-10">
-                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">⏱ Timed
-                    Quizzes</span>
-                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">🎯
-                    Progressive Stages</span>
-                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">⭐ Earn
-                    Stars</span>
-                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">🏆
-                    Leaderboard</span>
-                <span class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">🏅 Points
-                    System</span>
+                <span
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    <x-icon name="clock" class="w-4 h-4" /> Timed Quizzes</span>
+                <span
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    <x-icon name="target" class="w-4 h-4" /> Progressive Stages</span>
+                <span
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    <x-icon name="star" class="w-4 h-4" /> Earn Stars</span>
+                <span
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    <x-icon name="trophy" class="w-4 h-4" /> Leaderboard</span>
+                <span
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    <x-icon name="medal" class="w-4 h-4" /> Points System</span>
             </div>
 
             {{-- CTA Buttons --}}
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 @auth
                     <a href="{{ route('dashboard') }}"
-                        class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/30">
-                        Go to Dashboard →
+                        class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/30">
+                        Go to Dashboard <x-icon name="arrow-right" class="w-5 h-5" />
                     </a>
                 @else
                     <a href="{{ route('register') }}"
-                        class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-emerald-500/30">
-                        Get Started — Free 🚀
+                        class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-emerald-500/30">
+                        Get Started — Free <x-icon name="rocket" class="w-5 h-5" />
                     </a>
                     <a href="{{ route('login') }}"
                         class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium text-lg transition-all duration-200 border border-white/10">
@@ -75,7 +80,9 @@
                     <div class="text-sm text-slate-500">Questions</div>
                 </div>
                 <div>
-                    <div class="text-3xl font-bold text-purple-400">∞</div>
+                    <div class="flex justify-center">
+                        <x-icon name="infinity" class="w-8 h-8 text-purple-400" />
+                    </div>
                     <div class="text-sm text-slate-500">Retries</div>
                 </div>
             </div>
@@ -83,7 +90,9 @@
     </div>
 
     <footer class="text-center py-6 text-sm text-slate-600">
-        <p>🧪 ChemQuest &copy; {{ date('Y') }} — Making Chemistry Fun!</p>
+        <p class="flex items-center justify-center gap-1.5">
+            <x-chemquest-logo size="xs" /> ChemQuest &copy; {{ date('Y') }} — Making Chemistry Fun!
+        </p>
     </footer>
 </body>
 

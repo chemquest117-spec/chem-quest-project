@@ -5,7 +5,7 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                    <span class="text-2xl">🧪</span>
+                    <x-chemquest-logo size="sm" />
                     <span
                         class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">ChemQuest</span>
                 </a>
@@ -13,25 +13,25 @@
                 <!-- Desktop Nav Links -->
                 <div class="hidden sm:flex sm:ml-10 sm:space-x-1">
                     <a href="{{ route('dashboard') }}"
-                        class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        📊 Dashboard
+                        <x-icon name="chart-bar" class="w-4 h-4" /> Dashboard
                     </a>
                     <a href="{{ route('stages.index') }}"
-                        class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        🎯 Stages
+                        <x-icon name="target" class="w-4 h-4" /> Stages
                     </a>
                     <a href="{{ route('leaderboard') }}"
-                        class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        🏆 Leaderboard
+                        <x-icon name="trophy" class="w-4 h-4" /> Leaderboard
                     </a>
                     @if(auth()->user()->is_admin)
                         <a href="{{ route('admin.dashboard') }}"
-                            class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                      {{ request()->routeIs('admin.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
-                            ⚙️ Admin
+                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                              {{ request()->routeIs('admin.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
+                            <x-icon name="cog" class="w-4 h-4" /> Admin
                         </a>
                     @endif
                 </div>
@@ -41,11 +41,12 @@
             <div class="hidden sm:flex sm:items-center sm:space-x-3">
                 <!-- Points & Stars -->
                 <div class="flex items-center space-x-3 text-sm">
-                    <span class="bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full">
-                        ⭐ {{ auth()->user()->stars }}
+                    <span class="flex items-center gap-1 bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full">
+                        <x-icon name="star" class="w-3.5 h-3.5" /> {{ auth()->user()->stars }}
                     </span>
-                    <span class="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full">
-                        🏅 {{ number_format(auth()->user()->total_points) }} pts
+                    <span class="flex items-center gap-1 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full">
+                        <x-icon name="medal" class="w-3.5 h-3.5" /> {{ number_format(auth()->user()->total_points) }}
+                        pts
                     </span>
                 </div>
 
@@ -53,10 +54,7 @@
                 <div class="relative" x-data="{ notifOpen: false }">
                     <button @click="notifOpen = !notifOpen"
                         class="relative p-2 rounded-lg text-slate-300 hover:bg-white/10 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
+                        <x-icon name="bell" class="w-5 h-5" />
                         @if(auth()->user()->unreadNotifications->count() > 0)
                             <span
                                 class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
@@ -88,7 +86,10 @@
                                     </p>
                                 </div>
                             @empty
-                                <div class="px-4 py-6 text-center text-slate-400 text-sm">No new notifications 🎉</div>
+                                <div
+                                    class="px-4 py-6 text-center text-slate-400 text-sm flex items-center justify-center gap-1.5">
+                                    <x-icon name="check-circle" class="w-4 h-4 text-emerald-400" /> No new notifications
+                                </div>
                             @endforelse
                         </div>
                     </div>
@@ -143,15 +144,19 @@
     <div :class="{'block': open, 'hidden': !open}"
         class="hidden sm:hidden bg-black/40 backdrop-blur-md border-t border-white/10">
         <div class="pt-2 pb-3 space-y-1 px-4">
-            <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">📊
-                Dashboard</a>
-            <a href="{{ route('stages.index') }}" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">🎯
-                Stages</a>
-            <a href="{{ route('leaderboard') }}" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">🏆
-                Leaderboard</a>
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                <x-icon name="chart-bar" class="w-4 h-4" /> Dashboard</a>
+            <a href="{{ route('stages.index') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                <x-icon name="target" class="w-4 h-4" /> Stages</a>
+            <a href="{{ route('leaderboard') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                <x-icon name="trophy" class="w-4 h-4" /> Leaderboard</a>
             @if(auth()->user()->is_admin)
                 <a href="{{ route('admin.dashboard') }}"
-                    class="block px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">⚙️ Admin</a>
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
+                    <x-icon name="cog" class="w-4 h-4" /> Admin</a>
             @endif
         </div>
         <div class="pt-4 pb-3 border-t border-white/10 px-4">
