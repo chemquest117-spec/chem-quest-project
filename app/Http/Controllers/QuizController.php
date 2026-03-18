@@ -21,13 +21,13 @@ class QuizController extends Controller
           // Validate stage is unlocked
           if (!$stage->isUnlockedFor($user)) {
                return redirect()->route('stages.index')
-                    ->with('error', 'This stage is locked.');
+                    ->with('error', __('messages.stage_locked'));
           }
 
           // Check minimum questions
           if ($stage->questions()->count() === 0) {
                return redirect()->route('stages.show', $stage)
-                    ->with('error', 'This stage has no questions yet.');
+                    ->with('error', __('messages.error'));
           }
 
           // Create a new attempt

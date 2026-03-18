@@ -1,0 +1,19 @@
+<?php
+
+return [
+     'quiz' => 'Quiz',
+     'question' => 'Question :current of :total',
+     'next' => 'Next Question',
+     'previous' => 'Previous Question',
+     'submit' => 'Submit Quiz',
+     'time_remaining' => 'Time Remaining',
+     'results' => 'Quiz Results',
+     'score' => 'Your Score',
+     'passed' => 'Congratulations! You passed the stage.',
+     'failed' => 'Keep trying! You need :percentage% to pass.',
+     'back_to_stages' => 'Back to Stages',
+     'time_up' => 'Time is up!',
+     'review_answers' => 'Review Answers',
+     'correct' => 'Correct',
+     'incorrect' => 'Incorrect',
+];

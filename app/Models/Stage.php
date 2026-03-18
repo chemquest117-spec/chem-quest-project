@@ -9,7 +9,9 @@ class Stage extends Model
 {
      protected $fillable = [
           'title',
+          'title_ar',
           'description',
+          'description_ar',
           'order',
           'time_limit_minutes',
           'passing_percentage',
@@ -24,6 +26,16 @@ class Stage extends Model
      public function attempts(): HasMany
      {
           return $this->hasMany(StageAttempt::class);
+     }
+
+     public function getTranslatedTitle(): string
+     {
+          return app()->getLocale() === 'ar' && $this->title_ar ? $this->title_ar : $this->title;
+     }
+
+     public function getTranslatedDescription()
+     {
+          return app()->getLocale() === 'ar' && $this->description_ar ? $this->description_ar : $this->description;
      }
 
      /**

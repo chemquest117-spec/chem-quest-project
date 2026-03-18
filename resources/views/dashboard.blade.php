@@ -7,10 +7,11 @@
             {{-- Welcome Header --}}
             <div class="mb-8" x-show="shown" x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h1 class="text-3xl font-bold text-white flex items-center gap-2">Welcome back, {{ $user->name }}!
+                <h1 class="text-3xl font-bold text-white flex items-center gap-2">
+                    {{ __('dashboard.welcome', ['name' => $user->name]) }}
                     <x-icon name="hand-wave" class="w-8 h-8 text-amber-400" />
                 </h1>
-                <p class="text-slate-400 mt-1">Continue your chemistry journey</p>
+                <p class="text-slate-400 mt-1">{{ __('dashboard.continue_learning') }}</p>
             </div>
 
             {{-- Stats Cards Row 1 --}}
@@ -21,12 +22,11 @@
                     style="transition-delay: 50ms"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">Study Streak</span>
+                        <span class="text-slate-400 text-sm">{{ __('dashboard.streak') }}</span>
                         <x-icon name="fire"
                             class="w-5 h-5 text-orange-400 group-hover:scale-125 transition-transform duration-300 {{ $user->streak > 0 ? 'animate-pulse' : '' }}" />
                     </div>
-                    <div class="text-3xl font-bold text-orange-400">{{ $user->streak }} <span
-                            class="text-sm font-normal text-slate-500">Days</span></div>
+                    <div class="text-3xl font-bold text-orange-400">{{ $user->streak }}</div>
                     <p class="text-slate-500 text-sm mt-1">Keep it burning!</p>
                 </div>
 
@@ -36,7 +36,7 @@
                     style="transition-delay: 100ms"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">Progress</span>
+                        <span class="text-slate-400 text-sm">{{ __('dashboard.your_progress') }}</span>
                         <x-icon name="trending-up"
                             class="w-5 h-5 text-cyan-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
@@ -53,7 +53,7 @@
                     style="transition-delay: 200ms"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">Total Points</span>
+                        <span class="text-slate-400 text-sm">{{ __('dashboard.points') }}</span>
                         <x-icon name="medal"
                             class="w-5 h-5 text-emerald-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
@@ -67,7 +67,7 @@
                     style="transition-delay: 300ms"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">Stars Earned</span>
+                        <span class="text-slate-400 text-sm">{{ __('dashboard.stars') }}</span>
                         <x-icon name="star"
                             class="w-5 h-5 text-amber-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                     </div>
@@ -151,11 +151,11 @@
                                             @endphp
                                             <div
                                                 class="flex items-center space-x-4 p-3 rounded-xl transition-all duration-300 hover:translate-x-1
-                                                                                {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
+                                                                                                    {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500/10 border border-blue-500/30' :
                                 ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-white/[0.02] border border-white/5 opacity-50')) }}">
                                                 <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
-                                                                                    {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
+                                                                                                        {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 animate-pulse' :
                                 ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-white/5 text-slate-600')) }}">
                                                     @if($isCompleted)

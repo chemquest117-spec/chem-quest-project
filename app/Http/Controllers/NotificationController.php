@@ -11,13 +11,13 @@ class NotificationController extends Controller
           $notification = $request->user()->notifications()->findOrFail($id);
           $notification->markAsRead();
 
-          return back()->with('success', 'Notification marked as read.');
+          return back()->with('success', __('messages.success'));
      }
 
      public function markAllRead(Request $request)
      {
           $request->user()->unreadNotifications->markAsRead();
 
-          return back()->with('success', 'All notifications marked as read.');
+          return back()->with('success', __('messages.success'));
      }
 }

@@ -11,19 +11,19 @@
                          <div>
                               <h2 class="text-lg font-bold text-white">{{ $stage->title }}</h2>
                               <p class="text-xs text-slate-400 flex items-center gap-1"><x-icon name="document-text"
-                                        class="w-3 h-3" /> {{ $answers->count() }} questions</p>
+                                        class="w-3 h-3" /> {{ __('stages.questions_count', ['count' => $answers->count()]) }}</p>
                          </div>
                          <div class="flex items-center space-x-4">
                               <div class="text-right">
                                    <div class="text-xs text-slate-400 flex items-center gap-1 justify-end"><x-icon
-                                             name="clock" class="w-3 h-3" /> Time Remaining</div>
+                                             name="clock" class="w-3 h-3" /> {{ __('quiz.time_remaining') }}</div>
                                    <div class="text-2xl font-mono font-bold"
                                         :class="remaining <= 60 ? 'text-red-400 animate-pulse' : (remaining <= 180 ? 'text-amber-400' : 'text-emerald-400')"
                                         x-text="display"></div>
                               </div>
                               <button type="submit" form="quiz-form"
                                    class="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-6 py-2 rounded-xl font-bold transition-all duration-200 shadow-lg">
-                                   Submit <x-icon name="check" class="w-4 h-4" />
+                                   {{ __('quiz.submit') }} <x-icon name="check" class="w-4 h-4" />
                               </button>
                          </div>
                     </div>
@@ -51,7 +51,7 @@
                                                             {{ $index + 1 }}
                                                        </span>
                                                        <div>
-                                                            <p class="text-white font-medium">{{ $answer->question->question_text }}</p>
+                                                            <p class="text-white font-medium">{{ $answer->question->getTranslatedQuestionText() }}</p>
                                                             <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded text-xs
                                                                    {{ $answer->question->difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
                               ($answer->question->difficulty === 'medium' ? 'bg-amber-500/20 text-amber-400' :
@@ -85,7 +85,7 @@
                                                                                 {{ strtoupper($option) }}
                                                                            </span>
                                                                            <span
-                                                                                class="text-sm text-slate-300">{{ $answer->question->{'option_' . $option} }}</span>
+                                                                                class="text-sm text-slate-300">{{ $answer->question->getTranslatedOption($option) }}</span>
                                                                       </div>
                                                                  </div>
                                                             </label>
@@ -99,7 +99,7 @@
                     <div class="mt-8 text-center">
                          <button type="submit"
                               class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-12 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-emerald-500/30">
-                              Submit Quiz <x-icon name="check-circle" class="w-5 h-5" />
+                              {{ __('quiz.submit') }} <x-icon name="check-circle" class="w-5 h-5" />
                          </button>
                     </div>
                </form>

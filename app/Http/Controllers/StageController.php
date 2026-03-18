@@ -22,7 +22,7 @@ class StageController extends Controller
 
           if (!$stage->isUnlockedFor($user)) {
                return redirect()->route('stages.index')
-                    ->with('error', 'This stage is locked. Complete the previous stage first!');
+                    ->with('error', __('messages.stage_locked'));
           }
 
           $stage->loadCount('questions');

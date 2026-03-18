@@ -15,12 +15,12 @@
                     <a href="{{ route('dashboard') }}"
                         class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="chart-bar" class="w-4 h-4" /> Dashboard
+                        <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}
                     </a>
                     <a href="{{ route('stages.index') }}"
                         class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="target" class="w-4 h-4" /> Stages
+                        <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}
                     </a>
                     <a href="{{ route('leaderboard') }}"
                         class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
@@ -30,12 +30,12 @@
                     @if(auth()->user()->is_admin)
                         <a href="{{ route('admin.dashboard') }}"
                             class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                                      {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.stages.*') || request()->routeIs('admin.students.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
+                                                          {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.stages.*') || request()->routeIs('admin.students.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
                             <x-icon name="cog" class="w-4 h-4" /> Admin
                         </a>
                         <a href="{{ route('admin.analytics') }}"
                             class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                                      {{ request()->routeIs('admin.analytics') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
+                                                          {{ request()->routeIs('admin.analytics') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
                             <x-icon name="chart-line" class="w-4 h-4" /> Analytics
                         </a>
                     @endif
@@ -59,8 +59,24 @@
                     </span>
                     <span class="flex items-center gap-1 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full">
                         <x-icon name="medal" class="w-3.5 h-3.5" /> {{ number_format(auth()->user()->total_points) }}
-                        pts
+                        {{ __('dashboard.points') }}
                     </span>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="relative">
+                    @if(app()->getLocale() === 'ar')
+                        <a href="{{ route('language.switch', 'en') }}"
+                            class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/10 transition">
+                            🇺🇸 EN
+                        </a>
+                    @else
+                        <a href="{{ route('language.switch', 'ar') }}"
+                            class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/10 transition"
+                            dir="rtl">
+                            🇪🇬 AR
+                        </a>
+                    @endif
                 </div>
 
                 <!-- Notification Bell -->
@@ -159,10 +175,10 @@
         <div class="pt-2 pb-3 space-y-1 px-4">
             <a href="{{ route('dashboard') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
-                <x-icon name="chart-bar" class="w-4 h-4" /> Dashboard</a>
+                <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}</a>
             <a href="{{ route('stages.index') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
-                <x-icon name="target" class="w-4 h-4" /> Stages</a>
+                <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}</a>
             <a href="{{ route('leaderboard') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
                 <x-icon name="trophy" class="w-4 h-4" /> Leaderboard</a>
