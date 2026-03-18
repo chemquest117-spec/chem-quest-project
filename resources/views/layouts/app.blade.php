@@ -6,11 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'ChemQuest') }} — @yield('title', 'Learn Chemistry')</title>
+    <title>{{ config('app.name', 'ChemTrack') }} — @yield('title', 'Learn Chemistry')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -66,9 +72,10 @@
         </main>
 
         {{-- Footer --}}
-        <footer class="bg-black/20 border-t border-white/10 py-6 text-center text-sm text-slate-400">
-            <p class="flex items-center justify-center gap-1.5"><x-chemquest-logo size="xs" /> ChemQuest &copy;
-                {{ date('Y') }} — Making Chemistry Fun!</p>
+        <footer class="my-footer bg-black/20 border-t border-white/10 py-6 text-center text-sm text-slate-400">
+            <p class="flex items-center justify-center gap-1.5"><x-chemtrack-logo size="xs" /> ChemTrack &copy;
+                {{ date('Y') }} — Making Chemistry Fun!
+            </p>
         </footer>
     </div>
 </body>

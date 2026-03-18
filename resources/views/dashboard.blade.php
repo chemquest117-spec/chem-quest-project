@@ -8,12 +8,28 @@
             <div class="mb-8" x-show="shown" x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
                 <h1 class="text-3xl font-bold text-white flex items-center gap-2">Welcome back, {{ $user->name }}!
-                    <x-icon name="hand-wave" class="w-8 h-8 text-amber-400" /></h1>
+                    <x-icon name="hand-wave" class="w-8 h-8 text-amber-400" />
+                </h1>
                 <p class="text-slate-400 mt-1">Continue your chemistry journey</p>
             </div>
 
             {{-- Stats Cards Row 1 --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                {{-- Streak --}}
+                <div x-show="shown" x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                    style="transition-delay: 50ms"
+                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-slate-400 text-sm">Study Streak</span>
+                        <x-icon name="fire"
+                            class="w-5 h-5 text-orange-400 group-hover:scale-125 transition-transform duration-300 {{ $user->streak > 0 ? 'animate-pulse' : '' }}" />
+                    </div>
+                    <div class="text-3xl font-bold text-orange-400">{{ $user->streak }} <span
+                            class="text-sm font-normal text-slate-500">Days</span></div>
+                    <p class="text-slate-500 text-sm mt-1">Keep it burning!</p>
+                </div>
+
                 {{-- Progress --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
@@ -135,12 +151,11 @@
                                             @endphp
                                             <div
                                                 class="flex items-center space-x-4 p-3 rounded-xl transition-all duration-300 hover:translate-x-1
-                                                            {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
+                                                                                {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500/10 border border-blue-500/30' :
                                 ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-white/[0.02] border border-white/5 opacity-50')) }}">
-                                                <div
-                                                    class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
-                                                                {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
+                                                <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
+                                                                                    {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 animate-pulse' :
                                 ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-white/5 text-slate-600')) }}">
                                                     @if($isCompleted)

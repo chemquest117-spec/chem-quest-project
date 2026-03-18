@@ -5,9 +5,9 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                    <x-chemquest-logo size="sm" />
+                    <x-chemtrack-logo size="sm" />
                     <span
-                        class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">ChemQuest</span>
+                        class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">ChemTrack</span>
                 </a>
 
                 <!-- Desktop Nav Links -->
@@ -30,8 +30,13 @@
                     @if(auth()->user()->is_admin)
                         <a href="{{ route('admin.dashboard') }}"
                             class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                              {{ request()->routeIs('admin.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
+                                                      {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.stages.*') || request()->routeIs('admin.students.*') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
                             <x-icon name="cog" class="w-4 h-4" /> Admin
+                        </a>
+                        <a href="{{ route('admin.analytics') }}"
+                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                                      {{ request()->routeIs('admin.analytics') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
+                            <x-icon name="chart-line" class="w-4 h-4" /> Analytics
                         </a>
                     @endif
                 </div>
@@ -40,7 +45,15 @@
             <!-- Right side -->
             <div class="hidden sm:flex sm:items-center sm:space-x-3">
                 <!-- Points & Stars -->
-                <div class="flex items-center space-x-3 text-sm">
+                <div class="flex items-center space-x-2 sm:space-x-3 text-sm">
+                    @if(auth()->user()->streak > 0)
+                        <span class="flex items-center gap-1 bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full"
+                            title="Study Streak">
+                            <x-icon name="fire"
+                                class="w-3.5 h-3.5 {{ auth()->user()->streak > 0 ? 'animate-pulse' : '' }}" />
+                            {{ auth()->user()->streak }}
+                        </span>
+                    @endif
                     <span class="flex items-center gap-1 bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full">
                         <x-icon name="star" class="w-3.5 h-3.5" /> {{ auth()->user()->stars }}
                     </span>
@@ -157,6 +170,9 @@
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
                     <x-icon name="cog" class="w-4 h-4" /> Admin</a>
+                <a href="{{ route('admin.analytics') }}"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
+                    <x-icon name="chart-line" class="w-4 h-4" /> Analytics</a>
             @endif
         </div>
         <div class="pt-4 pb-3 border-t border-white/10 px-4">

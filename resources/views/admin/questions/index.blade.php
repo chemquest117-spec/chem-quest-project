@@ -13,10 +13,35 @@
                          </h1>
                          <p class="text-slate-400 text-sm">{{ $questions->count() }} questions</p>
                     </div>
-                    <a href="{{ route('admin.stages.questions.create', $stage) }}"
-                         class="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-5 py-2 rounded-xl font-medium transition shadow-lg">
-                         <x-icon name="plus" class="w-4 h-4" /> Add Question
-                    </a>
+                    <div class="flex items-center gap-2">
+                         <form action="{{ route('admin.stages.questions.generate', $stage) }}" method="POST"
+                              x-data="{ loading: false }" @submit="loading = true">
+                              @csrf
+                              <button type="submit" :disabled="loading"
+                                   class="flex items-center gap-1.5 bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 disabled:opacity-50 text-white px-5 py-2 rounded-xl font-medium transition shadow-lg">
+                                   <template x-if="!loading">
+                                        <span class="flex items-center gap-1.5"><x-icon name="lightning-bolt"
+                                                  class="w-4 h-4" /> AI Generate</span>
+                                   </template>
+                                   <template x-if="loading">
+                                        <span class="flex items-center gap-1.5">
+                                             <svg class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24">
+                                                  <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                       stroke="currentColor" stroke-width="4"></circle>
+                                                  <path class="opacity-75" fill="currentColor"
+                                                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                             </svg>
+                                             Generating...
+                                        </span>
+                                   </template>
+                              </button>
+                         </form>
+                         <a href="{{ route('admin.stages.questions.create', $stage) }}"
+                              class="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-5 py-2 rounded-xl font-medium transition shadow-lg">
+                              <x-icon name="plus" class="w-4 h-4" /> Add Question
+                         </a>
+                    </div>
                </div>
 
                <div class="space-y-4">
@@ -27,7 +52,7 @@
                                                   <div class="flex items-center space-x-2 mb-2">
                                                        <span class="text-sm font-bold text-slate-400">#{{ $index + 1 }}</span>
                                                        <span class="flex items-center gap-1 px-2 py-0.5 rounded text-xs
-                                                           {{ $question->difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
+                                                                          {{ $question->difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
                          ($question->difficulty === 'medium' ? 'bg-amber-500/20 text-amber-400' :
                               'bg-red-500/20 text-red-400') }}">
                                                             @if($question->difficulty === 'easy')

@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ChemQuest — Master Chemistry</title>
+    <title>ChemTrack — Master Chemistry</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -13,17 +18,17 @@
 <body
     class="font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen flex flex-col">
 
-    <div class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="flex-1 flex items-center justify-center px-4 py-8">
         <div class="text-center max-w-3xl">
             {{-- Creative Animated Logo --}}
             <div class="mb-8">
-                <x-chemquest-logo size="2xl" class="mx-auto" />
+                <x-chemtrack-logo size="2xl" class="mx-auto" />
             </div>
 
             <h1 class="text-5xl sm:text-6xl font-extrabold mb-4">
                 <span
                     class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                    ChemQuest
+                    ChemTrack
                 </span>
             </h1>
 
@@ -89,9 +94,9 @@
         </div>
     </div>
 
-    <footer class="text-center py-6 text-sm text-slate-600">
+    <footer class="my-footer text-center py-6 text-sm text-slate-600">
         <p class="flex items-center justify-center gap-1.5">
-            <x-chemquest-logo size="xs" /> ChemQuest &copy; {{ date('Y') }} — Making Chemistry Fun!
+            <x-chemtrack-logo size="xs" /> ChemTrack &copy; {{ date('Y') }} — Making Chemistry Fun!
         </p>
     </footer>
 </body>

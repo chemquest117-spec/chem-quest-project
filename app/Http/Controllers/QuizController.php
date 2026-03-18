@@ -162,8 +162,36 @@ class QuizController extends Controller
           // Award points and stars
           $this->awardGamification($attempt, $user, $passed, $percentage);
 
+          // Update study streak
+          $this->updateStreak($user);
+
           return redirect()->route('quiz.result', $attempt);
      }
+
+     /**
+      * Update the user's daily study streak.
+      */
+     private function updateStreak($user): void
+     {
+          $today = now()->toDateString();
+
+          if ($user->last_activity && $user->last_activity->toDateString() === $today) {
+               // Already studied today — no change
+               return;
+          }
+
+          if ($user->last_activity && $user->last_activity->toDateString() === now()->subDay()->toDateString()) {
+               // Studied yesterday — extend streak
+               $user->streak += 1;
+          } else {
+               // Missed a day or first activity — reset to 1
+               $user->streak = 1;
+          }
+
+          $user->last_activity = $today;
+          $user->save();
+     }
+
 
      /**
       * Award points, stars, and send notifications.

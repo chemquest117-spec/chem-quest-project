@@ -1,4 +1,4 @@
-# 🧪 ChemQuest — Chemistry Quiz Learning Platform
+# 🧪 ChemTrack — Chemistry Quiz Learning Platform
 
 A progressive chemistry quiz platform for high school students built with **Laravel 12**, **TailwindCSS**, and **Alpine.js**.
 
@@ -9,7 +9,7 @@ Students progress through 5 chemistry stages, take timed quizzes, earn points an
 ## 📁 Project Structure
 
 ```
-ChemQuest/
+ChemTrack/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
@@ -124,8 +124,8 @@ npm run dev
 
 | Role                | Email                 | Password |
 | ------------------- | --------------------- | -------- |
-| **Admin (Teacher)** | admin@chemquest.com   | password |
-| **Student**         | student@chemquest.com | password |
+| **Admin (Teacher)** | admin@chemtrack.com   | password |
+| **Student**         | student@chemtrack.com | password |
 
 ---
 

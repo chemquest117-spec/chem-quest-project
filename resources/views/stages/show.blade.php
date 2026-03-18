@@ -26,7 +26,7 @@
                          @if($isCompleted)
                               <x-icon name="trophy" class="w-12 h-12 text-amber-400" />
                          @else
-                              <x-chemquest-logo size="lg" />
+                              <x-chemtrack-logo size="lg" />
                          @endif
                     </div>
 

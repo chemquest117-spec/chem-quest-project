@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Stage;
+use App\Services\AIQuestionService;
 use Illuminate\Http\Request;
 
 class AdminQuestionController extends Controller
@@ -67,5 +68,23 @@ class AdminQuestionController extends Controller
 
           return redirect()->route('admin.stages.questions.index', $stage)
                ->with('success', 'Question deleted successfully!');
+     }
+
+     /**
+      * Generate AI-powered questions for a stage.
+      */
+     public function generate(Stage $stage, AIQuestionService $aiService)
+     {
+          $created = $aiService->generateQuestions($stage, 5);
+
+          $count = count($created);
+
+          if ($count > 0) {
+               return redirect()->route('admin.stages.questions.index', $stage)
+                    ->with('success', "✨ AI generated {$count} new questions successfully!");
+          }
+
+          return redirect()->route('admin.stages.questions.index', $stage)
+               ->with('error', 'Could not generate questions. Please try again.');
      }
 }

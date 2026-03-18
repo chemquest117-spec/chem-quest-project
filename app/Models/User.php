@@ -20,6 +20,8 @@ class User extends Authenticatable
         'is_admin',
         'total_points',
         'stars',
+        'streak',
+        'last_activity',
     ];
 
     protected $hidden = [
@@ -33,6 +35,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'last_activity' => 'date',
         ];
     }
 

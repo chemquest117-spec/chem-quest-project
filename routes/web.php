@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminStageController;
 use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AdminStudentController;
+use App\Http\Controllers\Admin\AdminAnalyticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('stages', AdminStageController::class)->except(['show']);
     Route::resource('stages.questions', AdminQuestionController::class)->except(['show']);
+
+    // AI Question Generation
+    Route::post('/stages/{stage}/questions/generate', [AdminQuestionController::class, 'generate'])->name('stages.questions.generate');
+
+    // Analytics Dashboard
+    Route::get('/analytics', [AdminAnalyticsController::class, 'index'])->name('analytics');
 
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students.index');
 });
