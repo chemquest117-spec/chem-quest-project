@@ -1,6 +1,6 @@
 
 
-
+git push -u new-origin main --force
 
 
 
