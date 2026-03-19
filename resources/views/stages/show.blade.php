@@ -93,7 +93,7 @@
                                              <span
                                                   class="text-sm text-slate-300">{{ $attempt->created_at->format('M d, Y H:i') }}</span>
                                              <span
-                                                  class="text-xs text-slate-500 ml-2">({{ $attempt->time_spent_seconds ? gmdate('i:s', $attempt->time_spent_seconds) : '-' }})</span>
+                                                  class="text-xs text-slate-500 ms-2">({{ $attempt->time_spent_seconds ? gmdate('i:s', $attempt->time_spent_seconds) : '-' }})</span>
                                         </div>
                                         <div class="flex items-center space-x-3">
                                              <span

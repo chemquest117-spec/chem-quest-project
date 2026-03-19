@@ -73,7 +73,7 @@
                                                   </div>
 
                                                   {{-- Options --}}
-                                                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 ml-12">
+                                                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 ms-12">
                                                        @foreach(['a', 'b', 'c', 'd'] as $option)
                                                             <label class="relative cursor-pointer group" @click="selected = '{{ $option }}'">
                                                                  <input type="radio" name="answers[{{ $answer->question_id }}]"

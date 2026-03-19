@@ -48,7 +48,7 @@
                     {{-- Vertical Roadmap --}}
                     <div class="relative">
                          <div
-                              class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-purple-500 to-slate-700">
+                              class="absolute start-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-purple-500 to-slate-700">
                          </div>
 
                          <div class="space-y-6">
@@ -131,7 +131,7 @@
                                                                            </div>
                                                                       </div>
 
-                                                                      <div class="mt-1 ml-4">
+                                                                      <div class="mt-1 ms-4">
                                                                            @if($isCompleted)
                                                                                 <a href="{{ route('stages.show', $stage) }}"
                                                                                      class="inline-flex items-center gap-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">

@@ -73,8 +73,8 @@
 
         {{-- Footer --}}
         <footer class="my-footer bg-black/20 border-t border-white/10 py-6 text-center text-sm text-slate-400">
-            <p class="flex items-center justify-center gap-1.5"><x-chemtrack-logo size="xs" /> ChemTrack &copy;
-                {{ date('Y') }} — Making Chemistry Fun!
+            <p class="flex items-center justify-center gap-1.5"><x-chemtrack-logo size="xs" />
+                {!! __('welcome.footer_text', ['year' => date('Y')]) !!}
             </p>
         </footer>
     </div>

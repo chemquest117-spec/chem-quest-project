@@ -18,11 +18,11 @@
             <x-input-label for="password" :value="__('Password')" />
 
             <div class="relative mt-1">
-                <x-text-input id="password" class="block w-full pr-10" x-bind:type="show ? 'text' : 'password'"
+                <x-text-input id="password" class="block w-full pe-10" x-bind:type="show ? 'text' : 'password'"
                     name="password" required autocomplete="current-password" />
 
                 <button type="button" @click="show = !show"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-300 focus:outline-none focus:text-slate-300">
+                    class="absolute inset-y-0 end-0 pe-3 flex items-center text-slate-400 hover:text-slate-300 focus:outline-none focus:text-slate-300">
                     <!-- Eye Icon (when show is false) -->
                     <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">

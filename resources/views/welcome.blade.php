@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ChemTrack — Master Chemistry</title>
+    <title>{{ __('welcome.title') }}</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
@@ -30,32 +30,31 @@
             <h1 class="text-5xl sm:text-6xl font-extrabold mb-4">
                 <span
                     class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                    ChemTrack
+                    {{ __('welcome.hero_title') }}
                 </span>
             </h1>
 
-            <p class="text-xl text-slate-300 mb-2">Master Chemistry Through Interactive Quizzes</p>
-            <p class="text-slate-500 mb-6 max-w-lg mx-auto">Progress through stages, earn points & stars, and compete
-                with classmates on the leaderboard. Ready to start your chemistry journey?</p>
+            <p class="text-xl text-slate-300 mb-2">{{ __('welcome.hero_subtitle') }}</p>
+            <p class="text-slate-500 mb-6 max-w-lg mx-auto">{{ __('welcome.hero_desc') }}</p>
 
             {{-- Feature Pills --}}
             <div class="flex flex-wrap justify-center gap-3 mb-6 transition-all duration-1000 delay-300 transform"
                  :class="mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
                 <span
                     class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-emerald-400/50 hover:text-emerald-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(52,211,153,0.3)]">
-                    <x-icon name="clock" class="w-4 h-4" /> Timed Quizzes</span>
+                    <x-icon name="clock" class="w-4 h-4" /> {{ __('welcome.feat_timed') }}</span>
                 <span
                     class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-cyan-400/50 hover:text-cyan-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-                    <x-icon name="target" class="w-4 h-4" /> Progressive Stages</span>
+                    <x-icon name="target" class="w-4 h-4" /> {{ __('welcome.feat_stages') }}</span>
                 <span
                     class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-yellow-400/50 hover:text-yellow-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(250,204,21,0.3)]">
-                    <x-icon name="star" class="w-4 h-4" /> Earn Stars</span>
+                    <x-icon name="star" class="w-4 h-4" /> {{ __('welcome.feat_stars') }}</span>
                 <span
                     class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-purple-400/50 hover:text-purple-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(192,132,252,0.3)]">
-                    <x-icon name="trophy" class="w-4 h-4" /> Leaderboard</span>
+                    <x-icon name="trophy" class="w-4 h-4" /> {{ __('welcome.feat_leaderboard') }}</span>
                 <span
                     class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-pink-400/50 hover:text-pink-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(244,114,182,0.3)]">
-                    <x-icon name="medal" class="w-4 h-4" /> Points System</span>
+                    <x-icon name="medal" class="w-4 h-4" /> {{ __('welcome.feat_points') }}</span>
             </div>
 
             {{-- CTA Buttons --}}
@@ -64,16 +63,16 @@
                 @auth
                     <a href="{{ route('dashboard') }}"
                         class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/30">
-                        Go to Dashboard <x-icon name="arrow-right" class="w-5 h-5" />
+                        {{ __('welcome.btn_dashboard') }} <x-icon name="arrow-right" class="w-5 h-5" />
                     </a>
                 @else
                     <a href="{{ route('register') }}"
                         class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-emerald-500/30">
-                        Get Started — Free <x-icon name="rocket" class="w-5 h-5" />
+                        {{ __('welcome.btn_register') }} <x-icon name="rocket" class="w-5 h-5" />
                     </a>
                     <a href="{{ route('login') }}"
                         class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-medium text-lg transition-all duration-200 border border-white/10">
-                        Log In
+                        {{ __('welcome.btn_login') }}
                     </a>
                 @endauth
             </div>
@@ -82,17 +81,17 @@
             <div class="grid grid-cols-3 gap-6 mt-10 max-w-md mx-auto">
                 <div>
                     <div class="text-3xl font-bold text-emerald-400">5</div>
-                    <div class="text-sm text-slate-500">Stages</div>
+                    <div class="text-sm text-slate-500">{{ __('welcome.stat_stages') }}</div>
                 </div>
                 <div>
                     <div class="text-3xl font-bold text-cyan-400">50+</div>
-                    <div class="text-sm text-slate-500">Questions</div>
+                    <div class="text-sm text-slate-500">{{ __('welcome.stat_questions') }}</div>
                 </div>
                 <div>
                     <div class="flex justify-center">
                         <x-icon name="infinity" class="w-8 h-8 text-purple-400" />
                     </div>
-                    <div class="text-sm text-slate-500">Retries</div>
+                    <div class="text-sm text-slate-500">{{ __('welcome.stat_retries') }}</div>
                 </div>
             </div>
         </div>
@@ -100,7 +99,7 @@
 
     <footer class="my-footer text-center py-6 text-sm text-slate-600">
         <p class="flex items-center justify-center gap-1.5">
-            <x-chemtrack-logo size="xs" /> ChemTrack &copy; {{ date('Y') }} — Making Chemistry Fun!
+            <x-chemtrack-logo size="xs" /> {!! __('welcome.footer_text', ['year' => date('Y')]) !!}
         </p>
     </footer>
 </body>

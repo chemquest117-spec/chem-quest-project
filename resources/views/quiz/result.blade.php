@@ -96,10 +96,10 @@
                                                                                           </span>
                                                                                           <span>{{ $answer->question->{'option_' . $opt} }}</span>
                                                                                           @if($opt === $answer->question->correct_answer)
-                                                                                               <span class="flex items-center gap-0.5 text-emerald-400 ml-auto"><x-icon
+                                                                                               <span class="flex items-center gap-0.5 text-emerald-400 ms-auto"><x-icon
                                                                                                          name="check" class="w-3 h-3" /> Correct</span>
                                                                                           @elseif($opt === $answer->selected_answer && !$answer->is_correct)
-                                                                                               <span class="text-red-400 ml-auto">Your answer</span>
+                                                                                               <span class="text-red-400 ms-auto">Your answer</span>
                                                                                           @endif
                                                                                      </div>
                                                   @endforeach

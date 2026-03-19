@@ -1,4 +1,3 @@
-
 /* ===== Premium Scrollbar ===== */
 :root {
      --scrollbar-bg: transparent;
@@ -86,4 +85,10 @@ html {
      scrollbar-width: thin;
      scrollbar-color: rgba(168, 85, 247, 0.7) transparent;
      background-color: #0f172a;
+}
+
+
+
+html[dir="rtl"] :not([hidden])~ :not([hidden]) {
+     --tw-space-x-reverse: 1;
 }

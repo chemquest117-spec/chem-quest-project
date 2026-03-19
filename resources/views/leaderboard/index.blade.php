@@ -8,8 +8,8 @@
                <div class="transition-all duration-700 ease-out"
                     :class="headerReady ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-6'">
                     <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-2"><x-icon name="trophy"
-                              class="w-8 h-8 text-amber-400" /> Leaderboard</h1>
-                    <p class="text-slate-400 mb-2">Top students ranked by total points</p>
+                              class="w-8 h-8 text-amber-400" /> {{ __('leaderboard.title') }}</h1>
+                    <p class="text-slate-400 mb-2">{{ __('leaderboard.description') }}</p>
                     <p class="text-xs mb-8 flex items-center gap-2"
                          :class="polling ? 'text-emerald-500' : 'text-slate-600'">
                          <span class="relative flex h-2 w-2">
@@ -18,8 +18,8 @@
                               <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                          </span>
                          <span
-                              x-text="polling ? 'Live — refreshes data every 10s (no page reload)' : 'Connecting...'"></span>
-                         <span x-show="lastUpdate" class="text-slate-600" x-text="'· updated ' + lastUpdate"></span>
+                              x-text="polling ? '{{ __('leaderboard.live_update') }}' : '{{ __('leaderboard.connecting') }}'"></span>
+                         <span x-show="lastUpdate" class="text-slate-600" x-text="'{{ __('leaderboard.updated', ['time' => '']) }}'.replace(':time', lastUpdate)"></span>
                     </p>
                </div>
 
@@ -81,10 +81,10 @@
                     <table class="w-full">
                          <thead>
                               <tr class="border-b border-white/10 text-left">
-                                   <th class="px-6 py-4 text-sm font-medium text-slate-400">Rank</th>
-                                   <th class="px-6 py-4 text-sm font-medium text-slate-400">Student</th>
-                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-center">Stars/Streak</th>
-                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-right">Points</th>
+                                   <th class="px-6 py-4 text-sm font-medium text-slate-400">{{ __('leaderboard.rank') }}</th>
+                                   <th class="px-6 py-4 text-sm font-medium text-slate-400">{{ __('leaderboard.student') }}</th>
+                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-center">{{ __('leaderboard.stars_streak') }}</th>
+                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-right">{{ __('leaderboard.points') }}</th>
                               </tr>
                          </thead>
                          <tbody>
@@ -101,7 +101,7 @@
                                                        class="w-7 h-7" /></template>
                                              <template x-if="index === 2"><x-icon name="medal-bronze"
                                                        class="w-7 h-7" /></template>
-                                             <span x-show="index > 2" class="text-slate-400 font-bold text-lg ml-1"
+                                             <span x-show="index > 2" class="text-slate-400 font-bold text-lg ms-1"
                                                   x-text="index + 1"></span>
                                         </td>
                                         <td class="px-6 py-4">
@@ -112,7 +112,7 @@
                                                        <span class="text-white font-medium"
                                                             x-text="student.name"></span>
                                                        <span x-show="student.id === currentUserId"
-                                                            class="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full ml-1">You</span>
+                                                            class="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full ms-1">{{ __('leaderboard.you') }}</span>
                                                   </div>
                                              </div>
                                         </td>
@@ -131,7 +131,7 @@
                                         <td class="px-6 py-4 text-right">
                                              <span class="text-emerald-400 font-bold text-lg transition-all duration-300"
                                                   x-text="Number(student.total_points).toLocaleString()"></span>
-                                             <span class="text-slate-500 text-sm ml-1">pts</span>
+                                             <span class="text-slate-500 text-sm ms-1">{{ __('leaderboard.pts') }}</span>
                                         </td>
                                    </tr>
                               </template>
@@ -140,8 +140,7 @@
                                    <tr>
                                         <td colspan="4"
                                              class="px-6 py-12 text-center text-slate-500 flex items-center justify-center gap-2">
-                                             <x-icon name="rocket" class="w-5 h-5" /> No students yet. Be the first to
-                                             earn points!
+                                             <x-icon name="rocket" class="w-5 h-5" /> {{ __('leaderboard.no_students') }}
                                         </td>
                                    </tr>
                               </template>
@@ -155,8 +154,8 @@
                     x-transition:enter-end="opacity-100 translate-y-0"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
-                    class="fixed bottom-6 right-6 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 px-4 py-2 rounded-xl backdrop-blur-md text-sm shadow-lg flex items-center gap-2">
-                    <x-icon name="check-circle" class="w-4 h-4" /> Leaderboard updated
+                    class="fixed bottom-6 end-6 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 px-4 py-2 rounded-xl backdrop-blur-md text-sm shadow-lg flex items-center gap-2">
+                    <x-icon name="check-circle" class="w-4 h-4" /> {{ __('leaderboard.leaderboard_updated') }}
                </div>
           </div>
      </div>

@@ -5,19 +5,19 @@
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-1 text-slate-400 hover:text-white text-sm">
-                    <x-icon name="arrow-right" class="w-4 h-4 rotate-180" /> Admin Dashboard</a>
+                    <x-icon name="arrow-right" class="w-4 h-4 rotate-180" /> {{ __('admin.dashboard') }}</a>
                <h1 class="text-3xl font-bold text-white mt-1 mb-8 flex items-center gap-2"><x-icon name="users"
-                         class="w-7 h-7 text-cyan-400" /> Student Progress</h1>
+                         class="w-7 h-7 text-cyan-400" /> {{ __('admin.student_progress') }}</h1>
 
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
                     <div class="overflow-x-auto">
                          <table class="w-full">
                               <thead>
                                    <tr class="text-left border-b border-white/10">
-                                        <th class="px-6 py-4 text-sm text-slate-400">Student</th>
-                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">Points</th>
-                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">Stars & Streak</th>
-                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">Attempts</th>
+                                        <th class="px-6 py-4 text-sm text-slate-400">{{ __('admin.student') }}</th>
+                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">{{ __('admin.points') }}</th>
+                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">{{ __('admin.stars_streak') }}</th>
+                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">{{ __('admin.attempts') }}</th>
                                         @foreach($stages as $stage)
                                              <th class="px-4 py-4 text-sm text-slate-400 text-center"
                                                   title="{{ $stage->title }}">

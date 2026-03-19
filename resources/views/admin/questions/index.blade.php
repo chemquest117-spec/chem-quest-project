@@ -71,13 +71,13 @@
                                                                  <span class="font-bold">{{ strtoupper($opt) }}.</span>
                                                                  {{ $question->{'option_' . $opt} }}
                                                                  @if($opt === $question->correct_answer)
-                                                                      <x-icon name="check" class="w-3.5 h-3.5 text-emerald-400 ml-auto" />
+                                                                      <x-icon name="check" class="w-3.5 h-3.5 text-emerald-400 ms-auto" />
                                                                  @endif
                                                             </div>
                                                        @endforeach
                                                   </div>
                                              </div>
-                                             <div class="flex items-center space-x-2 ml-4">
+                                             <div class="flex items-center space-x-2 ms-4">
                                                   <a href="{{ route('admin.stages.questions.edit', [$stage, $question]) }}"
                                                        class="flex items-center gap-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 px-3 py-1.5 rounded-lg text-sm transition">
                                                        <x-icon name="pencil" class="w-3.5 h-3.5" /> Edit</a>

@@ -27,7 +27,7 @@
                             class="w-5 h-5 text-orange-400 group-hover:scale-125 transition-transform duration-300 {{ $user->streak > 0 ? 'animate-pulse' : '' }}" />
                     </div>
                     <div class="text-3xl font-bold text-orange-400">{{ $user->streak }}</div>
-                    <p class="text-slate-500 text-sm mt-1">Keep it burning!</p>
+                    <p class="text-slate-500 text-sm mt-1">{{ __('dashboard.keep_burning') }}</p>
                 </div>
 
                 {{-- Progress --}}
@@ -58,7 +58,7 @@
                             class="w-5 h-5 text-emerald-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-3xl font-bold text-emerald-400">{{ number_format($user->total_points) }}</div>
-                    <p class="text-slate-500 text-sm mt-1">Keep earning!</p>
+                    <p class="text-slate-500 text-sm mt-1">{{ __('dashboard.keep_earning') }}</p>
                 </div>
 
                 {{-- Stars --}}
@@ -72,7 +72,7 @@
                             class="w-5 h-5 text-amber-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                     </div>
                     <div class="text-3xl font-bold text-amber-400">{{ $user->stars }}</div>
-                    <p class="text-slate-500 text-sm mt-1">{{ $stages->count() - count($completedIds) }} more to go</p>
+                    <p class="text-slate-500 text-sm mt-1">{{ $stages->count() - count($completedIds) }} {{ __('dashboard.more_to_go') }}</p>
                 </div>
 
                 {{-- Current Stage --}}
@@ -81,17 +81,17 @@
                     style="transition-delay: 400ms"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">Current Stage</span>
+                        <span class="text-slate-400 text-sm">{{ __('dashboard.current_stage') }}</span>
                         <x-icon name="target"
                             class="w-5 h-5 text-purple-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-lg font-bold text-purple-400">
-                        {{ $currentStage ? $currentStage->title : 'All Complete!' }}
+                        {{ $currentStage ? $currentStage->title : __('dashboard.all_complete') }}
                     </div>
                     @if($currentStage)
                         <a href="{{ route('stages.show', $currentStage) }}"
-                            class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">Start
-                            now <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
+                            class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">{{ __('dashboard.start_now') }}
+                             <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
                     @endif
                 </div>
             </div>
@@ -104,19 +104,19 @@
                 <div
                     class="bg-gradient-to-br from-green-500/10 to-emerald-500/5 rounded-2xl p-5 border border-green-500/20 text-center hover:border-green-400/40 transition-all duration-300">
                     <div class="text-3xl font-bold text-green-400">{{ $completedCount }}</div>
-                    <div class="text-xs text-slate-400 mt-1">Stages Completed</div>
+                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.stages_completed') }}</div>
                 </div>
 
                 <div
                     class="bg-gradient-to-br from-blue-500/10 to-cyan-500/5 rounded-2xl p-5 border border-blue-500/20 text-center hover:border-blue-400/40 transition-all duration-300">
                     <div class="text-3xl font-bold text-blue-400">{{ $totalAttempts }}</div>
-                    <div class="text-xs text-slate-400 mt-1">Total Attempts</div>
+                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.total_attempts') }}</div>
                 </div>
 
                 <div
                     class="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 rounded-2xl p-5 border border-amber-500/20 text-center hover:border-amber-400/40 transition-all duration-300">
                     <div class="text-3xl font-bold text-amber-400">{{ $successRate }}%</div>
-                    <div class="text-xs text-slate-400 mt-1">Success Rate</div>
+                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.success_rate') }}</div>
                 </div>
 
                 <div
@@ -130,7 +130,7 @@
                             {{ $totalTimeSpent }}s
                         @endif
                     </div>
-                    <div class="text-xs text-slate-400 mt-1">Time Studying</div>
+                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.time_studying') }}</div>
                 </div>
             </div>
 
@@ -141,7 +141,7 @@
                     x-transition:enter-end="opacity-100 translate-x-0" style="transition-delay: 600ms"
                     class="lg:col-span-2 bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                     <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><x-icon name="map"
-                            class="w-5 h-5 text-blue-400" /> Your Roadmap</h2>
+                            class="w-5 h-5 text-blue-400" /> {{ __('dashboard.your_roadmap') }}</h2>
                     <div class="space-y-3">
                         @foreach($stages as $stage)
                                             @php
@@ -175,17 +175,17 @@
                                                         <span class="flex items-center gap-0.5"><x-icon name="clock" class="w-3 h-3" />
                                                             {{ $stage->time_limit_minutes }} min</span>
                                                         <span>&middot;</span>
-                                                        <span>{{ $stage->passing_percentage }}% to pass</span>
+                                                        <span>{{ $stage->passing_percentage }}% {{ __('dashboard.to_pass') }}</span>
                                                     </p>
                                                 </div>
                                                 @if($isUnlocked && !$isCompleted)
                                                     <a href="{{ route('stages.show', $stage) }}"
                                                         class="px-4 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition hover:scale-105">
-                                                        Start
+                                                        {{ __('dashboard.start_now') }}
                                                     </a>
                                                 @elseif($isCompleted)
                                                     <span class="flex items-center gap-1 text-emerald-400 text-sm font-medium"><x-icon
-                                                            name="check-circle" class="w-4 h-4" /> Passed</span>
+                                                            name="check-circle" class="w-4 h-4" /> {{ __('dashboard.passed') }}</span>
                                                 @endif
                                             </div>
                         @endforeach
@@ -200,7 +200,7 @@
                     {{-- Recent Attempts --}}
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                         <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon
-                                name="document-text" class="w-5 h-5 text-blue-400" /> Recent Attempts</h2>
+                                name="document-text" class="w-5 h-5 text-blue-400" /> {{ __('dashboard.recent_attempts') }}</h2>
                         @forelse($recentAttempts as $attempt)
                             <div
                                 class="flex items-center justify-between py-2 border-b border-white/5 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-lg transition">
@@ -216,14 +216,14 @@
                                 </span>
                             </div>
                         @empty
-                            <p class="text-slate-500 text-sm">No attempts yet. Start your first quiz!</p>
+                            <p class="text-slate-500 text-sm">{{ __('dashboard.no_attempts_yet') }}</p>
                         @endforelse
                     </div>
 
                     {{-- Notifications --}}
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                         <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon name="bell"
-                                class="w-5 h-5 text-amber-400" /> Notifications</h2>
+                                class="w-5 h-5 text-amber-400" /> {{ __('dashboard.notifications') }}</h2>
                         @forelse($notifications as $notif)
                             <div class="py-2 border-b border-white/5 last:border-0">
                                 <p class="text-sm text-slate-300">{{ $notif->data['message'] ?? '' }}</p>
@@ -231,7 +231,7 @@
                             </div>
                         @empty
                             <p class="text-slate-500 text-sm flex items-center gap-1.5"><x-icon name="sparkles"
-                                    class="w-4 h-4 text-emerald-400" /> All caught up!</p>
+                                    class="w-4 h-4 text-emerald-400" /> {{ __('dashboard.all_caught_up') }}</p>
                         @endforelse
                     </div>
                 </div>
