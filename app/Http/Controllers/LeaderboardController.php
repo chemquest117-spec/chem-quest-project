@@ -21,6 +21,7 @@ class LeaderboardController extends Controller
                     'name' => $s->name,
                     'total_points' => $s->total_points,
                     'stars' => $s->stars,
+                    'streak' => $s->streak ?? 0,
                ];
           });
 
@@ -33,7 +34,7 @@ class LeaderboardController extends Controller
                ->orderByDesc('total_points')
                ->orderByDesc('stars')
                ->take(50)
-               ->get(['id', 'name', 'total_points', 'stars']);
+               ->get(['id', 'name', 'total_points', 'stars', 'streak']);
 
           return response()->json($students);
      }

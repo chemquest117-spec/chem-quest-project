@@ -37,8 +37,10 @@
                               <div class="text-white font-bold text-sm truncate" x-text="students[1]?.name"></div>
                               <div class="text-emerald-400 font-bold text-lg mt-1"
                                    x-text="Number(students[1]?.total_points).toLocaleString()"></div>
-                              <div class="flex items-center justify-center gap-0.5 text-amber-400 text-xs"><x-icon
-                                        name="star" class="w-3 h-3" /> <span x-text="students[1]?.stars"></span></div>
+                              <div class="flex items-center justify-center gap-3 mt-1">
+                                   <div class="flex items-center justify-center gap-0.5 text-amber-400 text-xs"><x-icon name="star" class="w-3 h-3" /> <span x-text="students[1]?.stars"></span></div>
+                                   <div class="flex items-center justify-center gap-0.5 text-orange-400 text-xs" x-show="students[1]?.streak > 0"><x-icon name="fire" class="w-3 h-3" /> <span x-text="students[1]?.streak"></span></div>
+                              </div>
                          </div>
 
                          {{-- 1st Place --}}
@@ -50,8 +52,9 @@
                               <div class="text-white font-bold truncate" x-text="students[0]?.name"></div>
                               <div class="text-emerald-400 font-bold text-xl mt-1"
                                    x-text="Number(students[0]?.total_points).toLocaleString()"></div>
-                              <div class="flex items-center justify-center gap-0.5 text-amber-400 text-sm"><x-icon
-                                        name="star" class="w-3.5 h-3.5" /> <span x-text="students[0]?.stars"></span>
+                              <div class="flex items-center justify-center gap-3 mt-1">
+                                   <div class="flex items-center justify-center gap-0.5 text-amber-400 text-sm"><x-icon name="star" class="w-3.5 h-3.5" /> <span x-text="students[0]?.stars"></span></div>
+                                   <div class="flex items-center justify-center gap-0.5 text-orange-500 text-sm font-bold bg-orange-500/10 px-2 py-0.5 rounded-full" x-show="students[0]?.streak > 0"><x-icon name="fire" class="w-3.5 h-3.5" /> <span x-text="students[0]?.streak + ' day streak!'"></span></div>
                               </div>
                          </div>
 
@@ -64,8 +67,10 @@
                               <div class="text-white font-bold text-sm truncate" x-text="students[2]?.name"></div>
                               <div class="text-emerald-400 font-bold text-lg mt-1"
                                    x-text="Number(students[2]?.total_points).toLocaleString()"></div>
-                              <div class="flex items-center justify-center gap-0.5 text-amber-400 text-xs"><x-icon
-                                        name="star" class="w-3 h-3" /> <span x-text="students[2]?.stars"></span></div>
+                              <div class="flex items-center justify-center gap-3 mt-1">
+                                   <div class="flex items-center justify-center gap-0.5 text-amber-400 text-xs"><x-icon name="star" class="w-3 h-3" /> <span x-text="students[2]?.stars"></span></div>
+                                   <div class="flex items-center justify-center gap-0.5 text-orange-400 text-xs" x-show="students[2]?.streak > 0"><x-icon name="fire" class="w-3 h-3" /> <span x-text="students[2]?.streak"></span></div>
+                              </div>
                          </div>
                     </div>
                </template>
@@ -78,7 +83,7 @@
                               <tr class="border-b border-white/10 text-left">
                                    <th class="px-6 py-4 text-sm font-medium text-slate-400">Rank</th>
                                    <th class="px-6 py-4 text-sm font-medium text-slate-400">Student</th>
-                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-center">Stars</th>
+                                   <th class="px-6 py-4 text-sm font-medium text-slate-400 text-center">Stars/Streak</th>
                                    <th class="px-6 py-4 text-sm font-medium text-slate-400 text-right">Points</th>
                               </tr>
                          </thead>
@@ -111,10 +116,16 @@
                                                   </div>
                                              </div>
                                         </td>
-                                        <td class="px-6 py-4 text-center text-amber-400 font-medium">
-                                             <div class="flex items-center justify-center gap-0.5">
-                                                  <x-icon name="star" class="w-4 h-4" />
-                                                  <span x-text="student.stars"></span>
+                                        <td class="px-6 py-4 text-center">
+                                             <div class="flex items-center justify-center gap-3">
+                                                  <div class="flex items-center justify-center gap-0.5 text-amber-400 font-medium">
+                                                       <x-icon name="star" class="w-4 h-4" />
+                                                       <span x-text="student.stars"></span>
+                                                  </div>
+                                                  <div class="flex items-center justify-center gap-0.5 text-orange-400 font-medium bg-orange-500/10 px-2 py-0.5 rounded-full" x-show="student.streak > 0">
+                                                       <x-icon name="fire" class="w-3 h-3" />
+                                                       <span x-text="student.streak"></span>
+                                                  </div>
                                              </div>
                                         </td>
                                         <td class="px-6 py-4 text-right">
@@ -190,7 +201,7 @@
                               const oldJson = JSON.stringify(this.students);
                               const newStudents = data.map(s => ({
                                    id: s.id, name: s.name,
-                                   total_points: s.total_points, stars: s.stars
+                                   total_points: s.total_points, stars: s.stars, streak: s.streak || 0
                               }));
 
                               if (oldJson !== JSON.stringify(newStudents)) {

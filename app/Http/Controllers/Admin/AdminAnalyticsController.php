@@ -95,6 +95,26 @@ class AdminAnalyticsController extends Controller
                     ->take(5)
                     ->get();
 
+               // Problematic Questions
+               $problematicQuestions = \App\Models\AttemptAnswer::with('question.stage')
+                    ->get()
+                    ->groupBy('question_id')
+                    ->map(function ($answers) {
+                         $total = $answers->count();
+                         if ($total < 2) return null; // Only statistically relevant data
+                         
+                         $correct = $answers->where('is_correct', true)->count();
+                         return [
+                              'question' => $answers->first()->question,
+                              'total_attempts' => $total,
+                              'failure_rate' => round((1 - ($correct / $total)) * 100, 1),
+                         ];
+                    })
+                    ->filter()
+                    ->sortByDesc('failure_rate')
+                    ->take(5)
+                    ->values();
+
                return compact(
                     'stageStats',
                     'dailyActivity',
@@ -103,7 +123,8 @@ class AdminAnalyticsController extends Controller
                     'totalAttempts',
                     'overallPassRate',
                     'avgStudyTime',
-                    'topPerformers'
+                    'topPerformers',
+                    'problematicQuestions'
                );
           });
 

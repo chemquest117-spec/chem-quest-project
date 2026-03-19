@@ -38,12 +38,18 @@ class QuizController extends Controller
                'started_at' => Carbon::now(),
           ]);
 
-          // Pre-create answer records for randomized questions
-          $questions = $stage->questions()->inRandomOrder()->get();
-          foreach ($questions as $question) {
+          // Cache question IDs for the stage to prevent heavy DB load per student attempt
+          $questionIds = \Illuminate\Support\Facades\Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
+               return $stage->questions()->pluck('id')->toArray();
+          });
+
+          // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
+          shuffle($questionIds);
+
+          foreach ($questionIds as $questionId) {
                AttemptAnswer::create([
                     'stage_attempt_id' => $attempt->id,
-                    'question_id' => $question->id,
+                    'question_id' => $questionId,
                ]);
           }
 

@@ -6,7 +6,8 @@
 
                {{-- Timer Bar --}}
                <div
-                    class="sticky top-16 z-40 bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 mb-6 border border-white/10 shadow-2xl">
+                    class="sticky top-16 z-40 bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 mb-6 border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-shadow duration-300"
+                    :class="remaining <= 60 ? 'shadow-[0_0_30px_rgba(239,68,68,0.2)]' : ''">
                     <div class="flex items-center justify-between">
                          <div>
                               <h2 class="text-lg font-bold text-white">{{ $stage->title }}</h2>
@@ -41,8 +42,11 @@
 
                     <div class="space-y-6">
                          @foreach($answers as $index => $answer)
-                                             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-200"
-                                                  x-data="{ selected: null }">
+                                             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 transition-all duration-300 transform outline-none focus-within:ring-2 focus-within:ring-purple-400/50"
+                                                  :class="selected ? 'border-purple-500/30 bg-white/10 shadow-[0_0_20px_rgba(168,85,247,0.1)]' : 'hover:border-white/30 hover:shadow-lg'"
+                                                  x-data="{ selected: null, mounted: false, ...{ delay: {{ $index * 100 }} } }"
+                                                  x-init="setTimeout(() => mounted = true, delay)"
+                                                  :style="mounted ? 'opacity: 1; transform: translateY(0);' : 'opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out;'">
 
                                                   {{-- Question Header --}}
                                                   <div class="flex items-start space-x-4 mb-4">
@@ -74,14 +78,13 @@
                                                             <label class="relative cursor-pointer group" @click="selected = '{{ $option }}'">
                                                                  <input type="radio" name="answers[{{ $answer->question_id }}]"
                                                                       value="{{ $option }}" class="sr-only peer">
-                                                                 <div class="p-3 rounded-xl border-2 transition-all duration-200
-                                                                                 peer-checked:border-purple-500 peer-checked:bg-purple-500/10
-                                                                                 border-white/10 hover:border-white/30 hover:bg-white/5">
+                                                                 <div class="p-3 rounded-xl border-2 transition-all duration-300 transform
+                                                                                 border-white/10 hover:border-emerald-400/40 hover:bg-white/5"
+                                                                      :class="selected === '{{ $option }}' ? 'scale-[1.02] border-emerald-500 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : ''">
                                                                       <div class="flex items-center space-x-3">
-                                                                           <span class="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-200
-                                                                                          peer-checked:border-purple-500 peer-checked:bg-purple-500 peer-checked:text-white
-                                                                                          border-white/20 text-slate-400 group-hover:border-white/40"
-                                                                                :class="selected === '{{ $option }}' ? 'border-purple-500 bg-purple-500 text-white' : ''">
+                                                                           <span class="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300
+                                                                                          border-white/20 text-slate-400 group-hover:border-emerald-400/60"
+                                                                                :class="selected === '{{ $option }}' ? 'border-emerald-500 bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse' : ''">
                                                                                 {{ strtoupper($option) }}
                                                                            </span>
                                                                            <span

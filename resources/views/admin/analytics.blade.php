@@ -138,31 +138,55 @@
                     </div>
                </div>
 
-               {{-- Top Performers --}}
-               @if($topPerformers->count() > 0)
-                    <div class="mt-8 bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                         <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                              <x-icon name="trophy" class="w-5 h-5 text-amber-400" /> Top Performers
-                         </h2>
-                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                              @foreach($topPerformers as $i => $performer)
-                                   <div
-                                        class="bg-white/5 rounded-xl p-4 text-center border {{ $i === 0 ? 'border-amber-500/30' : 'border-white/10' }}">
-                                        <div
-                                             class="w-12 h-12 mx-auto rounded-full bg-gradient-to-br {{ $i === 0 ? 'from-amber-400 to-amber-600' : ($i === 1 ? 'from-slate-300 to-slate-500' : 'from-orange-400 to-orange-600') }} flex items-center justify-center text-white font-bold text-lg mb-2">
-                                             {{ strtoupper(substr($performer->name, 0, 1)) }}
+               {{-- Top Performers and Problematic Questions Row --}}
+               <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                    @if($topPerformers->count() > 0)
+                         <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                              <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                   <x-icon name="trophy" class="w-5 h-5 text-amber-400" /> Top Performers
+                              </h2>
+                              <div class="space-y-3">
+                                   @foreach($topPerformers as $i => $performer)
+                                        <div class="flex items-center p-3 rounded-lg border {{ $i === 0 ? 'bg-amber-500/10 border-amber-500/30 ring-1 ring-amber-500/50' : 'bg-white/5 border-white/10' }}">
+                                             <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $i === 0 ? 'from-amber-400 to-amber-600' : ($i === 1 ? 'from-slate-300 to-slate-500' : 'from-orange-400 to-orange-600') }} flex items-center justify-center text-white font-bold text-sm shadow-md mr-4 shrink-0">
+                                                  {{ strtoupper(substr($performer->name, 0, 1)) }}
+                                             </div>
+                                             <div class="flex-1 min-w-0">
+                                                  <h3 class="text-white font-medium text-sm truncate">{{ $performer->name }}</h3>
+                                                  <div class="text-slate-400 text-xs flex items-center gap-2 mt-0.5">
+                                                       <span class="flex items-center gap-0.5"><x-icon name="star" class="w-3 h-3 text-amber-400" />{{ $performer->stars }}</span>
+                                                       <span class="text-emerald-400 font-bold whitespace-nowrap">{{ number_format($performer->total_points) }} pts</span>
+                                                  </div>
+                                             </div>
                                         </div>
-                                        <p class="text-white font-medium text-sm">{{ $performer->name }}</p>
-                                        <p class="text-emerald-400 text-sm font-bold">
-                                             {{ number_format($performer->total_points) }} pts</p>
-                                        <p class="text-slate-500 text-xs flex items-center justify-center gap-0.5">
-                                             <x-icon name="star" class="w-3 h-3 text-amber-400" /> {{ $performer->stars }}
-                                        </p>
-                                   </div>
-                              @endforeach
+                                   @endforeach
+                              </div>
                          </div>
-                    </div>
-               @endif
+                    @endif
+
+                    @if(count($problematicQuestions) > 0)
+                         <div class="bg-red-500/5 backdrop-blur-sm rounded-2xl p-6 border border-red-500/20">
+                              <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                   <x-icon name="exclamation" class="w-5 h-5 text-red-400" /> Problematic Questions
+                              </h2>
+                              <div class="space-y-3">
+                                   @foreach($problematicQuestions as $pq)
+                                        <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+                                             <div class="flex justify-between items-start mb-2">
+                                                  <span class="text-xs text-purple-400 font-medium bg-purple-500/10 px-2 py-0.5 rounded">{{ $pq['question']->stage->getTranslatedTitle() }}</span>
+                                                  <span class="text-red-400 text-xs font-bold">{{ $pq['failure_rate'] }}% fail rate</span>
+                                             </div>
+                                             <p class="text-sm text-slate-300 line-clamp-2" title="{{ $pq['question']->getTranslatedQuestionText() }}">{{ $pq['question']->getTranslatedQuestionText() }}</p>
+                                             <div class="text-xs text-slate-500 mt-2 flex items-center justify-between">
+                                                  <span>Attempts: {{ $pq['total_attempts'] }}</span>
+                                                  <a href="{{ route('admin.questions.edit', [$pq['question']->stage_id, $pq['question']->id]) }}" class="text-blue-400 hover:text-blue-300 flex items-center gap-1">Edit <x-icon name="pencil" class="w-3 h-3" /></a>
+                                             </div>
+                                        </div>
+                                   @endforeach
+                              </div>
+                         </div>
+                    @endif
+               </div>
           </div>
      </div>
 

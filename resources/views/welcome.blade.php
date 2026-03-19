@@ -16,12 +16,14 @@
 </head>
 
 <body
-    class="font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen flex flex-col">
+    class="font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen flex flex-col overflow-x-hidden"
+    x-data="{ mounted: false }" x-init="setTimeout(() => mounted = true, 100)">
 
     <div class="flex-1 flex items-center justify-center px-4 py-8">
-        <div class="text-center max-w-3xl">
+        <div class="text-center max-w-3xl transition-all duration-1000 transform"
+             :class="mounted ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'">
             {{-- Creative Animated Logo --}}
-            <div class="mb-8">
+            <div class="mb-6 hover:scale-110 transition-transform duration-500 cursor-pointer drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
                 <x-chemtrack-logo size="2xl" class="mx-auto" />
             </div>
 
@@ -33,30 +35,32 @@
             </h1>
 
             <p class="text-xl text-slate-300 mb-2">Master Chemistry Through Interactive Quizzes</p>
-            <p class="text-slate-500 mb-8 max-w-lg mx-auto">Progress through stages, earn points & stars, and compete
+            <p class="text-slate-500 mb-6 max-w-lg mx-auto">Progress through stages, earn points & stars, and compete
                 with classmates on the leaderboard. Ready to start your chemistry journey?</p>
 
             {{-- Feature Pills --}}
-            <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <div class="flex flex-wrap justify-center gap-3 mb-6 transition-all duration-1000 delay-300 transform"
+                 :class="mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
                 <span
-                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-emerald-400/50 hover:text-emerald-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(52,211,153,0.3)]">
                     <x-icon name="clock" class="w-4 h-4" /> Timed Quizzes</span>
                 <span
-                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-cyan-400/50 hover:text-cyan-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(34,211,238,0.3)]">
                     <x-icon name="target" class="w-4 h-4" /> Progressive Stages</span>
                 <span
-                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-yellow-400/50 hover:text-yellow-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(250,204,21,0.3)]">
                     <x-icon name="star" class="w-4 h-4" /> Earn Stars</span>
                 <span
-                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-purple-400/50 hover:text-purple-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(192,132,252,0.3)]">
                     <x-icon name="trophy" class="w-4 h-4" /> Leaderboard</span>
                 <span
-                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300">
+                    class="flex items-center gap-1.5 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sm text-slate-300 hover:bg-white/10 hover:border-pink-400/50 hover:text-pink-300 transition-all duration-300 cursor-default shadow-[0_0_10px_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(244,114,182,0.3)]">
                     <x-icon name="medal" class="w-4 h-4" /> Points System</span>
             </div>
 
             {{-- CTA Buttons --}}
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-500 transform"
+                 :class="mounted ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
                 @auth
                     <a href="{{ route('dashboard') }}"
                         class="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/30">
@@ -75,7 +79,7 @@
             </div>
 
             {{-- Stats --}}
-            <div class="grid grid-cols-3 gap-6 mt-16 max-w-md mx-auto">
+            <div class="grid grid-cols-3 gap-6 mt-10 max-w-md mx-auto">
                 <div>
                     <div class="text-3xl font-bold text-emerald-400">5</div>
                     <div class="text-sm text-slate-500">Stages</div>

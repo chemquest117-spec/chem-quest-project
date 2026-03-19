@@ -16,7 +16,7 @@
                                    <tr class="text-left border-b border-white/10">
                                         <th class="px-6 py-4 text-sm text-slate-400">Student</th>
                                         <th class="px-6 py-4 text-sm text-slate-400 text-center">Points</th>
-                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">Stars</th>
+                                        <th class="px-6 py-4 text-sm text-slate-400 text-center">Stars & Streak</th>
                                         <th class="px-6 py-4 text-sm text-slate-400 text-center">Attempts</th>
                                         @foreach($stages as $stage)
                                              <th class="px-4 py-4 text-sm text-slate-400 text-center"
@@ -46,9 +46,16 @@
                                                   {{ number_format($student->total_points) }}
                                              </td>
                                              <td class="px-6 py-4 text-center">
-                                                  <span class="flex items-center justify-center gap-0.5 text-amber-400">
-                                                       <x-icon name="star" class="w-3.5 h-3.5" /> {{ $student->stars }}
-                                                  </span>
+                                                  <div class="flex items-center justify-center gap-3">
+                                                       <span class="flex items-center justify-center gap-0.5 text-amber-400">
+                                                            <x-icon name="star" class="w-3.5 h-3.5" /> {{ $student->stars }}
+                                                       </span>
+                                                       @if($student->streak > 0)
+                                                            <span class="flex items-center justify-center gap-0.5 text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded-full text-xs font-bold">
+                                                                 <x-icon name="fire" class="w-3 h-3" /> {{ $student->streak }}
+                                                            </span>
+                                                       @endif
+                                                  </div>
                                              </td>
                                              <td class="px-6 py-4 text-center text-slate-300">{{ $student->attempts_count }}
                                              </td>
