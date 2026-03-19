@@ -26,6 +26,13 @@ COPY . .
 # Install dependencies
 RUN composer install --optimize-autoloader --no-dev
 
+# Install Node
+RUN apt-get install -y nodejs npm
+
+# Build frontend
+RUN npm install
+RUN npm run build
+
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/html \
      && chmod -R 755 /var/www/html/storage
