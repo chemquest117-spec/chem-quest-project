@@ -31,4 +31,6 @@ return [
 
      'Profile' => 'Profile',
      'Logout' => 'Logout',
+
+     'minute' => 'minutes',
 ];

@@ -12,7 +12,7 @@ class StageCompleted extends Notification
 
      public function __construct(
           public StageAttempt $attempt,
-          public string $message,
+          public string|array $message,
           public string $type = 'success' // success, info, warning
      ) {
      }
@@ -25,7 +25,9 @@ class StageCompleted extends Notification
      public function toArray($notifiable): array
      {
           return [
-               'message' => $this->message,
+               'message' => is_string($this->message) ? $this->message : ($this->message['en'] ?? ''),
+               'message_en' => is_string($this->message) ? $this->message : ($this->message['en'] ?? ''),
+               'message_ar' => is_string($this->message) ? $this->message : ($this->message['ar'] ?? ''),
                'type' => $this->type,
                'stage_id' => $this->attempt->stage_id,
                'stage_title' => $this->attempt->stage->title,

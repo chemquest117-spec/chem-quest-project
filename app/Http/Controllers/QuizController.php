@@ -77,7 +77,7 @@ class QuizController extends Controller
           $answers = $attempt->answers()->with('question')->get();
 
           // Calculate remaining time
-          $elapsed = Carbon::now()->diffInSeconds($attempt->started_at);
+          $elapsed = (int) $attempt->started_at->diffInSeconds(now());
           $totalSeconds = $stage->time_limit_minutes * 60;
           $remainingSeconds = max(0, $totalSeconds - $elapsed);
 
@@ -155,7 +155,7 @@ class QuizController extends Controller
           $passed = $percentage >= $attempt->stage->passing_percentage;
 
           // Calculate time spent
-          $timeSpent = Carbon::now()->diffInSeconds($attempt->started_at);
+          $timeSpent = (int) $attempt->started_at->diffInSeconds(now());
 
           $attempt->update([
                'score' => $score,
@@ -220,22 +220,35 @@ class QuizController extends Controller
                if ($percentage >= 100) {
                     $user->increment('total_points', 50);
                     $user->increment('stars', 1);
-                    $user->notify(new StageCompleted($attempt, "⭐ Perfect score on {$stage->title}! +50 bonus points!", 'success'));
+                    $user->notify(new StageCompleted($attempt, [
+                         'en' => "⭐ Perfect score on {$stage->title}! +50 bonus points!",
+                         'ar' => "⭐ درجة كاملة في " . ($stage->title_ar ?: $stage->title) . "! +50 نقطة إضافية!"
+                    ], 'success'));
                }
 
-               $msg = $isFirstPass
+               $msgEn = $isFirstPass
                     ? "🎉 You passed {$stage->title}! +{$points} points!"
                     : "Great job retrying {$stage->title}! +{$points} points!";
+               
+               $msgAr = $isFirstPass
+                    ? "🎉 لقد اجتزت " . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!"
+                    : "عمل رائع في إعادة " . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!";
 
-               $user->notify(new StageCompleted($attempt, $msg, 'success'));
+               $user->notify(new StageCompleted($attempt, ['en' => $msgEn, 'ar' => $msgAr], 'success'));
 
                // Notify about next stage unlock
                $nextStage = Stage::where('order', $stage->order + 1)->first();
-               if ($nextStage && $isFirstPass) {
-                    $user->notify(new StageCompleted($attempt, "🔓 Stage '{$nextStage->title}' is now unlocked!", 'info'));
-               }
+                if ($nextStage && $isFirstPass) {
+                     $user->notify(new StageCompleted($attempt, [
+                         'en' => "🔓 Stage '{$nextStage->title}' is now unlocked!",
+                         'ar' => "🔓 المرحلة '" . ($nextStage->title_ar ?: $nextStage->title) . "' متاحة الآن!"
+                     ], 'info'));
+                }
           } else {
-               $user->notify(new StageCompleted($attempt, "Keep trying! You scored {$attempt->score}/{$attempt->total_questions} on {$stage->title}. You need {$stage->passing_percentage}% to pass.", 'warning'));
+               $user->notify(new StageCompleted($attempt, [
+                    'en' => "Keep trying! You scored {$attempt->score}/{$attempt->total_questions} on {$stage->title}. You need {$stage->passing_percentage}% to pass.",
+                    'ar' => "استمر في المحاولة! لقد سجلت {$attempt->score}/{$attempt->total_questions} في " . ($stage->title_ar ?: $stage->title) . ". تحتاج إلى {$stage->passing_percentage}% للنجاح."
+               ], 'warning'));
           }
      }
 }

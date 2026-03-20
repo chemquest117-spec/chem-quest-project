@@ -16,7 +16,7 @@
                          <div class="mb-4">
                               <x-icon name="lightning-bolt" class="w-16 h-16 text-amber-400 mx-auto" />
                          </div>
-                         <h1 class="text-3xl font-bold text-amber-400">Keep Going!</h1>
+                         <h1 class="text-3xl font-bold text-amber-400">{{ __('quiz.keep_going') }}</h1>
                          <p class="text-slate-400 mt-1">
                               {{ __('quiz.failed', ['percentage' => $attempt->stage->passing_percentage]) }}</p>
                     @endif
@@ -43,7 +43,7 @@
                               <div class="text-4xl font-bold text-cyan-400">
                                    {{ $attempt->time_spent_seconds ? gmdate('i:s', $attempt->time_spent_seconds) : '-' }}
                               </div>
-                              <div class="text-sm text-slate-400 mt-1">Time Taken</div>
+                              <div class="text-sm text-slate-400 mt-1">{{ __('quiz.time_taken') }}</div>
                          </div>
                          <div>
                               <div class="flex justify-center">
@@ -53,7 +53,7 @@
                                         <x-icon name="x-circle" class="w-10 h-10 text-red-400" />
                                    @endif
                               </div>
-                              <div class="text-sm text-slate-400 mt-1">Status
+                              <div class="text-sm text-slate-400 mt-1">{{ __('quiz.status') }}
                               </div>
                          </div>
                     </div>
@@ -79,7 +79,7 @@
                                              @endif
                                         </span>
                                         <div class="flex-1">
-                                             <p class="text-white font-medium mb-2">{{ $answer->question->question_text }}
+                                             <p class="text-white font-medium mb-2">{{ $answer->question->getTranslatedQuestionText() }}
                                              </p>
 
                                              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -94,12 +94,12 @@
                                                             'border-white/20') }}">
                                                                                                {{ strtoupper($opt) }}
                                                                                           </span>
-                                                                                          <span>{{ $answer->question->{'option_' . $opt} }}</span>
+                                                                                          <span>{{ $answer->question->getTranslatedOption($opt) }}</span>
                                                                                           @if($opt === $answer->question->correct_answer)
                                                                                                <span class="flex items-center gap-0.5 text-emerald-400 ms-auto"><x-icon
-                                                                                                         name="check" class="w-3 h-3" /> Correct</span>
+                                                                                                         name="check" class="w-3 h-3" /> {{ __('quiz.correct') }}</span>
                                                                                           @elseif($opt === $answer->selected_answer && !$answer->is_correct)
-                                                                                               <span class="text-red-400 ms-auto">Your answer</span>
+                                                                                               <span class="text-red-400 ms-auto">{{ __('quiz.your_answer') }}</span>
                                                                                           @endif
                                                                                      </div>
                                                   @endforeach
@@ -107,7 +107,7 @@
 
                                              @if(!$answer->selected_answer)
                                                   <p class="flex items-center gap-1 text-xs text-slate-500 mt-1 italic">
-                                                       <x-icon name="x-circle" class="w-3 h-3" /> Not answered
+                                                       <x-icon name="x-circle" class="w-3 h-3" /> {{ __('quiz.not_answered') }}
                                                   </p>
                                              @endif
                                         </div>

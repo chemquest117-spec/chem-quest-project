@@ -3,6 +3,7 @@
 return [
      'title' => 'Stages',
      'stage' => 'Stage :number',
+     'description' => 'Complete each stage to unlock the next. You need :percentage% to pass.',
      'locked' => 'Locked',
      'unlocked' => 'Unlocked',
      'completed' => 'Completed',
@@ -14,4 +15,15 @@ return [
      'questions_count' => ':count Questions',
      'minutes' => ':minutes mins',
      'points' => ':points pts',
+     'back_to_stages' => 'Back to Stages',
+     'questions' => 'Questions',
+     'pass_rate' => 'Pass Rate',
+     'start_quiz' => 'Start Quiz',
+     'retry_quiz' => 'Retry Quiz',
+     'best_score' => 'Best Score',
+     'correct' => 'correct',
+     'attempt_history' => 'Attempt History',
+     'passed' => 'Passed',
+     'failed' => 'Failed',
+     'view' => 'View',
 ];

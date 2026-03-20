@@ -28,7 +28,8 @@
                                              {{ $stage->order }}
                                         </div>
                                         <div>
-                                             <h3 class="text-lg font-bold text-white">{{ $stage->title }}</h3>
+                                             <h3 class="text-lg font-bold text-white">{{ $stage->getTranslatedTitle() }}</h3>
+                                             <p class="text-sm text-slate-400 mt-1">Stage {{ $stage->order }} &bull; {{ $stage->getTranslatedDescription() }}</p>
                                              <div class="flex items-center space-x-3 text-sm text-slate-400">
                                                   <span class="flex items-center gap-1"><x-icon name="clock"
                                                             class="w-3 h-3" /> {{ $stage->time_limit_minutes }} min</span>

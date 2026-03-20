@@ -10,9 +10,7 @@
                          x-transition:enter-end="opacity-100 translate-y-0">
                          <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-2"><x-icon name="target"
                                    class="w-7 h-7 text-pink-400" /> {{ __('stages.title') }}</h1>
-                         <p class="text-slate-400 mb-4">Complete each stage to unlock the next. You need
-                              {{ $stages->first()->passing_percentage ?? 75 }}% to pass.
-                         </p>
+                         <p class="text-slate-400 mb-4">{{ __('stages.description', ['percentage' => $stages->first()->passing_percentage ?? 75]) }}</p>
 
                          {{-- Horizontal progress indicator --}}
                          <div class="flex items-center justify-center gap-2 mb-10 px-4">
@@ -140,7 +138,7 @@
                                                                            @elseif($isUnlocked)
                                                                                 <a href="{{ route('stages.show', $stage) }}"
                                                                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-blue-500/25 hover:scale-105">
-                                                                                     Start Quiz <x-icon name="arrow-right" class="w-4 h-4" />
+                                                                                     {{ __('stages.start_quiz') }} <x-icon name="arrow-right" class="w-4 h-4" />
                                                                                 </a>
                                                                            @else
                                                                                 <span

@@ -67,7 +67,7 @@
                                                                  @else
                                                                       <x-icon name="lightning-bolt" class="w-3 h-3" />
                                                                  @endif
-                                                                 {{ ucfirst($answer->question->difficulty) }}
+                                                                 {{ ucfirst($answer->question->getTranslatedDifficulty()) }}
                                                             </span>
                                                        </div>
                                                   </div>

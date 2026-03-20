@@ -22,22 +22,28 @@
                               {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                         <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}
                     </a>
-                    <a href="{{ route('leaderboard') }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                              {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="trophy" class="w-4 h-4" /> {{ __('navigation.leaderboard') }}
-                    </a>
                     @if(auth()->user()->is_admin)
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                                          {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.stages.*') || request()->routeIs('admin.students.*') ? 'bg-blue-500/20 text-blue-300' : 'text-blue-400 hover:bg-blue-500/10' }}">
-                            <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}
-                        </a>
-                        <a href="{{ route('admin.analytics') }}"
-                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                                          {{ request()->routeIs('admin.analytics') ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400 hover:bg-amber-500/10' }}">
-                            <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}
-                        </a>
+                        <div class="flex items-center relative" x-data="{ adminOpen: false }">
+                            <button @click="adminOpen = !adminOpen" @click.away="adminOpen = false"
+                                class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                       {{ request()->routeIs('admin.*') ? 'bg-blue-500/20 text-blue-300' : 'text-blue-400 hover:bg-blue-500/10' }}">
+                                <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}
+                                <svg class="w-4 h-4 ms-1 transition-transform" :class="adminOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div x-show="adminOpen" x-cloak
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                class="absolute top-full start-0 mt-2 w-48 bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
+                                <a href="{{ route('admin.dashboard') }}"
+                                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                    <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}
+                                </a>
+                                <a href="{{ route('admin.analytics') }}"
+                                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                    <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}
+                                </a>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -63,63 +69,71 @@
                     </span>
                 </div>
 
-                <!-- Language Switcher -->
-                <div class="relative">
-                    @if(app()->getLocale() === 'ar')
-                        <a href="{{ route('language.switch', 'en') }}"
-                            class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/10 transition">
-                            <img src="https://flagcdn.com/w20/us.png" srcset="https://flagcdn.com/w40/us.png 2x" width="20" alt="English"> 🇺🇸 EN
-                        </a>
-                    @else
-                        <a href="{{ route('language.switch', 'ar') }}"
-                            class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/10 transition"
-                            dir="rtl">
-                            <img src="https://flagcdn.com/w20/eg.png" srcset="https://flagcdn.com/w40/eg.png 2x" width="20" alt="Arabic"> 🇪🇬 AR
-                        </a>
-                    @endif
-                </div>
-
                 <!-- Notification Bell -->
-                <div class="relative" x-data="{ notifOpen: false }">
-                    <button @click="notifOpen = !notifOpen"
+                <div class="relative" x-data="{ notifOpen: false, unreadCount: {{ auth()->user()->unreadNotifications->count() }}, markingRead: false }">
+                    <button @click="notifOpen = !notifOpen" @click.away="notifOpen = false"
                         class="relative p-2 rounded-lg text-slate-300 hover:bg-white/10 transition">
                         <x-icon name="bell" class="w-5 h-5" />
-                        @if(auth()->user()->unreadNotifications->count() > 0)
-                            <span
-                                class="absolute -top-1 -end-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
-                                {{ auth()->user()->unreadNotifications->count() }}
-                            </span>
-                        @endif
+                        <span x-show="unreadCount > 0" x-text="unreadCount" x-cloak
+                            class="absolute -top-1 -end-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
+                        </span>
                     </button>
 
                     <!-- Notification Dropdown -->
-                    <div x-show="notifOpen" @click.away="notifOpen = false" x-cloak
+                    <div x-show="notifOpen" x-cloak
                         x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                         class="absolute end-0 mt-2 w-80 bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
                         <div class="p-3 border-b border-white/10 flex justify-between items-center">
                             <span class="text-sm font-semibold text-white">{{ __('navigation.notifications') }}</span>
-                            @if(auth()->user()->unreadNotifications->count() > 0)
-                                <form action="{{ route('notifications.readAll') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="text-xs text-cyan-400 hover:text-cyan-300">Mark all
-                                        {{ __('navigation.mark_all_read') }}</button>
-                                </form>
-                            @endif
+                            <button x-show="unreadCount > 0"
+                                    @click="
+                                        markingRead = true;
+                                        fetch('{{ route('notifications.readAll') }}', {
+                                            method: 'POST',
+                                            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+                                        }).then(() => {
+                                            unreadCount = 0;
+                                            document.querySelectorAll('.is-unread').forEach(el => el.classList.remove('bg-cyan-500/10', 'is-unread'));
+                                            document.querySelectorAll('.unread-dot').forEach(el => el.remove());
+                                        }).finally(() => { markingRead = false });
+                                    "
+                                    class="text-xs text-cyan-400 hover:text-cyan-300 disabled:opacity-50 transition"
+                                    :disabled="markingRead">
+                                {{ __('navigation.mark_all_read') }}
+                            </button>
                         </div>
                         <div class="max-h-64 overflow-y-auto">
-                            @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
-                                <div class="px-4 py-3 border-b border-white/5 hover:bg-white/5">
-                                    <p class="text-sm text-slate-200">{{ $notification->data['message'] ?? '' }}</p>
-                                    <p class="text-xs text-slate-400 mt-1">{{ $notification->created_at->diffForHumans() }}
-                                    </p>
+                            @forelse(auth()->user()->notifications->take(5) as $notification)
+                                <div class="px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors {{ is_null($notification->read_at) ? 'bg-cyan-500/10 is-unread' : '' }}">
+                                    <div class="flex gap-2">
+                                        @if(is_null($notification->read_at))
+                                            <span class="w-2 h-2 mt-1.5 rounded-full bg-cyan-400 flex-shrink-0 unread-dot animate-pulse"></span>
+                                        @endif
+                                        <div class="flex-1">
+                                            <p class="text-sm {{ is_null($notification->read_at) ? 'text-white font-medium' : 'text-slate-300' }}">
+                                                @if(app()->getLocale() === 'ar' && isset($notification->data['message_ar']))
+                                                    {{ $notification->data['message_ar'] }}
+                                                @elseif(isset($notification->data['message_en']))
+                                                    {{ $notification->data['message_en'] }}
+                                                @else
+                                                    {{ $notification->data['message'] ?? '' }}
+                                                @endif
+                                            </p>
+                                            <p class="text-xs text-slate-400 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             @empty
-                                <div
-                                    class="px-4 py-6 text-center text-slate-400 text-sm flex items-center justify-center gap-1.5">
+                                <div class="px-4 py-6 text-center text-slate-400 text-sm flex items-center justify-center gap-1.5">
                                     <x-icon name="check-circle" class="w-4 h-4 text-emerald-400" /> {{ __('navigation.no_new_notifications') }}
                                 </div>
                             @endforelse
+                        </div>
+                        <div class="border-t border-white/10 bg-slate-800/50">
+                            <a href="{{ route('notifications.index') }}" class="block px-4 py-2 text-center text-sm text-cyan-400 hover:text-cyan-300 hover:bg-white/5 transition">
+                                View all notifications
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -142,6 +156,26 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <!-- Leaderboard -->
+                        <x-dropdown-link :href="route('leaderboard')">
+                            <div class="flex items-center gap-2 text-amber-400">
+                                <x-icon name="trophy" class="w-4 h-4" /> {{ __('navigation.leaderboard') }}
+                            </div>
+                        </x-dropdown-link>
+
+                        <!-- Language Switcher -->
+                        <x-dropdown-link :href="app()->getLocale() === 'ar' ? route('language.switch', 'en') : route('language.switch', 'ar')">
+                            <div class="flex items-center gap-2 text-slate-300">
+                                @if(app()->getLocale() === 'ar')
+                                    <img src="https://flagcdn.com/w20/us.png" srcset="https://flagcdn.com/w40/us.png 2x" width="20" alt="English"> 🇺🇸 English
+                                @else
+                                    <img src="https://flagcdn.com/w20/eg.png" srcset="https://flagcdn.com/w40/eg.png 2x" width="20" alt="Arabic"> 🇪🇬 العربية
+                                @endif
+                            </div>
+                        </x-dropdown-link>
+                        
+                        <div class="border-t border-white/10 my-1"></div>
+
                         <x-dropdown-link :href="route('profile.edit')">{{ __('navigation.profile') }}</x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

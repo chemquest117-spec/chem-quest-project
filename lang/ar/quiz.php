@@ -16,4 +16,9 @@ return [
      'review_answers' => 'مراجعة الإجابات',
      'correct' => 'إجابة صحيحة',
      'incorrect' => 'إجابة خاطئة',
+     'keep_going' => 'استمر في المحاولة!',
+     'time_taken' => 'الوقت المستغرق',
+     'status' => 'الحالة',
+     'your_answer' => 'إجابتك',
+     'not_answered' => 'لم تتم الإجابة',
 ];

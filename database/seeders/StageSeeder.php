@@ -17,6 +17,9 @@ class StageSeeder extends Seeder
                     'time_limit_minutes' => 10,
                     'passing_percentage' => 75,
                     'points_reward' => 100,
+                    'title_ar' => 'البنية الذرية',
+                    'description_ar' => 'استكشف اللبنات الأساسية للمادة — الذرات، البروتونات، النيوترونات، والإلكترونات. تعرف على العدد الذري، العدد الكتلي، والتوزيع الإلكتروني.',
+                    
                ],
                [
                     'title' => 'Chemical Bonding',
@@ -25,6 +28,9 @@ class StageSeeder extends Seeder
                     'time_limit_minutes' => 12,
                     'passing_percentage' => 75,
                     'points_reward' => 120,
+                    'title_ar' => 'الروابط الكيميائية',
+                    'description_ar' => 'افهم كيف ترتبط الذرات معاً من خلال الروابط الأيونية، التساهمية، والمعدنية. استكشف الكهرسلبية والهندسة الجزيئية.',
+                    
                ],
                [
                     'title' => 'Reactions & Equations',
@@ -33,6 +39,9 @@ class StageSeeder extends Seeder
                     'time_limit_minutes' => 15,
                     'passing_percentage' => 75,
                     'points_reward' => 140,
+                    'title_ar' => 'التفاعلات والمعادلات',
+                    'description_ar' => 'أتقن التفاعلات الكيميائية، موازنة المعادلات، أنواع التفاعلات، وأساسيات الحسابات الكيميائية.',
+                    
                ],
                [
                     'title' => 'Acids, Bases & pH',
@@ -41,6 +50,9 @@ class StageSeeder extends Seeder
                     'time_limit_minutes' => 12,
                     'passing_percentage' => 75,
                     'points_reward' => 150,
+                    'title_ar' => 'الأحماض والقواعد والرقم الهيدروجيني',
+                    'description_ar' => 'تعمق في الأحماض، القواعد، مقياس الرقم الهيدروجيني، تفاعلات التعادل، والمحاليل المنظمة.',
+                    
                ],
                [
                     'title' => 'Organic Chemistry',
@@ -49,6 +61,9 @@ class StageSeeder extends Seeder
                     'time_limit_minutes' => 15,
                     'passing_percentage' => 75,
                     'points_reward' => 200,
+                    'title_ar' => 'الكيمياء العضوية',
+                    'description_ar' => 'مقدمة لمركبات الكربون، الهيدروكربونات، المجموعات الوظيفية، وقواعد التسمية في الكيمياء العضوية.',
+                    
                ],
           ];
 

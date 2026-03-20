@@ -16,4 +16,9 @@ return [
      'review_answers' => 'Review Answers',
      'correct' => 'Correct',
      'incorrect' => 'Incorrect',
+     'keep_going' => 'Keep Going!',
+     'time_taken' => 'Time Taken',
+     'status' => 'Status',
+     'your_answer' => 'Your answer',
+     'not_answered' => 'Not answered',
 ];

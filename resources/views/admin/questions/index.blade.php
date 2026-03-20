@@ -1,5 +1,5 @@
 <x-app-layout>
-     @section('title', 'Questions - ' . $stage->title)
+     @section('title', 'Questions - ' . $stage->getTranslatedTitle())
 
      <div class="py-8">
           <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,16 +60,16 @@
                                                             @else
                                                                  <x-icon name="lightning-bolt" class="w-3 h-3" />
                                                             @endif
-                                                            {{ ucfirst($question->difficulty) }}
+                                                            {{ ucfirst($question->getTranslatedDifficulty()) }}
                                                        </span>
                                                   </div>
-                                                  <p class="text-white font-medium mb-3">{{ $question->question_text }}</p>
+                                                  <p class="text-white font-medium mb-3">{{ $question->getTranslatedQuestionText() }}</p>
                                                   <div class="grid grid-cols-2 gap-2 text-sm">
                                                        @foreach(['a', 'b', 'c', 'd'] as $opt)
                                                             <div
                                                                  class="p-2 rounded-lg flex items-center gap-2 {{ $opt === $question->correct_answer ? 'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/30' : 'bg-white/5 text-slate-400' }}">
                                                                  <span class="font-bold">{{ strtoupper($opt) }}.</span>
-                                                                 {{ $question->{'option_' . $opt} }}
+                                                                 {{ $question->getTranslatedOption($opt) }}
                                                                  @if($opt === $question->correct_answer)
                                                                       <x-icon name="check" class="w-3.5 h-3.5 text-emerald-400 ms-auto" />
                                                                  @endif

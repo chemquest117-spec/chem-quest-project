@@ -3,6 +3,7 @@
 return [
      'title' => 'المراحل',
      'stage' => 'المرحلة :number',
+     'description' => 'أكمل كل مرحلة لفتح المرحلة التالية. تحتاج إلى :percentage% للنجاح.',
      'locked' => 'مقفلة',
      'unlocked' => 'مفتوحة',
      'completed' => 'مكتملة',
@@ -14,4 +15,15 @@ return [
      'questions_count' => ':count أسئلة',
      'minutes' => ':minutes دقائق',
      'points' => ':points نقطة',
+     'back_to_stages' => 'العودة إلى المراحل',
+     'questions' => 'الأسئلة',
+     'pass_rate' => 'نسبة النجاح',
+     'start_quiz' => 'بدء الاختبار',
+     'retry_quiz' => 'إعادة الاختبار',
+     'best_score' => 'أفضل درجة',
+     'correct' => 'إجابة صحيحة',
+     'attempt_history' => 'سجل المحاولات',
+     'passed' => 'ناجح',
+     'failed' => 'راسب',
+     'view' => 'عرض',
 ];

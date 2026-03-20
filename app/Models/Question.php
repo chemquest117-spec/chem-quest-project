@@ -21,7 +21,9 @@ class Question extends Model
           'option_d',
           'option_d_ar',
           'correct_answer',
+          'correct_answer_ar',
           'difficulty',
+          'difficulty_ar',
      ];
 
      public function stage(): BelongsTo
@@ -44,6 +46,11 @@ class Question extends Model
           $field = 'option_' . strtolower($option);
           $fieldAr = $field . '_ar';
           return app()->getLocale() === 'ar' && $this->{$fieldAr} ? $this->{$fieldAr} : $this->{$field};
+     }
+
+     public function getTranslatedDifficulty(): string
+     {
+          return app()->getLocale() === 'ar' && $this->difficulty_ar ? $this->difficulty_ar : $this->difficulty;
      }
 
      /**

@@ -86,12 +86,12 @@
                             class="w-5 h-5 text-purple-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
                     <div class="text-lg font-bold text-purple-400">
-                        {{ $currentStage ? $currentStage->title : __('dashboard.all_complete') }}
+                        {{ $currentStage ? $currentStage->getTranslatedTitle() : __('dashboard.all_complete') }}
                     </div>
                     @if($currentStage)
-                        <a href="{{ route('stages.show', $currentStage) }}"
-                            class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">{{ __('dashboard.start_now') }}
-                             <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
+                    <a href="{{ route('stages.show', $currentStage) }}"
+                        class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">{{ __('dashboard.start_now') }}
+                        <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
                     @endif
                 </div>
             </div>
@@ -123,11 +123,11 @@
                     class="bg-gradient-to-br from-purple-500/10 to-pink-500/5 rounded-2xl p-5 border border-purple-500/20 text-center hover:border-purple-400/40 transition-all duration-300">
                     <div class="text-3xl font-bold text-purple-400">
                         @if($totalTimeSpent > 3600)
-                            {{ round($totalTimeSpent / 3600, 1) }}h
+                        {{ round($totalTimeSpent / 3600, 1) }}h
                         @elseif($totalTimeSpent > 60)
-                            {{ round($totalTimeSpent / 60) }}m
+                        {{ round($totalTimeSpent / 60) }}m
                         @else
-                            {{ $totalTimeSpent }}s
+                        {{ $totalTimeSpent }}s
                         @endif
                     </div>
                     <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.time_studying') }}</div>
@@ -144,50 +144,50 @@
                             class="w-5 h-5 text-blue-400" /> {{ __('dashboard.your_roadmap') }}</h2>
                     <div class="space-y-3">
                         @foreach($stages as $stage)
-                                            @php
-                                                $isCompleted = in_array($stage->id, $completedIds);
-                                                $isUnlocked = $stage->isUnlockedFor($user);
-                                                $isCurrent = $currentStage && $currentStage->id === $stage->id;
-                                            @endphp
-                                            <div
-                                                class="flex items-center space-x-4 p-3 rounded-xl transition-all duration-300 hover:translate-x-1
+                        @php
+                        $isCompleted = in_array($stage->id, $completedIds);
+                        $isUnlocked = $stage->isUnlockedFor($user);
+                        $isCurrent = $currentStage && $currentStage->id === $stage->id;
+                        @endphp
+                        <div
+                            class="flex items-center space-x-4 p-3 rounded-xl transition-all duration-300 hover:translate-x-1
                                                                                                     {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500/10 border border-blue-500/30' :
                                 ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-white/[0.02] border border-white/5 opacity-50')) }}">
-                                                <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
                                                                                                         {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 animate-pulse' :
                                 ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-white/5 text-slate-600')) }}">
-                                                    @if($isCompleted)
-                                                        <x-icon name="check" class="w-5 h-5" />
-                                                    @elseif(!$isUnlocked)
-                                                        <x-icon name="lock-closed" class="w-4 h-4" />
-                                                    @else
-                                                        <span class="text-sm font-bold">{{ $stage->order }}</span>
-                                                    @endif
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <p
-                                                        class="font-medium {{ $isCompleted ? 'text-emerald-300' : ($isCurrent ? 'text-blue-300' : 'text-slate-300') }}">
-                                                        {{ $stage->title }}
-                                                    </p>
-                                                    <p class="text-xs text-slate-500 flex items-center gap-2">
-                                                        <span class="flex items-center gap-0.5"><x-icon name="clock" class="w-3 h-3" />
-                                                            {{ $stage->time_limit_minutes }} min</span>
-                                                        <span>&middot;</span>
-                                                        <span>{{ $stage->passing_percentage }}% {{ __('dashboard.to_pass') }}</span>
-                                                    </p>
-                                                </div>
-                                                @if($isUnlocked && !$isCompleted)
-                                                    <a href="{{ route('stages.show', $stage) }}"
-                                                        class="px-4 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition hover:scale-105">
-                                                        {{ __('dashboard.start_now') }}
-                                                    </a>
-                                                @elseif($isCompleted)
-                                                    <span class="flex items-center gap-1 text-emerald-400 text-sm font-medium"><x-icon
-                                                            name="check-circle" class="w-4 h-4" /> {{ __('dashboard.passed') }}</span>
-                                                @endif
-                                            </div>
+                                @if($isCompleted)
+                                <x-icon name="check" class="w-5 h-5" />
+                                @elseif(!$isUnlocked)
+                                <x-icon name="lock-closed" class="w-4 h-4" />
+                                @else
+                                <span class="text-sm font-bold">{{ $stage->order }}</span>
+                                @endif
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p
+                                    class="font-medium {{ $isCompleted ? 'text-emerald-300' : ($isCurrent ? 'text-blue-300' : 'text-slate-300') }}">
+                                    {{ $stage->getTranslatedTitle() }}
+                                </p>
+                                <p class="text-xs text-slate-500 flex items-center gap-2">
+                                    <span class="flex items-center gap-0.5"><x-icon name="clock" class="w-3 h-3" />
+                                        {{ $stage->time_limit_minutes }} {{ __('dashboard.minute') }}</span>
+                                    <span>&middot;</span>
+                                    <span>{{ $stage->passing_percentage }}% {{ __('dashboard.to_pass') }}</span>
+                                </p>
+                            </div>
+                            @if($isUnlocked && !$isCompleted)
+                            <a href="{{ route('stages.show', $stage) }}"
+                                class="px-4 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition hover:scale-105">
+                                {{ __('dashboard.start_now') }}
+                            </a>
+                            @elseif($isCompleted)
+                            <span class="flex items-center gap-1 text-emerald-400 text-sm font-medium"><x-icon
+                                    name="check-circle" class="w-4 h-4" /> {{ __('dashboard.passed') }}</span>
+                            @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -202,21 +202,24 @@
                         <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon
                                 name="document-text" class="w-5 h-5 text-blue-400" /> {{ __('dashboard.recent_attempts') }}</h2>
                         @forelse($recentAttempts as $attempt)
-                            <div
-                                class="flex items-center justify-between py-2 border-b border-white/5 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-lg transition">
-                                <div>
-                                    <p class="text-sm text-slate-300">{{ $attempt->stage->title }}</p>
-                                    <p class="text-xs text-slate-500">{{ $attempt->created_at->diffForHumans() }}</p>
-                                </div>
-                                <span
-                                    class="flex items-center gap-1 text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
-                                    {{ $attempt->score }}/{{ $attempt->total_questions }}
-                                    @if($attempt->passed) <x-icon name="check" class="w-3.5 h-3.5" /> @else <x-icon
-                                    name="x-circle" class="w-3.5 h-3.5" /> @endif
-                                </span>
+                        <div
+                            class="flex items-center justify-between py-2 border-b border-white/5 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-lg transition">
+                            <div>
+                                <p class="text-sm text-slate-300">{{ $attempt->stage->getTranslatedTitle() }}</p>
+                                <p class="text-xs text-slate-500">{{ $attempt->created_at->diffForHumans() }}</p>
                             </div>
+                            <span
+                                class="flex items-center gap-1 text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
+                                {{ $attempt->score }}/{{ $attempt->total_questions }}
+                                @if($attempt->passed)
+                                <x-icon name="check" class="w-3.5 h-3.5" />
+                                @else
+                                <x-icon name="x-circle" class="w-3.5 h-3.5" />
+                                @endif
+                            </span>
+                        </div>
                         @empty
-                            <p class="text-slate-500 text-sm">{{ __('dashboard.no_attempts_yet') }}</p>
+                        <p class="text-slate-500 text-sm">{{ __('dashboard.no_attempts_yet') }}</p>
                         @endforelse
                     </div>
 
@@ -225,13 +228,21 @@
                         <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><x-icon name="bell"
                                 class="w-5 h-5 text-amber-400" /> {{ __('dashboard.notifications') }}</h2>
                         @forelse($notifications as $notif)
-                            <div class="py-2 border-b border-white/5 last:border-0">
-                                <p class="text-sm text-slate-300">{{ $notif->data['message'] ?? '' }}</p>
-                                <p class="text-xs text-slate-500 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
-                            </div>
+                        <div class="py-2 border-b border-white/5 last:border-0">
+                            <p class="text-sm text-slate-300">
+                                @if(app()->getLocale() === 'ar' && isset($notif->data['message_ar']))
+                                {{ $notif->data['message_ar'] }}
+                                @elseif(isset($notif->data['message_en']))
+                                {{ $notif->data['message_en'] }}
+                                @else
+                                {{ $notif->data['message'] ?? '' }}
+                                @endif
+                            </p>
+                            <p class="text-xs text-slate-500 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
+                        </div>
                         @empty
-                            <p class="text-slate-500 text-sm flex items-center gap-1.5"><x-icon name="sparkles"
-                                    class="w-4 h-4 text-emerald-400" /> {{ __('dashboard.all_caught_up') }}</p>
+                        <p class="text-slate-500 text-sm flex items-center gap-1.5"><x-icon name="sparkles"
+                                class="w-4 h-4 text-emerald-400" /> {{ __('dashboard.all_caught_up') }}</p>
                         @endforelse
                     </div>
                 </div>
