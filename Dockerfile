@@ -27,7 +27,14 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 
 # Install Node
-RUN apt-get install -y nodejs npm
+# RUN apt-get install -y nodejs npm
+
+# Install Node.js (stable)
+RUN apt-get update && apt-get install -y curl
+
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+
+RUN apt-get install -y nodejs
 
 # Build frontend
 RUN npm install
