@@ -21,4 +21,5 @@ return [
      'status' => 'الحالة',
      'your_answer' => 'إجابتك',
      'not_answered' => 'لم تتم الإجابة',
+     'explanation' => 'التفسير',
 ];

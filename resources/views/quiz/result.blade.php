@@ -110,6 +110,15 @@
                                                        <x-icon name="x-circle" class="w-3 h-3" /> {{ __('quiz.not_answered') }}
                                                   </p>
                                              @endif
+
+                                              @if($answer->question->getTranslatedExplanation())
+                                                   <div class="mt-4 p-4 rounded-xl {{ $answer->is_correct ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-blue-500/10 border border-blue-500/20' }}">
+                                                        <h4 class="text-sm font-semibold {{ $answer->is_correct ? 'text-emerald-400' : 'text-blue-400' }} mb-2 flex items-center gap-1">
+                                                             <x-icon name="information-circle" class="w-4 h-4" /> {{ __('quiz.explanation') ?? 'Explanation' }}
+                                                        </h4>
+                                                        <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">{{ $answer->question->getTranslatedExplanation() }}</p>
+                                                   </div>
+                                              @endif
                                         </div>
                                    </div>
                               </div>

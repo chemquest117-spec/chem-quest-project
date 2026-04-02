@@ -5,13 +5,126 @@ namespace Database\Seeders;
 use App\Models\Question;
 use App\Models\Stage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Collection;
 
 class QuestionSeeder extends Seeder
 {
      public function run(): void
      {
-          $stages = Stage::orderBy('order')->get();
+          // $stages = Stage::orderBy('order')->get();
 
+          // $this->seedOldQuestions($stages);
+          
+          // Seed the newly parsed JSON questions
+          $this->seedJsonQuestions();
+     }
+
+     private function seedStage(int $stageId, array $questions): void
+     {
+          foreach ($questions as $q) {
+               Question::firstOrCreate(
+                    ['question_text' => $q[0], 'stage_id' => $stageId],
+                    [
+                         'option_a' => $q[1],
+                         'option_b' => $q[2],
+                         'option_c' => $q[3],
+                         'option_d' => $q[4],
+                         'correct_answer' => $q[5],
+                         'difficulty' => $q[6],
+                         'question_text_ar' => $q[7],
+                         'option_a_ar' => $q[8],
+                         'option_b_ar' => $q[9],
+                         'option_c_ar' => $q[10],
+                         'option_d_ar' => $q[11],
+                         'correct_answer_ar' => $q[12],
+                         'difficulty_ar' => $q[13],
+                         'type' => 'mcq',
+                    ]
+               );
+          }
+     }
+
+     private function seedJsonQuestions(): void
+     {
+          $jsonPath = database_path('seeders/questions.json');
+          if (!File::exists($jsonPath)) {
+               $this->command->warn('questions.json not found. Did you run process_questions.py?');
+               return;
+          }
+
+          $data = json_decode(File::get($jsonPath), true);
+          if (!$data) {
+               $this->command->warn('questions.json is invalid.');
+               return;
+          }
+
+          // Fetch the new LO stages
+          $loStages = [
+               'LO1' => Stage::where('title', 'LIKE', 'LO1%')->first()->id ?? null,
+               'LO2' => Stage::where('title', 'LIKE', 'LO2%')->first()->id ?? null,
+               'LO3' => Stage::where('title', 'LIKE', 'LO3%')->first()->id ?? null,
+               'LO4' => Stage::where('title', 'LIKE', 'LO4%')->first()->id ?? null,
+               'LO5' => Stage::where('title', 'LIKE', 'LO5%')->first()->id ?? null,
+          ];
+
+          foreach ($data as $q) {
+               $loId = $loStages[$q['lo']] ?? null;
+               if (!$loId) continue;
+
+               // Parse difficulty from text if provided (not fully structured in text, default to medium)
+               $difficulty = 'medium';
+               if (str_contains(strtolower($q['text']), '(hard)')) $difficulty = 'hard';
+               elseif (str_contains(strtolower($q['text']), '(easy)')) $difficulty = 'easy';
+               
+               $difficulty_ar = match($difficulty) {
+                   'easy' => 'سهل',
+                   'medium' => 'متوسط',
+                   'hard' => 'صعب',
+                   default => 'متوسط',
+               };
+
+               $correctAnswer = null;
+               if ($q['type'] === 'mcq' && $q['correct_answer'] && in_array(strtolower($q['correct_answer']), ['a', 'b', 'c', 'd'])) {
+                   $correctAnswer = strtolower($q['correct_answer']);
+               } elseif ($q['type'] === 'mcq') {
+                   // Default fallback if parsing missed it just in case
+                   $correctAnswer = 'a';
+               }
+
+               Question::firstOrCreate(
+                    [
+                         'question_text' => $q['text'],
+                         'stage_id' => $loId,
+                    ],
+                    [
+                         'type' => $q['type'],
+                         'option_a' => $q['options'][0] ?? null,
+                         'option_b' => $q['options'][1] ?? null,
+                         'option_c' => $q['options'][2] ?? null,
+                         'option_d' => $q['options'][3] ?? null,
+                         'correct_answer' => $correctAnswer,
+                         'explanation' => $q['explanation'] ?? null,
+                         'expected_answer' => $q['expected_answer'] ?? null,
+                         'difficulty' => $difficulty,
+                         'difficulty_ar' => $difficulty_ar,
+                         // To enable Arabic bilingual seamlessly, we copy the English till translation happens
+                         'question_text_ar' => $q['text'],
+                         'option_a_ar' => $q['options'][0] ?? null,
+                         'option_b_ar' => $q['options'][1] ?? null,
+                         'option_c_ar' => $q['options'][2] ?? null,
+                         'option_d_ar' => $q['options'][3] ?? null,
+                         'explanation_ar' => $q['explanation'] ?? null,
+                         'expected_answer_ar' => $q['expected_answer'] ?? null,
+                    ]
+               );
+          }
+     }
+
+
+
+     private function seedOldQuestions(Collection $stages): void
+     {
           // Stage 1: Atomic Structure
           $this->seedStage($stages[0]->id, [
                ['What is the atomic number of Carbon?', '4', '6', '8', '12', 'b', 'easy', 'ما هو العدد الذري للكربون؟', '4', '6', '8', '12', 'b', 'سهل'],
@@ -81,28 +194,5 @@ class QuestionSeeder extends Seeder
                ['Polymerization is:', 'Breaking large molecules', 'Joining small molecules into large chains', 'A combustion reaction', 'A neutralization reaction', 'b', 'hard', 'البلمرة هي:', 'تكسير الجزيئات الكبيرة', 'ربط جزيئات صغيرة في سلاسل كبيرة', 'تفاعل احتراق', 'تفاعل تعادل', 'b', 'صعب'],
                ['The functional group -COOH is:', 'Alcohol', 'Amine', 'Carboxylic acid', 'Ester', 'c', 'hard', 'المجموعة الوظيفية -COOH هي:', 'كحول', 'أمين', 'حمض كربوكسيلي', 'إستر', 'c', 'صعب'],
           ]);
-     }
-
-     private function seedStage(int $stageId, array $questions): void
-     {
-          foreach ($questions as $q) {
-               Question::create([
-                    'stage_id' => $stageId,
-                    'question_text' => $q[0],
-                    'option_a' => $q[1],
-                    'option_b' => $q[2],
-                    'option_c' => $q[3],
-                    'option_d' => $q[4],
-                    'correct_answer' => $q[5],
-                    'difficulty' => $q[6],
-                    'question_text_ar' => $q[7],
-                    'option_a_ar' => $q[8],
-                    'option_b_ar' => $q[9],
-                    'option_c_ar' => $q[10],
-                    'option_d_ar' => $q[11],
-                    'correct_answer_ar' => $q[12],
-                    'difficulty_ar' => $q[13],
-               ]);
-          }
      }
 }

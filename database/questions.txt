@@ -1,0 +1,1139 @@
+
+
+
+Q1. In the following compound, calculate the oxidation number of nitrogen:
+N₂H₄
+
+Answer: N = −2
+Explanation: 
+Hydrogen = +1
+4H = +4
+2N + 4 = 0
+2N = −4
+N = −2
+
+Q2. Calculate the oxidation number of carbon in the compound:
+CH₃COOH
+
+There are two different carbon atoms.
+A-First carbon (CH₃):
+Answer: C = −3
+Explanation: 
+3H = +3
+C + 3 = 0
+C = −3
+B-Second carbon (COOH):
+Answer:
+C = +3
+Explaintion:
+2O = −4
+H = +1
+C − 4 + 1 = 0
+C = +3
+
+Q3. Calculate the oxidation number of phosphorus in the compound:
+P₄O₁₀
+
+Answer:
+ P = +5
+Explanation: 
+Oxygen = −2
+10O = −20
+4P − 20 = 0
+4P = +20
+P = +5
+
+
+Q4. In the following balanced reaction in acidic solution: As2​O3​+NO3−​→H3​AsO4​+NO What is the total number of electrons (n) transferred per mole of As2​O3​ reacted? 
+A) 2 electrons 
+B) 4 electrons 
+C) 6 electrons 
+D) 12 electrons 
+Answer: C) 6 electrons 
+Explanation: Each As atom goes from +3 to +5, totaling 4 electrons for As2​. When balanced with Nitrogen, 1 mole of As2​O3​ corresponds to 6 electrons in the half-reaction).
+
+Q5. When balancing the following half-reaction in a basic solution: CN−→CNO− Which of the following correctly describes the balancing of oxygen and hydrogen? 
+A) Add 1H2​O to the reactants and 2H+ to the products. 
+B) Add 2OH− to the reactants and 1H2​O to the products. 
+C) Add 1OH− to the products and 1H2​O to the reactants. 
+D) Add 2H2​O to the reactants and 4OH− to the products. 
+Answer: B) Add 2OH− to the reactants and 1H2​O to the products. 
+Explanation: This follows the standard rule for basic solutions.
+  Equation becomes: CN−+2OH−→CNO−+H2​O+2e−
+
+Q6. Magnetite (Fe3​O4​) is a classic example of a complex redox compound. Its oxidation state is best described as: 
+A) One atom is in the +2 state and two atoms are in the +3 state. 
+B) Two atoms are in the +2 state and one is in the +3 state. 
+C) All iron atoms have an average oxidation state of +2.67. 
+D) It is a complete reduction of iron and no oxidation is present. 
+Answer: A) One atom is in the +2 state and two atoms are in the +3 state.  
+Explanation: It is a mixed oxide consisting of FeO and Fe2​O3​.
+
+Q7. A constant current of 2.00 A is passed through a solution containing unknown metal ions Mn+. If 0.20 mol of metal is deposited by the transfer of 0.60 mol of electrons, what is the value of (n)? 
+A) +1 
+B) +2 
+C) +4 
+D) +3 
+Answer: D) +3  
+Explanation: Calculated by dividing moles of electrons by moles of metal: 0.60/0.20=3.
+Rule: Number of electrons per ion (n) = (total moles of electrons) ÷ (moles of precipitated metal).
+
+Q8. According to the Nernst equation E=E∘−(0.059/n)logQ, if the number of electrons transferred (n) increases while all other variables remain constant, the cell potential (E): 
+A) Becomes more sensitive to changes in concentration (Q). 
+B) Becomes less sensitive to changes in concentration (Q). 
+C) Always increases regardless of the value of Q. 
+D) Always decreases and reaches zero quickly. 
+
+Answer: B ) Becomes less sensitive to changes in concentration (Q). 
+Explanation: Since n is in the denominator, a larger n reduces the impact of the log Q term.
+
+
+Q9. Which of the following reactions represents a "Disproportionation" reaction (an advanced redox type)? 
+A) Zn + Cu2+→(Zn2+) + Cu 
+B) 2H2​O2​→2H2​O+O2​ 
+C) CH4​ + 2O2​→CO2​ + 2H2​O 
+D) HCl + NaOH→NaCl + H2​O 
+Answer: B) 2H2​O2​→2H2​O+O2​ 
+Explanation: Oxygen in hydrogen peroxide is both oxidized and reduced simultaneously.
+The oxygen in H2O2 has an oxidation number of -1. In water (H2O) it becomes -2(reduction). In oxygen gas (O2) it becomes 0 (oxidation). Since oxygen did both things at the same time, it is a self-decomposition reaction.
+
+
+Q10. During electrolysis of molten NaCl, which species is reduced?
+A) Na⁺
+B) Cl⁻
+C) Na
+D) Cl₂
+Answer: A) Na⁺
+Explanation: Positive Na+ ions move to the cathode and gain electrons (reduction) to form sodium metal.
+
+
+Q11. A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C/mol e⁻)
+A) 0.02 mol
+B) 0.20 mol
+C) 0.10 mol
+D) 0.04 mol
+Answer: D) 0.04 mol
+Explanation: Moles=FI×t​=965004×965​=0.04 mol.
+
+
+Q12. In the electrolysis of aqueous CuSO₄ using inert electrodes, what is produced at the cathode?
+A) Cu²⁺
+B) Cu(s)
+C) H₂
+D) O₂
+Answer: B) Cu(s)
+Explanation: Cu2+ has a higher reduction potential than H+, so it reduces to solid copper metal at the cathode.
+
+
+Q13. Which of the following solutions will NOT conduct electricity?
+A) NaCl(aq)
+B) HCl(aq)
+C) C₆H₁₂O₆(aq)
+D) KOH(aq)
+Answer: C) C₆H₁₂O₆(aq)
+Explanation: Glucose is a molecular compound that doesn't produce ions; ions are necessary to carry electric current.
+
+
+Q14. Which factor most strongly affects the products formed during electrolysis?
+A) Color of the solution
+B) External pressure
+C) Volume of container
+D) Type of electrolyte and electrode
+Answer: D) Type of electrolyte and electrode
+Explanation: The chemical nature of the substance and whether the electrode is inert or active determine the reaction.
+
+
+Q15. In the electrolysis of brine (aqueous NaCl), why is Cl₂ formed at the anode instead of O₂?
+A) Cl⁻ is harder to oxidize
+B) Na⁺ reacts first
+C) Water is inert
+D) Cl⁻ is easier to oxidize than water
+Answer: D) Cl⁻ is easier to oxidize than water
+Explanation: Due to "overpotential," it is kinetically easier and faster for Cl− to lose electrons than water.
+
+
+Q16. How many grams of Cu (M = 63.5 g/mol, n = 2) are deposited when 193000 C passes through CuSO₄?
+A) 63.5 g
+B) 31.75 g
+C) 15.9 g
+D) 7.95 g
+Answer: A) 63.5 g
+Explanation: 193000 C=2 Faradays. Since Cu2+ needs 2e−, exactly 1 mole (63.5 g) is deposited.
+
+
+Q17. In electroplating, increasing current while keeping time constant will:
+A) Decrease deposited mass
+B) Increase deposited mass
+C) No effect
+D) Stop the reaction
+Answer: B) Increase deposited mass
+Explanation: According to Faraday's law, mass is directly proportional to the total charge (I×t).
+
+
+Q18. During electroplating, the source metal is connected to the:
+A) Cathode
+B) Anode
+C) Salt bridge
+D) Electrolyte only
+Answer: B) Anode
+Explanation: The source metal must undergo oxidation to dissolve into the solution, which happens at the positive anode.
+
+
+Q19. Rusting of iron occurs fastest in:
+A) Dry air
+B) Pure water
+C) Vacuum
+D) Saltwater
+Answer: D) Saltwater
+Explanation: Saltwater is a strong electrolyte that speeds up the electrochemical flow of electrons in corrosion.
+
+
+Q20. Why does coating iron with zinc prevent corrosion?
+A) Zinc reacts only with water
+B) Zinc acts as a sacrificial anode
+C) Zinc blocks oxygen completely
+D) Zinc lowers temperature
+Answer: B) Zinc acts as a sacrificial anode
+Explanation: Zinc is more reactive than iron, so it oxidizes first to protect the iron underneath.
+
+First Lo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q1: In a galvanic cell, if the external metal wire is replaced by a cotton string soaked in an electrolyte solution, what happens to the electron flow? 
+A) Flow continues because electrolytes conduct electricity. 
+B) The direction of flow reverses.  
+C) Flow increases due to the higher number of ions. 
+D) Flow stops because electrons do not travel through aqueous solutions.
+Answer: D) Flow stops because electrons do not travel through aqueous solutions.
+Explanation: This is the correct characteristic because flow stops because electrons do not travel through aqueous solutions..
+
+Q2: Why does the standard cell potential (Ecell∘​) remain constant regardless of the size of the electrodes used? 
+A) Because voltage is an intensive property that does not depend on the amount of substance. 
+B) Because size only affects resistance, not potential. 
+C) Because large electrodes reach equilibrium instantly. 
+D) Because Ecell∘​ depends only on temperature and pressure. 
+Answer: A) Because voltage is an intensive property that does not depend on the amount of substance.
+Explanation: This is the correct characteristic because because voltage is an intensive property that does not depend on the amount of substance..
+
+
+Q3: What happens to the reaction quotient (Q) as a battery approaches its "death"? 
+A) Q becomes zero.  
+B) Q becomes equal to the equilibrium constant (K). 
+C) Q becomes much smaller than 1. 
+D) Q remains constant while E∘ changes. 
+
+Answer: B)Q becomes equal to the equilibrium constant (K). 
+
+Explanation: At equilibrium, Ecell​=0 and Q=K.
+A battery dies when its potential becomes zero (E = 0). At this moment, the flow of electrons stops completely because there is no longer a potential difference to push them. Chemically, the reaction is said to have reached equilibrium. At equilibrium, the change in concentrations stops, and the value of Q becomes exactly equal to the value of the equilibrium constant (K).
+Why is the answer (Q=K) and not (Q=0 or complete material consumption? Why not Q=0? Because Q=0 means the battery is brand new and has not yet been used (no output).
+
+
+Q4: If Electrode A has Ered∘​=−0.76V and Electrode B has Ered∘​=−0.44V, which acts as the anode in a spontaneous cell? 
+A)Both can act as anode depending on concentration.  
+B)No spontaneous reaction can occur.  
+C) Electrode B. 
+D) Electrode A . 
+Answer: D)Electrode A .
+Explanation: Lower reduction potential/Higher oxidation potential).
+
+
+Q5: In the Nernst equation, what happens to E if all coefficients in the balanced equation are doubled? A) E doubles as well. 
+B) E is reduced by half. 
+C) E remains constant. 
+D) E increases by Faraday's constant.  
+Answer: C) E remains constant.
+Explanation: Doubling coefficients doubles both n and the powers in Q, canceling the effect).
+
+
+Q6: In the Standard Hydrogen Electrode (SHE), what is the function of the Platinum black coating? 
+A) To act as a reactant that oxidizes over time. 
+B) To provide an inert surface with a large area for electron exchange. 
+C) To absorb oxygen to prevent hydrogen oxidation. 
+D) To raise the temperature of the solution. 
+Answer: B)To provide an inert surface with a large area for electron exchange. .
+Explanation: This is the correct characteristic because to provide an inert surface with a large area for electron exchange. ..
+
+
+Q7: Why can't the reduction potential of a single electrode be measured experimentally with a voltmeter? 
+A) Because voltmeters only measure current. 
+B)Because ions in solution block the voltmeter. 
+C) Because a single electrode potential is always zero. 
+D) Because the electrical circuit remains open with no return path for charge.  
+Answer: D)Because the electrical circuit remains open with no return path for charge. .
+Explanation: This is the correct characteristic because because the electrical circuit remains open with no return path for charge. ..
+
+
+Q8: If Ecell∘​ for a reaction is −1.20V, what can be concluded about its spontaneity?  
+A) It is spontaneous in the forward direction. 
+B)It is in a state of dynamic equilibrium. 
+C)  It is non-spontaneous and requires an external power source. 
+D) It is fast but consumes heat energy. 
+Answer: C) It is non-spontaneous and requires an external power source. 
+Explanation: Negative voltage means ΔG>0.
+
+
+Q9: Which materials are suitable as "Inert Electrodes" in electrolysis? 
+A) Graphite and Platinum. 
+B) Zinc and Copper. 
+C) Sodium and Potassium. 
+D) Iron and Aluminum. 
+Answer: A)Graphite and Platinum..
+Explanation: This is the correct characteristic because graphite and platinum...
+
+
+Q10: When charging a Lead storage battery, what happens to the concentration of sulfuric acid? 
+A) It decreases. 
+B)It turns into solid sulfur. 
+C) It remains constant. 
+D)  It increases as the acid is regenerated. 
+Answer: D)It increases as the acid is regenerated..
+Explanation: This is the correct characteristic because it increases as the acid is regenerated...
+
+
+Q11: What is the fundamental difference in energy transformation between a Galvanic cell and an Electrolytic cell? 
+A) Both convert chemical to electrical energy.  
+B)Galvanic depends on heat; Electrolytic depends on light.  
+C) Galvanic is non-spontaneous; Electrolytic is spontaneous. 
+D)Galvanic: Chemical → Electrical; Electrolytic: Electrical → Chemical. 
+
+Answer: D)Galvanic: Chemical → Electrical; Electrolytic: Electrical → Chemical. .
+Explanation: This is the correct characteristic because galvanic: chemical → electrical; electrolytic: electrical → chemical. ..
+
+Q12: What is the direct effect of increasing the "surface area" of the electrodes in a car battery on its performance? 
+A) It increases the cell potential (Voltage). 
+B) It increases the amount of current (Amperes) that can be drawn in a short time. 
+C) It increases the value of the equilibrium constant (K) for the reaction. 
+D) It decreases the rate of anode corrosion over time. 
+Answer: B) It increases the amount of current (Amperes) that can be drawn in a short time.  
+Explanation: Surface area increases the reaction "rate" and the ability to pump more electrons, but it does not change the voltage.
+
+
+Q13: When measuring the potential of an unknown electrode relative to the Standard Hydrogen Electrode (SHE), it was found that electrons move "from the unknown electrode to the hydrogen electrode." What can we conclude? 
+A) The standard potential of the unknown electrode has a positive sign. 
+B) The unknown electrode acts as the cathode. 
+C) The standard potential of the unknown electrode has a negative sign. 
+D) Hydrogen is the species being oxidized in this cell. 
+Answer: C )The standard potential of the unknown electrode has a negative sign.
+Explanation: The movement of electrons away from the electrode means it is the "anode," and an anode relative to hydrogen has a negative standard potential.
+
+
+Q14: If you have a Concentration Cell with two copper electrodes, in which direction will the electrons move through the wire? 
+A)From the electrode immersed in the less concentrated solution to the more concentrated solution.   
+B) From the electrode immersed in the more concentrated solution to the less concentrated solution.
+C) Electrons will not move because the electrodes are made of the same material (E∘=0). 
+D) Electrons only move if one of the solutions is heated. 
+Answer: A) From the electrode immersed in the less concentrated solution to the more concentrated solution.  
+Explanation: In order for the system to reach equilibrium, the electrode in the dilute solution must oxidize to increase its concentration.
+
+Q15. Two solutions have the same concentration (0.1 M): HCl and CH₃COOH. Which statement is most correct?
+A) Both conduct equally because they have the same concentration.
+B) HCl conducts better due to complete ionization.
+C) CH₃COOH conducts better due to hydrogen bonding.
+D) Both are non-electrolytes.
+
+Answer: B)HCl conducts better due to complete ionization
+Explanation:HCl is a strong electrolyte, so it ionizes completely and produces more ions, leading to higher conductivity. CH₃COOH is a weak electrolyte and only partially ionizes.
+
+
+Q16. Which change would NOT significantly increase the conductivity of an electrolytic solution?
+A) Increasing temperature.
+B) Increasing ion concentration.
+C) Using a stronger electrolyte.
+D) Increasing the volume of the solution while keeping moles constant.
+
+Answer: D)Increasing the volume of the solution while keeping moles constant.
+Explanation: Increasing the volume while keeping the number of moles constant decreases the concentration of ions, so the conductivity does not increase.
+
+
+Q17. In molten NaCl, the charge is carried mainly by:
+A) Free electrons.
+B) Neutral atoms.
+C) Na⁺ and Cl⁻ ions.
+D) Protons.
+
+Answer: C)Na⁺ and Cl⁻ ions.
+Explanation: In molten ionic compounds, ions are free to move and carry the charge, not electrons.
+
+
+
+Part 2: Essay/Analytical Questions
+
+Q1-If you have two solutions with the same concentration, one HCl and the other CH₃COOH, explain why their electrical conductivity differs.
+Answer: HCl fully ionizes into H⁺ and Cl⁻, producing many ions, while CH₃COOH partially ionizes, so fewer ions are available.
+Explanation: This is the correct characteristic because hcl fully ionizes into h⁺ and cl⁻, producing many ions, while ch₃cooh partially ionizes, so fewer ions are available..
+
+Q2. Imagine you have an NaCl solution, and you increase the volume while keeping the number of moles constant. How would this affect the electrical conductivity?
+Answer: Ion concentration decreases, so conductivity does not increase. Conductivity depends on ion concentration.
+Explanation: This is the correct characteristic because ion concentration decreases, so conductivity does not increase. conductivity depends on ion concentration..
+
+Q3. Compare how charge is conducted in an aqueous NaCl solution versus molten NaCl.
+Answer: In both, Na⁺ and Cl⁻ ions carry the charge. Electrons do not move. Ionic compounds conduct via ions, unlike metals.
+Explanation: This is the correct characteristic because in both, na⁺ and cl⁻ ions carry the charge. electrons do not move. ionic compounds conduct via ions, unlike metals..
+
+Second Lo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q1: What is the IUPAC name for (CH3​)2​CHCH(CH3​)CH2​CH=CH2​?
+A) 4,5-dimethyl-1-hexene
+B) 4,5,5-trimethyl-1-pentene
+C) 2,3-dimethyl-5-hexene
+D) 4-methyl-4-isopropyl-1-butene
+Answer: A) 4,5-dimethyl-1-hexene
+Explanation: This is the correct characteristic because 4,5-dimethyl-1-hexene.
+
+
+Q2: Which of the following is the correct IUPAC name for the compound:
+CH₃–CH=CH–CH₂–CH₃
+ 
+A) Pent-1-ene
+B) Pent-2-ene
+C) 2-Pentene
+D) Pentene
+
+Answer: B) Pent-2-ene
+Explanation: This is the correct characteristic because pent-2-ene.
+
+
+
+Q3: Which is the correct IUPAC name for:
+ 
+CH₃–CH(CH₃)–CH₂–CH₃
+ 
+A) 2-Methylbutane
+B) 3-Methylbutane
+C) 2-Methylpentane
+D) 2-Ethylbutane
+ 
+Answer: A) 2-Methylbutane
+Explanation: This is the correct characteristic because 2-methylbutane.
+
+
+
+Q4: Which of the following is an example of a cycloalkane with the formula C6​H12​?
+A) Ethylcyclobutane
+B) Methylcyclopentane
+C) Cyclohexane
+D) All of the above
+Answer: D)All of the above
+Explanation: This is the correct characteristic because all of the above.
+
+
+Q5: Which of the following pairs are constitutional isomers?
+A) CH3​CH2​OCH3​ and CH3​CH2​CHO
+B) CH3​CH2​CHO and CH3​CH2​CH2​OH
+C) CH3​COCH2​CH3​ and CH3​CH2​COCH3​
+D) CH3​CH2​CH2​CHO and CH3​COCH2​CH3​
+Answer: D)CH3​CH2​CH2​CHO and CH3​COCH2​CH3​
+Explanation: This is the correct characteristic because ch3​ch2​ch2​cho and ch3​coch2​ch3​.
+
+
+
+Q6: How many constitutional isomers exist for the formula C4​H9​Cl?
+A) 2
+B) 3
+C) 4
+D) 5
+Answer: C)4
+Explanation: This is the correct characteristic because 4.
+
+
+Q7: What is the most typical reaction of simple alkenes?
+A) Electrophilic substitution
+B) Nucleophilic substitution
+C) Electrophilic addition
+D) Nucleophilic addition
+Answer: C)Electrophilic addition
+Explanation: This is the correct characteristic because electrophilic addition.
+
+
+Q8: What is the likely product from the addition of Cl2​ to 1-butene?
+A) CH3​CH2​CH2​CH2​Cl
+B) CH3​CH2​CHClCH2​Cl
+C) ClCH2​CH2​CH2​CH2​Cl
+D) CH3​CH2​CCl2​CH3​
+Answer: B)CH3​CH2​CHClCH2​Cl
+Explanation: This is the correct characteristic because ch3​ch2​chclch2​cl.
+
+
+
+Q9: Which of the following molecules will NOT have a dipole moment?
+A) CH3​Cl
+B) CH3​OCH3​
+C) CH2​Cl2​
+D) CCl4​
+Answer: D)CCl4
+Explanation: This is the correct characteristic because ccl4.
+
+
+Q10: Which of the following molecules has a linear shape?
+A) NH3​
+B) H2​S
+C) CO2​
+D) H2​CO
+Answer: C)CO2
+Explanation: This is the correct characteristic because co2.
+
+
+
+Q11: Which of the following statements about carbon is NOT correct?
+A) Carbon forms strong covalent bonds to itself, allowing chains and rings to be made.
+B) Carbon expands its valence shell to accommodate more than eight electrons.
+C) Carbon forms strong covalent bonds to elements like nitrogen and oxygen.
+D) Carbon and hydrogen have similar electronegativity.
+Answer: B)Carbon expands its valence shell to accommodate more than eight electrons.
+Explanation: This is the correct characteristic because carbon expands its valence shell to accommodate more than eight electrons..
+
+
+
+Q12: Which one of the following alcohols will be oxidized by Jones' reagent to a ketone having the same number of carbon atoms?
+A) 1-methylcyclohexanol
+B) 3,3-dimethylcyclopentanol
+C) 3-methyl-1-hexanol
+D) 3-ethyl-3-hexanol
+Answer: B) 3,3-dimethylcyclopentanol.
+Explanation: This is the correct characteristic because 3,3-dimethylcyclopentanol..
+
+
+
+Q13: Which of the following describes the bonding in benzene correctly?
+A) It has three isolated double bonds and three single bonds.
+B) All C-C bonds have the same length due to resonance.
+C) It is a highly reactive alkene.
+D) It has a non-planar hexagonal shape.
+Answer: B)All C-C bonds have the same length due to resonance.
+Explanation: This is the correct characteristic because all c-c bonds have the same length due to resonance..
+
+
+
+Q14: Which of the following groups acts as a "deactivating" and "meta-directing" group in an aromatic ring?
+A) -OH
+B) -CH_3
+C) -NO_2
+D) -Cl
+Answer: C)-NO_2 
+Explanation: Nitro group is strongly electron-withdrawing).
+
+
+
+Q15: Which of the following is the most acidic compound?
+A) Ethanol
+B) Phenol
+C) p-Nitrophenol
+D) p-Methylphenol
+Answer: C) p-Nitrophenol
+Explanation: This is the correct characteristic because p-nitrophenol.
+
+
+
+Q16: Phenol reacts with bromine water (Br2/H2O) to give a white precipitate of:
+A) 2-bromophenol
+B) 4-bromophenol
+C) 2,4,6-tribromophenol
+D) Bromobenzene
+Answer: C)2,4,6-tribromophenol
+Explanation: This is the correct characteristic because 2,4,6-tribromophenol.
+
+
+
+Q17: What is the hybridization of a carbon atom in Methane (CH4)?
+A) sp
+B) sp^2
+C) sp^3
+D) dsp^2
+Answer: C)sp^3
+Explanation: This is the correct characteristic because sp^3.
+  
+
+
+Q18: Which of the following has the highest boiling point?
+A) Methane (CH4)
+B) Ethane (C2H6)
+C) Propane (C3H8)
+D) Butane (C4H10)
+Answer: D)Butane (C4H10)
+Note: Boiling point increases as the carbon chain gets longer.
+
+
+
+Q19: What is the major product when 3-methyl-1-butene reacts with HCl? (Consider carbocation rearrangement)
+A) 1-chloro-3-methylbutane
+B) 2-chloro-3-methylbutane
+C) 2-chloro-2-methylbutane
+D) 1-chloro-2-methylbutane
+Answer: C)2-chloro-2-methylbutane
+Note: A secondary carbocation is formed first, then a 1,2-hydride shift occurs to form a more stable tertiary carbocation.
+
+
+Part 2: Essay/Analytical Questions
+
+Q1: A compound contains: C = 52.2%, H = 13.0%, O = 34.8%. The molar mass is 88 g/mol. Determine the empirical formula, the molecular formula, and state whether more than one structural formula is possible, explaining your reasoning.
+
+Answer:
+Empirical formula: C₄H₁₀O
+Molecular formula: C₄H₁₀O
+Structural formula: More than one structure is possible (isomers exist)
+
+
+Explanation:
+1. Assume 100 g of the compound → C = 52.2 g, H = 13.0 g, O = 34.8 g
+2. Calculate moles of each element:
+C: 52.2 ÷ 12 ≈ 4.35 ≈ 4
+H: 13 ÷ 1 ≈ 13 → adjusted to 10 for ratio
+O: 34.8 ÷ 16 ≈ 2.175 ≈ 1
+3. Empirical formula ≈ C₄H₁₀O
+4. Molar mass = 88 g/mol → matches the empirical formula → molecular formula = C₄H₁₀O
+5. Possibility of more than one structural formula: Yes, it can be an alcohol or an ether, so multiple structures are possible.
+
+Third Lo
+
+
+
+
+
+
+
+Q1. Which statement correctly explains why shorter-chain hydrocarbons are more flammable than longer-chain hydrocarbons?
+A) They have stronger intermolecular forces
+B) They vaporise more easily
+C) They contain more carbon atoms
+D) They have higher boiling points
+Answer: B) They vaporise more easily
+Explanation: This is the correct characteristic because they vaporise more easily.
+
+
+Q2. Incomplete combustion of hydrocarbons can produce carbon monoxide.
+Why is carbon monoxide dangerous?
+A)It reduces oxygen transport in the blood 
+B) It reacts with oxygen in the air
+C) It increases carbon dioxide levels
+D) It causes acid rain
+Answer: A) It reduces oxygen transport in the blood
+Explanation: This is the correct characteristic because it reduces oxygen transport in the blood. 
+
+
+Q3. Crude oil is separated into fractions by fractional distillation.
+Why do different fractions separate?
+A) They have different colours
+B) They react differently with oxygen
+C) They have different densities only
+D) They have different boiling points
+Answer: D) They have different boiling points
+Explanation: This is the correct characteristic because they have different boiling points.
+
+
+Q4. Which change occurs as the length of a hydrocarbon chain increases?
+A) Volatility increases
+B) Boiling point decreases
+C) Viscosity increases
+D) Flammability increases
+Answer: C) Viscosity increases
+Explanation: This is the correct characteristic because viscosity increases.
+
+
+Q5. A hydrocarbon burns in a limited supply of oxygen.
+Which set of products is most likely formed?
+A) Carbon dioxide and water only
+B) Carbon monoxide and water
+C) Hydrogen and oxygen
+D) Carbon dioxide only
+Answer: B) Carbon monoxide and water
+Explanation: This is the correct characteristic because carbon monoxide and water.
+
+
+
+
+Q6. Which of these alkanes has the highest boiling point?
+
+A)C2H6
+B)C3H8
+C)C4H10
+
+Answer: C) C4H10 
+Explanation: C4H10 has the highest boiling point of these three alkanes because it has the largest molecules, so the strongest intermolecular forces.
+
+
+
+Q7. Which properties of the different compounds in petroleum enable its separation into fractions?
+1. boiling point 
+   2.chain length 
+   3.chemical reactivity 
+   4.solubility in water 
+
+A) 1 and 2 
+B )1 and 3 
+C )2 and 4 
+D) 3 and 4
+
+Answer: A) 1 and 2
+Explanation: This is the correct characteristic because 1 and 2.
+
+
+
+Q8 .Which substance has a main constituent that contains only one carbon atom per molecule?
+
+A ) bitumen 
+B ) gasoline 
+C ) natural gas 
+D ) petroleum
+
+Answer: C) natural gas
+Explanation: This is the correct characteristic because natural gas.
+
+
+
+
+Q9.What is the name of the process that could be used to produce propane, C3H8, from decane, 
+C10H22?
+
+A )substitution
+B )reforming
+C )fractional distillation
+D )cracking
+
+Answer: D) cracking
+Explanation: This is the correct characteristic because cracking.
+
+
+
+Q10. Why does Thermal Cracking produce a higher percentage of Alkenes compared to Catalytic Cracking?
+
+​A) High heat causes homolytic fission, creating free radicals that eliminate hydrogen.
+​B) High pressure forces molecules to form double bonds.
+​C) Catalysts are only used to produce Alkanes.
+​D) Thermal cracking only breaks C-H bonds, not C-C bonds.
+
+​Answer: A)High heat causes homolytic fission, creating free radicals that eliminate hydrogen.
+Explanation: This is the correct characteristic because high heat causes homolytic fission, creating free radicals that eliminate hydrogen..
+
+
+Q11. What happens if a hydrocarbon molecule is larger than the pores of a Zeolite catalyst?
+
+​A) The molecule will shrink automatically to fit.
+​B) The reaction rate will increase on the surface.
+​C) No cracking will occur because the molecule cannot reach the internal active sites.
+​D) The Zeolite will expand its rigid structure to accommodate it.
+
+​Answer: C)No cracking will occur because the molecule cannot reach the internal active sites.
+Explanation: This is the correct characteristic because no cracking will occur because the molecule cannot reach the internal active sites..
+
+
+Q12. NOx gases are an environmental challenge in car engines because:
+
+​A) The fuel contains high amounts of nitrogen.
+​B) High engine temperatures cause nitrogen and oxygen from the air to react.
+​C) They are the main product of incomplete combustion.
+​D) They are only produced when using leaded gasoline.
+
+​Answer: B)High engine temperatures cause nitrogen and oxygen from the air to react.
+Explanation: This is the correct characteristic because high engine temperatures cause nitrogen and oxygen from the air to react..
+
+
+Q13. If Undecane (C11H24) is cracked into one Propene (C3H6) and one Butene (C4H8), what is the third product?
+
+​A) C4H10 (Butane)
+​B) C4H8 (Butene)
+​C) C5H12 (Pentane)
+​D) H2 (Hydrogen gas)
+
+​Answer: A)C4H10 (Butane)
+Explanation:  Calculation: 11 - 3 - 4 = 4 Carbons | 24 - 6 - 8 = 10 Hydrogens)
+
+
+Q14. Thermodynamically, why must heat be continuously supplied to the cracking process?
+
+​A) To keep the catalyst from solidifying.
+​B) To prevent the formation of greenhouse gases.
+​C) To increase the density of the crude oil.
+​D) Because it is an Endothermic process where bond-breaking requires more energy than bond-making.
+
+​Answer: D)Because it is an Endothermic process where bond-breaking requires more energy than bond-making.
+Explanation: This is the correct characteristic because because it is an endothermic process where bond-breaking requires more energy than bond-making..
+
+
+
+Q15. Bond length of (I) ethane, (II) ethene, (III) acetylene and (IV) benzene follows the order:
+
+(a) I > II > III > IV
+
+(b) I > II > IV> III
+
+(c) I > IV > II > III
+
+(d) III > IV > II > I
+
+Answer: C)I > IV > II > III
+Explanation: Bond order is inversely proportional to bond length: I > IV > II > III
+
+
+
+Q16. Which of the following can be used as the halide component of a Friedel craft reaction?
+
+(a) Chlorobenzene
+
+(b) Bromobenzene
+
+(c) Chloroethene
+
+(d) Isopropyl chloride
+
+Answer: d)Isopropyl chloride
+Explanation: Only isopropyl chloride can be used as the halide component for Friedel craft reaction. In all other cases, the cleavage of the C-X bond is not possible.
+
+
+
+Q17. In catalytic cracking, what is the primary role of a catalyst (such as a zeolite)? 
+
+a) To provide the energy needed to break carbon-carbon (CC-) bonds.
+
+b) To increase the reaction pressure to promote the formation of alkenes.
+
+c) To increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains.
+
+d) To lower the reaction temperature below 100°C.
+
+Answer: c) To increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains.
+Explanation: This is the correct characteristic because to increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains..
+
+
+
+Q18. Which of the following reactions represents the correct cracking of decane? (C10H22 → C8H18 + C2H4)
+
+a) C10H222C5H11
+
+b) C10H22 → C6H14 + C4H8) 
+
+c) C10H22 → C6H14 + C4H8
+
+d) Both b and c)
+
+Answer: D)Both b and c)
+
+Explanation: (Because cracking produces an alkane and an alkene, and the chains can vary)
+
+
+Q19. How does albedo feedback in polar regions affect global warming? 
+a) Melting ice increases albedo, which reflects heat and cools the atmosphere. 
+b) Melting ice decreases albedo, which increases heat absorption and accelerates melting. 
+c) Increased ice increases infrared absorption. 
+d) There is no relationship between ice and global warming. 
+5) b)Melting ice decreases albedo, which increases heat absorption and accelerates melting. 
+Explanation: (Reduced albedo leads to greater heat absorption).
+
+
+Q20. What is a major greenhouse gas responsible for enhanced global warming aside from CO2?
+a) N2
+b) O2
+c) CH4
+d) Ar
+Answer: c) CH4
+Explanation: Methane is a potent greenhouse gas emitted during the production and transport of coal, natural gas, and oil.
+
+Fourth Lo
+
+
+
+
+
+Q1. What is the kind of organic compounds that the general formula R−COO−R∗ refers to?
+A) Esters
+B) Ethers
+C) Acids
+D) Ketones
+Answer: A) Esters
+Explanation: The carboxyl group bonded to two alkyl groups (R−COO−R′) defines the ester family.
+
+
+Q2. During electrolysis of molten NaCl, which species is reduced?
+A) Na⁺
+B) Cl⁻
+C) Na
+D) Cl₂
+Answer: A) Na⁺
+Explanation: Positive Na+ ions migrate to the negative cathode where they gain electrons (reduction).
+
+
+Q3. How many structural isomers does C4​H10​ have?
+A) two
+B) five
+C) three
+D) four
+Answer: A) two
+Explanation: An alkane with 4 carbons has only two forms: straight-chain n-butane and branched isobutane.
+
+
+
+Q4. A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C/mol e⁻)
+A) 0.02 mol
+B) 0.04 mol
+C) 0.10 mol
+D) 0.20 mol
+Answer: B) 0.04 mol
+Explanation: Using Q=I×t, Q=3860C. Moles of e−=3860/96500=0.04 mol.
+
+
+
+Q5. To which group of organic reactions does hydrogenation belong?
+A) elimination
+B) substitution
+C) addition
+D) condensation
+Answer: C) addition
+Explanation: Hydrogenation is an addition reaction where hydrogen atoms are added to unsaturated bonds.
+
+
+
+Q6. In the electrolysis of aqueous CuSO4​ using inert electrodes, what is produced at the cathode?
+A) Cu²⁺
+B) Cu(s)
+C) H₂
+D) O₂
+Answer: B) Cu(s)
+Explanation: Cu2+ has a higher reduction potential than H+, so copper metal deposits at the cathode.
+
+
+
+Q7. Which molecule is a ketone?
+A) CH3​CH2​OCH3​
+B) CH3​CH2​COCH3​
+C) CH3​CH2​COOCH3​
+D) CH3​CH2​OH
+Answer: B) CH3​CH2​COCH3​
+Explanation: Ketones are characterized by a carbonyl group (C=O) bonded to two carbon atoms within the chain.
+
+
+
+Q8. Which of the following solutions will NOT conduct electricity?
+A) NaCl(aq)
+B) HCl(aq)
+C) C₆H₁₂O₆(aq)
+D) KOH(aq)
+Answer: C) C₆H₁₂O₆(aq)
+Explanation: Glucose is a covalent compound that does not dissociate into ions, which are necessary to carry current.
+
+
+
+Q9. What is the IUPAC name for the following compound: CH3​−C(CH3​)2​−CH2​−CH(CH3​)2​?
+A) 1,3-pentamethylpropane
+B) 2,2,4-trimethylpentane
+C) 2,4,4-trimethylpentane
+D) 1,1,3,3-tetramethylbutane
+Answer: B) 2,2,4-trimethylpentane
+Explanation: The longest chain has 5 carbons (pentane), and numbering gives the lowest positions to substituents.
+
+
+
+Q10. Which factor most strongly affects the products formed during electrolysis?
+A) Color of the solution
+B) Type of electrolyte and electrode
+C) Volume of container
+D) External pressure
+Answer: B) Type of electrolyte and electrode
+Explanation: The chemical nature of the ions and the reactivity of the electrode determine the reaction outcome.
+
+
+Q11. When two identical atoms are on the same side of a double bond, the molecule is:
+A) structural
+B) rigid
+C) cis
+D) trans
+Answer: C) cis
+Explanation: "Cis" isomerism occurs when identical functional groups are on the same side of the double bond.
+
+
+Q12. In the electrolysis of brine (aqueous NaCl), why is Cl₂ formed at the anode instead of O₂?
+A) Cl⁻ is harder to oxidize
+B) Cl⁻ is easier to oxidize than water
+C) Water is inert
+D) Na⁺ reacts first
+Answer: B) Cl⁻ is easier to oxidize than water
+Explanation: In concentrated solutions, the oxidation of Cl− is kinetically favored over the oxidation of water.
+
+
+Q13. What is the process of converting long chain hydrocarbons into shorter ones using heat and a catalyst?
+A) Polymerization
+B) Addition
+C) Condensation
+D) Cracking
+Answer: D) Cracking
+Explanation: Cracking breaks down large, heavy hydrocarbon molecules into smaller ones like gasoline.
+
+
+Q14. How many grams of Cu (M = 63.5 g/mol, n = 2) are deposited when 193000 C passes?
+A) 31.75 g
+B) 63.5 g
+C) 15.9 g
+D) 7.95 g
+Answer: B) 63.5 g
+Explanation: 193000C=2 Faradays. Since Cu2+ needs 2e−, exactly 1 mole (63.5g) is deposited.
+
+
+Q15. Which of the following compounds forms, by hydrolysis, a secondary alcohol?
+A) sec–butyl chloride
+B) n–butyl chloride  
+C) neo–pentyl chloride
+D) tert–butyl chloride
+Answer: A) sec–butyl chloride
+Explanation: Hydrolysis of a secondary alkyl halide replaces the halogen with an OH on a secondary carbon.
+
+
+Q16. In electroplating, increasing current while keeping time constant will:
+A) Decrease deposited mass
+B)Stop the reaction 
+C) No effect
+D) Increase deposited mass
+Answer: D) Increase deposited mass
+Explanation: Mass is proportional to total charge (Q=I×t). Increasing current increases the charge.
+
+
+Q17. What is the expected product from adding HBr to propene?
+A) 2-bromopropane
+B) 1-bromopropane
+C) 1,2-dibromopropane
+D) mixture of 1-bromo and 2-bromo propane
+Answer: A) 2-bromopropane
+Explanation: Markovnikov's rule states the Br adds to the more substituted carbon atom.
+
+
+Q18. During electroplating, the source metal is connected to the:
+A) Cathode
+B) Anode
+C) Salt bridge
+D) Electrolyte only
+Answer: B) Anode
+Explanation: The source metal must oxidize (lose electrons) to dissolve into the solution, which occurs at the anode.
+
+
+Q19. The boiling point of any alcohol is much higher than that of the corresponding alkane due to:
+A) The difference in molar mass
+B) The presence of double bond
+C) The difference in size of molecules
+D) The hydrogen bonding in alcohol
+Answer: D) The hydrogen bonding in alcohol
+Explanation: Strong intermolecular hydrogen bonds in alcohols require more energy to break than Van der Waals forces in alkanes.
+
+
+Q20. Rusting of iron occurs fastest in:
+A) Dry air
+B) Pure water
+C) Saltwater
+D) Vacuum
+Answer: C) Saltwater
+Explanation: Salt acts as an electrolyte, increasing the conductivity of water and speeding up the electrochemical corrosion.
+
+
+Q21. Which molecule contains a carbon atom bonded to itself to form a ring?
+A) Propane
+B) Butene
+C) Cyclohexane
+D) Ethyne
+Answer: C) Cyclohexane
+Explanation: "Cyclo" indicates a ring structure where carbon atoms bond to form a closed loop.
+
+
+Q22. Why does coating iron with zinc prevent corrosion?
+A) Zinc reacts only with water
+B) Zinc acts as a sacrificial anode
+C) Zinc blocks oxygen completely
+D) Zinc lowers temperature
+Answer: B) Zinc acts as a sacrificial anode
+Explanation: Zinc is more reactive than iron; it oxidizes first to protect the iron underneath.
+
+
+Q23. Which of the following is a characteristic of a chiral carbon?
+A) Bonded to 4 identical groups
+B) Bonded to 4 different groups
+C) Part of a double bond
+D) Has a negative charge
+Answer: B) Bonded to 4 different groups
+Explanation: Chirality (optical activity) requires a carbon atom to be bonded to four distinct substituents.
+
+
+Q24. In which species does the central atom exhibit the highest oxidation number?
+A) SO₂
+B) SO₃²⁻
+C) H₂SO₄
+D) S₂O₃²⁻
+Answer: C) H₂SO₄
+Explanation: In H2​SO4​, Sulfur is in the +6 oxidation state, its maximum common state.
+
+
+Q25. Which reaction is a combustion reaction of a hydrocarbon?
+A) CH4​+Cl2​→CH3​Cl+HCl
+B) C2​H4​+H2​→C2​H6​
+C) CH4​+2O2​→CO2​+2H2​O
+D) CH3​OH+CH3​COOH→Ester
+Answer: C) CH4​+2O2​→CO2​+2H2​O
+Explanation: Combustion involves a substance reacting with oxygen to produce CO2​ and H2​O.
+
+
+Q26. Which reaction represents a disproportionation process?
+A) Fe²⁺ → Fe³⁺
+B) Cu²⁺ → Cu
+C) Cl₂ + H₂O → HCl + HClO
+D) Zn + Cu²⁺ → Zn²⁺ + Cu
+Answer: C) Cl₂ + H₂O → HCl + HClO
+Explanation: Chlorine is simultaneously oxidized (to +1) and reduced (to -1).
+
+
+Q27. How many moles of water are produced from the burning of 1 mole of methyl cyclohexane (C7​H14​)?
+A) 1 mol
+B) 3 mol
+C) 6 mol
+D) 7 mol
+Answer: D) 7 mol
+Explanation: C7​H14​ has 14 Hydrogens. Every 2 Hydrogens form 1 H2​O, so 14/2=7 moles.
+
+
+Q28. Given reduction potentials: Zn²⁺/Zn = −0.76 V, Ag⁺/Ag = +0.80 V. What is E°cell?
+A) −1.56 V
+B) +1.56 V
+C) +0.04 V
+D) −0.04 V
+Answer: B) +1.56 V
+Explanation: E°cell=E°cathode−E°anode=0.80−(−0.76)=1.56V.
+
+
+Q29. In which reaction is a C-C bond broken?
+A) C6​H5​–CH3​+3H2​→C6​H11​–CH3​
+B) C6​H5​–NO2​+3H2​→C6​H5​–NH2​+2H2​O
+C) C6​H5​–CH3​+H2​→C6​H6​+CH4​
+D) CH3​–CHO+H2​→CH3​–CH2​–OH
+Answer: C) C6​H5​–CH3​+H2​→C6​H6​+CH4​
+Explanation: This reaction removes the methyl group from the ring, breaking the bond between ring carbon and methyl carbon.
+
+
+Q30. Which statement explains why sodium is not deposited during electrolysis of aqueous NaCl?
+A) Sodium has low atomic mass
+B) Sodium ions are too large
+C) Water is reduced more easily than Na⁺
+D) Sodium does not form ions
+Answer: C) Water is reduced more easily than Na⁺
+Explanation: Water has a higher (less negative) reduction potential than Na+, so H2​ gas forms instead.
+
+Fifth Lo

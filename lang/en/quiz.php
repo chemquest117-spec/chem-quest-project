@@ -21,4 +21,5 @@ return [
      'status' => 'Status',
      'your_answer' => 'Your answer',
      'not_answered' => 'Not answered',
+     'explanation' => 'Explanation',
 ];
