@@ -61,7 +61,7 @@ class Stage extends Model
 
         return $previousStage->attempts()
             ->where('user_id', $user->id)
-            ->where('passed', true)
+            ->passed()
             ->exists();
     }
 
@@ -72,7 +72,7 @@ class Stage extends Model
     {
         return $this->attempts()
             ->where('user_id', $user->id)
-            ->where('passed', true)
+            ->passed()
             ->exists();
     }
 
@@ -83,7 +83,7 @@ class Stage extends Model
     {
         return $this->attempts()
             ->where('user_id', $user->id)
-            ->where('passed', true)
+            ->passed()
             ->orderByDesc('score')
             ->first();
     }

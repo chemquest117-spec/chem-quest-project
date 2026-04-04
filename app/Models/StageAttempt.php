@@ -70,4 +70,20 @@ class StageAttempt extends Model
             ->where('id', '!=', $this->id)
             ->exists();
     }
+
+    /**
+     * Scope: only passed attempts.
+     */
+    public function scopePassed($query)
+    {
+        return $query->whereRaw('passed');
+    }
+
+    /**
+     * Scope: only failed attempts.
+     */
+    public function scopeFailed($query)
+    {
+        return $query->whereRaw('NOT passed');
+    }
 }

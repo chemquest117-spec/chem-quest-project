@@ -100,7 +100,7 @@ return [
             'prepared_statements' => false,
             'schema' => 'public',
             'options' => [
-                \PDO::ATTR_EMULATE_PREPARES => true,
+                PDO::ATTR_EMULATE_PREPARES => true,
             ],
         ],
 
@@ -118,8 +118,6 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
-
-
 
     ],
 
@@ -156,7 +154,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
@@ -171,7 +169,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme'   => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tls'),
         ],
 
         'cache' => [
@@ -185,7 +183,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme'   => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tls'),
         ],
 
         'session' => [
@@ -199,7 +197,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme'   => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tls'),
         ],
 
     ],

@@ -52,7 +52,7 @@ class User extends Authenticatable
     public function completedStageIds(): array
     {
         return $this->attempts()
-            ->where('passed', true)
+            ->passed()
             ->pluck('stage_id')
             ->unique()
             ->toArray();
@@ -66,7 +66,7 @@ class User extends Authenticatable
         $completedIds = $this->completedStageIds();
 
         return $this->attempts()
-            ->where('passed', false)
+            ->failed()
             ->whereNotNull('completed_at')
             ->whereNotIn('stage_id', $completedIds)
             ->pluck('stage_id')

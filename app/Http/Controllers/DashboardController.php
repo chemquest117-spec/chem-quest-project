@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
         // Single query for all completed stage IDs (prevents calling completedStageIds() multiple times)
         $completedIds = $user->attempts()
-            ->where('passed', true)
+            ->passed()
             ->pluck('stage_id')
             ->unique()
             ->toArray();
@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
         // Analytics metrics — single batch of queries
         $totalAttempts = $user->attempts()->count();
-        $passedAttempts = $user->attempts()->where('passed', true)->count();
+        $passedAttempts = $user->attempts()->passed()->count();
         $successRate = $totalAttempts > 0
              ? round($passedAttempts / $totalAttempts * 100)
              : 0;
