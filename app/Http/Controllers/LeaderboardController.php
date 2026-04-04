@@ -27,8 +27,8 @@ class LeaderboardController extends Controller
             ];
         });
 
-        $metaTitle = "Leaderboard — " . config('app.name');
-        $metaDescription = "Check out the top students on " . config('app.name') . "! See who is leading in points and stars.";
+        $metaTitle = 'Leaderboard — '.config('app.name');
+        $metaDescription = 'Check out the top students on '.config('app.name').'! See who is leading in points and stars.';
 
         return view('leaderboard.index', compact('students', 'studentsJson', 'metaTitle', 'metaDescription'));
     }

@@ -103,8 +103,8 @@ class QuizController extends Controller
             return $this->gradeAttempt($attempt, $user, []);
         }
 
-        $metaTitle = "Quiz: " . $stage->getTranslatedTitle() . " — " . config('app.name');
-        $metaDescription = "Currently taking the " . $stage->getTranslatedTitle() . " quiz. Good luck!";
+        $metaTitle = 'Quiz: '.$stage->getTranslatedTitle().' — '.config('app.name');
+        $metaDescription = 'Currently taking the '.$stage->getTranslatedTitle().' quiz. Good luck!';
 
         return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds', 'totalSeconds', 'metaTitle', 'metaDescription'));
     }
@@ -194,8 +194,8 @@ class QuizController extends Controller
         $attempt->load(['stage', 'answers.question']);
 
         $percentage = $attempt->total_questions > 0 ? round(($attempt->score / $attempt->total_questions) * 100) : 0;
-        $metaTitle = "Quiz Result: " . $attempt->stage->getTranslatedTitle() . " — " . config('app.name');
-        $metaDescription = "I scored " . $percentage . "% on the " . $attempt->stage->getTranslatedTitle() . " quiz! Can you beat my score?";
+        $metaTitle = 'Quiz Result: '.$attempt->stage->getTranslatedTitle().' — '.config('app.name');
+        $metaDescription = 'I scored '.$percentage.'% on the '.$attempt->stage->getTranslatedTitle().' quiz! Can you beat my score?';
 
         return view('quiz.result', compact('attempt', 'user', 'metaTitle', 'metaDescription'));
     }

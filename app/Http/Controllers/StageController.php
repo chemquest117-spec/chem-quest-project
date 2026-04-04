@@ -20,8 +20,8 @@ class StageController extends Controller
         $failedIds = $user->failedStageIds();
         $inProgressIds = $user->inProgressStageIds();
 
-        $metaTitle = "Stages" . " — " . config('app.name');
-        $metaDescription = "Explore all available chemistry stages and track your progress.";
+        $metaTitle = 'Stages'.' — '.config('app.name');
+        $metaDescription = 'Explore all available chemistry stages and track your progress.';
 
         return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'inProgressIds', 'user', 'metaTitle', 'metaDescription'));
     }
@@ -61,8 +61,8 @@ class StageController extends Controller
             ->take(5)
             ->get();
 
-        $metaTitle = "Stage: " . $stage->getTranslatedTitle() . " — " . config('app.name');
-        $metaDescription = "Take on the " . $stage->getTranslatedTitle() . " challenge completely tailored for you.";
+        $metaTitle = 'Stage: '.$stage->getTranslatedTitle().' — '.config('app.name');
+        $metaDescription = 'Take on the '.$stage->getTranslatedTitle().' challenge completely tailored for you.';
 
         return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'hasActiveAttempt', 'user', 'metaTitle', 'metaDescription'));
     }
