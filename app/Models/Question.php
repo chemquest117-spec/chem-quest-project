@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
+     use SoftDeletes;
      protected $fillable = [
           'stage_id',
           'question_text',
@@ -84,7 +86,7 @@ class Question extends Model
       */
      public function isMcq(): bool
      {
-          return $this->type === 'mcq';
+          return $this->type === 'mcq' || $this->type === null;
      }
 
      /**
