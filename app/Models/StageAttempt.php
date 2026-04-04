@@ -23,7 +23,7 @@ class StageAttempt extends Model
     ];
 
     protected $casts = [
-        'passed' => 'boolean',
+        'passed' => \App\Casts\PostgresBoolean::class,
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
     ];

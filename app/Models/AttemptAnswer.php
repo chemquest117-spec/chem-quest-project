@@ -15,7 +15,7 @@ class AttemptAnswer extends Model
     ];
 
     protected $casts = [
-        'is_correct' => 'boolean',
+        'is_correct' => \App\Casts\PostgresBoolean::class,
     ];
 
     public function attempt(): BelongsTo
