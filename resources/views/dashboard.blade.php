@@ -209,12 +209,19 @@
                                 <p class="text-xs text-slate-500">{{ $attempt->created_at->diffForHumans() }}</p>
                             </div>
                             <span
-                                class="flex items-center gap-1 text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
-                                {{ $attempt->score }}/{{ $attempt->total_questions }}
-                                @if($attempt->passed)
-                                <x-icon name="check" class="w-3.5 h-3.5" />
+                                class="flex items-center gap-1 text-sm font-medium {{ $attempt->completed_at ? ($attempt->passed ? 'text-emerald-400' : 'text-red-400') : 'text-cyan-400' }}">
+                                @if($attempt->completed_at)
+                                    {{ $attempt->score }}/{{ $attempt->total_questions }}
+                                    @if($attempt->passed)
+                                    <x-icon name="check" class="w-3.5 h-3.5" />
+                                    @else
+                                    <x-icon name="x-circle" class="w-3.5 h-3.5" />
+                                    @endif
                                 @else
-                                <x-icon name="x-circle" class="w-3.5 h-3.5" />
+                                    <span class="flex items-center gap-1">
+                                        <x-icon name="clock" class="w-3.5 h-3.5 animate-spin-slow" />
+                                        {{ __('dashboard.in_progress') }}
+                                    </span>
                                 @endif
                             </span>
                         </div>

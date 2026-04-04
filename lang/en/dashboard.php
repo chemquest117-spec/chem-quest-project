@@ -33,4 +33,5 @@ return [
     'Logout' => 'Logout',
 
     'minute' => 'minutes',
+    'in_progress' => 'In Progress',
 ];

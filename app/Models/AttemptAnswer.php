@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,7 +16,7 @@ class AttemptAnswer extends Model
     ];
 
     protected $casts = [
-        'is_correct' => \App\Casts\PostgresBoolean::class,
+        'is_correct' => PostgresBoolean::class,
     ];
 
     public function attempt(): BelongsTo

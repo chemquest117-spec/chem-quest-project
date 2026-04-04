@@ -17,7 +17,7 @@ class PostgresBoolean implements CastsAttributes
 
     /**
      * Prepare the given value for storage.
-     * 
+     *
      * Forced conversion to 'true'/'false' strings for PostgreSQL when PDO emulation is active,
      * as Postgres rejects boolean = 1/0 comparisons. Fallback to standard for other drivers.
      */

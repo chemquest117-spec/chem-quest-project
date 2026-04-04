@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,8 +36,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => \App\Casts\PostgresBoolean::class,
-            'is_banned' => \App\Casts\PostgresBoolean::class,
+            'is_admin' => PostgresBoolean::class,
+            'is_banned' => PostgresBoolean::class,
             'last_activity' => 'date',
         ];
     }

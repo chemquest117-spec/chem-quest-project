@@ -274,6 +274,35 @@ Mixed difficulty (easy/medium/hard) covering:
 - **XSS Protection**: Secure sanitization enabled on essay and quiz generation inputs.
 - **Login Rate Limiting**: Enforces strict throttling on failed Breeze authentication attempts.
 - **SystemGuard Defense**: Secure middleware licensing and application health checking proxy.
+- **PgBouncer Compatibility**: Fully hardened for PostgreSQL connection pooling (Supabase) via emulated prepares and strict type handling.
+
+---
+
+## 🛡️ Anti-Cheat Security System
+
+The platform includes a robust, multi-layered anti-cheat system to ensure quiz integrity:
+
+- **Window Departure Tracking**: 
+    - Uses the **Page Visibility API** to detect when a student leaves the quiz tab or minimizes the browser.
+    - **Three-Strike System**: Students receive on-screen warnings for the first two violations. On the third violation, the quiz is **automatically submitted** immediately to prevent external searching.
+- **Input & Interaction Blocking**:
+    - **Copy/Paste/Cut Disabled**: Prevents students from copying questions to search engines or pasting AI-generated answers.
+    - **Right-Click (Context Menu) Disabled**: Blocks browser inspection and "Search Google for..." shortcuts.
+- **UI Hardening**:
+    - **Text Selection Disabled**: Question text is non-selectable (`select-none`) across all devices to prevent quick copying.
+    - **Mobile Protection**: Disables "Pull-to-Refresh" and long-press callouts on iOS/Android to prevent accidental or intentional reloads and lookups.
+- **Real-Time Enforcement**: Integrated with a custom **Global Toast System** that provides immediate feedback on violations with persistent 10-second warnings.
+- **Prevention Loopholes**: Securely bypasses browser "Leave site?" prompts during automatic submissions to ensure enforcement cannot be canceled by the student.
+
+---
+
+## ⚙️ Production Stability (PostgreSQL)
+
+Hardened for high-availability production environments using **Supabase** and **PgBouncer**:
+
+- **Transaction Mode Compatibility**: Configured with `PDO::ATTR_EMULATE_PREPARES` and disabled server-side prepared statements to support PgBouncer connection pooling.
+- **Strict Data Casting**: Implements a custom `PostgresBoolean` cast to resolve boolean vs. integer comparison errors (`boolean = 1`) common in strict PostgreSQL environments.
+- **Schema Resilience**: Finalized migrations to ensure all long-form answer columns (`text`) support complex scientific expressions and essay responses without truncation.
 
 ---
 
@@ -306,9 +335,9 @@ Run the test suite seamlessly:
 | ------------- | ------------------------------- |
 | Backend       | Laravel 12.54.1                 |
 | Frontend      | Blade + TailwindCSS + Alpine.js |
-| Database      | SQLite (configurable to MySQL)  |
+| Database      | SQLite / PostgreSQL (Supabase)  |
 | Auth          | Laravel Breeze                  |
 | Testing       | Pest PHP v3.8.6                 |
-| Build         | Vite 7.3.1                      |
-| Notifications | Laravel database notifications  |
+| Security      | Anti-Cheat 2.0 (Visibility API) |
+| Notifications | Global Toast System (Alpine.js) |
 | CI/CD         | GitHub Actions + Docker Multi-stage |

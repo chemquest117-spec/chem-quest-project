@@ -37,6 +37,58 @@
         {{-- Navigation --}}
         @include('layouts.navigation')
 
+        {{-- Global Toast Component --}}
+        <div x-data="{ 
+                toasts: [],
+                add(toast) {
+                    this.toasts.push({
+                        id: Date.now(),
+                        type: toast.type || 'info',
+                        message: toast.message,
+                        show: true
+                    });
+                },
+                remove(id) {
+                    this.toasts = this.toasts.filter(t => t.id !== id);
+                }
+            }"
+            @toast.window="add($event.detail)"
+            class="fixed top-20 right-4 z-[9999] flex flex-col items-end space-y-2 pointer-events-none">
+            <template x-for="toast in toasts" :key="toast.id">
+                <div x-show="toast.show"
+                    x-init="setTimeout(() => { toast.show = false; setTimeout(() => remove(toast.id), 500) }, 10000)"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-x-12 scale-90"
+                    x-transition:enter-end="opacity-100 translate-x-0 scale-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 translate-x-0 scale-100"
+                    x-transition:leave-end="opacity-0 translate-x-12 scale-90"
+                    class="pointer-events-auto min-w-[280px] max-w-[400px] p-4 rounded-2xl shadow-2xl backdrop-blur-md border flex items-center justify-between gap-3"
+                    :class="{
+                        'bg-red-500/20 border-red-500/50 text-red-100': toast.type === 'error',
+                        'bg-emerald-500/20 border-emerald-500/50 text-emerald-100': toast.type === 'success',
+                        'bg-blue-500/20 border-blue-500/50 text-blue-100': toast.type === 'info',
+                        'bg-amber-500/20 border-amber-500/50 text-amber-100': toast.type === 'warning'
+                    }">
+                    <div class="flex items-center gap-3">
+                        <template x-if="toast.type === 'error'">
+                            <x-icon name="x-circle" class="w-5 h-5 flex-shrink-0" />
+                        </template>
+                        <template x-if="toast.type === 'success'">
+                            <x-icon name="check-circle" class="w-5 h-5 flex-shrink-0" />
+                        </template>
+                        <template x-if="toast.type === 'warning'">
+                            <x-icon name="exclamation" class="w-5 h-5 flex-shrink-0" />
+                        </template>
+                        <template x-if="toast.type === 'info'">
+                            <x-icon name="information-circle" class="w-5 h-5 flex-shrink-0" />
+                        </template>
+                        <span class="text-sm font-medium" x-text="toast.message"></span>
+                    </div>
+                </div>
+            </template>
+        </div>
+
         {{-- Flash Messages --}}
         @if(session('success'))
             <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" x-transition

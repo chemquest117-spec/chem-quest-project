@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +24,7 @@ class StageAttempt extends Model
     ];
 
     protected $casts = [
-        'passed' => \App\Casts\PostgresBoolean::class,
+        'passed' => PostgresBoolean::class,
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
     ];

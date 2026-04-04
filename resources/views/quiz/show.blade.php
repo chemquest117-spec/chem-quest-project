@@ -1,7 +1,7 @@
 <x-app-layout>
      @section('title', 'Quiz - ' . $stage->title)
 
-     <div class="py-8" x-data="quizTimer({{ $remainingSeconds }}, {{ $totalSeconds }})">
+     <div class="py-8 overscroll-y-contain" x-data="quizTimer({{ $remainingSeconds }}, {{ $totalSeconds }})">
           <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                {{-- Timer Bar --}}
@@ -44,7 +44,8 @@
 
                     <div class="space-y-6">
                          @foreach($answers as $index => $answer)
-                                             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 transition-all duration-300 transform outline-none focus-within:ring-2 focus-within:ring-purple-400/50"
+                                             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 transition-all duration-300 transform outline-none focus-within:ring-2 focus-within:ring-purple-400/50 select-none touch-manipulation"
+                                                  style="-webkit-touch-callout: none; -webkit-user-select: none; user-select: none;"
                                                   :class="selected ? 'border-purple-500/30 bg-white/10 shadow-[0_0_20px_rgba(168,85,247,0.1)]' : 'hover:border-white/30 hover:shadow-lg'"
                                                   x-data="{ selected: null, mounted: false, ...{ delay: {{ $index * 100 }} } }"
                                                   x-init="setTimeout(() => mounted = true, delay)"
@@ -133,31 +134,66 @@
                     remaining: remainingSeconds,
                     total: totalSeconds,
                     interval: null,
+                    tabSwitches: 0,
+                    isSubmitting: false,
                     init() {
                          this.interval = setInterval(() => {
                               this.remaining--;
                               if (this.remaining <= 0) {
                                    clearInterval(this.interval);
+                                   this.isSubmitting = true;
                                    document.getElementById('quiz-form').submit();
                               }
                          }, 1000);
 
                          // Warn before leaving (except on submit)
-                         let isSubmitting = false;
-                         document.getElementById('quiz-form').addEventListener('submit', () => { isSubmitting = true; });
+                         document.getElementById('quiz-form').addEventListener('submit', () => { 
+                              this.isSubmitting = true; 
+                         });
 
                          window.addEventListener('beforeunload', (e) => {
-                              if (!isSubmitting) {
+                              if (!this.isSubmitting) {
                                    e.preventDefault();
                                    e.returnValue = '';
                               }
                          });
 
-                         // Anti-cheat: prevent copy/paste/contextmenu
-                         document.addEventListener('contextmenu', e => e.preventDefault());
-                         document.addEventListener('copy', e => e.preventDefault());
-                         document.addEventListener('paste', e => e.preventDefault());
-                         document.addEventListener('cut', e => e.preventDefault());
+                          // Anti-cheat: prevent copy/paste/contextmenu
+                          const antiCheatWarning = () => {
+                               window.dispatchEvent(new CustomEvent('toast', {
+                                    detail: {
+                                         type: 'error',
+                                         message: '{{ __("quiz.anti_cheat") }}'
+                                    }
+                               }));
+                          };
+
+                          document.addEventListener('contextmenu', e => { e.preventDefault(); antiCheatWarning(); });
+                          document.addEventListener('copy', e => { e.preventDefault(); antiCheatWarning(); });
+                          document.addEventListener('paste', e => { e.preventDefault(); antiCheatWarning(); });
+                          document.addEventListener('cut', e => { e.preventDefault(); antiCheatWarning(); });
+
+                          // Tab switching detection
+                          document.addEventListener('visibilitychange', () => {
+                               if (document.hidden && !this.isSubmitting) {
+                                    this.tabSwitches++;
+                                    
+                                    if (this.tabSwitches >= 3) {
+                                         window.dispatchEvent(new CustomEvent('toast', {
+                                              detail: { type: 'error', message: '{{ __("quiz.tab_switch_limit") }}' }
+                                         }));
+                                         this.isSubmitting = true;
+                                         setTimeout(() => document.getElementById('quiz-form').submit(), 1500);
+                                    } else {
+                                         window.dispatchEvent(new CustomEvent('toast', {
+                                              detail: { 
+                                                   type: 'warning', 
+                                                   message: '{{ __("quiz.tab_switch_warning") }}'.replace(':count', this.tabSwitches) 
+                                              }
+                                         }));
+                                    }
+                               }
+                          });
 
                          // Auto-save answers on selection
                          document.querySelectorAll('input[type="radio"]').forEach(radio => {

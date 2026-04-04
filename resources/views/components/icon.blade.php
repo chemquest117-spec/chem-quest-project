@@ -209,6 +209,22 @@
 </svg>
 @break
 
+@case('exclamation')
+<svg {{ $attributes->merge(['class' => $class]) }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+</svg>
+@break
+
+@case('information-circle')
+<svg {{ $attributes->merge(['class' => $class]) }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="16" x2="12" y2="12" />
+    <line x1="12" y1="8" x2="12.01" y2="8" />
+</svg>
+@break
+
 @case('medal-gold')
 <svg {{ $attributes->merge(['class' => $class]) }} viewBox="0 0 24 24" fill="none">
     <circle cx="12" cy="15" r="7" fill="#F59E0B" opacity="0.2" stroke="#F59E0B" stroke-width="1.5" />
