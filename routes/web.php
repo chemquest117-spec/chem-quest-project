@@ -55,15 +55,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/stages/{stage}', [StageController::class, 'show'])->name('stages.show');
 
     // Quiz
-    Route::post('/stages/{stage}/quiz/start', [QuizController::class, 'start'])->name('quiz.start');
+    Route::post('/stages/{stage}/quiz/start', [QuizController::class, 'start'])->middleware('throttle:10,1')->name('quiz.start');
     Route::get('/quiz/{attempt}', [QuizController::class, 'show'])->name('quiz.show');
-    Route::post('/quiz/{attempt}/save-answer', [QuizController::class, 'saveAnswer'])->name('quiz.saveAnswer');
+    Route::post('/quiz/{attempt}/save-answer', [QuizController::class, 'saveAnswer'])->middleware('throttle:120,1')->name('quiz.saveAnswer');
     Route::post('/quiz/{attempt}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/{attempt}/result', [QuizController::class, 'result'])->name('quiz.result');
 
     // Leaderboard
     Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
-    Route::get('/leaderboard/data', [LeaderboardController::class, 'data'])->name('leaderboard.data');
+    Route::get('/leaderboard/data', [LeaderboardController::class, 'data'])->middleware('throttle:30,1')->name('leaderboard.data');
 
     // Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

@@ -77,7 +77,7 @@ class StageAttempt extends Model
      */
     public function scopePassed($query)
     {
-        return $query->whereRaw('passed');
+        return $query->where('passed', true);
     }
 
     /**
@@ -85,6 +85,6 @@ class StageAttempt extends Model
      */
     public function scopeFailed($query)
     {
-        return $query->whereRaw('NOT passed');
+        return $query->where('passed', false);
     }
 }

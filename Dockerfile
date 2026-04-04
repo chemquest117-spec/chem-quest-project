@@ -14,7 +14,7 @@ RUN npm run build
 # -----------------------------
 # Stage 2: PHP + Apache
 # -----------------------------
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -46,12 +46,6 @@ RUN composer install --optimize-autoloader --no-dev
 #      php artisan route:cache && \
 #      php artisan view:cache
 
-# Migrate database
-RUN php artisan migrate --force
-
-# Create Key
-# RUN php artisan key:generate
-
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build
 
@@ -63,5 +57,9 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
      /etc/apache2/sites-available/000-default.conf
 
+# Create entrypoint script that runs migrations at startup (not build time)
+RUN echo '#!/bin/bash\nphp artisan migrate --force\napache2-foreground' > /entrypoint.sh \
+     && chmod +x /entrypoint.sh
+
 EXPOSE 80
-CMD ["apache2-foreground"]
+CMD ["/entrypoint.sh"]

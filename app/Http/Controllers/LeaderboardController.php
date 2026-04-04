@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class LeaderboardController extends Controller
 {
     public function index()
     {
-        $students = User::where('is_admin', false)
-            ->orderByDesc('total_points')
-            ->orderByDesc('stars')
-            ->take(50)
-            ->get();
+        $students = Cache::remember('leaderboard_data', 3600, function () {
+            return User::where('is_admin', false)
+                ->orderByDesc('total_points')
+                ->orderByDesc('stars')
+                ->take(50)
+                ->get();
+        });
 
         $studentsJson = $students->map(function ($s) {
             return [
@@ -29,11 +32,13 @@ class LeaderboardController extends Controller
 
     public function data()
     {
-        $students = User::where('is_admin', false)
-            ->orderByDesc('total_points')
-            ->orderByDesc('stars')
-            ->take(50)
-            ->get(['id', 'name', 'total_points', 'stars', 'streak']);
+        $students = Cache::remember('leaderboard_json_data', 3600, function () {
+            return User::where('is_admin', false)
+                ->orderByDesc('total_points')
+                ->orderByDesc('stars')
+                ->take(50)
+                ->get(['id', 'name', 'total_points', 'stars', 'streak']);
+        });
 
         return response()->json($students);
     }

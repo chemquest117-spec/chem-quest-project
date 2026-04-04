@@ -42,21 +42,34 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Memoization caches for request-lifecycle performance.
+     */
+    private ?array $cachedCompletedStageIds = null;
+
+    private ?array $cachedFailedStageIds = null;
+
+    private ?array $cachedInProgressStageIds = null;
+
     public function attempts(): HasMany
     {
         return $this->hasMany(StageAttempt::class);
     }
 
     /**
-     * Get stages completed by this user.
+     * Get stages completed by this user (memoized per request).
      */
     public function completedStageIds(): array
     {
-        return $this->attempts()
-            ->passed()
-            ->pluck('stage_id')
-            ->unique()
-            ->toArray();
+        if ($this->cachedCompletedStageIds === null) {
+            $this->cachedCompletedStageIds = $this->attempts()
+                ->passed()
+                ->pluck('stage_id')
+                ->unique()
+                ->toArray();
+        }
+
+        return $this->cachedCompletedStageIds;
     }
 
     /**
@@ -64,15 +77,19 @@ class User extends Authenticatable
      */
     public function failedStageIds(): array
     {
-        $completedIds = $this->completedStageIds();
+        if ($this->cachedFailedStageIds === null) {
+            $completedIds = $this->completedStageIds();
 
-        return $this->attempts()
-            ->failed()
-            ->whereNotNull('completed_at')
-            ->whereNotIn('stage_id', $completedIds)
-            ->pluck('stage_id')
-            ->unique()
-            ->toArray();
+            $this->cachedFailedStageIds = $this->attempts()
+                ->failed()
+                ->whereNotNull('completed_at')
+                ->whereNotIn('stage_id', $completedIds)
+                ->pluck('stage_id')
+                ->unique()
+                ->toArray();
+        }
+
+        return $this->cachedFailedStageIds;
     }
 
     /**
@@ -80,11 +97,15 @@ class User extends Authenticatable
      */
     public function inProgressStageIds(): array
     {
-        return $this->attempts()
-            ->whereNull('completed_at')
-            ->pluck('stage_id')
-            ->unique()
-            ->toArray();
+        if ($this->cachedInProgressStageIds === null) {
+            $this->cachedInProgressStageIds = $this->attempts()
+                ->whereNull('completed_at')
+                ->pluck('stage_id')
+                ->unique()
+                ->toArray();
+        }
+
+        return $this->cachedInProgressStageIds;
     }
 
     /**

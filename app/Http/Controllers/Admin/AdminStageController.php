@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AdminStageController extends Controller
 {
@@ -63,6 +64,9 @@ class AdminStageController extends Controller
 
     public function destroy(Stage $stage)
     {
+        // Clear cached question IDs for this stage
+        Cache::forget("stage_{$stage->id}_question_ids");
+
         $stage->delete();
 
         return redirect()->route('admin.stages.index')

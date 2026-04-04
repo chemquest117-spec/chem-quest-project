@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Stage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class StageController extends Controller
 {
     public function index(Request $request)
     {
         $user = $request->user();
-        $stages = Stage::orderBy('order')->withCount('questions')->get();
+        
+        $stages = Cache::remember('all_stages_with_count', 43200, function () {
+            return Stage::orderBy('order')->withCount('questions')->get();
+        });
+        
         $completedIds = $user->completedStageIds();
         $failedIds = $user->failedStageIds();
         $inProgressIds = $user->inProgressStageIds();
@@ -21,13 +26,19 @@ class StageController extends Controller
     public function show(Request $request, Stage $stage)
     {
         $user = $request->user();
+        
+        $stages = Cache::remember('all_stages', 86400, function () {
+            return Stage::orderBy('order')->get();
+        });
+        
+        $completedIds = $user->completedStageIds();
 
-        if (! $stage->isUnlockedFor($user)) {
+        if (! $stage->isUnlockedFor($user, $stages, $completedIds)) {
             return redirect()->route('stages.index')
                 ->with('error', __('messages.stage_locked'));
         }
 
-        $isCompleted = $stage->isCompletedBy($user);
+        $isCompleted = in_array($stage->id, $completedIds);
 
         if ($isCompleted) {
             return redirect()->route('stages.index')

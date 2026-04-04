@@ -3,6 +3,7 @@
 .env
 .env.backup
 .env.production
+.env.staging
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -22,6 +23,19 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-infinityfree.txt
 
+# Development artifacts
 *.zip
+*.py
+infinityfree.txt
+instructions.txt
+test_guard.php
+README_backup.md
+database/questions.txt
+
+# Database
+# database/database.sqlite
+# database/database.sqlite-journal
+# database/database.sqlite-wal
+.env.development
+test_output.txt

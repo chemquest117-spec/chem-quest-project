@@ -46,17 +46,30 @@ class Stage extends Model
      * Check if stage is unlocked for a given user.
      * Stage 1 (order=1) is always unlocked.
      * Other stages require the previous stage to be passed.
+     *
+     * @param  \Illuminate\Support\Collection|null  $allStages  Preloaded stages collection to avoid N+1 queries.
+     * @param  array|null  $completedIds  Precomputed completed stage IDs.
      */
-    public function isUnlockedFor($user): bool
+    public function isUnlockedFor($user, $allStages = null, ?array $completedIds = null): bool
     {
         if ($this->order === 1) {
             return true;
         }
 
-        $previousStage = Stage::where('order', $this->order - 1)->first();
+        // Use preloaded collection if available, otherwise query
+        if ($allStages) {
+            $previousStage = $allStages->firstWhere('order', $this->order - 1);
+        } else {
+            $previousStage = Stage::where('order', $this->order - 1)->first();
+        }
 
         if (! $previousStage) {
             return true;
+        }
+
+        // Use precomputed completed IDs if available
+        if ($completedIds !== null) {
+            return in_array($previousStage->id, $completedIds);
         }
 
         return $previousStage->attempts()

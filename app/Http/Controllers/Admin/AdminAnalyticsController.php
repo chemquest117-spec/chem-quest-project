@@ -8,15 +8,21 @@ use App\Models\Question;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class AdminAnalyticsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Cache::remember('admin_analytics_data', 60 * 15, function () {
+        // Allow admin to force-refresh analytics cache
+        if ($request->has('refresh')) {
+            Cache::forget('admin_analytics_data');
+        }
+
+        $data = Cache::remember('admin_analytics_data', 60 * 5, function () {
             // Stage performance stats
             $stageAggregates = StageAttempt::whereNotNull('completed_at')
                 ->selectRaw('stage_id, 

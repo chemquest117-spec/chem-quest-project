@@ -142,6 +142,8 @@ class AdminStudentController extends Controller
         $user->password = Hash::make($newPassword);
         $user->save();
 
-        return back()->with('success', "Password for '{$user->name}' has been reset to: {$newPassword}");
+        return back()
+            ->with('success', "Password for '{$user->name}' has been reset successfully.")
+            ->with('temp_password', $newPassword);
     }
 }

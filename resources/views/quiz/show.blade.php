@@ -151,6 +151,9 @@
                     tabSwitches: 0,
                     isSubmitting: false,
                     init() {
+                         // Get CSRF token from meta tag (auto-refreshes with session)
+                         const csrfToken = () => document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}';
+
                          this.interval = setInterval(() => {
                               this.remaining--;
                               if (this.remaining <= 0) {
@@ -235,24 +238,36 @@
                                }
                           });
 
+                          // Auto-save helper with retry on 419 (CSRF token mismatch)
+                          const autoSave = (url, data, retries = 1) => {
+                               fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                         'Content-Type': 'application/json',
+                                         'X-CSRF-TOKEN': csrfToken(),
+                                         'Accept': 'application/json'
+                                    },
+                                    body: JSON.stringify(data)
+                               }).then(resp => {
+                                    if (resp.status === 419 && retries > 0) {
+                                         // Token expired — retry once after short delay
+                                         setTimeout(() => autoSave(url, data, retries - 1), 500);
+                                    } else if (!resp.ok) {
+                                         console.warn('Auto-save returned:', resp.status);
+                                    }
+                               }).catch(err => console.log('Auto-save failed:', err));
+                          };
+
                          // Auto-save answers on selection
                          document.querySelectorAll('input[type="radio"]').forEach(radio => {
                               radio.addEventListener('change', (e) => {
                                    const name = e.target.name;
                                    const match = name.match(/answers\[(\d+)\]/);
                                    if (match) {
-                                        fetch('{{ route("quiz.saveAnswer", $attempt) }}', {
-                                             method: 'POST',
-                                             headers: {
-                                                  'Content-Type': 'application/json',
-                                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                                  'Accept': 'application/json'
-                                             },
-                                             body: JSON.stringify({
-                                                  question_id: parseInt(match[1]),
-                                                  answer: e.target.value
-                                             })
-                                        }).catch(err => console.log('Auto-save failed:', err));
+                                        autoSave('{{ route("quiz.saveAnswer", $attempt) }}', {
+                                             question_id: parseInt(match[1]),
+                                             answer: e.target.value
+                                        });
                                    }
                               });
                          });
@@ -271,18 +286,10 @@
                                         }
                                         
                                         essayTimeouts[questionId] = setTimeout(() => {
-                                             fetch('{{ route("quiz.saveAnswer", $attempt) }}', {
-                                                  method: 'POST',
-                                                  headers: {
-                                                       'Content-Type': 'application/json',
-                                                       'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                                       'Accept': 'application/json'
-                                                  },
-                                                  body: JSON.stringify({
-                                                       question_id: questionId,
-                                                       answer: e.target.value
-                                                  })
-                                             }).catch(err => console.log('Auto-save failed:', err));
+                                             autoSave('{{ route("quiz.saveAnswer", $attempt) }}', {
+                                                  question_id: questionId,
+                                                  answer: e.target.value
+                                             });
                                         }, 1000);
                                    }
                               });

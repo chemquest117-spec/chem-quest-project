@@ -9,6 +9,7 @@ use App\Notifications\StageCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class QuizController extends Controller
 {
@@ -31,38 +32,43 @@ class QuizController extends Controller
                 ->with('error', __('messages.error'));
         }
 
-        // Prevent concurrent quiz attempts on same stage
-        $activeAttempt = StageAttempt::where('user_id', $user->id)
-            ->where('stage_id', $stage->id)
-            ->whereNull('completed_at')
-            ->first();
+        // Prevent concurrent quiz attempts on same stage (with DB lock to prevent race conditions)
+        $attempt = DB::transaction(function () use ($user, $stage) {
+            $activeAttempt = StageAttempt::where('user_id', $user->id)
+                ->where('stage_id', $stage->id)
+                ->whereNull('completed_at')
+                ->lockForUpdate()
+                ->first();
 
-        if ($activeAttempt) {
-            return redirect()->route('quiz.show', $activeAttempt);
-        }
+            if ($activeAttempt) {
+                return $activeAttempt;
+            }
 
-        // Create a new attempt
-        $attempt = StageAttempt::create([
-            'user_id' => $user->id,
-            'stage_id' => $stage->id,
-            'total_questions' => $stage->questions()->count(),
-            'started_at' => Carbon::now(),
-        ]);
-
-        // Cache question IDs for the stage to prevent heavy DB load per student attempt
-        $questionIds = Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
-            return $stage->questions()->pluck('id')->toArray();
-        });
-
-        // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
-        shuffle($questionIds);
-
-        foreach ($questionIds as $questionId) {
-            AttemptAnswer::create([
-                'stage_attempt_id' => $attempt->id,
-                'question_id' => $questionId,
+            // Create a new attempt
+            $newAttempt = StageAttempt::create([
+                'user_id' => $user->id,
+                'stage_id' => $stage->id,
+                'total_questions' => $stage->questions()->count(),
+                'started_at' => Carbon::now(),
             ]);
-        }
+
+            // Cache question IDs for the stage to prevent heavy DB load per student attempt
+            $questionIds = Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
+                return $stage->questions()->pluck('id')->toArray();
+            });
+
+            // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
+            shuffle($questionIds);
+
+            foreach ($questionIds as $questionId) {
+                AttemptAnswer::create([
+                    'stage_attempt_id' => $newAttempt->id,
+                    'question_id' => $questionId,
+                ]);
+            }
+
+            return $newAttempt;
+        });
 
         return redirect()->route('quiz.show', $attempt);
     }
@@ -120,12 +126,15 @@ class QuizController extends Controller
             'answer' => 'required|string|max:5000',
         ]);
 
+        // Sanitize answer to prevent stored XSS
+        $sanitizedAnswer = strip_tags($request->answer);
+
         $answer = $attempt->answers()
             ->where('question_id', $request->question_id)
             ->first();
 
         if ($answer) {
-            $answer->update(['selected_answer' => $request->answer]);
+            $answer->update(['selected_answer' => $sanitizedAnswer]);
 
             return response()->json(['success' => true]);
         }
@@ -190,55 +199,66 @@ class QuizController extends Controller
      */
     private function gradeAttempt(StageAttempt $attempt, $user, array $submittedAnswers)
     {
-        $score = 0;
-        $answers = $attempt->answers()->with('question')->get();
+        return DB::transaction(function () use ($attempt, $user, $submittedAnswers) {
+            $score = 0;
+            $answers = $attempt->answers()->with('question')->get();
 
-        foreach ($answers as $answer) {
-            $question = $answer->question;
-            $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
+            foreach ($answers as $answer) {
+                $question = $answer->question;
+                $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
 
-            if ($question->isMcq()) {
-                // MCQ: exact match (case-insensitive)
-                $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
-            } elseif ($question->isEssay()) {
-                // Essay: keyword-based scoring against expected_answer
-                $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
-            } else {
-                $isCorrect = false;
+                // Sanitize submitted answers
+                if ($selected !== null) {
+                    $selected = strip_tags($selected);
+                }
+
+                if ($question->isMcq()) {
+                    // MCQ: exact match (case-insensitive)
+                    $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
+                } elseif ($question->isEssay()) {
+                    // Essay: keyword-based scoring against expected_answer
+                    $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
+                } else {
+                    $isCorrect = false;
+                }
+
+                $answer->update([
+                    'selected_answer' => $selected,
+                    'is_correct' => $isCorrect,
+                ]);
+
+                if ($isCorrect) {
+                    $score++;
+                }
             }
 
-            $answer->update([
-                'selected_answer' => $selected,
-                'is_correct' => $isCorrect,
+            $totalQuestions = $answers->count();
+            $percentage = $totalQuestions > 0 ? ($score / $totalQuestions) * 100 : 0;
+            $passed = $percentage >= $attempt->stage->passing_percentage;
+
+            // Calculate time spent
+            $timeSpent = (int) $attempt->started_at->diffInSeconds(now());
+
+            $attempt->update([
+                'score' => $score,
+                'total_questions' => $totalQuestions,
+                'passed' => $passed,
+                'time_spent_seconds' => $timeSpent,
+                'completed_at' => Carbon::now(),
             ]);
 
-            if ($isCorrect) {
-                $score++;
-            }
-        }
+            // Award points and stars
+            $this->awardGamification($attempt, $user, $passed, $percentage);
 
-        $totalQuestions = $answers->count();
-        $percentage = $totalQuestions > 0 ? ($score / $totalQuestions) * 100 : 0;
-        $passed = $percentage >= $attempt->stage->passing_percentage;
+            // Update study streak
+            $this->updateStreak($user);
 
-        // Calculate time spent
-        $timeSpent = (int) $attempt->started_at->diffInSeconds(now());
+            // Invalidate user dashboard caches so front-end reflects new stats immediately
+            Cache::forget("user_{$user->id}_dashboard_stats");
+            Cache::forget("user_{$user->id}_recent_attempts");
 
-        $attempt->update([
-            'score' => $score,
-            'total_questions' => $totalQuestions,
-            'passed' => $passed,
-            'time_spent_seconds' => $timeSpent,
-            'completed_at' => Carbon::now(),
-        ]);
-
-        // Award points and stars
-        $this->awardGamification($attempt, $user, $passed, $percentage);
-
-        // Update study streak
-        $this->updateStreak($user);
-
-        return redirect()->route('quiz.result', $attempt);
+            return redirect()->route('quiz.result', $attempt);
+        });
     }
 
     /**
@@ -293,10 +313,10 @@ class QuizController extends Controller
             }
         }
 
-        // Student must match at least 50% of keywords for essays
+        // Student must match at least 65% of keywords for essays
         $matchRatio = $matchCount / count($expectedWords);
 
-        return $matchRatio >= 0.5;
+        return $matchRatio >= 0.65;
     }
 
     /**
