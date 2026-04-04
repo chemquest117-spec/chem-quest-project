@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout :metaTitle="__('errors.server_error')">
      <div class="text-center">
           <div class="mb-6">
                <div class="text-8xl font-black bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 bg-clip-text text-transparent drop-shadow-2xl">

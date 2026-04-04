@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout :metaTitle="__('errors.page_not_found')">
      <div class="text-center">
           <div class="mb-6 lowercase">
                <div class="text-8xl font-black bg-gradient-to-r from-purple-400 via-pink-500 to-rose-500 bg-clip-text text-transparent drop-shadow-2xl">
