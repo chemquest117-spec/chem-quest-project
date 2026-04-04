@@ -38,4 +38,10 @@ return [
         'key' => env('OPENAI_API_KEY'),
     ],
 
+    'license' => [
+        'key' => env('LICENSE_KEY'),
+        'server_url' => env('LICENSE_SERVER_URL'),
+        'admin_email' => env('LICENSE_ADMIN_EMAIL'),
+    ],
+
 ];

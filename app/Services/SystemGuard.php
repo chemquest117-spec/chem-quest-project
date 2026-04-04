@@ -16,13 +16,13 @@ class SystemGuard
      public function isSystemHealthy(): bool
      {
           // 1. Admin Bypass
-          $adminEmail = env('LICENSE_ADMIN_EMAIL');
+          $adminEmail = config('services.license.admin_email');
           if (!empty($adminEmail) && auth()->check() && auth()->user()->email === $adminEmail) {
                return true;
           }
 
           // 2. Missing License Key
-          $licenseKey = env('LICENSE_KEY');
+          $licenseKey = config('services.license.key');
           if (empty($licenseKey)) {
                return false;
           }
@@ -33,7 +33,7 @@ class SystemGuard
           }
 
           // 4. Remote Server Check
-          $serverUrl = env('LICENSE_SERVER_URL', 'https://my-license-server.com/api/check-license');
+          $serverUrl = config('services.license.server_url', 'https://my-license-server.com/api/check-license');
 
           try {
                $request = Http::timeout(5);
