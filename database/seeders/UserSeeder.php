@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+     
      public function run(): void
      {
+          $default_password = Hash::make("my-password-1234");
           User::create([
                'name' => 'Admin Teacher',
                'email' => 'admin@chemtrack.com',
-               'password' => Hash::make('password'),
+               'password' => $default_password,
                'is_admin' => true,
                'email_verified_at' => now(),
                'streak' => 20,
@@ -24,7 +26,7 @@ class UserSeeder extends Seeder
           User::create([
                'name' => 'Ahmed Student',
                'email' => 'student@chemtrack.com',
-               'password' => Hash::make('password'),
+               'password' => $default_password,
                'is_admin' => false,
                'email_verified_at' => now(),
                'streak' => 3,
@@ -35,7 +37,7 @@ class UserSeeder extends Seeder
           User::create([
                'name' => 'Alaa Teacher',
                'email' => 'student2@chemtrack.com',
-               'password' => Hash::make('password'),
+               'password' => $default_password,
                'is_admin' => false,
                'email_verified_at' => now(),
                'streak' => 5,
@@ -46,7 +48,7 @@ class UserSeeder extends Seeder
           User::create([
                'name' => 'Mohamed Student',
                'email' => 'student3@chemtrack.com',
-               'password' => Hash::make('password'),
+               'password' => $default_password,
                'is_admin' => false,
                'email_verified_at' => now(),
                'streak' => 7,
