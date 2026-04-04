@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon $exam_date
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property array $preferred_days
+ * @property float $hours_per_day
+ * @property int $total_progress
+ * @property string $status
+ * @property string $pace
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StudyPlanItem[] $items
+ */
 class StudyPlan extends Model
 {
     use HasFactory;

@@ -44,8 +44,10 @@ class ProgressSyncService
             ->first();
 
         if ($weeklyPlan) {
+            /** @var \App\Models\WeeklyStudyPlan $weeklyPlan */
             $testDay = $weeklyPlan->days()->where('action_type', 'test')->first();
             if ($testDay) {
+                /** @var \App\Models\WeeklyStudyPlanDay $testDay */
                 $testDay->update([
                     'is_completed' => true,
                     'completed_at' => now(),

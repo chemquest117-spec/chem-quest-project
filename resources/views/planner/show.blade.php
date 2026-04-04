@@ -100,7 +100,7 @@
                                 <div class="w-24 bg-white/10 rounded-full h-1.5 overflow-hidden">
                                     <div class="h-full rounded-full transition-all duration-700
                                         {{ $weekProgress >= 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-indigo-500 to-purple-500' }}"
-                                        style="width: {{ $weekProgress }}%"></div>
+                                        style="width: {{ (int) $weekProgress }}%;"></div>
                                 </div>
                                 <span class="text-sm font-medium {{ $weekProgress >= 100 ? 'text-emerald-400' : 'text-slate-400' }}">
                                     {{ $weekCompleted }}/{{ $weekTotal }}
@@ -219,7 +219,7 @@
                         </button>
                     </form>
                     <form action="{{ route('planner.destroy', $studyPlan) }}" method="POST"
-                        onsubmit="return confirm('{{ __('planner.delete_confirm') }}')">
+                        onsubmit="return confirm('{{ addslashes(__('planner.delete_confirm')) }}')">
                         @csrf @method('DELETE')
                         <button class="px-5 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm font-medium transition flex items-center gap-1.5">
                             <x-icon name="trash" class="w-4 h-4" /> {{ __('planner.delete_plan') }}

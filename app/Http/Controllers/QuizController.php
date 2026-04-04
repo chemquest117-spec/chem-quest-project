@@ -138,6 +138,7 @@ class QuizController extends Controller
             ->first();
 
         if ($answer) {
+            /** @var AttemptAnswer $answer */
             $answer->update(['selected_answer' => $sanitizedAnswer]);
 
             return response()->json(['success' => true]);

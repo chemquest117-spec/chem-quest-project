@@ -8,6 +8,7 @@ use App\Models\StudyPlanItem;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Carbon\CarbonInterface;
 
 class PlannerGenerationService
 {
@@ -131,7 +132,7 @@ class PlannerGenerationService
     /**
      * Calculate all available study date slots between two dates.
      */
-    public function calculateSlots(Carbon $start, Carbon $end, array $preferredDays): Collection
+    public function calculateSlots(CarbonInterface $start, CarbonInterface $end, array $preferredDays): Collection
     {
         $slots = collect();
         $dayMap = [

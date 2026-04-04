@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
+    /** @var Tests\TestCase $this */
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 

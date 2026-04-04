@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $study_plan_id
+ * @property int $stage_id
+ * @property \Illuminate\Support\Carbon $scheduled_date
+ * @property int $estimated_minutes
+ * @property int $marks_weight
+ * @property int $sort_order
+ * @property bool $is_completed
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property bool $auto_rescheduled
+ * @property int $reschedule_count
+ * @property string|null $notes
+ * @property-read \App\Models\StudyPlan $studyPlan
+ * @property-read \App\Models\Stage $stage
+ */
 class StudyPlanItem extends Model
 {
     use HasFactory;
