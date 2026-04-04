@@ -40,10 +40,10 @@
                         <x-icon name="trending-up"
                             class="w-5 h-5 text-cyan-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
-                    <div class="text-3xl font-bold text-white">{{ $user->progressPercentage() }}%</div>
+                    <div class="text-3xl font-bold text-white">{{ $progressPercentage }}%</div>
                     <div class="mt-3 w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
                         <div class="bg-gradient-to-r from-cyan-500 to-emerald-500 h-2.5 rounded-full transition-all duration-[2000ms] ease-out"
-                            x-bind:style="shown ? 'width: {{ $user->progressPercentage() }}%' : 'width: 0%'"></div>
+                            x-bind:style="shown ? 'width: {{ $progressPercentage }}%' : 'width: 0%'"></div>
                     </div>
                 </div>
 

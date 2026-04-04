@@ -11,19 +11,37 @@ class DashboardController extends Controller
      {
           $user = $request->user();
           $stages = Stage::orderBy('order')->get();
-          $completedIds = $user->completedStageIds();
-          $currentStage = $user->currentStage();
+          
+          // Single query for all completed stage IDs (prevents calling completedStageIds() multiple times)
+          $completedIds = $user->attempts()
+               ->where('passed', true)
+               ->pluck('stage_id')
+               ->unique()
+               ->toArray();
+          
+          $completedCount = count($completedIds);
+          $totalStageCount = $stages->count();
+
+          // Determine current stage without an extra query
+          $currentStage = $stages->first(fn($stage) => !in_array($stage->id, $completedIds));
+
+          // Eager load recent attempts with stage relation
           $notifications = $user->unreadNotifications()->latest()->take(10)->get();
           $recentAttempts = $user->attempts()->with('stage')->latest()->take(5)->get();
 
-          // Analytics metrics
+          // Analytics metrics — single batch of queries
           $totalAttempts = $user->attempts()->count();
-          $completedCount = $user->attempts()->where('passed', true)->distinct('stage_id')->count('stage_id');
+          $passedAttempts = $user->attempts()->where('passed', true)->count();
           $successRate = $totalAttempts > 0
-               ? round($user->attempts()->where('passed', true)->count() / $totalAttempts * 100)
+               ? round($passedAttempts / $totalAttempts * 100)
                : 0;
           $avgScore = $user->attempts()->whereNotNull('completed_at')->avg('score') ?? 0;
           $totalTimeSpent = $user->attempts()->sum('time_spent_seconds');
+
+          // Progress percentage calculated from cached values
+          $progressPercentage = $totalStageCount > 0
+               ? round(($completedCount / $totalStageCount) * 100, 1)
+               : 0;
 
           return view('dashboard', compact(
                'user',
@@ -36,7 +54,8 @@ class DashboardController extends Controller
                'completedCount',
                'successRate',
                'avgScore',
-               'totalTimeSpent'
+               'totalTimeSpent',
+               'progressPercentage'
           ));
      }
 }
