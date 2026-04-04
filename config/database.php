@@ -97,6 +97,7 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'prepared_statements' => false,
             'schema' => 'public',
         ],
 
@@ -114,6 +115,8 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+
+
 
     ],
 
@@ -150,7 +153,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
@@ -165,6 +168,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+            'scheme'   => env('REDIS_SCHEME', 'tls'),
         ],
 
         'cache' => [
@@ -178,6 +182,21 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+            'scheme'   => env('REDIS_SCHEME', 'tls'),
+        ],
+
+        'session' => [
+            'url' => env('REDIS_URL'),
+            'username' => env('REDIS_USERNAME'),
+            'host' => env('REDIS_HOST'),
+            'password' => env('REDIS_PASSWORD'),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_SESSION_DB', 2),
+            'max_retries' => env('REDIS_MAX_RETRIES', 3),
+            'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
+            'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
+            'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+            'scheme'   => env('REDIS_SCHEME', 'tls'),
         ],
 
     ],

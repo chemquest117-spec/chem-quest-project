@@ -46,6 +46,12 @@ RUN composer install --optimize-autoloader --no-dev
 #      php artisan route:cache && \
 #      php artisan view:cache
 
+# Migrate database
+RUN php artisan migrate --force
+
+# Create Key
+# RUN php artisan key:generate
+
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build
 
