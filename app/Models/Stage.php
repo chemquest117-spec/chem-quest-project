@@ -7,7 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string|null $title_ar
+ * @property string|null $description
+ * @property string|null $description_ar
+ * @property int $order
+ * @property int $time_limit_minutes
+ * @property int $passing_percentage
+ * @property int $points_reward
+ * @property int|null $marks_weight
+ * @property int|null $estimated_study_minutes
+ * @property int|null $importance_score
+ * @property int|null $recommended_week
+ * @property Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Question[] $questions
+ * @property-read \Illuminate\Database\Eloquent\Collection|StageAttempt[] $attempts
+ * @property-read \Illuminate\Database\Eloquent\Collection|StudyPlanItem[] $studyPlanItems
+ * @property-read \Illuminate\Database\Eloquent\Collection|WeeklyStudyPlan[] $weeklyStudyPlans
+ */
 class Stage extends Model
 {
     use HasFactory, SoftDeletes;

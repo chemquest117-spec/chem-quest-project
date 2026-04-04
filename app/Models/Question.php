@@ -7,7 +7,40 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property int $stage_id
+ * @property string $question_text
+ * @property string|null $question_text_ar
+ * @property string|null $type
+ * @property string|null $option_a
+ * @property string|null $option_a_ar
+ * @property string|null $option_b
+ * @property string|null $option_b_ar
+ * @property string|null $option_c
+ * @property string|null $option_c_ar
+ * @property string|null $option_d
+ * @property string|null $option_d_ar
+ * @property string|null $correct_answer
+ * @property string|null $correct_answer_ar
+ * @property string|null $difficulty
+ * @property string|null $difficulty_ar
+ * @property string|null $topic
+ * @property string|null $topic_ar
+ * @property string|null $explanation
+ * @property string|null $explanation_ar
+ * @property string|null $expected_answer
+ * @property string|null $expected_answer_ar
+ * @property string|null $image
+ * @property Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read Stage $stage
+ * @property-read \Illuminate\Database\Eloquent\Collection|AttemptAnswer[] $attemptAnswers
+ */
 class Question extends Model
 {
     use HasFactory, SoftDeletes;

@@ -7,7 +7,32 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $stage_id
+ * @property int $score
+ * @property int $total_questions
+ * @property bool $passed
+ * @property int $time_spent_seconds
+ * @property Carbon $started_at
+ * @property Carbon $completed_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read User $user
+ * @property-read Stage $stage
+ * @property-read \Illuminate\Database\Eloquent\Collection|AttemptAnswer[] $answers
+ * 
+ * @property int|null $total_attempts
+ * @property int|null $passed_attempts
+ * @property float|null $sum_score
+ * @property float|null $avg_questions
+ * @property int|null $passed_count
+ * @property float|null $avg_time
+ */
 class StageAttempt extends Model
 {
     use HasFactory;

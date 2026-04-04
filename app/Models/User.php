@@ -10,7 +10,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property int $total_points
+ * @property int $stars
+ * @property int $streak
+ * @property bool $is_admin
+ * @property bool $is_banned
+ * @property Carbon|null $last_activity
+ * @property string|null $remember_token
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read \Illuminate\Database\Eloquent\Collection|StageAttempt[] $attempts
+ * @property-read \Illuminate\Database\Eloquent\Collection|StudyPlan[] $studyPlans
+ * @property-read \Illuminate\Database\Eloquent\Collection|WeeklyStudyPlan[] $weeklyStudyPlans
+ * @property-read StudyPlan|null $activeStudyPlan
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -131,6 +153,8 @@ class User extends Authenticatable
 
     /**
      * Get the current stage (first uncompleted stage).
+     * 
+     * @return Stage|null
      */
     public function currentStage()
     {

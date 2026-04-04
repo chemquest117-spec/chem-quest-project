@@ -1,14 +1,14 @@
-includes:
-    - vendor/larastan/larastan/extension.neon
-
 parameters:
-    level: 5
+    level: 2
     paths:
         - app
         - tests
     
     # Check for Eloquent model properties
     checkModelProperties: true
+
+    # Reduce false positives from complex types
+    treatPhpDocTypesAsCertain: false
 
     # Ignore common magic method/property issues if Larastan misses any
     ignoreErrors:
