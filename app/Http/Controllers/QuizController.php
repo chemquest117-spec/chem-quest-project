@@ -275,12 +275,13 @@ class QuizController extends Controller
         $stopWords = ['the', 'is', 'at', 'which', 'on', 'and', 'a', 'an', 'of', 'in', 'to', 'with', 'for', 'it', 'as', 'by', 'are', 'be', 'this', 'that'];
         $expectedWords = array_filter(
             preg_split('/[\s,;.]+/', $expectedAnswer),
-            fn ($word) => mb_strlen($word) > 1 && !in_array($word, $stopWords)
+            fn ($word) => mb_strlen($word) > 1 && ! in_array($word, $stopWords)
         );
 
         if (empty($expectedWords)) {
             // Fallback: direct similarity check with a much higher threshold than 50%
             similar_text($studentAnswer, $expectedAnswer, $percent);
+
             return $percent >= 85;
         }
 

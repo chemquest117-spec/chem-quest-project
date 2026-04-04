@@ -8,4 +8,6 @@ return [
     'go_home' => 'Go Home',
     'suspended' => 'System Suspended',
     'suspended_desc' => 'This system is currently unavailable.',
+    'page_expired' => 'Page Expired',
+    'page_expired_desc' => 'The page you are looking for has expired. Please refresh the page.',
 ];
