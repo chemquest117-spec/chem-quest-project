@@ -42,9 +42,9 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 
 # Cache Laravel config, routes, and views
-RUN php artisan config:cache && \
-     php artisan route:cache && \
-     php artisan view:cache
+# RUN php artisan config:cache && \
+#      php artisan route:cache && \
+#      php artisan view:cache
 
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build
