@@ -24,32 +24,35 @@ class AIQuestionService
      }
 
      /**
-      * Generate questions using OpenAI GPT-4.
+      * Generate questions using OpenAI GPT-4o-mini (cost-effective).
       */
      private function generateWithOpenAI(Stage $stage, int $count, string $apiKey): array
      {
           try {
                $response = Http::withToken($apiKey)
-                    ->timeout(30)
+                    ->timeout(60)
                     ->post('https://api.openai.com/v1/chat/completions', [
-                         'model' => 'gpt-4',
+                         'model' => 'gpt-4o-mini',
+                         'response_format' => ['type' => 'json_object'],
                          'messages' => [
                               [
                                    'role' => 'system',
-                                   'content' => "You are a chemistry teacher. Generate exactly {$count} multiple-choice questions."
+                                   'content' => "You are a chemistry teacher creating bilingual (English + Arabic) exam questions. Generate exactly {$count} multiple-choice questions. Return a JSON object with a key \"questions\" containing an array. Each question object must have these exact keys:
+                                   question_text, question_text_ar, option_a, option_a_ar, option_b, option_b_ar, option_c, option_c_ar, option_d, option_d_ar, correct_answer (must be lowercase: a, b, c, or d), difficulty (must be: easy, medium, or hard), difficulty_ar (سهل, متوسط, or صعب), topic, topic_ar, explanation, explanation_ar"
                               ],
                               [
                                    'role' => 'user',
-                                   'content' => "Topic: {$stage->title}. Generate {$count} chemistry MCQ questions. 
-                            Return ONLY a JSON array, no markdown. Each object must have:
-                            {\"question_text\": \"...\", \"option_a\": \"...\", \"option_b\": \"...\", \"option_c\": \"...\", \"option_d\": \"...\", \"correct_answer\": \"a|b|c|d\", \"difficulty\": \"easy|medium|hard\"}"
+                                   'content' => "Topic: {$stage->title}. Description: {$stage->description}. Generate {$count} chemistry MCQ questions covering this topic at various difficulty levels."
                               ]
                          ],
                          'temperature' => 0.8,
                     ]);
 
                $content = $response->json('choices.0.message.content');
-               $questions = json_decode($content, true);
+               $parsed = json_decode($content, true);
+
+               // Handle both {"questions": [...]} and direct array [...]
+               $questions = $parsed['questions'] ?? $parsed;
 
                if (!is_array($questions)) {
                     throw new \Exception('Invalid JSON response from AI');
@@ -65,7 +68,6 @@ class AIQuestionService
 
      /**
       * Generate realistic demo questions from a curated chemistry question bank.
-      * Simulates AI generation with a 1-2s delay for realism.
       */
      private function generateDemo(Stage $stage, int $count): array
      {
@@ -99,30 +101,63 @@ class AIQuestionService
      }
 
      /**
-      * Save generated questions to the database.
+      * Save generated questions to the database with proper validation & normalization.
       */
      private function saveQuestions(Stage $stage, array $questions): array
      {
           $created = [];
 
           foreach ($questions as $q) {
-               if (
-                    empty($q['question_text']) || empty($q['option_a']) ||
-                    empty($q['option_b']) || empty($q['option_c']) ||
-                    empty($q['option_d']) || empty($q['correct_answer'])
-               ) {
+               // Skip questions with missing required fields
+               if (empty($q['question_text'])) {
                     continue;
+               }
+
+               // Determine question type
+               $type = $q['type'] ?? 'mcq';
+
+               if ($type === 'mcq') {
+                    // MCQ requires all options and correct answer
+                    if (empty($q['option_a']) || empty($q['option_b']) || empty($q['option_c']) || empty($q['option_d']) || empty($q['correct_answer'])) {
+                         continue;
+                    }
+               }
+
+               // Normalize correct_answer to lowercase
+               $correctAnswer = isset($q['correct_answer']) ? strtolower(trim($q['correct_answer'])) : null;
+
+               // Map difficulty to Arabic
+               $difficultyAr = $q['difficulty_ar'] ?? null;
+               if (!$difficultyAr) {
+                    $difficultyAr = match ($q['difficulty'] ?? 'medium') {
+                         'easy' => 'سهل',
+                         'medium' => 'متوسط',
+                         'hard' => 'صعب',
+                         default => 'متوسط',
+                    };
                }
 
                $created[] = Question::create([
                     'stage_id' => $stage->id,
                     'question_text' => $q['question_text'],
-                    'option_a' => $q['option_a'],
-                    'option_b' => $q['option_b'],
-                    'option_c' => $q['option_c'],
-                    'option_d' => $q['option_d'],
-                    'correct_answer' => $q['correct_answer'],
+                    'question_text_ar' => $q['question_text_ar'] ?? null,
+                    'type' => $type,
+                    'option_a' => $q['option_a'] ?? null,
+                    'option_a_ar' => $q['option_a_ar'] ?? null,
+                    'option_b' => $q['option_b'] ?? null,
+                    'option_b_ar' => $q['option_b_ar'] ?? null,
+                    'option_c' => $q['option_c'] ?? null,
+                    'option_c_ar' => $q['option_c_ar'] ?? null,
+                    'option_d' => $q['option_d'] ?? null,
+                    'option_d_ar' => $q['option_d_ar'] ?? null,
+                    'correct_answer' => $correctAnswer,
+                    'correct_answer_ar' => $q['correct_answer_ar'] ?? $correctAnswer,
                     'difficulty' => $q['difficulty'] ?? 'medium',
+                    'difficulty_ar' => $difficultyAr,
+                    'topic' => $q['topic'] ?? $stage->title,
+                    'topic_ar' => $q['topic_ar'] ?? $stage->title_ar,
+                    'explanation' => $q['explanation'] ?? null,
+                    'explanation_ar' => $q['explanation_ar'] ?? null,
                ]);
           }
 
