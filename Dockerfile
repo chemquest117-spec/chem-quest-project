@@ -53,8 +53,12 @@ COPY --from=frontend /app/public/build ./public/build
 #      php artisan route:cache && \
 #      php artisan view:cache || true
 
-# Fix permissions
-RUN chown -R www-data:www-data /var/www/html \
+# Create necessary framework directories (if excluded by .dockerignore) and fix permissions
+RUN mkdir -p /var/www/html/storage/framework/cache/data \
+     && mkdir -p /var/www/html/storage/framework/views \
+     && mkdir -p /var/www/html/storage/framework/sessions \
+     && mkdir -p /var/www/html/bootstrap/cache \
+     && chown -R www-data:www-data /var/www/html \
      && chmod -R 755 /var/www/html/storage \
      && chmod -R 755 /var/www/html/bootstrap/cache
 
