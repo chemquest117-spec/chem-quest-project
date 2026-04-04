@@ -81,6 +81,11 @@
                                         <div class="flex-1">
                                              <p class="text-white font-medium mb-2">{{ $answer->question->getTranslatedQuestionText() }}
                                              </p>
+                                             @if($answer->question->image)
+                                                  <div class="mt-3 mb-2">
+                                                       <img src="{{ asset('storage/' . $answer->question->image) }}" alt="Question Image" class="max-w-full sm:max-w-sm rounded-xl border border-white/10 shadow-lg object-contain">
+                                                  </div>
+                                             @endif
 
                                              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                   @foreach(['a', 'b', 'c', 'd'] as $opt)

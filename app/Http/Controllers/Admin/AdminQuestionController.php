@@ -7,6 +7,7 @@ use App\Models\Question;
 use App\Models\Stage;
 use App\Services\AIQuestionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminQuestionController extends Controller
 {
@@ -31,7 +32,13 @@ class AdminQuestionController extends Controller
                'option_d' => 'required|string|max:500',
                'correct_answer' => 'required|in:a,b,c,d',
                'difficulty' => 'required|in:easy,medium,hard',
+               'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
           ]);
+
+          if ($request->hasFile('image')) {
+               $path = $request->file('image')->store('questions', 'public');
+               $validated['image'] = $path;
+          }
 
           $stage->questions()->create($validated);
 
@@ -54,7 +61,18 @@ class AdminQuestionController extends Controller
                'option_d' => 'required|string|max:500',
                'correct_answer' => 'required|in:a,b,c,d',
                'difficulty' => 'required|in:easy,medium,hard',
+               'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
           ]);
+
+          if ($request->hasFile('image')) {
+               // Delete old image if exists
+               if ($question->image) {
+                    Storage::disk('public')->delete($question->image);
+               }
+               
+               $path = $request->file('image')->store('questions', 'public');
+               $validated['image'] = $path;
+          }
 
           $question->update($validated);
 
@@ -64,6 +82,10 @@ class AdminQuestionController extends Controller
 
      public function destroy(Stage $stage, Question $question)
      {
+          if ($question->image) {
+               Storage::disk('public')->delete($question->image);
+          }
+
           $question->delete();
 
           return redirect()->route('admin.stages.questions.index', $stage)

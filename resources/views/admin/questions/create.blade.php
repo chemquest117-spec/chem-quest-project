@@ -7,9 +7,16 @@
                     class="text-slate-400 hover:text-white text-sm">← Back to Questions</a>
                <h1 class="text-3xl font-bold text-white mt-2 mb-8">Add Question to: {{ $stage->title }}</h1>
 
-               <form action="{{ route('admin.stages.questions.store', $stage) }}" method="POST"
+               <form action="{{ route('admin.stages.questions.store', $stage) }}" method="POST" enctype="multipart/form-data"
                     class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 space-y-6">
                     @csrf
+
+                    <div>
+                         <label class="block text-sm font-medium text-slate-300 mb-2">Question image (Optional)</label>
+                         <input type="file" name="image" accept="image/*"
+                              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:ring-cyan-500">
+                         @error('image') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+                    </div>
 
                     <div>
                          <label class="block text-sm font-medium text-slate-300 mb-2">Question Text</label>

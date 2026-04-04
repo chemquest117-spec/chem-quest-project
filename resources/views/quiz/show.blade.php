@@ -56,6 +56,11 @@
                                                        </span>
                                                        <div>
                                                             <p class="text-white font-medium">{{ $answer->question->getTranslatedQuestionText() }}</p>
+                                                             @if($answer->question->image)
+                                                                  <div class="mt-3 mb-2">
+                                                                       <img src="{{ asset('storage/' . $answer->question->image) }}" alt="Question Image" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">
+                                                                  </div>
+                                                             @endif
                                                             <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded text-xs
                                                                    {{ $answer->question->difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
                               ($answer->question->difficulty === 'medium' ? 'bg-amber-500/20 text-amber-400' :

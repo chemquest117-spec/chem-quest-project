@@ -31,6 +31,7 @@ class Question extends Model
           'explanation_ar',
           'expected_answer',
           'expected_answer_ar',
+          'image',
      ];
 
      public function stage(): BelongsTo
