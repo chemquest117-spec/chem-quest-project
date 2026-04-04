@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Casts\PostgresBoolean;
+use Carbon\Carbon;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
-use Carbon\Carbon;
 
 /**
  * @property int $id
@@ -27,10 +28,9 @@ use Carbon\Carbon;
  * @property string|null $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
- * @property-read \Illuminate\Database\Eloquent\Collection|StageAttempt[] $attempts
- * @property-read \Illuminate\Database\Eloquent\Collection|StudyPlan[] $studyPlans
- * @property-read \Illuminate\Database\Eloquent\Collection|WeeklyStudyPlan[] $weeklyStudyPlans
+ * @property-read Collection|StageAttempt[] $attempts
+ * @property-read Collection|StudyPlan[] $studyPlans
+ * @property-read Collection|WeeklyStudyPlan[] $weeklyStudyPlans
  * @property-read StudyPlan|null $activeStudyPlan
  */
 class User extends Authenticatable
@@ -153,7 +153,7 @@ class User extends Authenticatable
 
     /**
      * Get the current stage (first uncompleted stage).
-     * 
+     *
      * @return Stage|null
      */
     public function currentStage()

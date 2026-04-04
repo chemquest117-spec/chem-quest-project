@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Casts\PostgresBoolean;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Carbon\Carbon;
 
 /**
  * @property int $id
@@ -21,11 +22,9 @@ use Carbon\Carbon;
  * @property Carbon $completed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
  * @property-read User $user
  * @property-read Stage $stage
- * @property-read \Illuminate\Database\Eloquent\Collection|AttemptAnswer[] $answers
- * 
+ * @property-read Collection|AttemptAnswer[] $answers
  * @property int|null $total_attempts
  * @property int|null $passed_attempts
  * @property float|null $sum_score

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
 
 /**
  * @property int $id
@@ -37,9 +38,8 @@ use Carbon\Carbon;
  * @property Carbon|null $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
  * @property-read Stage $stage
- * @property-read \Illuminate\Database\Eloquent\Collection|AttemptAnswer[] $attemptAnswers
+ * @property-read Collection|AttemptAnswer[] $attemptAnswers
  */
 class Question extends Model
 {

@@ -5,11 +5,12 @@ use App\Models\StudyPlan;
 use App\Models\User;
 use App\Services\PlannerGenerationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->service = app(PlannerGenerationService::class);
     $this->user = User::factory()->create();
 

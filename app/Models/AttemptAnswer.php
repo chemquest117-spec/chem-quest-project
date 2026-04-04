@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Casts\PostgresBoolean;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Carbon\Carbon;
 
 /**
  * @property int $id
@@ -15,10 +15,8 @@ use Carbon\Carbon;
  * @property bool $is_correct
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
  * @property-read StageAttempt $attempt
  * @property-read Question $question
- * 
  * @property int|null $total_attempts
  * @property int|null $wrong_count
  */

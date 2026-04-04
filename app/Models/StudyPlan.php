@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon $exam_date
- * @property \Illuminate\Support\Carbon $start_date
+ * @property Carbon $exam_date
+ * @property Carbon $start_date
  * @property array $preferred_days
  * @property float $hours_per_day
  * @property int $total_progress
  * @property string $status
  * @property string $pace
- * @property-read \App\Models\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StudyPlanItem[] $items
+ * @property-read User $user
+ * @property-read Collection|StudyPlanItem[] $items
  */
 class StudyPlan extends Model
 {

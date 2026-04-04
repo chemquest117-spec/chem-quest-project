@@ -4,11 +4,12 @@ use App\Models\Stage;
 use App\Models\StudyPlan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 

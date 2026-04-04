@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\StageAttempt;
 use App\Models\StudyPlan;
 use App\Models\WeeklyStudyPlan;
+use App\Models\WeeklyStudyPlanDay;
 
 class ProgressSyncService
 {
@@ -44,10 +45,10 @@ class ProgressSyncService
             ->first();
 
         if ($weeklyPlan) {
-            /** @var \App\Models\WeeklyStudyPlan $weeklyPlan */
+            /** @var WeeklyStudyPlan $weeklyPlan */
             $testDay = $weeklyPlan->days()->where('action_type', 'test')->first();
             if ($testDay) {
-                /** @var \App\Models\WeeklyStudyPlanDay $testDay */
+                /** @var WeeklyStudyPlanDay $testDay */
                 $testDay->update([
                     'is_completed' => true,
                     'completed_at' => now(),
