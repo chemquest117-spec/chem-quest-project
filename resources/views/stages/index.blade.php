@@ -136,6 +136,11 @@
                                                        <span class="inline-flex items-center justify-center gap-1.5 bg-emerald-500/10 text-emerald-400 px-5 py-2.5 rounded-xl text-sm font-bold border border-emerald-500/20 w-full sm:w-auto">
                                                             {{ __('stages.passed') }} <x-icon name="check-circle" class="w-4 h-4" />
                                                        </span>
+                                                       @elseif(in_array($stage->id, $inProgressIds))
+                                                       <a href="{{ route('stages.show', $stage) }}"
+                                                            class="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 hover:scale-105 w-full sm:w-auto">
+                                                            {{ __('stages.continue_quiz') }} <x-icon name="arrow-right" class="w-4 h-4" />
+                                                       </a>
                                                        @elseif(in_array($stage->id, $failedIds))
                                                        <a href="{{ route('stages.show', $stage) }}"
                                                             class="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-orange-500/25 hover:scale-105 w-full sm:w-auto">

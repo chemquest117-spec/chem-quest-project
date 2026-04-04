@@ -27,4 +27,6 @@ return [
     'failed' => 'Failed',
     'view' => 'View',
     'retry' => 'Retry',
+    'in_progress' => 'In Progress',
+    'continue_quiz' => 'Continue Quiz',
 ];

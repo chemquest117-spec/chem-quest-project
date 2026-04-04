@@ -67,7 +67,20 @@ class User extends Authenticatable
 
         return $this->attempts()
             ->where('passed', false)
+            ->whereNotNull('completed_at')
             ->whereNotIn('stage_id', $completedIds)
+            ->pluck('stage_id')
+            ->unique()
+            ->toArray();
+    }
+
+    /**
+     * Get stages with currently active attempts.
+     */
+    public function inProgressStageIds(): array
+    {
+        return $this->attempts()
+            ->whereNull('completed_at')
             ->pluck('stage_id')
             ->unique()
             ->toArray();

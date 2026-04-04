@@ -26,4 +26,7 @@ return [
     'passed' => 'ناجح',
     'failed' => 'راسب',
     'view' => 'عرض',
+    'retry' => 'إعادة المحاولة',
+    'in_progress' => 'قيد التنفيذ',
+    'continue_quiz' => 'أكمل الاختبار',
 ];

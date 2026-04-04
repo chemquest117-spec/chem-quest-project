@@ -13,8 +13,9 @@ class StageController extends Controller
         $stages = Stage::orderBy('order')->withCount('questions')->get();
         $completedIds = $user->completedStageIds();
         $failedIds = $user->failedStageIds();
+        $inProgressIds = $user->inProgressStageIds();
 
-        return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'user'));
+        return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'inProgressIds', 'user'));
     }
 
     public function show(Request $request, Stage $stage)
@@ -35,12 +36,17 @@ class StageController extends Controller
 
         $stage->loadCount('questions');
         $bestAttempt = $stage->bestAttemptFor($user);
+        $hasActiveAttempt = $stage->attempts()
+            ->where('user_id', $user->id)
+            ->whereNull('completed_at')
+            ->exists();
+
         $attemptHistory = $stage->attempts()
             ->where('user_id', $user->id)
             ->latest()
             ->take(5)
             ->get();
 
-        return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'user'));
+        return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'hasActiveAttempt', 'user'));
     }
 }

@@ -58,7 +58,9 @@
                               @csrf
                               <button type="submit"
                                    class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-3 px-6 rounded-xl font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/30">
-                                   @if($isCompleted)
+                                   @if($hasActiveAttempt)
+                                        <x-icon name="arrow-right" class="w-5 h-5" /> {{ __('stages.continue_quiz') }}
+                                   @elseif($isCompleted)
                                         <x-icon name="refresh" class="w-5 h-5" /> {{ __('stages.retry_quiz') }}
                                    @else
                                         <x-icon name="rocket" class="w-5 h-5" /> {{ __('stages.start_quiz') }}
@@ -96,16 +98,26 @@
                                              @endif
                                         </div>
                                         <div class="flex items-center space-x-3">
-                                             <span
-                                                  class="text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
-                                                  {{ $attempt->score }}/{{ $attempt->total_questions }}
-                                             </span>
-                                             <span
-                                                  class="flex items-center gap-1 text-xs px-2 py-1 rounded-full {{ $attempt->passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400' }}">
-                                                  @if($attempt->passed) <x-icon name="check" class="w-3 h-3" /> @else <x-icon
-                                                  name="x-circle" class="w-3 h-3" /> @endif
-                                                  {{ $attempt->passed ? __('stages.passed') : __('stages.failed') }}
-                                             </span>
+                                             @if($attempt->completed_at)
+                                                  <span
+                                                       class="text-sm font-medium {{ $attempt->passed ? 'text-emerald-400' : 'text-red-400' }}">
+                                                       {{ $attempt->score }}/{{ $attempt->total_questions }}
+                                                  </span>
+                                                  <span
+                                                       class="flex items-center gap-1 text-xs px-2 py-1 rounded-full {{ $attempt->passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400' }}">
+                                                       @if($attempt->passed) <x-icon name="check" class="w-3 h-3" /> @else <x-icon
+                                                       name="x-circle" class="w-3 h-3" /> @endif
+                                                       {{ $attempt->passed ? __('stages.passed') : __('stages.failed') }}
+                                                  </span>
+                                             @else
+                                                  <span class="text-sm font-medium text-cyan-400">
+                                                       --/{{ $attempt->total_questions }}
+                                                  </span>
+                                                  <span class="flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400">
+                                                       <x-icon name="clock" class="w-3 h-3 animate-spin-slow" />
+                                                       {{ __('stages.in_progress') }}
+                                                  </span>
+                                             @endif
                                              <a href="{{ route('quiz.result', $attempt) }}"
                                                   class="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 text-sm">{{ __('stages.view') }}
                                                   <x-icon name="arrow-right" class="w-3.5 h-3.5 rtl:rotate-180" /></a>
