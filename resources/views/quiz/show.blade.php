@@ -186,21 +186,35 @@
                           };
 
                           document.addEventListener('contextmenu', e => { e.preventDefault(); antiCheatWarning(); });
-                          document.addEventListener('copy', e => { e.preventDefault(); antiCheatWarning(); });
+                          document.addEventListener('copy', e => { e.preventDefault(); try { navigator.clipboard.writeText(''); }catch(e){} antiCheatWarning(); });
                           document.addEventListener('paste', e => { e.preventDefault(); antiCheatWarning(); });
-                          document.addEventListener('cut', e => { e.preventDefault(); antiCheatWarning(); });
+                          document.addEventListener('cut', e => { e.preventDefault(); try { navigator.clipboard.writeText(''); }catch(e){} antiCheatWarning(); });
+                          
+                          // Explicit text selection blocking outside of textareas/inputs
+                          document.addEventListener('selectstart', e => {
+                               if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+                                   e.preventDefault();
+                               }
+                          });
 
-                          // Block screenshot/devtool shortcuts
-                          document.addEventListener('keydown', e => {
-                               // PrintScreen
-                               if (e.key === 'PrintScreen') {
+                          // Block screenshot/devtool shortcuts (Windows + Shift + S, Cmd + Shift + 3/4/5, PrintScreen)
+                          const preventScreenshots = (e) => {
+                               // PrintScreen key
+                               if (e.key === 'PrintScreen' || e.keyCode === 44) {
                                     e.preventDefault();
                                     antiCheatWarning();
-                                    navigator.clipboard.writeText(''); // Attempt to clear
+                                    try { navigator.clipboard.writeText(''); } catch(err){} 
+                                    return false;
                                }
-                               // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, F12, Ctrl+U, Ctrl+P
+                               // Snipping tools
+                               if (e.metaKey && e.shiftKey && (e.key === 's' || e.key === 'S' || e.key === '3' || e.key === '4' || e.key === '5')) {
+                                    e.preventDefault();
+                                    antiCheatWarning();
+                                    return false;
+                               }
+                               // DevTools / View Source
                                if (
-                                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                                    (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J' || e.key === 'c' || e.key === 'C')) || 
                                     (e.key === 'F12') || 
                                     (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S'))
                                ) {
@@ -208,34 +222,56 @@
                                     antiCheatWarning();
                                     return false;
                                }
-                          });
+                          };
 
-                          // Tab switching detection + Blur effect
-                          document.addEventListener('visibilitychange', () => {
+                          document.addEventListener('keydown', preventScreenshots);
+                          document.addEventListener('keyup', preventScreenshots);
+
+                          // Window focus loss tracking (Blocks split-screen cheating)
+                          this.isFocused = document.hasFocus();
+
+                          const handleFocusLoss = () => {
+                               if (!this.isFocused) return; // Prevent double trigger
+                               this.isFocused = false;
+                               
                                const container = document.querySelector('.py-8');
-                               if (document.hidden) {
-                                    container.classList.add('quiz-blur');
-                                    if (!this.isSubmitting) {
-                                        this.tabSwitches++;
-                                        
-                                        if (this.tabSwitches >= 3) {
-                                             window.dispatchEvent(new CustomEvent('toast', {
-                                                  detail: { type: 'error', message: '{{ __("quiz.tab_switch_limit") }}' }
-                                             }));
-                                             this.isSubmitting = true;
-                                             setTimeout(() => document.getElementById('quiz-form').submit(), 1500);
-                                        } else {
-                                             window.dispatchEvent(new CustomEvent('toast', {
-                                                  detail: { 
-                                                       type: 'warning', 
-                                                       message: '{{ __("quiz.tab_switch_warning") }}'.replace(':count', this.tabSwitches) 
-                                                  }
-                                             }));
-                                        }
+                               if(container) container.classList.add('quiz-blur');
+                               try { navigator.clipboard.writeText(''); } catch(err){} 
+                               
+                               if (!this.isSubmitting) {
+                                   this.tabSwitches++;
+                                   
+                                   if (this.tabSwitches >= 3) {
+                                        window.dispatchEvent(new CustomEvent('toast', {
+                                             detail: { type: 'error', message: '{{ __("quiz.tab_switch_limit") }}' }
+                                        }));
+                                        this.isSubmitting = true;
+                                        setTimeout(() => document.getElementById('quiz-form').submit(), 1500);
+                                   } else {
+                                        window.dispatchEvent(new CustomEvent('toast', {
+                                             detail: { 
+                                                  type: 'warning', 
+                                                  message: '{{ __("quiz.tab_switch_warning") }}'.replace(':count', this.tabSwitches) 
+                                             }
+                                        }));
                                    }
-                               } else {
-                                    container.classList.remove('quiz-blur');
                                }
+                          };
+
+                          const handleFocusGain = () => {
+                               if (this.isFocused) return;
+                               this.isFocused = true;
+                               if (!this.isSubmitting) {
+                                   const container = document.querySelector('.py-8');
+                                   if(container) container.classList.remove('quiz-blur');
+                               }
+                          };
+
+                          window.addEventListener('blur', handleFocusLoss);
+                          window.addEventListener('focus', handleFocusGain);
+                          document.addEventListener('visibilitychange', () => {
+                               if (document.hidden) handleFocusLoss();
+                               else handleFocusGain();
                           });
 
                           // Auto-save helper with retry on 419 (CSRF token mismatch)

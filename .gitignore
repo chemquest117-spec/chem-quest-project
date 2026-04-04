@@ -39,3 +39,5 @@ database/questions.txt
 # database/database.sqlite-wal
 .env.development
 test_output.txt
+check_meta.txt
+routes.txt

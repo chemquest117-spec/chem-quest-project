@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\AttemptAnswer;
 use App\Models\Question;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
-use App\Models\AttemptAnswer;
 
 use function Pest\Laravel\actingAs;
 

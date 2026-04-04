@@ -11,26 +11,29 @@ class StageController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
+
         $stages = Cache::remember('all_stages_with_count', 43200, function () {
             return Stage::orderBy('order')->withCount('questions')->get();
         });
-        
+
         $completedIds = $user->completedStageIds();
         $failedIds = $user->failedStageIds();
         $inProgressIds = $user->inProgressStageIds();
 
-        return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'inProgressIds', 'user'));
+        $metaTitle = "Stages" . " — " . config('app.name');
+        $metaDescription = "Explore all available chemistry stages and track your progress.";
+
+        return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'inProgressIds', 'user', 'metaTitle', 'metaDescription'));
     }
 
     public function show(Request $request, Stage $stage)
     {
         $user = $request->user();
-        
+
         $stages = Cache::remember('all_stages', 86400, function () {
             return Stage::orderBy('order')->get();
         });
-        
+
         $completedIds = $user->completedStageIds();
 
         if (! $stage->isUnlockedFor($user, $stages, $completedIds)) {
@@ -58,6 +61,9 @@ class StageController extends Controller
             ->take(5)
             ->get();
 
-        return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'hasActiveAttempt', 'user'));
+        $metaTitle = "Stage: " . $stage->getTranslatedTitle() . " — " . config('app.name');
+        $metaDescription = "Take on the " . $stage->getTranslatedTitle() . " challenge completely tailored for you.";
+
+        return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'hasActiveAttempt', 'user', 'metaTitle', 'metaDescription'));
     }
 }

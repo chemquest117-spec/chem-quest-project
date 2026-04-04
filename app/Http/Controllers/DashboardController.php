@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
+
         // Cache immutable stage schema for 24 hours
         $stages = Cache::remember('all_stages', 86400, function () {
             return Stage::orderBy('order')->get();

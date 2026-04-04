@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Stage extends Model
 {
@@ -47,7 +48,7 @@ class Stage extends Model
      * Stage 1 (order=1) is always unlocked.
      * Other stages require the previous stage to be passed.
      *
-     * @param  \Illuminate\Support\Collection|null  $allStages  Preloaded stages collection to avoid N+1 queries.
+     * @param  Collection|null  $allStages  Preloaded stages collection to avoid N+1 queries.
      * @param  array|null  $completedIds  Precomputed completed stage IDs.
      */
     public function isUnlockedFor($user, $allStages = null, ?array $completedIds = null): bool
