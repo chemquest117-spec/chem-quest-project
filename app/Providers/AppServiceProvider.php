@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
             $url = config('app.url');
             if (! str_contains($url, 'localhost') && ! str_contains($url, '127.0.0.1')) {
                 URL::forceScheme('https');
+                // Ensure cookies are only sent over HTTPS to fix 419 errors on mobile
+                config(['session.secure' => true]);
             }
         }
     }
