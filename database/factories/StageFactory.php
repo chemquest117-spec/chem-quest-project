@@ -12,7 +12,7 @@ class StageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word() . ' Stage',
+            'title' => $this->faker->word().' Stage',
             'title_ar' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'description_ar' => $this->faker->sentence(),

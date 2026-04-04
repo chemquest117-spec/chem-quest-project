@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAnalyticsController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminQuestionController;
+use App\Http\Controllers\Admin\AdminStageController;
+use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StageController;
-use App\Http\Controllers\QuizController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminStageController;
-use App\Http\Controllers\Admin\AdminQuestionController;
-use App\Http\Controllers\Admin\AdminStudentController;
-use App\Http\Controllers\Admin\AdminAnalyticsController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\StageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,10 +32,11 @@ Route::get('/', function () {
 */
 
 Route::get('/language/{locale}', function ($locale) {
-    if (!in_array($locale, ['en', 'ar'])) {
+    if (! in_array($locale, ['en', 'ar'])) {
         abort(400);
     }
     session()->put('locale', $locale);
+
     return redirect()->back();
 })->name('language.switch');
 
@@ -111,4 +112,4 @@ Route::get('/sys-suspended', function () {
     return view('errors.sys-suspended');
 })->name('sys.suspended');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

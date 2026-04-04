@@ -1,4 +1,5 @@
 <?php
+
 return [
     'title' => 'Profile',
     'delete_account' => 'Delete Account',
@@ -13,7 +14,7 @@ return [
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
-    
+
     'profile_information' => 'Profile Information',
     'profile_information_desc' => "Update your account's profile information and email address.",
     'name' => 'Name',
@@ -21,7 +22,7 @@ return [
     'email_unverified' => 'Your email address is unverified.',
     'resend_verification' => 'Click here to re-send the verification email.',
     'verification_link_sent' => 'A new verification link has been sent to your email address.',
-    
+
     'save' => 'Save',
     'saved' => 'Saved.',
 ];

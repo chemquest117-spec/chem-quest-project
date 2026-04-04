@@ -3,145 +3,145 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Stage;
 use App\Models\StageAttempt;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AdminStudentController extends Controller
 {
-     public function index()
-     {
-          $students = User::where('is_admin', false)
-               ->withCount('attempts')
-               ->orderByDesc('total_points')
-               ->paginate(20);
+    public function index()
+    {
+        $students = User::where('is_admin', false)
+            ->withCount('attempts')
+            ->orderByDesc('total_points')
+            ->paginate(20);
 
-          $stages = Stage::orderBy('order')->get();
+        $stages = Stage::orderBy('order')->get();
 
-          return view('admin.students.index', compact('students', 'stages'));
-     }
+        return view('admin.students.index', compact('students', 'stages'));
+    }
 
-     /**
-      * Show detailed student profile with full learning journey. 
-      */
-     public function show(User $user)
-     {
-          if ($user->is_admin) {
-               abort(404);
-          }
+    /**
+     * Show detailed student profile with full learning journey.
+     */
+    public function show(User $user)
+    {
+        if ($user->is_admin) {
+            abort(404);
+        }
 
-          $stages = Stage::orderBy('order')->get();
-          $completedIds = $user->completedStageIds();
+        $stages = Stage::orderBy('order')->get();
+        $completedIds = $user->completedStageIds();
 
-          // Get all attempts grouped by stage
-          $attemptsByStage = StageAttempt::where('user_id', $user->id)
-               ->with('stage')
-               ->orderByDesc('created_at')
-               ->get()
-               ->groupBy('stage_id');
+        // Get all attempts grouped by stage
+        $attemptsByStage = StageAttempt::where('user_id', $user->id)
+            ->with('stage')
+            ->orderByDesc('created_at')
+            ->get()
+            ->groupBy('stage_id');
 
-          // Performance over time (last 30 attempts)
-          $recentAttempts = StageAttempt::where('user_id', $user->id)
-               ->whereNotNull('completed_at')
-               ->orderByDesc('completed_at')
-               ->take(30)
-               ->get();
+        // Performance over time (last 30 attempts)
+        $recentAttempts = StageAttempt::where('user_id', $user->id)
+            ->whereNotNull('completed_at')
+            ->orderByDesc('completed_at')
+            ->take(30)
+            ->get();
 
-          // Calculate strengths and weaknesses by stage
-          $stagePerformance = [];
-          foreach ($stages as $stage) {
-               $stageAttempts = $attemptsByStage->get($stage->id, collect());
-               $completed = $stageAttempts->whereNotNull('completed_at');
+        // Calculate strengths and weaknesses by stage
+        $stagePerformance = [];
+        foreach ($stages as $stage) {
+            $stageAttempts = $attemptsByStage->get($stage->id, collect());
+            $completed = $stageAttempts->whereNotNull('completed_at');
 
-               if ($completed->isEmpty()) {
-                    $stagePerformance[] = [
-                         'stage' => $stage,
-                         'attempts' => 0,
-                         'avg_score' => 0,
-                         'best_score' => 0,
-                         'passed' => false,
-                         'avg_time' => 0,
-                    ];
-                    continue;
-               }
-
-               $bestAttempt = $completed->sortByDesc('score')->first();
-
-               $stagePerformance[] = [
+            if ($completed->isEmpty()) {
+                $stagePerformance[] = [
                     'stage' => $stage,
-                    'attempts' => $completed->count(),
-                    'avg_score' => round($completed->avg(fn($a) => $a->total_questions > 0 ? ($a->score / $a->total_questions) * 100 : 0), 1),
-                    'best_score' => $bestAttempt ? round(($bestAttempt->score / max(1, $bestAttempt->total_questions)) * 100, 1) : 0,
-                    'passed' => in_array($stage->id, $completedIds),
-                    'avg_time' => round($completed->avg('time_spent_seconds')),
-               ];
-          }
+                    'attempts' => 0,
+                    'avg_score' => 0,
+                    'best_score' => 0,
+                    'passed' => false,
+                    'avg_time' => 0,
+                ];
 
-          // Overall stats
-          $totalAttempts = $recentAttempts->count();
-          $passedAttempts = $recentAttempts->where('passed', true)->count();
-          $successRate = $totalAttempts > 0 ? round(($passedAttempts / $totalAttempts) * 100, 1) : 0;
-          $totalTimeSpent = StageAttempt::where('user_id', $user->id)->sum('time_spent_seconds');
+                continue;
+            }
 
-          return view('admin.students.show', compact(
-               'user',
-               'stages',
-               'completedIds',
-               'stagePerformance',
-               'recentAttempts',
-               'successRate',
-               'totalTimeSpent'
-          ));
-     }
+            $bestAttempt = $completed->sortByDesc('score')->first();
 
-     /**
-      * Delete a student account.
-      */
-     public function destroy(User $user)
-     {
-          if ($user->is_admin) {
-               return back()->with('error', 'Cannot delete admin accounts.');
-          }
+            $stagePerformance[] = [
+                'stage' => $stage,
+                'attempts' => $completed->count(),
+                'avg_score' => round($completed->avg(fn ($a) => $a->total_questions > 0 ? ($a->score / $a->total_questions) * 100 : 0), 1),
+                'best_score' => $bestAttempt ? round(($bestAttempt->score / max(1, $bestAttempt->total_questions)) * 100, 1) : 0,
+                'passed' => in_array($stage->id, $completedIds),
+                'avg_time' => round($completed->avg('time_spent_seconds')),
+            ];
+        }
 
-          $user->delete();
+        // Overall stats
+        $totalAttempts = $recentAttempts->count();
+        $passedAttempts = $recentAttempts->where('passed', true)->count();
+        $successRate = $totalAttempts > 0 ? round(($passedAttempts / $totalAttempts) * 100, 1) : 0;
+        $totalTimeSpent = StageAttempt::where('user_id', $user->id)->sum('time_spent_seconds');
 
-          return redirect()->route('admin.students.index')
-               ->with('success', "Student '{$user->name}' has been deleted.");
-     }
+        return view('admin.students.show', compact(
+            'user',
+            'stages',
+            'completedIds',
+            'stagePerformance',
+            'recentAttempts',
+            'successRate',
+            'totalTimeSpent'
+        ));
+    }
 
-     /**
-      * Toggle student ban status.
-      */
-     public function toggleBan(User $user)
-     {
-          if ($user->is_admin) {
-               return back()->with('error', 'Cannot ban admin accounts.');
-          }
+    /**
+     * Delete a student account.
+     */
+    public function destroy(User $user)
+    {
+        if ($user->is_admin) {
+            return back()->with('error', 'Cannot delete admin accounts.');
+        }
 
-          $user->is_banned = !($user->is_banned ?? false);
-          $user->save();
+        $user->delete();
 
-          $status = $user->is_banned ? 'banned' : 'unbanned';
+        return redirect()->route('admin.students.index')
+            ->with('success', "Student '{$user->name}' has been deleted.");
+    }
 
-          return back()->with('success', "Student '{$user->name}' has been {$status}.");
-     }
+    /**
+     * Toggle student ban status.
+     */
+    public function toggleBan(User $user)
+    {
+        if ($user->is_admin) {
+            return back()->with('error', 'Cannot ban admin accounts.');
+        }
 
-     /**
-      * Reset student password to a random one.
-      */
-     public function resetPassword(User $user)
-     {
-          if ($user->is_admin) {
-               return back()->with('error', 'Cannot reset admin passwords from here.');
-          }
+        $user->is_banned = ! ($user->is_banned ?? false);
+        $user->save();
 
-          $newPassword = Str::random(10);
-          $user->password = Hash::make($newPassword);
-          $user->save();
+        $status = $user->is_banned ? 'banned' : 'unbanned';
 
-          return back()->with('success', "Password for '{$user->name}' has been reset to: {$newPassword}");
-     }
+        return back()->with('success', "Student '{$user->name}' has been {$status}.");
+    }
+
+    /**
+     * Reset student password to a random one.
+     */
+    public function resetPassword(User $user)
+    {
+        if ($user->is_admin) {
+            return back()->with('error', 'Cannot reset admin passwords from here.');
+        }
+
+        $newPassword = Str::random(10);
+        $user->password = Hash::make($newPassword);
+        $user->save();
+
+        return back()->with('success', "Password for '{$user->name}' has been reset to: {$newPassword}");
+    }
 }

@@ -1,7 +1,11 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\{post, assertAuthenticatedAs, assertGuest};
+use Illuminate\Support\Facades\Hash;
+
+use function Pest\Laravel\assertAuthenticatedAs;
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\post;
 
 it('users can register', function () {
     post('/register', [
@@ -16,7 +20,7 @@ it('users can register', function () {
 
 it('users can login', function () {
     $user = User::factory()->create([
-        'password' => \Illuminate\Support\Facades\Hash::make('password')
+        'password' => Hash::make('password'),
     ]);
 
     post('/login', [

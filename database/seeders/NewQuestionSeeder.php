@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Question;
 use App\Models\Stage;
 use Illuminate\Database\Seeder;
 

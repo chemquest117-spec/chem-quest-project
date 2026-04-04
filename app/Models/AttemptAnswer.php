@@ -7,24 +7,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AttemptAnswer extends Model
 {
-     protected $fillable = [
-          'stage_attempt_id',
-          'question_id',
-          'selected_answer',
-          'is_correct',
-     ];
+    protected $fillable = [
+        'stage_attempt_id',
+        'question_id',
+        'selected_answer',
+        'is_correct',
+    ];
 
-     protected $casts = [
-          'is_correct' => 'boolean',
-     ];
+    protected $casts = [
+        'is_correct' => 'boolean',
+    ];
 
-     public function attempt(): BelongsTo
-     {
-          return $this->belongsTo(StageAttempt::class, 'stage_attempt_id');
-     }
+    public function attempt(): BelongsTo
+    {
+        return $this->belongsTo(StageAttempt::class, 'stage_attempt_id');
+    }
 
-     public function question(): BelongsTo
-     {
-          return $this->belongsTo(Question::class);
-     }
+    public function question(): BelongsTo
+    {
+        return $this->belongsTo(Question::class);
+    }
 }

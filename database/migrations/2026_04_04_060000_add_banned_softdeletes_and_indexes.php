@@ -23,7 +23,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // Add soft deletes to questions  
+        // Add soft deletes to questions
         Schema::table('questions', function (Blueprint $table) {
             $table->softDeletes();
             $table->index('stage_id');

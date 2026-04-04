@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
-     public function handle(Request $request, Closure $next): Response
-     {
-          if (!auth()->check() || !auth()->user()->is_admin) {
-               abort(403, 'Unauthorized. Admin access only.');
-          }
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (! auth()->check() || ! auth()->user()->is_admin) {
+            abort(403, 'Unauthorized. Admin access only.');
+        }
 
-          return $next($request);
-     }
+        return $next($request);
+    }
 }

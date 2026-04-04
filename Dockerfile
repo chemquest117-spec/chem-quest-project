@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
      unzip \
      libpq-dev \
      libzip-dev \
-     && docker-php-ext-install pdo pdo_pgsql zip \
+     && docker-php-ext-install pdo pdo_pgsql zip bcmath \
      && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache rewrite
@@ -40,6 +40,11 @@ COPY . .
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
+
+# Cache Laravel config, routes, and views
+RUN php artisan config:cache && \
+     php artisan route:cache && \
+     php artisan view:cache
 
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build

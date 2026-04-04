@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Add explanation, topic, type, and expected_answer columns to questions table.
      * These support the new LO-based question structure with explanations shown after submission.

@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\{post, postJson};
+
+use function Pest\Laravel\post;
 
 it('enforces rate limiting on login attempts', function () {
     for ($i = 0; $i < 5; $i++) {
@@ -22,12 +23,12 @@ it('sanitizes xss payloads in question generation or submission input', function
     $response = $this->actingAs($user)
         ->postJson('/quiz/1/save-answer', [
             'question_id' => 1,
-            'answer' => $payload
+            'answer' => $payload,
         ]);
-        
+
     // Should be OK or 404/403 if attempt 1 doesnt exist, but crucially it shouldn't save the script tag verbatim.
     // We check that at least the response doesn't throw a generic 500 error if properly handled.
     $this->assertDatabaseMissing('attempt_answers', [
-        'answer' => '<script>alert("xss")</script> Valid Answer'
+        'answer' => '<script>alert("xss")</script> Valid Answer',
     ]);
 });

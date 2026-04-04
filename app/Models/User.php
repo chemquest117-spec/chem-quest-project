@@ -6,14 +6,14 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Cashier\Billable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, Billable;
+    use Billable, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -76,10 +76,12 @@ class User extends Authenticatable
     public function progressPercentage(): float
     {
         $totalStages = Stage::count();
-        if ($totalStages === 0)
+        if ($totalStages === 0) {
             return 0;
+        }
 
         $completed = count($this->completedStageIds());
+
         return round(($completed / $totalStages) * 100, 1);
     }
 }

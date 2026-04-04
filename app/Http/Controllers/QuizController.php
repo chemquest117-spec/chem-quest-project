@@ -8,338 +8,342 @@ use App\Models\StageAttempt;
 use App\Notifications\StageCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class QuizController extends Controller
 {
-     /**
-      * Start a new quiz attempt for a stage.
-      */
-     public function start(Request $request, Stage $stage)
-     {
-          $user = $request->user();
+    /**
+     * Start a new quiz attempt for a stage.
+     */
+    public function start(Request $request, Stage $stage)
+    {
+        $user = $request->user();
 
-          // Validate stage is unlocked
-          if (!$stage->isUnlockedFor($user)) {
-               return redirect()->route('stages.index')
-                    ->with('error', __('messages.stage_locked'));
-          }
+        // Validate stage is unlocked
+        if (! $stage->isUnlockedFor($user)) {
+            return redirect()->route('stages.index')
+                ->with('error', __('messages.stage_locked'));
+        }
 
-          // Check minimum questions
-          if ($stage->questions()->count() === 0) {
-               return redirect()->route('stages.show', $stage)
-                    ->with('error', __('messages.error'));
-          }
+        // Check minimum questions
+        if ($stage->questions()->count() === 0) {
+            return redirect()->route('stages.show', $stage)
+                ->with('error', __('messages.error'));
+        }
 
-          // Prevent concurrent quiz attempts on same stage
-          $activeAttempt = StageAttempt::where('user_id', $user->id)
-               ->where('stage_id', $stage->id)
-               ->whereNull('completed_at')
-               ->first();
+        // Prevent concurrent quiz attempts on same stage
+        $activeAttempt = StageAttempt::where('user_id', $user->id)
+            ->where('stage_id', $stage->id)
+            ->whereNull('completed_at')
+            ->first();
 
-          if ($activeAttempt) {
-               return redirect()->route('quiz.show', $activeAttempt);
-          }
+        if ($activeAttempt) {
+            return redirect()->route('quiz.show', $activeAttempt);
+        }
 
-          // Create a new attempt
-          $attempt = StageAttempt::create([
-               'user_id' => $user->id,
-               'stage_id' => $stage->id,
-               'total_questions' => $stage->questions()->count(),
-               'started_at' => Carbon::now(),
-          ]);
+        // Create a new attempt
+        $attempt = StageAttempt::create([
+            'user_id' => $user->id,
+            'stage_id' => $stage->id,
+            'total_questions' => $stage->questions()->count(),
+            'started_at' => Carbon::now(),
+        ]);
 
-          // Cache question IDs for the stage to prevent heavy DB load per student attempt
-          $questionIds = \Illuminate\Support\Facades\Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
-               return $stage->questions()->pluck('id')->toArray();
-          });
+        // Cache question IDs for the stage to prevent heavy DB load per student attempt
+        $questionIds = Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
+            return $stage->questions()->pluck('id')->toArray();
+        });
 
-          // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
-          shuffle($questionIds);
+        // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
+        shuffle($questionIds);
 
-          foreach ($questionIds as $questionId) {
-               AttemptAnswer::create([
-                    'stage_attempt_id' => $attempt->id,
-                    'question_id' => $questionId,
-               ]);
-          }
+        foreach ($questionIds as $questionId) {
+            AttemptAnswer::create([
+                'stage_attempt_id' => $attempt->id,
+                'question_id' => $questionId,
+            ]);
+        }
 
-          return redirect()->route('quiz.show', $attempt);
-     }
+        return redirect()->route('quiz.show', $attempt);
+    }
 
-     /**
-      * Show the quiz page with timer.
-      */
-     public function show(Request $request, StageAttempt $attempt)
-     {
-          $user = $request->user();
+    /**
+     * Show the quiz page with timer.
+     */
+    public function show(Request $request, StageAttempt $attempt)
+    {
+        $user = $request->user();
 
-          // Verify ownership
-          if ($attempt->user_id !== $user->id) {
-               abort(403);
-          }
+        // Verify ownership
+        if ($attempt->user_id !== $user->id) {
+            abort(403);
+        }
 
-          // If already completed, redirect to result
-          if ($attempt->completed_at) {
-               return redirect()->route('quiz.result', $attempt);
-          }
+        // If already completed, redirect to result
+        if ($attempt->completed_at) {
+            return redirect()->route('quiz.result', $attempt);
+        }
 
-          $stage = $attempt->stage;
-          $answers = $attempt->answers()->with('question')->get();
+        $stage = $attempt->stage;
+        $answers = $attempt->answers()->with('question')->get();
 
-          // Calculate remaining time
-          $elapsed = (int) $attempt->started_at->diffInSeconds(now());
-          $totalSeconds = $stage->time_limit_minutes * 60;
-          $remainingSeconds = max(0, $totalSeconds - $elapsed);
+        // Calculate remaining time
+        $elapsed = (int) $attempt->started_at->diffInSeconds(now());
+        $totalSeconds = $stage->time_limit_minutes * 60;
+        $remainingSeconds = max(0, $totalSeconds - $elapsed);
 
-          // Auto-submit if time has expired
-          if ($remainingSeconds <= 0) {
-               return $this->gradeAttempt($attempt, $user, []);
-          }
+        // Auto-submit if time has expired
+        if ($remainingSeconds <= 0) {
+            return $this->gradeAttempt($attempt, $user, []);
+        }
 
-          return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds'));
-     }
+        return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds'));
+    }
 
-     /**
-      * Save a single answer via AJAX (auto-save as students select).
-      */
-     public function saveAnswer(Request $request, StageAttempt $attempt)
-     {
-          $user = $request->user();
+    /**
+     * Save a single answer via AJAX (auto-save as students select).
+     */
+    public function saveAnswer(Request $request, StageAttempt $attempt)
+    {
+        $user = $request->user();
 
-          if ($attempt->user_id !== $user->id) {
-               return response()->json(['error' => 'Unauthorized'], 403);
-          }
+        if ($attempt->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
-          if ($attempt->completed_at) {
-               return response()->json(['error' => 'Quiz already completed'], 422);
-          }
+        if ($attempt->completed_at) {
+            return response()->json(['error' => 'Quiz already completed'], 422);
+        }
 
-          $request->validate([
-               'question_id' => 'required|integer',
-               'answer' => 'required|string|max:5000',
-          ]);
+        $request->validate([
+            'question_id' => 'required|integer',
+            'answer' => 'required|string|max:5000',
+        ]);
 
-          $answer = $attempt->answers()
-               ->where('question_id', $request->question_id)
-               ->first();
+        $answer = $attempt->answers()
+            ->where('question_id', $request->question_id)
+            ->first();
 
-          if ($answer) {
-               $answer->update(['selected_answer' => $request->answer]);
-               return response()->json(['success' => true]);
-          }
+        if ($answer) {
+            $answer->update(['selected_answer' => $request->answer]);
 
-          return response()->json(['error' => 'Answer not found'], 404);
-     }
+            return response()->json(['success' => true]);
+        }
 
-     /**
-      * Submit quiz answers.
-      */
-     public function submit(Request $request, StageAttempt $attempt)
-     {
-          $user = $request->user();
+        return response()->json(['error' => 'Answer not found'], 404);
+    }
 
-          if ($attempt->user_id !== $user->id) {
-               abort(403);
-          }
+    /**
+     * Submit quiz answers.
+     */
+    public function submit(Request $request, StageAttempt $attempt)
+    {
+        $user = $request->user();
 
-          if ($attempt->completed_at) {
-               return redirect()->route('quiz.result', $attempt);
-          }
+        if ($attempt->user_id !== $user->id) {
+            abort(403);
+        }
 
-          $submittedAnswers = $request->input('answers', []);
+        if ($attempt->completed_at) {
+            return redirect()->route('quiz.result', $attempt);
+        }
 
-          return $this->gradeAttempt($attempt, $user, $submittedAnswers);
-     }
+        $submittedAnswers = $request->input('answers', []);
 
-     /**
-      * Show quiz results.
-      */
-     public function result(Request $request, StageAttempt $attempt)
-     {
-          $user = $request->user();
+        return $this->gradeAttempt($attempt, $user, $submittedAnswers);
+    }
 
-          if ($attempt->user_id !== $user->id) {
-               abort(403);
-          }
+    /**
+     * Show quiz results.
+     */
+    public function result(Request $request, StageAttempt $attempt)
+    {
+        $user = $request->user();
 
-          if (!$attempt->completed_at) {
-               return redirect()->route('quiz.show', $attempt);
-          }
+        if ($attempt->user_id !== $user->id) {
+            abort(403);
+        }
 
-          $attempt->load(['stage', 'answers.question']);
+        if (! $attempt->completed_at) {
+            return redirect()->route('quiz.show', $attempt);
+        }
 
-          return view('quiz.result', compact('attempt', 'user'));
-     }
+        $attempt->load(['stage', 'answers.question']);
 
-     /**
-      * Grade an attempt — core scoring logic.
-      * Handles both MCQ (exact match) and essay (keyword-based partial match).
-      */
-     private function gradeAttempt(StageAttempt $attempt, $user, array $submittedAnswers)
-     {
-          $score = 0;
-          $answers = $attempt->answers()->with('question')->get();
+        return view('quiz.result', compact('attempt', 'user'));
+    }
 
-          foreach ($answers as $answer) {
-               $question = $answer->question;
-               $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
+    /**
+     * Grade an attempt — core scoring logic.
+     * Handles both MCQ (exact match) and essay (keyword-based partial match).
+     */
+    private function gradeAttempt(StageAttempt $attempt, $user, array $submittedAnswers)
+    {
+        $score = 0;
+        $answers = $attempt->answers()->with('question')->get();
 
-               if ($question->isMcq()) {
-                    // MCQ: exact match (case-insensitive)
-                    $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
-               } elseif ($question->isEssay()) {
-                    // Essay: keyword-based scoring against expected_answer
-                    $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
-               } else {
-                    $isCorrect = false;
-               }
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+            $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
 
-               $answer->update([
-                    'selected_answer' => $selected,
-                    'is_correct' => $isCorrect,
-               ]);
+            if ($question->isMcq()) {
+                // MCQ: exact match (case-insensitive)
+                $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
+            } elseif ($question->isEssay()) {
+                // Essay: keyword-based scoring against expected_answer
+                $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
+            } else {
+                $isCorrect = false;
+            }
 
-               if ($isCorrect)
-                    $score++;
-          }
+            $answer->update([
+                'selected_answer' => $selected,
+                'is_correct' => $isCorrect,
+            ]);
 
-          $totalQuestions = $answers->count();
-          $percentage = $totalQuestions > 0 ? ($score / $totalQuestions) * 100 : 0;
-          $passed = $percentage >= $attempt->stage->passing_percentage;
+            if ($isCorrect) {
+                $score++;
+            }
+        }
 
-          // Calculate time spent
-          $timeSpent = (int) $attempt->started_at->diffInSeconds(now());
+        $totalQuestions = $answers->count();
+        $percentage = $totalQuestions > 0 ? ($score / $totalQuestions) * 100 : 0;
+        $passed = $percentage >= $attempt->stage->passing_percentage;
 
-          $attempt->update([
-               'score' => $score,
-               'total_questions' => $totalQuestions,
-               'passed' => $passed,
-               'time_spent_seconds' => $timeSpent,
-               'completed_at' => Carbon::now(),
-          ]);
+        // Calculate time spent
+        $timeSpent = (int) $attempt->started_at->diffInSeconds(now());
 
-          // Award points and stars
-          $this->awardGamification($attempt, $user, $passed, $percentage);
+        $attempt->update([
+            'score' => $score,
+            'total_questions' => $totalQuestions,
+            'passed' => $passed,
+            'time_spent_seconds' => $timeSpent,
+            'completed_at' => Carbon::now(),
+        ]);
 
-          // Update study streak
-          $this->updateStreak($user);
+        // Award points and stars
+        $this->awardGamification($attempt, $user, $passed, $percentage);
 
-          return redirect()->route('quiz.result', $attempt);
-     }
+        // Update study streak
+        $this->updateStreak($user);
 
-     /**
-      * Grade an essay answer using keyword matching.
-      * Returns true if the student's answer contains enough key terms.
-      */
-     private function gradeEssay(?string $studentAnswer, ?string $expectedAnswer): bool
-     {
-          if (empty($studentAnswer) || empty($expectedAnswer)) {
-               return false;
-          }
+        return redirect()->route('quiz.result', $attempt);
+    }
 
-          $studentAnswer = strtolower(trim($studentAnswer));
-          $expectedAnswer = strtolower(trim($expectedAnswer));
+    /**
+     * Grade an essay answer using keyword matching.
+     * Returns true if the student's answer contains enough key terms.
+     */
+    private function gradeEssay(?string $studentAnswer, ?string $expectedAnswer): bool
+    {
+        if (empty($studentAnswer) || empty($expectedAnswer)) {
+            return false;
+        }
 
-          // Extract keywords from expected answer (words with 4+ characters)
-          $expectedWords = array_filter(
-               preg_split('/[\s,;.]+/', $expectedAnswer),
-               fn($word) => mb_strlen($word) >= 4
-          );
+        $studentAnswer = strtolower(trim($studentAnswer));
+        $expectedAnswer = strtolower(trim($expectedAnswer));
 
-          if (empty($expectedWords)) {
-               // Fallback: direct similarity check
-               similar_text($studentAnswer, $expectedAnswer, $percent);
-               return $percent >= 50;
-          }
+        // Extract keywords from expected answer (words with 4+ characters)
+        $expectedWords = array_filter(
+            preg_split('/[\s,;.]+/', $expectedAnswer),
+            fn ($word) => mb_strlen($word) >= 4
+        );
 
-          // Count how many expected keywords appear in student answer
-          $matchCount = 0;
-          foreach ($expectedWords as $word) {
-               if (str_contains($studentAnswer, $word)) {
-                    $matchCount++;
-               }
-          }
+        if (empty($expectedWords)) {
+            // Fallback: direct similarity check
+            similar_text($studentAnswer, $expectedAnswer, $percent);
 
-          // Student must match at least 40% of keywords
-          $matchRatio = $matchCount / count($expectedWords);
-          return $matchRatio >= 0.4;
-     }
+            return $percent >= 50;
+        }
 
-     /**
-      * Update the user's daily study streak.
-      */
-     private function updateStreak($user): void
-     {
-          $today = now()->toDateString();
+        // Count how many expected keywords appear in student answer
+        $matchCount = 0;
+        foreach ($expectedWords as $word) {
+            if (str_contains($studentAnswer, $word)) {
+                $matchCount++;
+            }
+        }
 
-          if ($user->last_activity && $user->last_activity->toDateString() === $today) {
-               // Already studied today — no change
-               return;
-          }
+        // Student must match at least 40% of keywords
+        $matchRatio = $matchCount / count($expectedWords);
 
-          if ($user->last_activity && $user->last_activity->toDateString() === now()->subDay()->toDateString()) {
-               // Studied yesterday — extend streak
-               $user->streak += 1;
-          } else {
-               // Missed a day or first activity — reset to 1
-               $user->streak = 1;
-          }
+        return $matchRatio >= 0.4;
+    }
 
-          $user->last_activity = $today;
-          $user->save();
-     }
+    /**
+     * Update the user's daily study streak.
+     */
+    private function updateStreak($user): void
+    {
+        $today = now()->toDateString();
 
+        if ($user->last_activity && $user->last_activity->toDateString() === $today) {
+            // Already studied today — no change
+            return;
+        }
 
-     /**
-      * Award points, stars, and send notifications.
-      */
-     private function awardGamification(StageAttempt $attempt, $user, bool $passed, float $percentage)
-     {
-          $stage = $attempt->stage;
+        if ($user->last_activity && $user->last_activity->toDateString() === now()->subDay()->toDateString()) {
+            // Studied yesterday — extend streak
+            $user->streak += 1;
+        } else {
+            // Missed a day or first activity — reset to 1
+            $user->streak = 1;
+        }
 
-          if ($passed) {
-               $isFirstPass = $attempt->isFirstPass();
-               $points = $isFirstPass ? $stage->points_reward : intval($stage->points_reward / 2);
+        $user->last_activity = $today;
+        $user->save();
+    }
 
-               $user->increment('total_points', $points);
+    /**
+     * Award points, stars, and send notifications.
+     */
+    private function awardGamification(StageAttempt $attempt, $user, bool $passed, float $percentage)
+    {
+        $stage = $attempt->stage;
 
-               if ($isFirstPass) {
-                    $user->increment('stars', 1);
-               }
+        if ($passed) {
+            $isFirstPass = $attempt->isFirstPass();
+            $points = $isFirstPass ? $stage->points_reward : intval($stage->points_reward / 2);
 
-               // Perfect score bonus
-               if ($percentage >= 100) {
-                    $user->increment('total_points', 50);
-                    $user->increment('stars', 1);
-                    $user->notify(new StageCompleted($attempt, [
-                         'en' => "⭐ Perfect score on {$stage->title}! +50 bonus points!",
-                         'ar' => "⭐ درجة كاملة في " . ($stage->title_ar ?: $stage->title) . "! +50 نقطة إضافية!"
-                    ], 'success'));
-               }
+            $user->increment('total_points', $points);
 
-               $msgEn = $isFirstPass
-                    ? "🎉 You passed {$stage->title}! +{$points} points!"
-                    : "Great job retrying {$stage->title}! +{$points} points!";
-               
-               $msgAr = $isFirstPass
-                    ? "🎉 لقد اجتزت " . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!"
-                    : "عمل رائع في إعادة " . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!";
+            if ($isFirstPass) {
+                $user->increment('stars', 1);
+            }
 
-               $user->notify(new StageCompleted($attempt, ['en' => $msgEn, 'ar' => $msgAr], 'success'));
+            // Perfect score bonus
+            if ($percentage >= 100) {
+                $user->increment('total_points', 50);
+                $user->increment('stars', 1);
+                $user->notify(new StageCompleted($attempt, [
+                    'en' => "⭐ Perfect score on {$stage->title}! +50 bonus points!",
+                    'ar' => '⭐ درجة كاملة في '.($stage->title_ar ?: $stage->title).'! +50 نقطة إضافية!',
+                ], 'success'));
+            }
 
-               // Notify about next stage unlock
-               $nextStage = Stage::where('order', $stage->order + 1)->first();
-                if ($nextStage && $isFirstPass) {
-                     $user->notify(new StageCompleted($attempt, [
-                         'en' => "🔓 Stage '{$nextStage->title}' is now unlocked!",
-                         'ar' => "🔓 المرحلة '" . ($nextStage->title_ar ?: $nextStage->title) . "' متاحة الآن!"
-                     ], 'info'));
-                }
-          } else {
-               $user->notify(new StageCompleted($attempt, [
-                    'en' => "Keep trying! You scored {$attempt->score}/{$attempt->total_questions} on {$stage->title}. You need {$stage->passing_percentage}% to pass.",
-                    'ar' => "استمر في المحاولة! لقد سجلت {$attempt->score}/{$attempt->total_questions} في " . ($stage->title_ar ?: $stage->title) . ". تحتاج إلى {$stage->passing_percentage}% للنجاح."
-               ], 'warning'));
-          }
-     }
+            $msgEn = $isFirstPass
+                 ? "🎉 You passed {$stage->title}! +{$points} points!"
+                 : "Great job retrying {$stage->title}! +{$points} points!";
+
+            $msgAr = $isFirstPass
+                 ? '🎉 لقد اجتزت '.($stage->title_ar ?: $stage->title)."! +{$points} نقطة!"
+                 : 'عمل رائع في إعادة '.($stage->title_ar ?: $stage->title)."! +{$points} نقطة!";
+
+            $user->notify(new StageCompleted($attempt, ['en' => $msgEn, 'ar' => $msgAr], 'success'));
+
+            // Notify about next stage unlock
+            $nextStage = Stage::where('order', $stage->order + 1)->first();
+            if ($nextStage && $isFirstPass) {
+                $user->notify(new StageCompleted($attempt, [
+                    'en' => "🔓 Stage '{$nextStage->title}' is now unlocked!",
+                    'ar' => "🔓 المرحلة '".($nextStage->title_ar ?: $nextStage->title)."' متاحة الآن!",
+                ], 'info'));
+            }
+        } else {
+            $user->notify(new StageCompleted($attempt, [
+                'en' => "Keep trying! You scored {$attempt->score}/{$attempt->total_questions} on {$stage->title}. You need {$stage->passing_percentage}% to pass.",
+                'ar' => "استمر في المحاولة! لقد سجلت {$attempt->score}/{$attempt->total_questions} في ".($stage->title_ar ?: $stage->title).". تحتاج إلى {$stage->passing_percentage}% للنجاح.",
+            ], 'warning'));
+        }
+    }
 }

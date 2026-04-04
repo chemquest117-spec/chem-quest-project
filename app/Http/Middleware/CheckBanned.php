@@ -8,17 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckBanned
 {
-     public function handle(Request $request, Closure $next): Response
-     {
-          if (auth()->check() && auth()->user()->is_banned) {
-               auth()->logout();
-               session()->invalidate();
-               session()->regenerateToken();
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (auth()->check() && auth()->user()->is_banned) {
+            auth()->logout();
+            session()->invalidate();
+            session()->regenerateToken();
 
-               return redirect()->route('login')
-                    ->with('error', 'Your account has been suspended. Please contact your teacher.');
-          }
+            return redirect()->route('login')
+                ->with('error', 'Your account has been suspended. Please contact your teacher.');
+        }
 
-          return $next($request);
-     }
+        return $next($request);
+    }
 }

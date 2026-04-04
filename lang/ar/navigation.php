@@ -1,4 +1,5 @@
 <?php
+
 return [
     'leaderboard' => 'لوحة المتصدرين',
     'admin' => 'المشرف',

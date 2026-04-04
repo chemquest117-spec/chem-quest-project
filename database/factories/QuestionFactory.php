@@ -14,8 +14,8 @@ class QuestionFactory extends Factory
     {
         return [
             'stage_id' => Stage::factory(),
-            'question_text' => $this->faker->sentence() . '?',
-            'question_text_ar' => $this->faker->sentence() . '?',
+            'question_text' => $this->faker->sentence().'?',
+            'question_text_ar' => $this->faker->sentence().'?',
             'type' => 'mcq',
             'option_a' => 'A',
             'option_b' => 'B',

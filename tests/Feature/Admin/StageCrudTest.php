@@ -1,8 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Stage;
-use function Pest\Laravel\{actingAs, delete, get, post, put};
+use App\Models\User;
+
+use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     $this->admin = User::factory()->create(['is_admin' => true]);

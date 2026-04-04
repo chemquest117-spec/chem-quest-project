@@ -13,138 +13,140 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminQuestionController extends Controller
 {
-     public function index(Stage $stage)
-     {
-          $questions = $stage->questions()->orderBy('difficulty')->get();
-          return view('admin.questions.index', compact('stage', 'questions'));
-     }
+    public function index(Stage $stage)
+    {
+        $questions = $stage->questions()->orderBy('difficulty')->get();
 
-     public function create(Stage $stage)
-     {
-          return view('admin.questions.create', compact('stage'));
-     }
+        return view('admin.questions.index', compact('stage', 'questions'));
+    }
 
-     public function store(Request $request, Stage $stage)
-     {
-          $validated = $request->validate([
-               'question_text' => 'required|string|max:2000',
-               'question_text_ar' => 'nullable|string|max:2000',
-               'option_a' => 'required|string|max:500',
-               'option_a_ar' => 'nullable|string|max:500',
-               'option_b' => 'required|string|max:500',
-               'option_b_ar' => 'nullable|string|max:500',
-               'option_c' => 'required|string|max:500',
-               'option_c_ar' => 'nullable|string|max:500',
-               'option_d' => 'required|string|max:500',
-               'option_d_ar' => 'nullable|string|max:500',
-               'correct_answer' => 'required|in:a,b,c,d',
-               'difficulty' => 'required|in:easy,medium,hard',
-               'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-          ]);
+    public function create(Stage $stage)
+    {
+        return view('admin.questions.create', compact('stage'));
+    }
 
-          if ($request->hasFile('image')) {
-               $path = $request->file('image')->store('questions', 'public');
-               $validated['image'] = $path;
-          }
+    public function store(Request $request, Stage $stage)
+    {
+        $validated = $request->validate([
+            'question_text' => 'required|string|max:2000',
+            'question_text_ar' => 'nullable|string|max:2000',
+            'option_a' => 'required|string|max:500',
+            'option_a_ar' => 'nullable|string|max:500',
+            'option_b' => 'required|string|max:500',
+            'option_b_ar' => 'nullable|string|max:500',
+            'option_c' => 'required|string|max:500',
+            'option_c_ar' => 'nullable|string|max:500',
+            'option_d' => 'required|string|max:500',
+            'option_d_ar' => 'nullable|string|max:500',
+            'correct_answer' => 'required|in:a,b,c,d',
+            'difficulty' => 'required|in:easy,medium,hard',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-          // Normalize correct_answer to lowercase
-          $validated['correct_answer'] = strtolower($validated['correct_answer']);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('questions', 'public');
+            $validated['image'] = $path;
+        }
 
-          $stage->questions()->create($validated);
+        // Normalize correct_answer to lowercase
+        $validated['correct_answer'] = strtolower($validated['correct_answer']);
 
-          // Clear cached question IDs for this stage
-          Cache::forget("stage_{$stage->id}_question_ids");
+        $stage->questions()->create($validated);
 
-          return redirect()->route('admin.stages.questions.index', $stage)
-               ->with('success', 'Question added successfully!');
-     }
+        // Clear cached question IDs for this stage
+        Cache::forget("stage_{$stage->id}_question_ids");
 
-     public function edit(Stage $stage, Question $question)
-     {
-          return view('admin.questions.edit', compact('stage', 'question'));
-     }
+        return redirect()->route('admin.stages.questions.index', $stage)
+            ->with('success', 'Question added successfully!');
+    }
 
-     public function update(Request $request, Stage $stage, Question $question)
-     {
-          $validated = $request->validate([
-               'question_text' => 'required|string|max:2000',
-               'question_text_ar' => 'nullable|string|max:2000',
-               'option_a' => 'required|string|max:500',
-               'option_a_ar' => 'nullable|string|max:500',
-               'option_b' => 'required|string|max:500',
-               'option_b_ar' => 'nullable|string|max:500',
-               'option_c' => 'required|string|max:500',
-               'option_c_ar' => 'nullable|string|max:500',
-               'option_d' => 'required|string|max:500',
-               'option_d_ar' => 'nullable|string|max:500',
-               'correct_answer' => 'required|in:a,b,c,d',
-               'difficulty' => 'required|in:easy,medium,hard',
-               'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-          ]);
+    public function edit(Stage $stage, Question $question)
+    {
+        return view('admin.questions.edit', compact('stage', 'question'));
+    }
 
-          if ($request->hasFile('image')) {
-               // Delete old image if exists
-               if ($question->image) {
-                    Storage::disk('public')->delete($question->image);
-               }
-               
-               $path = $request->file('image')->store('questions', 'public');
-               $validated['image'] = $path;
-          }
+    public function update(Request $request, Stage $stage, Question $question)
+    {
+        $validated = $request->validate([
+            'question_text' => 'required|string|max:2000',
+            'question_text_ar' => 'nullable|string|max:2000',
+            'option_a' => 'required|string|max:500',
+            'option_a_ar' => 'nullable|string|max:500',
+            'option_b' => 'required|string|max:500',
+            'option_b_ar' => 'nullable|string|max:500',
+            'option_c' => 'required|string|max:500',
+            'option_c_ar' => 'nullable|string|max:500',
+            'option_d' => 'required|string|max:500',
+            'option_d_ar' => 'nullable|string|max:500',
+            'correct_answer' => 'required|in:a,b,c,d',
+            'difficulty' => 'required|in:easy,medium,hard',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-          // Normalize correct_answer
-          $validated['correct_answer'] = strtolower($validated['correct_answer']);
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($question->image) {
+                Storage::disk('public')->delete($question->image);
+            }
 
-          $question->update($validated);
+            $path = $request->file('image')->store('questions', 'public');
+            $validated['image'] = $path;
+        }
 
-          return redirect()->route('admin.stages.questions.index', $stage)
-               ->with('success', 'Question updated successfully!');
-     }
+        // Normalize correct_answer
+        $validated['correct_answer'] = strtolower($validated['correct_answer']);
 
-     public function destroy(Stage $stage, Question $question)
-     {
-          if ($question->image) {
-               Storage::disk('public')->delete($question->image);
-          }
+        $question->update($validated);
 
-          $question->delete();
+        return redirect()->route('admin.stages.questions.index', $stage)
+            ->with('success', 'Question updated successfully!');
+    }
 
-          // Clear cached question IDs for this stage
-          Cache::forget("stage_{$stage->id}_question_ids");
+    public function destroy(Stage $stage, Question $question)
+    {
+        if ($question->image) {
+            Storage::disk('public')->delete($question->image);
+        }
 
-          return redirect()->route('admin.stages.questions.index', $stage)
-               ->with('success', 'Question deleted successfully!');
-     }
+        $question->delete();
 
-     /**
-      * Generate AI-powered questions for a stage.
-      * Rate-limited to 5 requests per minute to prevent API abuse.
-      */
-     public function generate(Request $request, Stage $stage, AIQuestionService $aiService)
-     {
-          // Rate limit: max 5 AI generations per minute per admin
-          $key = 'ai-generate:' . $request->user()->id;
-          
-          if (RateLimiter::tooManyAttempts($key, 5)) {
-               $seconds = RateLimiter::availableIn($key);
-               return redirect()->route('admin.stages.questions.index', $stage)
-                    ->with('error', "Too many requests. Please wait {$seconds} seconds before trying again.");
-          }
+        // Clear cached question IDs for this stage
+        Cache::forget("stage_{$stage->id}_question_ids");
 
-          RateLimiter::hit($key, 60);
+        return redirect()->route('admin.stages.questions.index', $stage)
+            ->with('success', 'Question deleted successfully!');
+    }
 
-          $created = $aiService->generateQuestions($stage, 5);
-          $count = count($created);
+    /**
+     * Generate AI-powered questions for a stage.
+     * Rate-limited to 5 requests per minute to prevent API abuse.
+     */
+    public function generate(Request $request, Stage $stage, AIQuestionService $aiService)
+    {
+        // Rate limit: max 5 AI generations per minute per admin
+        $key = 'ai-generate:'.$request->user()->id;
 
-          // Clear cached question IDs since new questions were added
-          Cache::forget("stage_{$stage->id}_question_ids");
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
 
-          if ($count > 0) {
-               return redirect()->route('admin.stages.questions.index', $stage)
-                    ->with('success', "✨ AI generated {$count} new questions successfully!");
-          }
+            return redirect()->route('admin.stages.questions.index', $stage)
+                ->with('error', "Too many requests. Please wait {$seconds} seconds before trying again.");
+        }
 
-          return redirect()->route('admin.stages.questions.index', $stage)
-               ->with('error', 'Could not generate questions. Please try again.');
-     }
+        RateLimiter::hit($key, 60);
+
+        $created = $aiService->generateQuestions($stage, 5);
+        $count = count($created);
+
+        // Clear cached question IDs since new questions were added
+        Cache::forget("stage_{$stage->id}_question_ids");
+
+        if ($count > 0) {
+            return redirect()->route('admin.stages.questions.index', $stage)
+                ->with('success', "✨ AI generated {$count} new questions successfully!");
+        }
+
+        return redirect()->route('admin.stages.questions.index', $stage)
+            ->with('error', 'Could not generate questions. Please try again.');
+    }
 }

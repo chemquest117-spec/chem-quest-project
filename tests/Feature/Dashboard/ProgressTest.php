@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\User;
 use App\Models\Stage;
 use App\Models\StageAttempt;
-use function Pest\Laravel\{actingAs, get};
+use App\Models\User;
+
+use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -27,7 +28,7 @@ it('student can view their progress on dashboard', function () {
         'stage_id' => $this->stage->id,
         'passed' => true,
         'score' => 100,
-        'total_questions' => 10
+        'total_questions' => 10,
     ]);
 
     actingAs($this->user)
