@@ -30,6 +30,16 @@ class QuizController extends Controller
                     ->with('error', __('messages.error'));
           }
 
+          // Prevent concurrent quiz attempts on same stage
+          $activeAttempt = StageAttempt::where('user_id', $user->id)
+               ->where('stage_id', $stage->id)
+               ->whereNull('completed_at')
+               ->first();
+
+          if ($activeAttempt) {
+               return redirect()->route('quiz.show', $activeAttempt);
+          }
+
           // Create a new attempt
           $attempt = StageAttempt::create([
                'user_id' => $user->id,
@@ -90,6 +100,38 @@ class QuizController extends Controller
      }
 
      /**
+      * Save a single answer via AJAX (auto-save as students select).
+      */
+     public function saveAnswer(Request $request, StageAttempt $attempt)
+     {
+          $user = $request->user();
+
+          if ($attempt->user_id !== $user->id) {
+               return response()->json(['error' => 'Unauthorized'], 403);
+          }
+
+          if ($attempt->completed_at) {
+               return response()->json(['error' => 'Quiz already completed'], 422);
+          }
+
+          $request->validate([
+               'question_id' => 'required|integer',
+               'answer' => 'required|string|max:5000',
+          ]);
+
+          $answer = $attempt->answers()
+               ->where('question_id', $request->question_id)
+               ->first();
+
+          if ($answer) {
+               $answer->update(['selected_answer' => $request->answer]);
+               return response()->json(['success' => true]);
+          }
+
+          return response()->json(['error' => 'Answer not found'], 404);
+     }
+
+     /**
       * Submit quiz answers.
       */
      public function submit(Request $request, StageAttempt $attempt)
@@ -131,6 +173,7 @@ class QuizController extends Controller
 
      /**
       * Grade an attempt — core scoring logic.
+      * Handles both MCQ (exact match) and essay (keyword-based partial match).
       */
      private function gradeAttempt(StageAttempt $attempt, $user, array $submittedAnswers)
      {
@@ -138,8 +181,18 @@ class QuizController extends Controller
           $answers = $attempt->answers()->with('question')->get();
 
           foreach ($answers as $answer) {
-               $selected = $submittedAnswers[$answer->question_id] ?? null;
-               $isCorrect = $selected === $answer->question->correct_answer;
+               $question = $answer->question;
+               $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
+
+               if ($question->isMcq()) {
+                    // MCQ: exact match (case-insensitive)
+                    $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
+               } elseif ($question->isEssay()) {
+                    // Essay: keyword-based scoring against expected_answer
+                    $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
+               } else {
+                    $isCorrect = false;
+               }
 
                $answer->update([
                     'selected_answer' => $selected,
@@ -172,6 +225,44 @@ class QuizController extends Controller
           $this->updateStreak($user);
 
           return redirect()->route('quiz.result', $attempt);
+     }
+
+     /**
+      * Grade an essay answer using keyword matching.
+      * Returns true if the student's answer contains enough key terms.
+      */
+     private function gradeEssay(?string $studentAnswer, ?string $expectedAnswer): bool
+     {
+          if (empty($studentAnswer) || empty($expectedAnswer)) {
+               return false;
+          }
+
+          $studentAnswer = strtolower(trim($studentAnswer));
+          $expectedAnswer = strtolower(trim($expectedAnswer));
+
+          // Extract keywords from expected answer (words with 4+ characters)
+          $expectedWords = array_filter(
+               preg_split('/[\s,;.]+/', $expectedAnswer),
+               fn($word) => mb_strlen($word) >= 4
+          );
+
+          if (empty($expectedWords)) {
+               // Fallback: direct similarity check
+               similar_text($studentAnswer, $expectedAnswer, $percent);
+               return $percent >= 50;
+          }
+
+          // Count how many expected keywords appear in student answer
+          $matchCount = 0;
+          foreach ($expectedWords as $word) {
+               if (str_contains($studentAnswer, $word)) {
+                    $matchCount++;
+               }
+          }
+
+          // Student must match at least 40% of keywords
+          $matchRatio = $matchCount / count($expectedWords);
+          return $matchRatio >= 0.4;
      }
 
      /**

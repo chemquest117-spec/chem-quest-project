@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Quiz
     Route::post('/stages/{stage}/quiz/start', [QuizController::class, 'start'])->name('quiz.start');
     Route::get('/quiz/{attempt}', [QuizController::class, 'show'])->name('quiz.show');
+    Route::post('/quiz/{attempt}/save-answer', [QuizController::class, 'saveAnswer'])->name('quiz.saveAnswer');
     Route::post('/quiz/{attempt}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/{attempt}/result', [QuizController::class, 'result'])->name('quiz.result');
 
@@ -92,7 +93,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Analytics Dashboard
     Route::get('/analytics', [AdminAnalyticsController::class, 'index'])->name('analytics');
 
+    // Student Management
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students.index');
+    Route::get('/students/{user}', [AdminStudentController::class, 'show'])->name('students.show');
+    Route::delete('/students/{user}', [AdminStudentController::class, 'destroy'])->name('students.destroy');
+    Route::post('/students/{user}/toggle-ban', [AdminStudentController::class, 'toggleBan'])->name('students.toggleBan');
+    Route::post('/students/{user}/reset-password', [AdminStudentController::class, 'resetPassword'])->name('students.resetPassword');
 });
 
 /*
