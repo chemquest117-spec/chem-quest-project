@@ -128,6 +128,20 @@
           </div>
      </div>
 
+     <style>
+          /* Prevent Printing */
+          @media print {
+               body { display: none !important; }
+               .no-print { display: none !important; }
+          }
+          
+          /* Extra Blur on Focus Loss */
+          .quiz-blur {
+               filter: blur(20px);
+               transition: filter 0.3s ease;
+          }
+     </style>
+
      <script>
           function quizTimer(remainingSeconds, totalSeconds) {
                return {
@@ -173,25 +187,51 @@
                           document.addEventListener('paste', e => { e.preventDefault(); antiCheatWarning(); });
                           document.addEventListener('cut', e => { e.preventDefault(); antiCheatWarning(); });
 
-                          // Tab switching detection
+                          // Block screenshot/devtool shortcuts
+                          document.addEventListener('keydown', e => {
+                               // PrintScreen
+                               if (e.key === 'PrintScreen') {
+                                    e.preventDefault();
+                                    antiCheatWarning();
+                                    navigator.clipboard.writeText(''); // Attempt to clear
+                               }
+                               // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, F12, Ctrl+U, Ctrl+P
+                               if (
+                                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                                    (e.key === 'F12') || 
+                                    (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S'))
+                               ) {
+                                    e.preventDefault();
+                                    antiCheatWarning();
+                                    return false;
+                               }
+                          });
+
+                          // Tab switching detection + Blur effect
                           document.addEventListener('visibilitychange', () => {
-                               if (document.hidden && !this.isSubmitting) {
-                                    this.tabSwitches++;
-                                    
-                                    if (this.tabSwitches >= 3) {
-                                         window.dispatchEvent(new CustomEvent('toast', {
-                                              detail: { type: 'error', message: '{{ __("quiz.tab_switch_limit") }}' }
-                                         }));
-                                         this.isSubmitting = true;
-                                         setTimeout(() => document.getElementById('quiz-form').submit(), 1500);
-                                    } else {
-                                         window.dispatchEvent(new CustomEvent('toast', {
-                                              detail: { 
-                                                   type: 'warning', 
-                                                   message: '{{ __("quiz.tab_switch_warning") }}'.replace(':count', this.tabSwitches) 
-                                              }
-                                         }));
-                                    }
+                               const container = document.querySelector('.py-8');
+                               if (document.hidden) {
+                                    container.classList.add('quiz-blur');
+                                    if (!this.isSubmitting) {
+                                        this.tabSwitches++;
+                                        
+                                        if (this.tabSwitches >= 3) {
+                                             window.dispatchEvent(new CustomEvent('toast', {
+                                                  detail: { type: 'error', message: '{{ __("quiz.tab_switch_limit") }}' }
+                                             }));
+                                             this.isSubmitting = true;
+                                             setTimeout(() => document.getElementById('quiz-form').submit(), 1500);
+                                        } else {
+                                             window.dispatchEvent(new CustomEvent('toast', {
+                                                  detail: { 
+                                                       type: 'warning', 
+                                                       message: '{{ __("quiz.tab_switch_warning") }}'.replace(':count', this.tabSwitches) 
+                                                  }
+                                             }));
+                                        }
+                                   }
+                               } else {
+                                    container.classList.remove('quiz-blur');
                                }
                           });
 
