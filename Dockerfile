@@ -1,4 +1,19 @@
-# Use PHP with Apache
+# -----------------------------
+# Stage 1: Build frontend
+# -----------------------------
+FROM node:18 AS frontend
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+
+# -----------------------------
+# Stage 2: PHP + Apache
+# -----------------------------
 FROM php:8.2-apache
 
 # Install system dependencies
@@ -9,46 +24,33 @@ RUN apt-get update && apt-get install -y \
      unzip \
      libpq-dev \
      libzip-dev \
-     && docker-php-ext-install pdo pdo_pgsql zip
+     && docker-php-ext-install pdo pdo_pgsql zip \
+     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
+# Enable Apache rewrite
 RUN a2enmod rewrite
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www/html
 
 # Copy project files
 COPY . .
 
-# Install dependencies
+# Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Install Node
-# RUN apt-get install -y nodejs npm
+# Copy built frontend assets
+COPY --from=frontend /app/public/build ./public/build
 
-# Install Node.js (stable)
-RUN apt-get update && apt-get install -y curl
-
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-
-RUN apt-get install -y nodejs
-
-# Build frontend
-RUN npm install
-RUN npm run build
-
-# Set correct permissions
+# Fix permissions
 RUN chown -R www-data:www-data /var/www/html \
      && chmod -R 755 /var/www/html/storage
 
-# Change Apache root to /public
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+# Set Apache public root
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
+     /etc/apache2/sites-available/000-default.conf
 
-# Expose port
 EXPOSE 80
-
-# Start Apache
 CMD ["apache2-foreground"]
