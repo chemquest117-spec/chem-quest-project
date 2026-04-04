@@ -9,5 +9,8 @@ bootstrap/cache
 tests
 docker-compose.yml
 .env
+.env.development
+.env.production
+.env.example
 .github
 README.md
