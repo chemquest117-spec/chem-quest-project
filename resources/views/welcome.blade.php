@@ -95,11 +95,11 @@
             {{-- Stats --}}
             <div class="grid grid-cols-3 gap-6 mt-10 max-w-md mx-auto">
                 <div>
-                    <div class="text-3xl font-bold text-emerald-400">5</div>
+                    <div class="text-3xl font-bold text-emerald-400">{{ \App\Models\Stage::count() }}</div>
                     <div class="text-sm text-slate-500">{{ __('welcome.stat_stages') }}</div>
                 </div>
                 <div>
-                    <div class="text-3xl font-bold text-cyan-400">50+</div>
+                    <div class="text-3xl font-bold text-cyan-400">{{ \App\Models\Question::count() }}+</div>
                     <div class="text-sm text-slate-500">{{ __('welcome.stat_questions') }}</div>
                 </div>
                 <div>

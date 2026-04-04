@@ -128,6 +128,34 @@
                                    document.getElementById('quiz-form').submit();
                               }
                          }, 1000);
+
+                         // Warn before leaving
+                         window.addEventListener('beforeunload', (e) => {
+                              e.preventDefault();
+                              e.returnValue = '';
+                         });
+
+                         // Auto-save answers on selection
+                         document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                              radio.addEventListener('change', (e) => {
+                                   const name = e.target.name;
+                                   const match = name.match(/answers\[(\d+)\]/);
+                                   if (match) {
+                                        fetch('{{ route("quiz.saveAnswer", $attempt) }}', {
+                                             method: 'POST',
+                                             headers: {
+                                                  'Content-Type': 'application/json',
+                                                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                  'Accept': 'application/json'
+                                             },
+                                             body: JSON.stringify({
+                                                  question_id: parseInt(match[1]),
+                                                  answer: e.target.value
+                                             })
+                                        }).catch(err => console.log('Auto-save failed:', err));
+                                   }
+                              });
+                         });
                     },
                     get display() {
                          const m = Math.floor(this.remaining / 60);
