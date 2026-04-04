@@ -1,5 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
 parameters:
     level: 5
     paths:
         - app
         - tests
+    
+    # Check for Eloquent model properties
+    checkModelProperties: true
+
+    # Ignore common magic method/property issues if Larastan misses any
+    ignoreErrors:
+        - '#Access to an undefined property App\\Models\\User::\$#'
+        - '#Call to an undefined static method App\\Models\\User::where#'
+        - '#Method .* should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View.#'
+
