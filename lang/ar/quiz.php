@@ -22,4 +22,5 @@ return [
      'your_answer' => 'إجابتك',
      'not_answered' => 'لم تتم الإجابة',
      'explanation' => 'التفسير',
+     'expected_answer' => 'الإجابة المتوقعة',
 ];

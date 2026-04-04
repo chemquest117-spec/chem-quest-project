@@ -22,4 +22,5 @@ return [
      'your_answer' => 'Your answer',
      'not_answered' => 'Not answered',
      'explanation' => 'Explanation',
+     'expected_answer' => 'Expected Answer',
 ];
