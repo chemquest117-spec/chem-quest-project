@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AttemptAnswer;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class AdminAnalyticsController extends Controller
 {
@@ -74,11 +76,17 @@ class AdminAnalyticsController extends Controller
                     ];
                }
 
-               // Difficulty breakdown
+               // Difficulty breakdown — aggregated at DB level, no loading all records
+               $difficultyStats = AttemptAnswer::join('questions', 'attempt_answers.question_id', '=', 'questions.id')
+                    ->selectRaw("questions.difficulty, count(*) as cnt")
+                    ->groupBy('questions.difficulty')
+                    ->pluck('cnt', 'difficulty')
+                    ->toArray();
+
                $difficultyStats = [
-                    'easy' => StageAttempt::whereHas('answers', fn($q) => $q->whereHas('question', fn($q2) => $q2->where('difficulty', 'easy')))->count(),
-                    'medium' => StageAttempt::whereHas('answers', fn($q) => $q->whereHas('question', fn($q2) => $q2->where('difficulty', 'medium')))->count(),
-                    'hard' => StageAttempt::whereHas('answers', fn($q) => $q->whereHas('question', fn($q2) => $q2->where('difficulty', 'hard')))->count(),
+                    'easy' => $difficultyStats['easy'] ?? 0,
+                    'medium' => $difficultyStats['medium'] ?? 0,
+                    'hard' => $difficultyStats['hard'] ?? 0,
                ];
 
                // Summary stats
@@ -95,24 +103,27 @@ class AdminAnalyticsController extends Controller
                     ->take(5)
                     ->get();
 
-               // Problematic Questions
-               $problematicQuestions = \App\Models\AttemptAnswer::with('question.stage')
-                    ->get()
+               // Problematic Questions — aggregated at DB level instead of loading entire table
+               $problematicQuestions = AttemptAnswer::select(
+                         'question_id',
+                         DB::raw('count(*) as total_attempts'),
+                         DB::raw('sum(case when is_correct = false then 1 else 0 end) as wrong_count')
+                    )
                     ->groupBy('question_id')
-                    ->map(function ($answers) {
-                         $total = $answers->count();
-                         if ($total < 2) return null; // Only statistically relevant data
-                         
-                         $correct = $answers->where('is_correct', true)->count();
+                    ->having('total_attempts', '>=', 2)
+                    ->orderByDesc(DB::raw('sum(case when is_correct = false then 1 else 0 end) * 1.0 / count(*)'))
+                    ->take(5)
+                    ->get()
+                    ->map(function ($row) {
+                         $question = \App\Models\Question::with('stage')->find($row->question_id);
+                         if (!$question) return null;
                          return [
-                              'question' => $answers->first()->question,
-                              'total_attempts' => $total,
-                              'failure_rate' => round((1 - ($correct / $total)) * 100, 1),
+                              'question' => $question,
+                              'total_attempts' => (int) $row->total_attempts,
+                              'failure_rate' => round(($row->wrong_count / $row->total_attempts) * 100, 1),
                          ];
                     })
                     ->filter()
-                    ->sortByDesc('failure_rate')
-                    ->take(5)
                     ->values();
 
                return compact(
