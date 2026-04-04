@@ -1,7 +1,7 @@
 <x-app-layout>
      @section('title', 'Quiz - ' . $stage->title)
 
-     <div class="py-8" x-data="quizTimer({{ $remainingSeconds }})">
+     <div class="py-8" x-data="quizTimer({{ $remainingSeconds }}, {{ $totalSeconds }})">
           <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                {{-- Timer Bar --}}
@@ -18,9 +18,11 @@
                               <div class="text-right">
                                    <div class="text-xs text-slate-400 flex items-center gap-1 justify-end"><x-icon
                                              name="clock" class="w-3 h-3" /> {{ __('quiz.time_remaining') }}</div>
-                                   <div class="text-2xl font-mono font-bold"
-                                        :class="remaining <= 60 ? 'text-red-400 animate-pulse' : (remaining <= 180 ? 'text-amber-400' : 'text-emerald-400')"
-                                        x-text="display"></div>
+                                   <div class="text-2xl font-mono font-bold flex items-baseline justify-end gap-1">
+                                        <span :class="remaining <= 60 ? 'text-red-400 animate-pulse' : (remaining <= 180 ? 'text-amber-400' : 'text-emerald-400')"
+                                              x-text="display"></span>
+                                        <span class="text-sm text-slate-500 font-medium tracking-normal whitespace-pre">/ <span x-text="totalDisplay"></span></span>
+                                   </div>
                               </div>
                               <button type="submit" form="quiz-form"
                                    class="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-6 py-2 rounded-xl font-bold transition-all duration-200 shadow-lg">
@@ -78,27 +80,38 @@
                                                   </div>
 
                                                   {{-- Options --}}
-                                                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 ms-12">
-                                                       @foreach(['a', 'b', 'c', 'd'] as $option)
-                                                            <label class="relative cursor-pointer group" @click="selected = '{{ $option }}'">
-                                                                 <input type="radio" name="answers[{{ $answer->question_id }}]"
-                                                                      value="{{ $option }}" class="sr-only peer">
-                                                                 <div class="p-3 rounded-xl border-2 transition-all duration-300 transform
-                                                                                 border-white/10 hover:border-emerald-400/40 hover:bg-white/5"
-                                                                      :class="selected === '{{ $option }}' ? 'scale-[1.02] border-emerald-500 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : ''">
-                                                                      <div class="flex items-center space-x-3">
-                                                                           <span class="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300
-                                                                                          border-white/20 text-slate-400 group-hover:border-emerald-400/60"
-                                                                                :class="selected === '{{ $option }}' ? 'border-emerald-500 bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse' : ''">
-                                                                                {{ strtoupper($option) }}
-                                                                           </span>
-                                                                           <span
-                                                                                class="text-sm text-slate-300">{{ $answer->question->getTranslatedOption($option) }}</span>
+                                                  @if($answer->question->isEssay())
+                                                       <div class="mt-4 ms-12">
+                                                            <textarea name="answers[{{ $answer->question_id }}]" 
+                                                                 rows="4" 
+                                                                 class="w-full bg-white/5 border-2 border-white/10 hover:border-emerald-400/40 focus:border-emerald-500 rounded-xl p-4 text-slate-300 focus:outline-none focus:ring-0 transition-all duration-300"
+                                                                 placeholder="{{ __('quiz.enter_your_answer_here') ?? 'Enter your answer here...' }}"
+                                                                 @input="selected = true"
+                                                            ></textarea>
+                                                       </div>
+                                                  @else
+                                                       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 ms-12">
+                                                            @foreach(['a', 'b', 'c', 'd'] as $option)
+                                                                 <label class="relative cursor-pointer group" @click="selected = '{{ $option }}'">
+                                                                      <input type="radio" name="answers[{{ $answer->question_id }}]"
+                                                                           value="{{ $option }}" class="sr-only peer">
+                                                                      <div class="p-3 rounded-xl border-2 transition-all duration-300 transform
+                                                                                      border-white/10 hover:border-emerald-400/40 hover:bg-white/5"
+                                                                           :class="selected === '{{ $option }}' ? 'scale-[1.02] border-emerald-500 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : ''">
+                                                                           <div class="flex items-center space-x-3">
+                                                                                <span class="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300
+                                                                                               border-white/20 text-slate-400 group-hover:border-emerald-400/60"
+                                                                                     :class="selected === '{{ $option }}' ? 'border-emerald-500 bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse' : ''">
+                                                                                     {{ strtoupper($option) }}
+                                                                                </span>
+                                                                                <span
+                                                                                     class="text-sm text-slate-300">{{ $answer->question->getTranslatedOption($option) }}</span>
+                                                                           </div>
                                                                       </div>
-                                                                 </div>
-                                                            </label>
-                                                       @endforeach
-                                                  </div>
+                                                                 </label>
+                                                            @endforeach
+                                                       </div>
+                                                  @endif
                                              </div>
                          @endforeach
                     </div>
@@ -115,9 +128,9 @@
      </div>
 
      <script>
-          function quizTimer(totalSeconds) {
+          function quizTimer(remainingSeconds, totalSeconds) {
                return {
-                    remaining: totalSeconds,
+                    remaining: remainingSeconds,
                     total: totalSeconds,
                     interval: null,
                     init() {
@@ -129,11 +142,22 @@
                               }
                          }, 1000);
 
-                         // Warn before leaving
+                         // Warn before leaving (except on submit)
+                         let isSubmitting = false;
+                         document.getElementById('quiz-form').addEventListener('submit', () => { isSubmitting = true; });
+
                          window.addEventListener('beforeunload', (e) => {
-                              e.preventDefault();
-                              e.returnValue = '';
+                              if (!isSubmitting) {
+                                   e.preventDefault();
+                                   e.returnValue = '';
+                              }
                          });
+
+                         // Anti-cheat: prevent copy/paste/contextmenu
+                         document.addEventListener('contextmenu', e => e.preventDefault());
+                         document.addEventListener('copy', e => e.preventDefault());
+                         document.addEventListener('paste', e => e.preventDefault());
+                         document.addEventListener('cut', e => e.preventDefault());
 
                          // Auto-save answers on selection
                          document.querySelectorAll('input[type="radio"]').forEach(radio => {
@@ -156,10 +180,46 @@
                                    }
                               });
                          });
+
+                         // Auto-save answers for essay textareas (Debounced)
+                         let essayTimeouts = {};
+                         document.querySelectorAll('textarea').forEach(textarea => {
+                              textarea.addEventListener('input', (e) => {
+                                   const name = e.target.name;
+                                   const match = name.match(/answers\[(\d+)\]/);
+                                   if (match) {
+                                        const questionId = parseInt(match[1]);
+                                        
+                                        if (essayTimeouts[questionId]) {
+                                             clearTimeout(essayTimeouts[questionId]);
+                                        }
+                                        
+                                        essayTimeouts[questionId] = setTimeout(() => {
+                                             fetch('{{ route("quiz.saveAnswer", $attempt) }}', {
+                                                  method: 'POST',
+                                                  headers: {
+                                                       'Content-Type': 'application/json',
+                                                       'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                       'Accept': 'application/json'
+                                                  },
+                                                  body: JSON.stringify({
+                                                       question_id: questionId,
+                                                       answer: e.target.value
+                                                  })
+                                             }).catch(err => console.log('Auto-save failed:', err));
+                                        }, 1000);
+                                   }
+                              });
+                         });
                     },
                     get display() {
                          const m = Math.floor(this.remaining / 60);
                          const s = this.remaining % 60;
+                         return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                    },
+                    get totalDisplay() {
+                         const m = Math.floor(this.total / 60);
+                         const s = this.total % 60;
                          return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
                     },
                     get timePercent() {

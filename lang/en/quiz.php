@@ -23,4 +23,5 @@ return [
     'not_answered' => 'Not answered',
     'explanation' => 'Explanation',
     'expected_answer' => 'Expected Answer',
+    'enter_your_answer_here' => 'Enter your answer here',
 ];

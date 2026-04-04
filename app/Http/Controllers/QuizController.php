@@ -97,7 +97,7 @@ class QuizController extends Controller
             return $this->gradeAttempt($attempt, $user, []);
         }
 
-        return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds'));
+        return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds', 'totalSeconds'));
     }
 
     /**
@@ -166,6 +166,17 @@ class QuizController extends Controller
 
         if (! $attempt->completed_at) {
             return redirect()->route('quiz.show', $attempt);
+        }
+
+        // Prevent cheating by viewing past results while a new attempt is active
+        $hasActiveAttempt = StageAttempt::where('user_id', $user->id)
+            ->where('stage_id', $attempt->stage_id)
+            ->whereNull('completed_at')
+            ->exists();
+
+        if ($hasActiveAttempt) {
+            return redirect()->route('stages.index')
+                ->with('error', 'You cannot view old results while taking an active quiz.');
         }
 
         $attempt->load(['stage', 'answers.question']);
@@ -240,20 +251,37 @@ class QuizController extends Controller
             return false;
         }
 
+        // Normalize dashes/minus signs to standard hyphen for comparison
+        $studentAnswer = str_replace(['−', '–', '—'], '-', $studentAnswer);
+        $expectedAnswer = str_replace(['−', '–', '—'], '-', $expectedAnswer);
+
         $studentAnswer = strtolower(trim($studentAnswer));
         $expectedAnswer = strtolower(trim($expectedAnswer));
 
-        // Extract keywords from expected answer (words with 4+ characters)
+        $studentNoSpace = str_replace(' ', '', $studentAnswer);
+        $expectedNoSpace = str_replace(' ', '', $expectedAnswer);
+
+        // Exact match (ignoring spaces)
+        if ($studentNoSpace === $expectedNoSpace) {
+            return true;
+        }
+
+        // If expected answer is a short phrase, equation, or number (<15 chars without spaces)
+        if (mb_strlen($expectedNoSpace) < 15) {
+            return str_contains($studentNoSpace, $expectedNoSpace);
+        }
+
+        // For longer essay answers, extract keywords (ignore stop words and 1-char words)
+        $stopWords = ['the', 'is', 'at', 'which', 'on', 'and', 'a', 'an', 'of', 'in', 'to', 'with', 'for', 'it', 'as', 'by', 'are', 'be', 'this', 'that'];
         $expectedWords = array_filter(
             preg_split('/[\s,;.]+/', $expectedAnswer),
-            fn ($word) => mb_strlen($word) >= 4
+            fn ($word) => mb_strlen($word) > 1 && !in_array($word, $stopWords)
         );
 
         if (empty($expectedWords)) {
-            // Fallback: direct similarity check
+            // Fallback: direct similarity check with a much higher threshold than 50%
             similar_text($studentAnswer, $expectedAnswer, $percent);
-
-            return $percent >= 50;
+            return $percent >= 85;
         }
 
         // Count how many expected keywords appear in student answer
@@ -264,10 +292,10 @@ class QuizController extends Controller
             }
         }
 
-        // Student must match at least 40% of keywords
+        // Student must match at least 50% of keywords for essays
         $matchRatio = $matchCount / count($expectedWords);
 
-        return $matchRatio >= 0.4;
+        return $matchRatio >= 0.5;
     }
 
     /**

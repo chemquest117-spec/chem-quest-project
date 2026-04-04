@@ -87,33 +87,45 @@
                                                   </div>
                                              @endif
 
-                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                  @foreach(['a', 'b', 'c', 'd'] as $opt)
-                                                                                     <div class="p-2 rounded-lg text-sm flex items-center space-x-2
-                                                                                                                                           {{ $opt === $answer->question->correct_answer ? 'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/30' :
-                                                       ($opt === $answer->selected_answer && !$answer->is_correct ? 'bg-red-500/20 text-red-300 ring-1 ring-red-500/30' :
-                                                            'bg-white/5 text-slate-400') }}">
-                                                                                          <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs
-                                                                                                                                               {{ $opt === $answer->question->correct_answer ? 'border-emerald-500 bg-emerald-500 text-white' :
-                                                       ($opt === $answer->selected_answer && !$answer->is_correct ? 'border-red-500 bg-red-500 text-white' :
-                                                            'border-white/20') }}">
-                                                                                               {{ strtoupper($opt) }}
-                                                                                          </span>
-                                                                                          <span>{{ $answer->question->getTranslatedOption($opt) }}</span>
-                                                                                          @if($opt === $answer->question->correct_answer)
-                                                                                               <span class="flex items-center gap-0.5 text-emerald-400 ms-auto"><x-icon
-                                                                                                         name="check" class="w-3 h-3" /> {{ __('quiz.correct') }}</span>
-                                                                                          @elseif($opt === $answer->selected_answer && !$answer->is_correct)
-                                                                                               <span class="text-red-400 ms-auto">{{ __('quiz.your_answer') }}</span>
-                                                                                          @endif
-                                                                                     </div>
-                                                  @endforeach
-                                             </div>
+                                             @if($answer->question->isEssay())
+                                                  <div class="mt-4 space-y-4">
+                                                       <div>
+                                                            <div class="text-xs uppercase tracking-wider text-slate-400 mb-1">{{ __('quiz.your_answer') }}</div>
+                                                            <div class="p-3 rounded-lg {{ $answer->is_correct ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300' : 'bg-red-500/10 border border-red-500/20 text-red-300' }}">
+                                                                 {{ $answer->selected_answer ?: __('quiz.not_answered') }}
+                                                            </div>
+                                                       </div>
+                                                       <div>
+                                                            <div class="text-xs uppercase tracking-wider text-slate-400 mb-1">{{ __('quiz.expected_answer') }}</div>
+                                                            <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                                                                 {{ $answer->question->getTranslatedExpectedAnswer() }}
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             @else
+                                                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+                                                       @foreach(['a', 'b', 'c', 'd'] as $opt)
+                                                            <div class="p-2 rounded-lg text-sm flex items-center space-x-2
+                                                                 {{ $opt === $answer->question->correct_answer ? 'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/30' : ($opt === $answer->selected_answer && !$answer->is_correct ? 'bg-red-500/20 text-red-300 ring-1 ring-red-500/30' : 'bg-white/5 text-slate-400') }}">
+                                                                 <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs
+                                                                      {{ $opt === $answer->question->correct_answer ? 'border-emerald-500 bg-emerald-500 text-white' : ($opt === $answer->selected_answer && !$answer->is_correct ? 'border-red-500 bg-red-500 text-white' : 'border-white/20') }}">
+                                                                      {{ strtoupper($opt) }}
+                                                                 </span>
+                                                                 <span>{{ $answer->question->getTranslatedOption($opt) }}</span>
+                                                                 @if($opt === $answer->question->correct_answer)
+                                                                      <span class="flex items-center gap-0.5 text-emerald-400 ms-auto"><x-icon name="check" class="w-3 h-3" /> {{ __('quiz.correct') }}</span>
+                                                                 @elseif($opt === $answer->selected_answer && !$answer->is_correct)
+                                                                      <span class="text-red-400 ms-auto">{{ __('quiz.your_answer') }}</span>
+                                                                 @endif
+                                                            </div>
+                                                       @endforeach
+                                                  </div>
 
-                                             @if(!$answer->selected_answer)
-                                                  <p class="flex items-center gap-1 text-xs text-slate-500 mt-1 italic">
-                                                       <x-icon name="x-circle" class="w-3 h-3" /> {{ __('quiz.not_answered') }}
-                                                  </p>
+                                                  @if(!$answer->selected_answer)
+                                                       <p class="flex items-center gap-1 text-xs text-slate-500 mt-2 italic">
+                                                            <x-icon name="x-circle" class="w-3 h-3" /> {{ __('quiz.not_answered') }}
+                                                       </p>
+                                                  @endif
                                              @endif
 
                                               @if($answer->question->getTranslatedExplanation())

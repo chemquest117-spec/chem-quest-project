@@ -58,12 +58,12 @@ class Question extends Model
         $field = 'option_'.strtolower($option);
         $fieldAr = $field.'_ar';
 
-        return app()->getLocale() === 'ar' && $this->{$fieldAr} ? $this->{$fieldAr} : $this->{$field};
+        return (app()->getLocale() === 'ar' && $this->{$fieldAr} ? $this->{$fieldAr} : $this->{$field}) ?? '';
     }
 
     public function getTranslatedDifficulty(): string
     {
-        return app()->getLocale() === 'ar' && $this->difficulty_ar ? $this->difficulty_ar : $this->difficulty;
+        return (app()->getLocale() === 'ar' && $this->difficulty_ar ? $this->difficulty_ar : $this->difficulty) ?? '';
     }
 
     public function getTranslatedTopic(): ?string
