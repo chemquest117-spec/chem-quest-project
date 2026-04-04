@@ -5,13 +5,35 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Welcome Header --}}
-            <div class="mb-8" x-show="shown" x-transition:enter="transition ease-out duration-500"
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 group" x-show="shown" 
+                x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h1 class="text-3xl font-bold text-white flex items-center gap-2">
-                    {{ __('dashboard.welcome', ['name' => $user->name]) }}
-                    <x-icon name="hand-wave" class="w-8 h-8 text-amber-400" />
-                </h1>
-                <p class="text-slate-400 mt-1">{{ __('dashboard.continue_learning') }}</p>
+                <div>
+                    <h1 class="text-3xl font-bold text-white flex items-center gap-2">
+                        {{ __('dashboard.welcome', ['name' => $user->name]) }}
+                        <x-icon name="hand-wave" class="w-8 h-8 text-amber-400 group-hover:rotate-12 transition-transform duration-300" />
+                    </h1>
+                    <p class="text-slate-400 mt-1">{{ __('dashboard.continue_learning') }}</p>
+                </div>
+
+                {{-- Quick Navigation List --}}
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('stages.index') }}" 
+                        class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm">
+                        <x-icon name="target" class="w-4 h-4 text-emerald-400" />
+                        {{ __('stages.title') }}
+                    </a>
+                    <a href="{{ route('planner.index') }}" 
+                        class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm">
+                        <x-icon name="academic-cap" class="w-4 h-4 text-indigo-400" />
+                        {{ __('navigation.study_planner') }}
+                    </a>
+                    <a href="{{ route('weekly-planner.index') }}" 
+                        class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition-all shadow-sm">
+                        <x-icon name="calendar" class="w-4 h-4 text-purple-400" />
+                        {{ __('navigation.weekly_planner') }}
+                    </a>
+                </div>
             </div>
 
             {{-- Stats Cards Row 1 --}}
@@ -200,6 +222,99 @@
                         </div>
                     </a>
                 @endif
+            </div>
+
+            {{-- Weekly Flexible Planner Widget --}}
+            <div class="mb-8" x-show="shown" x-transition:enter="transition ease-out duration-700"
+                x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                style="transition-delay: 600ms">
+                <div class="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 backdrop-blur-md rounded-3xl p-6 border border-emerald-500/20 shadow-2xl relative overflow-hidden group">
+                    {{-- Decorative Glow --}}
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl group-hover:bg-emerald-500/30 transition-colors duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                    <x-icon name="calendar" class="w-6 h-6 text-emerald-400" />
+                                    {{ __('navigation.weekly_planner') }}
+                                </h3>
+                                <p class="text-slate-400 text-sm mt-1">{{ __('planner.week_label') }} {{ $currentWeek }}: {{ $weeklyPlan?->stage?->getTranslatedTitle() ?? __('planner.not_set') }}</p>
+                            </div>
+                            <a href="{{ route('weekly-planner.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-xl text-sm font-bold border border-emerald-500/30 transition-all group/btn">
+                                📅 {{ __('planner.view_plan') }}
+                                <x-icon name="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                            </a>
+                        </div>
+
+                        @if($weeklyPlan)
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {{-- Study Day Card --}}
+                                <div class="bg-white/5 rounded-2xl p-4 border border-white/10 hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('planner.study_session') }}</span>
+                                        <x-icon name="academic-cap" class="w-4 h-4 text-indigo-400" />
+                                    </div>
+                                    @php $studyDay = $weeklyPlan->days->where('action_type', 'study')->first(); @endphp
+                                    @if($studyDay)
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg font-bold text-white capitalize">{{ trans('planner.days.'.$studyDay->day_name) }}</span>
+                                            @if($studyDay->is_completed)
+                                                <span class="flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-lg border border-emerald-400/20">
+                                                    <x-icon name="check-circle" class="w-3 h-3" /> {{ __('planner.done') }}
+                                                </span>
+                                            @else
+                                                <span class="text-xs font-medium text-indigo-300 bg-indigo-500/10 px-2 py-1 rounded-lg border border-indigo-500/20">{{ __('planner.planned') }}</span>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span class="text-slate-500 italic text-sm">{{ __('planner.not_scheduled') }}</span>
+                                    @endif
+                                </div>
+
+                                {{-- Test Day Card --}}
+                                <div class="bg-white/5 rounded-2xl p-4 border border-white/10 hover:bg-white/10 transition-colors">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('planner.stage_quiz') }}</span>
+                                        <x-icon name="beaker" class="w-4 h-4 text-purple-400" />
+                                    </div>
+                                    @php $testDay = $weeklyPlan->days->where('action_type', 'test')->first(); @endphp
+                                    @if($testDay)
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg font-bold text-white capitalize">{{ trans('planner.days.'.$testDay->day_name) }}</span>
+                                            @if($testDay->is_completed)
+                                                <span class="flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-lg border border-emerald-400/20">
+                                                    <x-icon name="check-circle" class="w-3 h-3" /> {{ __('planner.passed') }}
+                                                </span>
+                                            @else
+                                                <span class="text-xs font-medium text-purple-300 bg-purple-500/10 px-2 py-1 rounded-lg border border-purple-500/20">{{ __('planner.planned') }}</span>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span class="text-slate-500 italic text-sm">{{ __('planner.not_scheduled') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            @if($weeklyPlan->status === 'completed')
+                                <div class="mt-6 flex items-center gap-3 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl p-4">
+                                    <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                        <x-icon name="star" class="w-6 h-6 text-white" />
+                                    </div>
+                                    <div>
+                                        <p class="text-white font-bold">{{ __('planner.stage_completed') }}!</p>
+                                        <p class="text-emerald-300/80 text-xs">{{ __('planner.mastered_msg') }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            <div class="flex flex-col items-center justify-center py-4">
+                                <p class="text-slate-400 text-sm mb-3 italic">{{ __('planner.no_plan_initialized') }}</p>
+                                <a href="{{ route('weekly-planner.index') }}" class="text-emerald-400 text-sm font-bold hover:underline">{{ __('planner.go_to_planner') }} →</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

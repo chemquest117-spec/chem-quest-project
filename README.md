@@ -168,6 +168,29 @@ Implemented in `app/Models/Stage.php` → `isUnlockedFor(User $user)`
 
 ---
 
+## 🌍 Globalization & Localization (Bilingual support)
+
+The platform is fully localized into **English (EN)** and **Arabic (AR)** with high-quality translations and **RTL (Right-to-Left)** support.
+
+- **Automated Routing**: Language detection and switching via URL or user preference.
+- **Localized UI**: Every interface from authentication to complex quiz results is fully translated.
+- **RTL Support**: The layout dynamically adjusts for Arabic users, ensuring a natural reading and interaction flow.
+- **Translation Keys**: Implemented using Laravel's `__()` helper and modular language files (`lang/en`, `lang/ar`).
+
+---
+
+## 📅 Weekly Flexible Study Planner
+
+A dedicated weekly planning system that allows students to customize their learning schedule.
+
+- **Manual Assignment**: Students can assign specific "Study" and "Test" days for each of the 5 main stages.
+- **Live Progress Syncing**: Completing a stage quiz automatically marks the corresponding "Test" day as completed in the planner.
+- **Visual Schedule**: Clear weekly view with status indicators (Planned, Completed, Passed).
+- **Auto-Initialization**: New accounts are automatically pre-configured with a default 5-week study track.
+- **Implementation**: Powered by `WeeklyStudyPlan` and `WeeklyStudyPlanDay` models with a dedicated `ProgressSyncService`.
+
+---
+
 ## ⏱ Timer System (Alpine.js)
 
 The quiz page uses an Alpine.js countdown timer that:
@@ -264,9 +287,11 @@ Mixed difficulty (easy/medium/hard) covering:
 
 - **Dark gradient theme** (slate-900 → purple-900)
 - **Glassmorphism** cards with backdrop-blur
+- **Reorganized Navigation**: Main academic links (Stages, Planners) are grouped under a single **Dashboard Dropdown** for a cleaner desktop experience.
+- **Quick-Action "Learning Hub"**: A horizontal quick-links bar on the dashboad for immediate access to core tools.
+- **Standardized Iconography**: Powered by a centralized `x-icon` component using **Heroicons 2.0** outlines.
 - **Responsive** design (mobile-first)
 - **Animated** progress bars and transitions
-- **Emoji icons** throughout for engagement
 - **Notification bell** with unread count badge
 
 ### Security & Performance
@@ -335,9 +360,11 @@ Run the test suite seamlessly:
 | ------------- | ------------------------------- |
 | Backend       | Laravel 12.54.1                 |
 | Frontend      | Blade + TailwindCSS + Alpine.js |
+| Globalization | Full EN/AR Localization + RTL   |
 | Database      | SQLite / PostgreSQL (Supabase)  |
 | Auth          | Laravel Breeze                  |
 | Testing       | Pest PHP v3.8.6                 |
+| Icons         | Centralized Heroicons 2.0 (SVG) |
 | Security      | Anti-Cheat 2.0 (Visibility API) |
 | Notifications | Global Toast System (Alpine.js) |
 | CI/CD         | GitHub Actions + Docker Multi-stage |

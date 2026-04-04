@@ -27,4 +27,5 @@ return [
     'anti_cheat' => 'Copying, pasting, and right-clicking are disabled to prevent cheating.',
     'tab_switch_warning' => 'Warning: Leaving the quiz page is not allowed! Violations: :count/3',
     'tab_switch_limit' => 'You have exceeded the maximum number of tab switches. Your quiz is being submitted.',
+    'question_image' => 'Question Image',
 ];

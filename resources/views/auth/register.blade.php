@@ -4,7 +4,7 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('auth.name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
                 autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -12,7 +12,7 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('auth.email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
                 autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -20,7 +20,7 @@
 
         <!-- Password -->
         <div class="mt-4" x-data="{ show: false }">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('auth.password')" />
 
             <div class="relative mt-1">
                 <x-text-input id="password" class="block w-full pe-10" x-bind:type="show ? 'text' : 'password'"
@@ -49,7 +49,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4" x-data="{ showConfirm: false }">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" :value="__('auth.confirm_password')" />
 
             <div class="relative mt-1">
                 <x-text-input id="password_confirmation" class="block w-full pe-10"
@@ -79,12 +79,12 @@
 
         <div class="mt-8">
             <x-primary-button>
-                {{ __('Register') }}
+                {{ __('auth.sign_up') }}
             </x-primary-button>
             <div class="mt-4 text-center text-sm text-slate-400">
                 <a class="text-emerald-400 hover:text-emerald-300 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-cyan-500 rounded-md"
                     href="{{ route('login') }}">
-                    {{ __('Already registered? Log in') }}
+                    {{ __('auth.already_registered') }} {{ __('auth.log_in') }}
                 </a>
             </div>
         </div>

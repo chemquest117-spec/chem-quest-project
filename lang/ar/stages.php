@@ -29,4 +29,5 @@ return [
     'retry' => 'إعادة المحاولة',
     'in_progress' => 'قيد التنفيذ',
     'continue_quiz' => 'أكمل الاختبار',
+    'pass_rate_simple' => ':percentage% للنجاح',
 ];

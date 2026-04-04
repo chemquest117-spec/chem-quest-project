@@ -7,7 +7,7 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('auth.email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
                 autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -15,7 +15,7 @@
 
         <!-- Password -->
         <div class="mt-4" x-data="{ show: false }">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('auth.password')" />
 
             <div class="relative mt-1">
                 <x-text-input id="password" class="block w-full pe-10" x-bind:type="show ? 'text' : 'password'"
@@ -50,25 +50,25 @@
                 <input id="remember_me" type="checkbox"
                     class="rounded border-slate-700 bg-slate-900/50 text-cyan-500 shadow-sm focus:ring-cyan-500 focus:ring-offset-slate-900"
                     name="remember">
-                <span class="ms-2 text-sm text-slate-400">{{ __('Remember me') }}</span>
+                <span class="ms-2 text-sm text-slate-400">{{ __('auth.remember_me') }}</span>
             </label>
 
             @if (Route::has('password.request'))
                 <a class="text-sm text-emerald-400 hover:text-emerald-300 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-cyan-500 rounded-md"
                     href="{{ route('password.request') }}">
-                    {{ __('Forgot password?') }}
+                    {{ __('auth.forgot_password') }}
                 </a>
             @endif
         </div>
 
         <div class="mt-8">
             <x-primary-button>
-                {{ __('Log in') }}
+                {{ __('auth.log_in') }}
             </x-primary-button>
             <div class="mt-4 text-center text-sm text-slate-400">
-                Don't have an account?
+                {{ __('auth.no_account') }}
                 <a href="{{ route('register') }}"
-                    class="text-cyan-400 hover:text-cyan-300 hover:underline transition-colors">Sign up</a>
+                    class="text-cyan-400 hover:text-cyan-300 hover:underline transition-colors">{{ __('auth.sign_up') }}</a>
             </div>
         </div>
     </form>

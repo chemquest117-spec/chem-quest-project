@@ -12,4 +12,5 @@ return [
     'planner_settings' => 'إعدادات المخطط',
     'profile' => 'الملف الشخصي',
     'log_out' => 'تسجيل الخروج',
+    'weekly_planner' => 'خطة الدراسة (أسبوعي)',
 ];

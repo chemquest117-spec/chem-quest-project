@@ -7,7 +7,7 @@ git push -u new-origin main --force
 php artisan config:clear
 php artisan view:clear
 php artisan cache:clear
-
+php artisan optimize:clear
 
 
 git init

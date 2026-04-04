@@ -1,5 +1,5 @@
 <x-app-layout>
-     @section('title', 'Quiz - ' . $stage->title)
+     @section('title', __('quiz.quiz') . ' - ' . $stage->title)
 
      <div class="py-8 overscroll-y-contain" x-data="quizTimer({{ $remainingSeconds }}, {{ $totalSeconds }})">
           <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,7 +61,7 @@
                                                             <p class="text-white font-medium text-sm sm:text-base">{{ $answer->question->getTranslatedQuestionText() }}</p>
                                                              @if($answer->question->image)
                                                                   <div class="mt-3 mb-2">
-                                                                       <img src="{{ asset('storage/' . $answer->question->image) }}" alt="Question Image" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">
+                                                                       <img src="{{ asset('storage/' . $answer->question->image) }}" alt="{{ __('quiz.question_image') }}" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">
                                                                   </div>
                                                              @endif
                                                             <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded text-xs
@@ -86,7 +86,7 @@
                                                             <textarea name="answers[{{ $answer->question_id }}]" 
                                                                  rows="4" 
                                                                  class="w-full bg-white/5 border-2 border-white/10 hover:border-emerald-400/40 focus:border-emerald-500 rounded-xl p-4 text-slate-300 focus:outline-none focus:ring-0 transition-all duration-300"
-                                                                 placeholder="{{ __('quiz.enter_your_answer_here') ?? 'Enter your answer here...' }}"
+                                                                 placeholder="{{ __('quiz.enter_your_answer_here') }}"
                                                                  @input="selected = true"
                                                             ></textarea>
                                                        </div>

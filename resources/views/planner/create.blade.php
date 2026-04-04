@@ -44,16 +44,16 @@
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                         
                         if (exam <= start) {
-                            this.errorMessage = 'Exam date must be after the start date.';
+                            this.errorMessage = '{{ __("planner.err_exam_after_start") }}';
                             return;
                         }
                         if (diffDays < 3) {
-                            this.errorMessage = 'At least 3 days are required between start and exam date.';
+                            this.errorMessage = '{{ __("planner.err_min_days") }}';
                             return;
                         }
                     } else if (this.step === 2) {
                         if (this.formData.preferred_days.length === 0) {
-                            this.errorMessage = 'Please select at least one preferred study day.';
+                            this.errorMessage = '{{ __("planner.err_select_day") }}';
                             return;
                         }
                     }
@@ -132,7 +132,7 @@
                             <div class="mt-6 p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
                                 <p class="text-sm text-indigo-300">
                                     <x-icon name="information-circle" class="w-4 h-4 inline" />
-                                    {{ $stages->count() }} stages to cover · Total est. ~{{ $stages->sum('estimated_study_minutes') }} min study time
+                                    {{ __('planner.stages_to_cover', ['count' => $stages->count()]) }} · {{ __('planner.total_est_time', ['time' => $stages->sum('estimated_study_minutes')]) }}
                                 </p>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                             @error('preferred_days') <p class="text-red-400 text-xs mt-2">{{ $message }}</p> @enderror
 
                             <p class="text-sm text-slate-400 mt-4 text-center">
-                                <span x-text="formData.preferred_days.length"></span> days selected
+                                <span x-text="formData.preferred_days.length"></span> {{ __('planner.days_selected', ['count' => '']) }}
                             </p>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                             <div class="max-w-xs mx-auto text-center">
                                 <div class="text-5xl font-bold text-indigo-400 mb-4">
                                     <span x-text="formData.hours_per_day"></span>
-                                    <span class="text-lg text-slate-400 font-normal">hrs</span>
+                                    <span class="text-lg text-slate-400 font-normal">{{ __('planner.hrs') }}</span>
                                 </div>
                                 <input type="range" x-model="formData.hours_per_day" name="hours_per_day"
                                     min="0.5" max="8" step="0.5"
@@ -238,7 +238,7 @@
                                 </div>
                                 <div class="flex justify-between py-3 border-b border-white/10">
                                     <span class="text-slate-400">{{ __('planner.hours_per_day') }}</span>
-                                    <span class="text-white font-medium"><span x-text="formData.hours_per_day"></span> hrs</span>
+                                    <span class="text-white font-medium"><span x-text="formData.hours_per_day"></span> {{ __('planner.hrs') }}</span>
                                 </div>
                                 <div class="flex justify-between py-3">
                                     <span class="text-slate-400">{{ __('planner.pace') }}</span>
@@ -249,7 +249,7 @@
                             <div class="mt-6 p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
                                 <p class="text-sm text-emerald-300 flex items-center gap-2">
                                     <x-icon name="information-circle" class="w-4 h-4" />
-                                    {{ $stages->count() }} stages will be intelligently scheduled based on your preferences.
+                                    {{ __('planner.intelligent_schedule_msg', ['count' => $stages->count()]) }}
                                 </p>
                             </div>
                         </div>

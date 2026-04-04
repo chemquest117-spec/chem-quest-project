@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\StudyPlannerController;
+use App\Http\Controllers\WeeklyPlannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +88,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{studyPlan}', [StudyPlannerController::class, 'destroy'])->name('destroy');
         Route::post('/items/{studyPlanItem}/toggle', [StudyPlannerController::class, 'toggleItem'])->name('items.toggle');
         Route::patch('/items/{studyPlanItem}/notes', [StudyPlannerController::class, 'updateNotes'])->name('items.notes');
+    });
+
+    // Weekly Flexible Planner
+    Route::prefix('weekly-planner')->name('weekly-planner.')->group(function () {
+        Route::get('/', [WeeklyPlannerController::class, 'index'])->name('index');
+        Route::post('/assign', [WeeklyPlannerController::class, 'assignDay'])->name('assign');
+        Route::post('/clear', [WeeklyPlannerController::class, 'clearDay'])->name('clear');
+        Route::post('/toggle', [WeeklyPlannerController::class, 'toggleComplete'])->name('toggle');
+        Route::post('/reset', [WeeklyPlannerController::class, 'resetWeek'])->name('reset');
     });
 });
 

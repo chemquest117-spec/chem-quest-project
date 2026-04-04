@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(StudyPlan::class);
     }
 
+    public function weeklyStudyPlans(): HasMany
+    {
+        return $this->hasMany(WeeklyStudyPlan::class);
+    }
+
     /**
      * Get the user's currently active study plan.
      */

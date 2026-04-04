@@ -42,6 +42,11 @@ class Stage extends Model
         return $this->hasMany(StudyPlanItem::class);
     }
 
+    public function weeklyStudyPlans(): HasMany
+    {
+        return $this->hasMany(WeeklyStudyPlan::class);
+    }
+
     public function getTranslatedTitle(): string
     {
         return app()->getLocale() === 'ar' && $this->title_ar ? $this->title_ar : $this->title;

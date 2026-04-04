@@ -12,4 +12,5 @@ return [
     'planner_settings' => 'Planner Settings',
     'profile' => 'Profile',
     'log_out' => 'Log Out',
+    'weekly_planner' => 'Weekly Planner',
 ];

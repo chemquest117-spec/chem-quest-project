@@ -54,8 +54,15 @@ class DashboardController extends Controller
 
         // Progress percentage calculated from cached values
         $progressPercentage = $totalStageCount > 0
-             ? round(($completedCount / $totalStageCount) * 100, 1)
-             : 0;
+            ? round(($completedCount / $totalStageCount) * 100, 1)
+            : 0;
+
+        // Weekly Planner Integration
+        $currentWeek = min($completedCount + 1, 5);
+        $weeklyPlan = $user->weeklyStudyPlans()
+            ->where('week_number', $currentWeek)
+            ->with('days')
+            ->first();
 
         return view('dashboard', compact(
             'user',
@@ -66,10 +73,13 @@ class DashboardController extends Controller
             'recentAttempts',
             'totalAttempts',
             'completedCount',
+            'passedAttempts',
             'successRate',
             'avgScore',
             'totalTimeSpent',
-            'progressPercentage'
+            'progressPercentage',
+            'weeklyPlan',
+            'currentWeek'
         ));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\StageAttempt;
 use App\Models\StudyPlan;
+use App\Models\WeeklyStudyPlan;
 
 class ProgressSyncService
 {
@@ -32,11 +33,31 @@ class ProgressSyncService
             ->orderBy('scheduled_date')
             ->first();
 
-        if (! $item) {
-            return;
+        if ($item) {
+            $item->markCompleted();
         }
 
-        $item->markCompleted();
+        // --- Weekly Planner Sync ---
+        $weeklyPlan = WeeklyStudyPlan::where('user_id', $user->id)
+            ->where('stage_id', $attempt->stage_id)
+            ->where('status', 'active')
+            ->first();
+
+        if ($weeklyPlan) {
+            $testDay = $weeklyPlan->days()->where('action_type', 'test')->first();
+            if ($testDay) {
+                $testDay->update([
+                    'is_completed' => true,
+                    'completed_at' => now(),
+                ]);
+            }
+
+            // Re-evaluate weekly plan status
+            $studyDay = $weeklyPlan->days()->where('action_type', 'study')->first();
+            if ((! $studyDay || $studyDay->is_completed) && $testDay) {
+                $weeklyPlan->update(['status' => 'completed']);
+            }
+        }
     }
 
     /**

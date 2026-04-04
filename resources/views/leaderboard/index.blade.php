@@ -54,7 +54,7 @@
                                    x-text="Number(students[0]?.total_points).toLocaleString()"></div>
                               <div class="flex items-center justify-center gap-3 mt-1">
                                    <div class="flex items-center justify-center gap-0.5 text-amber-400 text-sm"><x-icon name="star" class="w-3.5 h-3.5" /> <span x-text="students[0]?.stars"></span></div>
-                                   <div class="flex items-center justify-center gap-0.5 text-orange-500 text-sm font-bold bg-orange-500/10 px-2 py-0.5 rounded-full" x-show="students[0]?.streak > 0"><x-icon name="fire" class="w-3.5 h-3.5" /> <span x-text="students[0]?.streak + ' day streak!'"></span></div>
+                                   <div class="flex items-center justify-center gap-0.5 text-orange-500 text-sm font-bold bg-orange-500/10 px-2 py-0.5 rounded-full" x-show="students[0]?.streak > 0"><x-icon name="fire" class="w-3.5 h-3.5" /> <span x-text="'{{ __('leaderboard.streak_badge', ['days' => '']) }}'.replace(':days', students[0]?.streak)"></span></div>
                               </div>
                          </div>
 

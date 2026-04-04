@@ -11,24 +11,50 @@
                 </a>
 
                 <!-- Desktop Nav Links -->
-                <div class="hidden sm:flex sm:ms-10 sm:space-x-1">
-                    <a href="{{ route('dashboard') }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                              {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}
-                    </a>
-                    <a href="{{ route('stages.index') }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                              {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}
-                    </a>
-                    <a href="{{ route('planner.index') }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                              {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.study_planner') }}
-                    </a>
+                <ul class="hidden sm:flex sm:ms-10 sm:space-x-1 items-center">
+                    {{-- Dashboard Dropdown --}}
+                    <li class="flex items-center relative" x-data="{ dashOpen: false }">
+                        <button @click="dashOpen = !dashOpen" @click.away="dashOpen = false"
+                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                   {{ request()->routeIs('dashboard') || request()->routeIs('stages.*') || request()->routeIs('planner.*') || request()->routeIs('weekly-planner.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                            <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}
+                            <svg class="w-4 h-4 ms-1 transition-transform" :class="dashOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div x-show="dashOpen" x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            class="absolute top-full start-0 mt-2 w-56 bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
+                            
+                            <a href="{{ route('dashboard') }}"
+                                class="flex items-center gap-2 px-4 py-3 text-sm transition-colors
+                                       {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-bold' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                <x-icon name="chart-bar" class="w-4 h-4 text-cyan-400" /> {{ __('dashboard.title') }}
+                            </a>
+
+                            <div class="border-t border-white/5"></div>
+
+                            <a href="{{ route('stages.index') }}"
+                                class="flex items-center gap-2 px-4 py-3 text-sm transition-colors
+                                       {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white font-bold' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                <x-icon name="target" class="w-4 h-4 text-emerald-400" /> {{ __('stages.title') }}
+                            </a>
+
+                            <a href="{{ route('planner.index') }}"
+                                class="flex items-center gap-2 px-4 py-3 text-sm transition-colors
+                                       {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white font-bold' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                <x-icon name="academic-cap" class="w-4 h-4 text-indigo-400" /> {{ __('navigation.study_planner') }}
+                            </a>
+
+                            <a href="{{ route('weekly-planner.index') }}"
+                                class="flex items-center gap-2 px-4 py-3 text-sm transition-colors
+                                       {{ request()->routeIs('weekly-planner.*') ? 'bg-white/10 text-white font-bold' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                <x-icon name="calendar" class="w-4 h-4 text-purple-400" /> {{ __('navigation.weekly_planner') }}
+                            </a>
+                        </div>
+                    </li>
+
                     @if(auth()->user()->is_admin)
-                        <div class="flex items-center relative" x-data="{ adminOpen: false }">
+                        <li class="flex items-center relative" x-data="{ adminOpen: false }">
                             <button @click="adminOpen = !adminOpen" @click.away="adminOpen = false"
                                 class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                                        {{ request()->routeIs('admin.*') ? 'bg-blue-500/20 text-blue-300' : 'text-blue-400 hover:bg-blue-500/10' }}">
@@ -52,9 +78,9 @@
                                     <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.planner_settings') }}
                                 </a>
                             </div>
-                        </div>
+                        </li>
                     @endif
-                </div>
+                </ul>
             </div>
 
             <!-- Right side -->
@@ -185,12 +211,18 @@
                         
                         <div class="border-t border-white/10 my-1"></div>
 
-                        <x-dropdown-link :href="route('profile.edit')">{{ __('navigation.profile') }}</x-dropdown-link>
+                        <x-dropdown-link :href="route('profile.edit')">
+                            <div class="flex items-center gap-2">
+                                <x-icon name="user" class="w-4 h-4" /> {{ __('navigation.profile') }}
+                            </div>
+                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('navigation.log_out') }}
+                                <div class="flex items-center gap-2 text-red-400">
+                                    <x-icon name="logout" class="w-4 h-4" /> {{ __('navigation.log_out') }}
+                                </div>
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -242,20 +274,24 @@
         <div class="pt-2 pb-3 space-y-1 px-4">
             <a href="{{ route('dashboard') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
-                       {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white' : '' }}">
-                <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}</a>
+                       {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-bold' : '' }}">
+                <x-icon name="chart-bar" class="w-4 h-4 text-cyan-400" /> {{ __('dashboard.title') }}</a>
             <a href="{{ route('stages.index') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
-                       {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : '' }}">
-                <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}</a>
+                       {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white font-bold' : '' }}">
+                <x-icon name="target" class="w-4 h-4 text-emerald-400" /> {{ __('stages.title') }}</a>
             <a href="{{ route('planner.index') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
-                       {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white' : '' }}">
-                <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.study_planner') }}</a>
+                       {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white font-bold' : '' }}">
+                <x-icon name="academic-cap" class="w-4 h-4 text-indigo-400" /> {{ __('navigation.study_planner') }}</a>
+            <a href="{{ route('weekly-planner.index') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
+                       {{ request()->routeIs('weekly-planner.*') ? 'bg-white/10 text-white font-bold' : '' }}">
+                <x-icon name="calendar" class="w-4 h-4 text-purple-400" /> {{ __('navigation.weekly_planner') }}</a>
             <a href="{{ route('leaderboard') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
-                       {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white' : '' }}">
-                <x-icon name="trophy" class="w-4 h-4" /> {{ __('navigation.leaderboard') }}</a>
+                       {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white font-bold' : '' }}">
+                <x-icon name="trophy" class="w-4 h-4 text-amber-400" /> {{ __('navigation.leaderboard') }}</a>
             
             {{-- Mobile Stats --}}
             <div class="grid grid-cols-3 gap-2 px-3 py-3 border-t border-white/5 mt-2">
@@ -289,11 +325,15 @@
             <div class="text-sm text-slate-400">{{ Auth::user()->email }}</div>
             <div class="mt-3 space-y-1">
                 <a href="{{ route('profile.edit') }}"
-                    class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">{{ __('navigation.profile') }}</a>
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                    <x-icon name="user" class="w-4 h-4" /> {{ __('navigation.profile') }}
+                </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="block w-full text-start px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">{{ __('navigation.log_out') }}</button>
+                        class="flex items-center gap-2 w-full text-start px-3 py-2 rounded-lg text-red-400 hover:bg-white/10">
+                        <x-icon name="logout" class="w-4 h-4" /> {{ __('navigation.log_out') }}
+                    </button>
                 </form>
             </div>
         </div>

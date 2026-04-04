@@ -29,4 +29,5 @@ return [
     'retry' => 'Retry',
     'in_progress' => 'In Progress',
     'continue_quiz' => 'Continue Quiz',
+    'pass_rate_simple' => ':percentage% to pass',
 ];
