@@ -16,10 +16,14 @@ class StageFactory extends Factory
             'title_ar' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'description_ar' => $this->faker->sentence(),
-            'order' => 1,
+            'order' => fake()->unique()->numberBetween(10, 1000),
             'time_limit_minutes' => 60,
             'passing_percentage' => 50,
             'points_reward' => 10,
+            'marks_weight' => 20,
+            'estimated_study_minutes' => 60,
+            'importance_score' => 5,
+            'recommended_week' => 1,
         ];
     }
 }

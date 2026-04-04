@@ -134,6 +134,74 @@
                 </div>
             </div>
 
+            {{-- Study Planner Widget --}}
+            <div class="mb-6" x-show="shown" x-transition:enter="transition ease-out duration-700"
+                x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+                style="transition-delay: 500ms">
+                @php $activePlan = $user->activeStudyPlan(); @endphp
+                @if($activePlan)
+                    @php
+                        $planTodayItems = $activePlan->todayItems();
+                        $planTodayItems->load('stage');
+                    @endphp
+                    <div class="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl p-5 border border-indigo-500/20 hover:border-indigo-500/30 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <x-icon name="academic-cap" class="w-5 h-5 text-indigo-400" />
+                                {{ __('planner.widget_title') }}
+                            </h3>
+                            <div class="flex items-center gap-3 text-sm">
+                                <span class="text-amber-400 font-medium flex items-center gap-1">
+                                    <x-icon name="clock" class="w-4 h-4" />
+                                    {{ __('planner.widget_exam_in', ['days' => $activePlan->daysRemaining()]) }}
+                                </span>
+                                <a href="{{ route('planner.index') }}" class="text-indigo-400 hover:text-indigo-300 transition">
+                                    {{ __('planner.view_plan') }} →
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="flex-1 bg-white/10 rounded-full h-2 overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-1000"
+                                    x-bind:style="shown ? 'width: {{ $activePlan->total_progress }}%' : 'width: 0%'"></div>
+                            </div>
+                            <span class="text-sm font-bold text-indigo-300">{{ $activePlan->total_progress }}%</span>
+                        </div>
+                        @if($planTodayItems->count() > 0)
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($planTodayItems as $pItem)
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                                        {{ $pItem->is_completed ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/10 text-slate-300' }}">
+                                        @if($pItem->is_completed)
+                                            <x-icon name="check" class="w-3 h-3" />
+                                        @else
+                                            <x-icon name="target" class="w-3 h-3 text-indigo-400" />
+                                        @endif
+                                        {{ $pItem->stage->getTranslatedTitle() }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-sm text-slate-400">{{ __('planner.nothing_today') }}</p>
+                        @endif
+                    </div>
+                @else
+                    <a href="{{ route('planner.create') }}"
+                        class="block bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-dashed border-indigo-500/30 hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all duration-300 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <x-icon name="academic-cap" class="w-6 h-6 text-indigo-400" />
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">{{ __('planner.widget_no_plan') }}</p>
+                                <p class="text-sm text-slate-400">{{ __('planner.no_plan_desc') }}</p>
+                            </div>
+                            <x-icon name="arrow-right" class="w-5 h-5 text-indigo-400 ms-auto group-hover:translate-x-1 transition-transform" />
+                        </div>
+                    </a>
+                @endif
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Stage Roadmap --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-700"

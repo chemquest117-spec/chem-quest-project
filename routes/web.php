@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAnalyticsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminPlannerController;
 use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AdminStageController;
 use App\Http\Controllers\Admin\AdminStudentController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\StudyPlannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +76,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Study Planner
+    Route::prefix('planner')->name('planner.')->group(function () {
+        Route::get('/', [StudyPlannerController::class, 'index'])->name('index');
+        Route::get('/create', [StudyPlannerController::class, 'create'])->name('create');
+        Route::post('/', [StudyPlannerController::class, 'store'])->name('store');
+        Route::get('/{studyPlan}', [StudyPlannerController::class, 'show'])->name('show');
+        Route::post('/{studyPlan}/reschedule', [StudyPlannerController::class, 'reschedule'])->name('reschedule');
+        Route::delete('/{studyPlan}', [StudyPlannerController::class, 'destroy'])->name('destroy');
+        Route::post('/items/{studyPlanItem}/toggle', [StudyPlannerController::class, 'toggleItem'])->name('items.toggle');
+        Route::patch('/items/{studyPlanItem}/notes', [StudyPlannerController::class, 'updateNotes'])->name('items.notes');
+    });
 });
 
 /*
@@ -100,6 +114,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/students/{user}', [AdminStudentController::class, 'destroy'])->name('students.destroy');
     Route::post('/students/{user}/toggle-ban', [AdminStudentController::class, 'toggleBan'])->name('students.toggleBan');
     Route::post('/students/{user}/reset-password', [AdminStudentController::class, 'resetPassword'])->name('students.resetPassword');
+
+    // Planner Settings
+    Route::get('/planner-settings', [AdminPlannerController::class, 'index'])->name('planner-settings');
+    Route::post('/planner-settings', [AdminPlannerController::class, 'update'])->name('planner-settings.update');
 });
 
 /*

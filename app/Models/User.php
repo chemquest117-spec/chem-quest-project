@@ -56,6 +56,22 @@ class User extends Authenticatable
         return $this->hasMany(StageAttempt::class);
     }
 
+    public function studyPlans(): HasMany
+    {
+        return $this->hasMany(StudyPlan::class);
+    }
+
+    /**
+     * Get the user's currently active study plan.
+     */
+    public function activeStudyPlan(): ?StudyPlan
+    {
+        return $this->studyPlans()
+            ->where('status', StudyPlan::STATUS_ACTIVE)
+            ->latest()
+            ->first();
+    }
+
     /**
      * Get stages completed by this user (memoized per request).
      */

@@ -8,6 +8,8 @@ return [
     'notifications' => 'Notifications',
     'mark_all_read' => 'Mark all read',
     'no_new_notifications' => 'No new notifications',
+    'study_planner' => 'Study Planner',
+    'planner_settings' => 'Planner Settings',
     'profile' => 'Profile',
     'log_out' => 'Log Out',
 ];

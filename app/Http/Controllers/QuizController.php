@@ -6,6 +6,7 @@ use App\Models\AttemptAnswer;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Notifications\StageCompleted;
+use App\Services\ProgressSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -263,6 +264,11 @@ class QuizController extends Controller
             // Invalidate user dashboard caches so front-end reflects new stats immediately
             Cache::forget("user_{$user->id}_dashboard_stats");
             Cache::forget("user_{$user->id}_recent_attempts");
+
+            // Sync with study planner (auto-mark items as completed)
+            if ($passed) {
+                app(ProgressSyncService::class)->syncFromAttempt($attempt);
+            }
 
             return redirect()->route('quiz.result', $attempt);
         });

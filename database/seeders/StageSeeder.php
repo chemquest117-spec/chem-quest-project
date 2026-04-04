@@ -70,6 +70,10 @@ class StageSeeder extends Seeder
                 'points_reward' => 250,
                 'title_ar' => 'ن.ت.1: الأكسدة والاختزال والكيمياء الكهربائية',
                 'description_ar' => 'أتقن أعداد الأكسدة، تفاعلات الأكسدة والاختزال، الموازنة في المحاليل الحمضية/القاعدية، التحليل الكهربائي، قوانين فاراداي، الطلاء الكهربائي، ومنع التآكل.',
+                'marks_weight' => 25,
+                'estimated_study_minutes' => 90,
+                'importance_score' => 9,
+                'recommended_week' => 1,
             ],
             [
                 'title' => 'LO2: Galvanic Cells & Conductivity',
@@ -80,6 +84,10 @@ class StageSeeder extends Seeder
                 'points_reward' => 250,
                 'title_ar' => 'ن.ت.2: الخلايا الجلفانية والتوصيلية',
                 'description_ar' => 'استكشف الخلايا الجلفانية مقابل خلايا التحليل الكهربائي، جهود الأقطاب القياسية، معادلة نيرنست، كيمياء البطاريات، قطب الهيدروجين القياسي، خلايا التركيز، وتوصيلية المحاليل الإلكتروليتية.',
+                'marks_weight' => 20,
+                'estimated_study_minutes' => 90,
+                'importance_score' => 8,
+                'recommended_week' => 2,
             ],
             [
                 'title' => 'LO3: Organic Nomenclature & Reactions',
@@ -90,6 +98,10 @@ class StageSeeder extends Seeder
                 'points_reward' => 280,
                 'title_ar' => 'ن.ت.3: تسمية المركبات العضوية وتفاعلاتها',
                 'description_ar' => 'تعلم تسمية IUPAC، المتشكلات البنائية، المجموعات الوظيفية، التهجين، الإضافة الإلكتروفيلية، الكيمياء العطرية، وأكسدة الكحولات.',
+                'marks_weight' => 20,
+                'estimated_study_minutes' => 120,
+                'importance_score' => 8,
+                'recommended_week' => 2,
             ],
             [
                 'title' => 'LO4: Hydrocarbons & Petrochemistry',
@@ -100,6 +112,10 @@ class StageSeeder extends Seeder
                 'points_reward' => 280,
                 'title_ar' => 'ن.ت.4: الهيدروكربونات والبتروكيمياء',
                 'description_ar' => 'افهم التقطير التجزيئي للنفط، الاحتراق، التكسير (الحراري مقابل التحفيزي)، محفزات الزيوليت، التأثيرات البيئية، وتفاعلات فريدل-كرافتس.',
+                'marks_weight' => 15,
+                'estimated_study_minutes' => 90,
+                'importance_score' => 7,
+                'recommended_week' => 3,
             ],
             [
                 'title' => 'LO5: Functional Groups, Electrolysis & Isomerism',
@@ -110,6 +126,10 @@ class StageSeeder extends Seeder
                 'points_reward' => 300,
                 'title_ar' => 'ن.ت.5: المجموعات الوظيفية والتحليل الكهربائي والتشكل',
                 'description_ar' => 'أتقن المجموعات الوظيفية العضوية (الإسترات، الكيتونات، الكحولات)، عمليات التحليل الكهربائي، حسابات قانون فاراداي، التشكل البنائي والهندسي، الكيرالية، منع التآكل، وجهود الخلايا الكهروكيميائية.',
+                'marks_weight' => 20,
+                'estimated_study_minutes' => 120,
+                'importance_score' => 9,
+                'recommended_week' => 3,
             ],
         ];
 

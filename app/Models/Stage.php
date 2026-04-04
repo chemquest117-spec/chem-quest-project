@@ -21,6 +21,10 @@ class Stage extends Model
         'time_limit_minutes',
         'passing_percentage',
         'points_reward',
+        'marks_weight',
+        'estimated_study_minutes',
+        'importance_score',
+        'recommended_week',
     ];
 
     public function questions(): HasMany
@@ -31,6 +35,11 @@ class Stage extends Model
     public function attempts(): HasMany
     {
         return $this->hasMany(StageAttempt::class);
+    }
+
+    public function studyPlanItems(): HasMany
+    {
+        return $this->hasMany(StudyPlanItem::class);
     }
 
     public function getTranslatedTitle(): string

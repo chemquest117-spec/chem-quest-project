@@ -22,6 +22,11 @@
                               {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                         <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}
                     </a>
+                    <a href="{{ route('planner.index') }}"
+                        class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                              {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                        <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.study_planner') }}
+                    </a>
                     @if(auth()->user()->is_admin)
                         <div class="flex items-center relative" x-data="{ adminOpen: false }">
                             <button @click="adminOpen = !adminOpen" @click.away="adminOpen = false"
@@ -41,6 +46,10 @@
                                 <a href="{{ route('admin.analytics') }}"
                                    class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
                                     <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}
+                                </a>
+                                <a href="{{ route('admin.planner-settings') }}"
+                                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                    <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.planner_settings') }}
                                 </a>
                             </div>
                         </div>
@@ -239,6 +248,10 @@
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
                        {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : '' }}">
                 <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}</a>
+            <a href="{{ route('planner.index') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
+                       {{ request()->routeIs('planner.*') ? 'bg-white/10 text-white' : '' }}">
+                <x-icon name="academic-cap" class="w-4 h-4" /> {{ __('navigation.study_planner') }}</a>
             <a href="{{ route('leaderboard') }}"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
                        {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white' : '' }}">
