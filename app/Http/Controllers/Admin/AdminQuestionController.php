@@ -7,6 +7,8 @@ use App\Models\Question;
 use App\Models\Stage;
 use App\Services\AIQuestionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 
 class AdminQuestionController extends Controller
@@ -25,11 +27,16 @@ class AdminQuestionController extends Controller
      public function store(Request $request, Stage $stage)
      {
           $validated = $request->validate([
-               'question_text' => 'required|string',
+               'question_text' => 'required|string|max:2000',
+               'question_text_ar' => 'nullable|string|max:2000',
                'option_a' => 'required|string|max:500',
+               'option_a_ar' => 'nullable|string|max:500',
                'option_b' => 'required|string|max:500',
+               'option_b_ar' => 'nullable|string|max:500',
                'option_c' => 'required|string|max:500',
+               'option_c_ar' => 'nullable|string|max:500',
                'option_d' => 'required|string|max:500',
+               'option_d_ar' => 'nullable|string|max:500',
                'correct_answer' => 'required|in:a,b,c,d',
                'difficulty' => 'required|in:easy,medium,hard',
                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -40,7 +47,13 @@ class AdminQuestionController extends Controller
                $validated['image'] = $path;
           }
 
+          // Normalize correct_answer to lowercase
+          $validated['correct_answer'] = strtolower($validated['correct_answer']);
+
           $stage->questions()->create($validated);
+
+          // Clear cached question IDs for this stage
+          Cache::forget("stage_{$stage->id}_question_ids");
 
           return redirect()->route('admin.stages.questions.index', $stage)
                ->with('success', 'Question added successfully!');
@@ -54,11 +67,16 @@ class AdminQuestionController extends Controller
      public function update(Request $request, Stage $stage, Question $question)
      {
           $validated = $request->validate([
-               'question_text' => 'required|string',
+               'question_text' => 'required|string|max:2000',
+               'question_text_ar' => 'nullable|string|max:2000',
                'option_a' => 'required|string|max:500',
+               'option_a_ar' => 'nullable|string|max:500',
                'option_b' => 'required|string|max:500',
+               'option_b_ar' => 'nullable|string|max:500',
                'option_c' => 'required|string|max:500',
+               'option_c_ar' => 'nullable|string|max:500',
                'option_d' => 'required|string|max:500',
+               'option_d_ar' => 'nullable|string|max:500',
                'correct_answer' => 'required|in:a,b,c,d',
                'difficulty' => 'required|in:easy,medium,hard',
                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -74,6 +92,9 @@ class AdminQuestionController extends Controller
                $validated['image'] = $path;
           }
 
+          // Normalize correct_answer
+          $validated['correct_answer'] = strtolower($validated['correct_answer']);
+
           $question->update($validated);
 
           return redirect()->route('admin.stages.questions.index', $stage)
@@ -88,18 +109,35 @@ class AdminQuestionController extends Controller
 
           $question->delete();
 
+          // Clear cached question IDs for this stage
+          Cache::forget("stage_{$stage->id}_question_ids");
+
           return redirect()->route('admin.stages.questions.index', $stage)
                ->with('success', 'Question deleted successfully!');
      }
 
      /**
       * Generate AI-powered questions for a stage.
+      * Rate-limited to 5 requests per minute to prevent API abuse.
       */
-     public function generate(Stage $stage, AIQuestionService $aiService)
+     public function generate(Request $request, Stage $stage, AIQuestionService $aiService)
      {
-          $created = $aiService->generateQuestions($stage, 5);
+          // Rate limit: max 5 AI generations per minute per admin
+          $key = 'ai-generate:' . $request->user()->id;
+          
+          if (RateLimiter::tooManyAttempts($key, 5)) {
+               $seconds = RateLimiter::availableIn($key);
+               return redirect()->route('admin.stages.questions.index', $stage)
+                    ->with('error', "Too many requests. Please wait {$seconds} seconds before trying again.");
+          }
 
+          RateLimiter::hit($key, 60);
+
+          $created = $aiService->generateQuestions($stage, 5);
           $count = count($created);
+
+          // Clear cached question IDs since new questions were added
+          Cache::forget("stage_{$stage->id}_question_ids");
 
           if ($count > 0) {
                return redirect()->route('admin.stages.questions.index', $stage)
