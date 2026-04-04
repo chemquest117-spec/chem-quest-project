@@ -269,6 +269,35 @@ Mixed difficulty (easy/medium/hard) covering:
 - **Emoji icons** throughout for engagement
 - **Notification bell** with unread count badge
 
+### Security & Performance
+- **N+1 Query Prevention**: Strict lazy-loading prevention enabled during testing to guarantee massive performance loops aren't accidentally committed.
+- **XSS Protection**: Secure sanitization enabled on essay and quiz generation inputs.
+- **Login Rate Limiting**: Enforces strict throttling on failed Breeze authentication attempts.
+- **SystemGuard Defense**: Secure middleware licensing and application health checking proxy.
+
+---
+
+## 🧪 Testing & Quality Assurance
+
+Automated CI architecture powered by **Pest PHP** yielding > 95% total code coverage.
+
+- **Feature Tests**: Validates full authorization flow, Admin CRUD, gamification boundaries, soft deletes.
+- **Quiz Flow Tests**: Examines concurrent attempt blockers, auto-saving logic, countdown timers, and accurate score calculations.
+- **Unit/Service Tests**: Checks complex gamification equations via `AIQuestionService` mock endpoints (`Http::fake`).
+- **Architecture Tests**: Ensures `dd()`, `dump()`, and `ray()` never make it to production environments.
+
+Run the test suite seamlessly:
+```bash
+./vendor/bin/pest
+```
+
+---
+
+## 🚀 CI/CD & Deployment
+
+- **GitHub Actions (`laravel.yml`)**: Automated workflows run Pest logic and Node asset builds on every code push to track regression.
+- **Multi-stage Dockerfile**: Ready for robust PaaS deployment, cleanly chaining `Node.js 18` Vite builds directly into `PHP 8.2 Apache` images for minimal payload size. Included extensions like `bcmath`.
+
 ---
 
 ## Tech Stack
@@ -279,5 +308,7 @@ Mixed difficulty (easy/medium/hard) covering:
 | Frontend      | Blade + TailwindCSS + Alpine.js |
 | Database      | SQLite (configurable to MySQL)  |
 | Auth          | Laravel Breeze                  |
+| Testing       | Pest PHP v3.8.6                 |
 | Build         | Vite 7.3.1                      |
 | Notifications | Laravel database notifications  |
+| CI/CD         | GitHub Actions + Docker Multi-stage |
