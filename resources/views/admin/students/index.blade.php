@@ -31,16 +31,21 @@
                                         @php $completedIds = $student->completedStageIds(); @endphp
                                         <tr class="border-b border-white/5 hover:bg-white/5">
                                              <td class="px-6 py-4">
-                                                  <div class="flex items-center space-x-3">
+                                                  <a href="{{ route('admin.students.show', $student) }}" class="flex items-center space-x-3 group">
                                                        <div
                                                             class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
                                                             {{ strtoupper(substr($student->name, 0, 1)) }}
                                                        </div>
                                                        <div>
-                                                            <div class="text-white font-medium">{{ $student->name }}</div>
+                                                            <div class="text-white font-medium group-hover:text-blue-400 transition flex items-center gap-1.5">
+                                                                 {{ $student->name }}
+                                                                 @if($student->is_banned)
+                                                                      <span class="text-xs bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded">{{ __('admin.banned') }}</span>
+                                                                 @endif
+                                                            </div>
                                                             <div class="text-xs text-slate-500">{{ $student->email }}</div>
                                                        </div>
-                                                  </div>
+                                                  </a>
                                              </td>
                                              <td class="px-6 py-4 text-center text-emerald-400 font-bold">
                                                   {{ number_format($student->total_points) }}
