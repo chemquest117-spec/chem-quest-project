@@ -232,21 +232,43 @@
         class="sm:hidden bg-black/40 backdrop-blur-md border-t border-white/10 transform">
         <div class="pt-2 pb-3 space-y-1 px-4">
             <a href="{{ route('dashboard') }}"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
+                       {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white' : '' }}">
                 <x-icon name="chart-bar" class="w-4 h-4" /> {{ __('dashboard.title') }}</a>
             <a href="{{ route('stages.index') }}"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
+                       {{ request()->routeIs('stages.*') ? 'bg-white/10 text-white' : '' }}">
                 <x-icon name="target" class="w-4 h-4" /> {{ __('stages.title') }}</a>
             <a href="{{ route('leaderboard') }}"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10
+                       {{ request()->routeIs('leaderboard') ? 'bg-white/10 text-white' : '' }}">
                 <x-icon name="trophy" class="w-4 h-4" /> {{ __('navigation.leaderboard') }}</a>
+            
+            {{-- Mobile Stats --}}
+            <div class="grid grid-cols-3 gap-2 px-3 py-3 border-t border-white/5 mt-2">
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-orange-500/10 text-orange-400">
+                    <x-icon name="fire" class="w-4 h-4 mb-1 {{ auth()->user()->streak > 0 ? 'animate-pulse' : '' }}" />
+                    <span class="text-xs font-bold">{{ auth()->user()->streak }}</span>
+                </div>
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-amber-500/10 text-amber-300">
+                    <x-icon name="star" class="w-4 h-4 mb-1" />
+                    <span class="text-xs font-bold">{{ auth()->user()->stars }}</span>
+                </div>
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-emerald-500/10 text-emerald-300">
+                    <x-icon name="medal" class="w-4 h-4 mb-1" />
+                    <span class="text-xs font-bold">{{ number_format(auth()->user()->total_points) }}</span>
+                </div>
+            </div>
+
             @if(auth()->user()->is_admin)
-                <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-400 hover:bg-blue-500/10">
-                    <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}</a>
-                <a href="{{ route('admin.analytics') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
-                    <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}</a>
+                <div class="border-t border-white/5 pt-2">
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-400 hover:bg-blue-500/10">
+                        <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}</a>
+                    <a href="{{ route('admin.analytics') }}"
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
+                        <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}</a>
+                </div>
             @endif
         </div>
         <div class="pt-4 pb-3 border-t border-white/10 px-4">

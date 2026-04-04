@@ -59,6 +59,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Get stages failed by this user (and not yet passed).
+     */
+    public function failedStageIds(): array
+    {
+        $completedIds = $this->completedStageIds();
+
+        return $this->attempts()
+            ->where('passed', false)
+            ->whereNotIn('stage_id', $completedIds)
+            ->pluck('stage_id')
+            ->unique()
+            ->toArray();
+    }
+
+    /**
      * Get the current stage (first uncompleted stage).
      */
     public function currentStage()

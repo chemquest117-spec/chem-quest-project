@@ -12,8 +12,9 @@ class StageController extends Controller
         $user = $request->user();
         $stages = Stage::orderBy('order')->withCount('questions')->get();
         $completedIds = $user->completedStageIds();
+        $failedIds = $user->failedStageIds();
 
-        return view('stages.index', compact('stages', 'completedIds', 'user'));
+        return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'user'));
     }
 
     public function show(Request $request, Stage $stage)
@@ -25,8 +26,14 @@ class StageController extends Controller
                 ->with('error', __('messages.stage_locked'));
         }
 
-        $stage->loadCount('questions');
         $isCompleted = $stage->isCompletedBy($user);
+
+        if ($isCompleted) {
+            return redirect()->route('stages.index')
+                ->with('error', 'You have already completed this stage.');
+        }
+
+        $stage->loadCount('questions');
         $bestAttempt = $stage->bestAttemptFor($user);
         $attemptHistory = $stage->attempts()
             ->where('user_id', $user->id)

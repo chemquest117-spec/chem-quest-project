@@ -56,8 +56,8 @@
                                                             class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-bold">
                                                             {{ $index + 1 }}
                                                        </span>
-                                                       <div>
-                                                            <p class="text-white font-medium">{{ $answer->question->getTranslatedQuestionText() }}</p>
+                                                       <div class="flex-1 min-w-0">
+                                                            <p class="text-white font-medium text-sm sm:text-base">{{ $answer->question->getTranslatedQuestionText() }}</p>
                                                              @if($answer->question->image)
                                                                   <div class="mt-3 mb-2">
                                                                        <img src="{{ asset('storage/' . $answer->question->image) }}" alt="Question Image" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">

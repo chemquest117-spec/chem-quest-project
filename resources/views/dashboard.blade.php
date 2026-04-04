@@ -15,34 +15,34 @@
             </div>
 
             {{-- Stats Cards Row 1 --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
                 {{-- Streak --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                     style="transition-delay: 50ms"
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">{{ __('dashboard.streak') }}</span>
+                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-slate-400 text-[10px] sm:text-sm uppercase tracking-wider font-semibold sm:font-normal">{{ __('dashboard.streak') }}</span>
                         <x-icon name="fire"
-                            class="w-5 h-5 text-orange-400 group-hover:scale-125 transition-transform duration-300 {{ $user->streak > 0 ? 'animate-pulse' : '' }}" />
+                            class="w-4 h-4 sm:w-5 sm:h-5 text-orange-400 group-hover:scale-125 transition-transform duration-300 {{ $user->streak > 0 ? 'animate-pulse' : '' }}" />
                     </div>
-                    <div class="text-3xl font-bold text-orange-400">{{ $user->streak }}</div>
-                    <p class="text-slate-500 text-sm mt-1">{{ __('dashboard.keep_burning') }}</p>
+                    <div class="text-2xl sm:text-3xl font-bold text-orange-400">{{ $user->streak }}</div>
+                    <p class="text-slate-500 text-[10px] sm:text-sm mt-1 truncate">{{ __('dashboard.keep_burning') }}</p>
                 </div>
 
                 {{-- Progress --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                     style="transition-delay: 100ms"
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300 group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">{{ __('dashboard.your_progress') }}</span>
+                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-slate-400 text-[10px] sm:text-sm uppercase tracking-wider font-semibold sm:font-normal">{{ __('dashboard.your_progress') }}</span>
                         <x-icon name="trending-up"
-                            class="w-5 h-5 text-cyan-400 group-hover:scale-125 transition-transform duration-300" />
+                            class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
-                    <div class="text-3xl font-bold text-white">{{ $progressPercentage }}%</div>
-                    <div class="mt-3 w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
-                        <div class="bg-gradient-to-r from-cyan-500 to-emerald-500 h-2.5 rounded-full transition-all duration-[2000ms] ease-out"
+                    <div class="text-2xl sm:text-3xl font-bold text-white">{{ $progressPercentage }}%</div>
+                    <div class="mt-2 sm:mt-3 w-full bg-white/10 rounded-full h-1.5 sm:h-2.5 overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-500 to-emerald-500 h-full rounded-full transition-all duration-[2000ms] ease-out"
                             x-bind:style="shown ? 'width: {{ $progressPercentage }}%' : 'width: 0%'"></div>
                     </div>
                 </div>
@@ -51,47 +51,47 @@
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                     style="transition-delay: 200ms"
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">{{ __('dashboard.points') }}</span>
+                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-slate-400 text-[10px] sm:text-sm uppercase tracking-wider font-semibold sm:font-normal">{{ __('dashboard.points') }}</span>
                         <x-icon name="medal"
-                            class="w-5 h-5 text-emerald-400 group-hover:scale-125 transition-transform duration-300" />
+                            class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
-                    <div class="text-3xl font-bold text-emerald-400">{{ number_format($user->total_points) }}</div>
-                    <p class="text-slate-500 text-sm mt-1">{{ __('dashboard.keep_earning') }}</p>
+                    <div class="text-2xl sm:text-3xl font-bold text-emerald-400">{{ number_format($user->total_points) }}</div>
+                    <p class="text-slate-500 text-[10px] sm:text-sm mt-1 truncate">{{ __('dashboard.keep_earning') }}</p>
                 </div>
 
                 {{-- Stars --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                     style="transition-delay: 300ms"
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-300 group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">{{ __('dashboard.stars') }}</span>
+                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-slate-400 text-[10px] sm:text-sm uppercase tracking-wider font-semibold sm:font-normal">{{ __('dashboard.stars') }}</span>
                         <x-icon name="star"
-                            class="w-5 h-5 text-amber-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
+                            class="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" />
                     </div>
-                    <div class="text-3xl font-bold text-amber-400">{{ $user->stars }}</div>
-                    <p class="text-slate-500 text-sm mt-1">{{ $stages->count() - count($completedIds) }} {{ __('dashboard.more_to_go') }}</p>
+                    <div class="text-2xl sm:text-3xl font-bold text-amber-400">{{ $user->stars }}</div>
+                    <p class="text-slate-500 text-[10px] sm:text-sm mt-1 truncate">{{ $stages->count() - count($completedIds) }} {{ __('dashboard.more_to_go') }}</p>
                 </div>
 
                 {{-- Current Stage --}}
                 <div x-show="shown" x-transition:enter="transition ease-out duration-500"
                     x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                     style="transition-delay: 400ms"
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-slate-400 text-sm">{{ __('dashboard.current_stage') }}</span>
+                    class="col-span-2 lg:col-span-1 bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 group">
+                    <div class="flex items-center justify-between mb-2 sm:mb-3">
+                        <span class="text-slate-400 text-[10px] sm:text-sm uppercase tracking-wider font-semibold sm:font-normal">{{ __('dashboard.current_stage') }}</span>
                         <x-icon name="target"
-                            class="w-5 h-5 text-purple-400 group-hover:scale-125 transition-transform duration-300" />
+                            class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 group-hover:scale-125 transition-transform duration-300" />
                     </div>
-                    <div class="text-lg font-bold text-purple-400">
+                    <div class="text-base sm:text-lg font-bold text-purple-400 truncate">
                         {{ $currentStage ? $currentStage->getTranslatedTitle() : __('dashboard.all_complete') }}
                     </div>
                     @if($currentStage)
                     <a href="{{ route('stages.show', $currentStage) }}"
-                        class="text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">{{ __('dashboard.start_now') }}
-                        <x-icon name="arrow-right" class="w-3.5 h-3.5" /></a>
+                        class="text-[10px] sm:text-sm text-purple-300 hover:text-purple-200 mt-1 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">{{ __('dashboard.start_now') }}
+                        <x-icon name="arrow-right" class="w-3 h-3 sm:w-3.5 sm:h-3.5" /></a>
                     @endif
                 </div>
             </div>
@@ -99,29 +99,29 @@
             {{-- Analytics Cards Row 2 --}}
             <div x-show="shown" x-transition:enter="transition ease-out duration-700"
                 x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
-                style="transition-delay: 500ms" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                style="transition-delay: 500ms" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
 
                 <div
-                    class="bg-gradient-to-br from-green-500/10 to-emerald-500/5 rounded-2xl p-5 border border-green-500/20 text-center hover:border-green-400/40 transition-all duration-300">
-                    <div class="text-3xl font-bold text-green-400">{{ $completedCount }}</div>
-                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.stages_completed') }}</div>
+                    class="bg-gradient-to-br from-green-500/10 to-emerald-500/5 rounded-2xl p-4 sm:p-5 border border-green-500/20 text-center hover:border-green-400/40 transition-all duration-300">
+                    <div class="text-2xl sm:text-3xl font-bold text-green-400">{{ $completedCount }}</div>
+                    <div class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ __('dashboard.stages_completed') }}</div>
                 </div>
 
                 <div
-                    class="bg-gradient-to-br from-blue-500/10 to-cyan-500/5 rounded-2xl p-5 border border-blue-500/20 text-center hover:border-blue-400/40 transition-all duration-300">
-                    <div class="text-3xl font-bold text-blue-400">{{ $totalAttempts }}</div>
-                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.total_attempts') }}</div>
+                    class="bg-gradient-to-br from-blue-500/10 to-cyan-500/5 rounded-2xl p-4 sm:p-5 border border-blue-500/20 text-center hover:border-blue-400/40 transition-all duration-300">
+                    <div class="text-2xl sm:text-3xl font-bold text-blue-400">{{ $totalAttempts }}</div>
+                    <div class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ __('dashboard.total_attempts') }}</div>
                 </div>
 
                 <div
-                    class="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 rounded-2xl p-5 border border-amber-500/20 text-center hover:border-amber-400/40 transition-all duration-300">
-                    <div class="text-3xl font-bold text-amber-400">{{ $successRate }}%</div>
-                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.success_rate') }}</div>
+                    class="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 rounded-2xl p-4 sm:p-5 border border-amber-500/20 text-center hover:border-amber-400/40 transition-all duration-300">
+                    <div class="text-2xl sm:text-3xl font-bold text-amber-400">{{ $successRate }}%</div>
+                    <div class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ __('dashboard.success_rate') }}</div>
                 </div>
 
                 <div
-                    class="bg-gradient-to-br from-purple-500/10 to-pink-500/5 rounded-2xl p-5 border border-purple-500/20 text-center hover:border-purple-400/40 transition-all duration-300">
-                    <div class="text-3xl font-bold text-purple-400">
+                    class="bg-gradient-to-br from-purple-500/10 to-pink-500/5 rounded-2xl p-4 sm:p-5 border border-purple-500/20 text-center hover:border-purple-400/40 transition-all duration-300">
+                    <div class="text-2xl sm:text-3xl font-bold text-purple-400">
                         @if($totalTimeSpent > 3600)
                         {{ round($totalTimeSpent / 3600, 1) }}h
                         @elseif($totalTimeSpent > 60)
@@ -130,7 +130,7 @@
                         {{ $totalTimeSpent }}s
                         @endif
                     </div>
-                    <div class="text-xs text-slate-400 mt-1">{{ __('dashboard.time_studying') }}</div>
+                    <div class="text-[10px] sm:text-xs text-slate-400 mt-1">{{ __('dashboard.time_studying') }}</div>
                 </div>
             </div>
 
@@ -153,11 +153,11 @@
                             class="flex items-center space-x-4 p-3 rounded-xl transition-all duration-300 hover:translate-x-1
                                                                                                     {{ $isCompleted ? 'bg-emerald-500/10 border border-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500/10 border border-blue-500/30' :
-                                ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-white/[0.02] border border-white/5 opacity-50')) }}">
+                                ($isUnlocked ? 'bg-white/5 border border-white/10' : 'bg-orange-500/10 border border-orange-500/20 opacity-80')) }}">
                             <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
                                                                                                         {{ $isCompleted ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
                             ($isCurrent ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 animate-pulse' :
-                                ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-white/5 text-slate-600')) }}">
+                                ($isUnlocked ? 'bg-white/10 text-slate-400' : 'bg-orange-500/20 text-orange-400')) }}">
                                 @if($isCompleted)
                                 <x-icon name="check" class="w-5 h-5" />
                                 @elseif(!$isUnlocked)
@@ -168,7 +168,7 @@
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p
-                                    class="font-medium {{ $isCompleted ? 'text-emerald-300' : ($isCurrent ? 'text-blue-300' : 'text-slate-300') }}">
+                                    class="font-medium {{ $isCompleted ? 'text-emerald-300' : ($isCurrent ? 'text-blue-300' : ($isUnlocked ? 'text-slate-300' : 'text-orange-300')) }}">
                                     {{ $stage->getTranslatedTitle() }}
                                 </p>
                                 <p class="text-xs text-slate-500 flex items-center gap-2">

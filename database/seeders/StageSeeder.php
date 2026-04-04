@@ -64,7 +64,7 @@ class StageSeeder extends Seeder
             [
                 'title' => 'LO1: Redox & Electrochemistry',
                 'description' => 'Master oxidation numbers, redox reactions, balancing in acidic/basic solutions, electrolysis, Faraday\'s laws, electroplating, and corrosion prevention.',
-                'order' => 6,
+                'order' => 1,
                 'time_limit_minutes' => 20,
                 'passing_percentage' => 70,
                 'points_reward' => 250,
@@ -74,7 +74,7 @@ class StageSeeder extends Seeder
             [
                 'title' => 'LO2: Galvanic Cells & Conductivity',
                 'description' => 'Explore galvanic vs electrolytic cells, standard electrode potentials, Nernst equation, battery chemistry, SHE, concentration cells, and electrolyte conductivity.',
-                'order' => 7,
+                'order' => 2,
                 'time_limit_minutes' => 20,
                 'passing_percentage' => 70,
                 'points_reward' => 250,
@@ -84,7 +84,7 @@ class StageSeeder extends Seeder
             [
                 'title' => 'LO3: Organic Nomenclature & Reactions',
                 'description' => 'Learn IUPAC naming, constitutional isomers, functional groups, hybridization, electrophilic addition, aromatic chemistry, and alcohol oxidation.',
-                'order' => 8,
+                'order' => 3,
                 'time_limit_minutes' => 20,
                 'passing_percentage' => 70,
                 'points_reward' => 280,
@@ -94,7 +94,7 @@ class StageSeeder extends Seeder
             [
                 'title' => 'LO4: Hydrocarbons & Petrochemistry',
                 'description' => 'Understand petroleum fractionation, combustion, cracking (thermal vs catalytic), zeolite catalysts, environmental impacts, and Friedel-Crafts reactions.',
-                'order' => 9,
+                'order' => 4,
                 'time_limit_minutes' => 20,
                 'passing_percentage' => 70,
                 'points_reward' => 280,
@@ -104,7 +104,7 @@ class StageSeeder extends Seeder
             [
                 'title' => 'LO5: Functional Groups, Electrolysis & Isomerism',
                 'description' => 'Master organic functional groups (esters, ketones, alcohols), electrolysis processes, Faraday\'s law calculations, structural & geometric isomerism, chirality, corrosion prevention, and electrochemical cell potentials.',
-                'order' => 10,
+                'order' => 5,
                 'time_limit_minutes' => 25,
                 'passing_percentage' => 70,
                 'points_reward' => 300,

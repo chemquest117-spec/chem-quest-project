@@ -26,4 +26,5 @@ return [
     'passed' => 'Passed',
     'failed' => 'Failed',
     'view' => 'View',
+    'retry' => 'Retry',
 ];
