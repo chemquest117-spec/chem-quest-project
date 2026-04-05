@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\PostgresBoolean;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,8 +56,8 @@ class WeeklyStudyPlanDay extends Model
             return '';
         }
 
-        $start = \Carbon\Carbon::parse($this->start_time)->format('g:i A');
-        $end = \Carbon\Carbon::parse($this->end_time)->format('g:i A');
+        $start = Carbon::parse($this->start_time)->format('g:i A');
+        $end = Carbon::parse($this->end_time)->format('g:i A');
 
         return "{$start} - {$end}";
     }
@@ -70,8 +71,8 @@ class WeeklyStudyPlanDay extends Model
             return 60;
         }
 
-        $start = \Carbon\Carbon::parse($this->start_time);
-        $end = \Carbon\Carbon::parse($this->end_time);
+        $start = Carbon::parse($this->start_time);
+        $end = Carbon::parse($this->end_time);
 
         return max(15, (int) $start->diffInMinutes($end));
     }
