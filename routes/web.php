@@ -93,10 +93,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Weekly Flexible Planner
     Route::prefix('weekly-planner')->name('weekly-planner.')->group(function () {
         Route::get('/', [WeeklyPlannerController::class, 'index'])->name('index');
-        Route::post('/assign', [WeeklyPlannerController::class, 'assignDay'])->name('assign');
-        Route::post('/clear', [WeeklyPlannerController::class, 'clearDay'])->name('clear');
+        Route::post('/store', [WeeklyPlannerController::class, 'store'])->name('store');
+        Route::put('/events/{event}', [WeeklyPlannerController::class, 'update'])->name('update');
+        Route::delete('/events/{event}', [WeeklyPlannerController::class, 'destroy'])->name('destroy');
         Route::post('/toggle', [WeeklyPlannerController::class, 'toggleComplete'])->name('toggle');
         Route::post('/reset', [WeeklyPlannerController::class, 'resetWeek'])->name('reset');
+        // Legacy
+        Route::post('/assign', [WeeklyPlannerController::class, 'assignDay'])->name('assign');
+        Route::post('/clear', [WeeklyPlannerController::class, 'clearDay'])->name('clear');
     });
 });
 

@@ -216,67 +216,107 @@ class PlannerGenerationService
         $totalSlots = $slots->count();
         $totalStages = $stages->count();
 
+        if ($totalStages === 0 || $totalSlots === 0) {
+            return;
+        }
+
+        // Reset array keys
+        $stagesArray = $stages->values();
+
+        // ── Phase 1: Calculate how many slots each stage gets ──
+        // Every stage needs at least 1 study + 1 quiz = 2 slots minimum
+        $minSlotsNeeded = $totalStages * 2;
+
+        // Extra slots to distribute as additional study days
+        $extraSlots = max(0, $totalSlots - $minSlotsNeeded);
+
+        // Distribute extra slots proportionally by estimated study time
+        $totalStudyMinutes = $stagesArray->sum(fn ($s) => $s->estimated_study_minutes ?: 60);
+
+        $stageAllocations = [];
+        $allocatedSoFar = 0;
+
+        foreach ($stagesArray as $index => $stage) {
+            $stageMinutes = $stage->estimated_study_minutes ?: 60;
+
+            // Base: 1 study slot + 1 quiz slot
+            $studySlots = 1;
+
+            // Add extra study slots proportionally
+            if ($extraSlots > 0 && $totalStudyMinutes > 0) {
+                $proportion = $stageMinutes / $totalStudyMinutes;
+                $extraForStage = (int) round($proportion * $extraSlots);
+
+                // For the last stage, give it whatever's left to avoid rounding issues
+                if ($index === $totalStages - 1) {
+                    $extraForStage = $extraSlots - $allocatedSoFar;
+                }
+
+                $studySlots += max(0, $extraForStage);
+                $allocatedSoFar += max(0, $extraForStage);
+            }
+
+            // Limit study slots based on pace
+            // Light pace: allow more days; Intensive: compress
+            $maxStudyDays = max(1, (int) round($studySlots / $paceMultiplier));
+            $studySlots = max(1, $maxStudyDays);
+
+            $stageAllocations[] = [
+                'stage' => $stage,
+                'study_slots' => $studySlots,
+                'total_slots' => $studySlots + 1, // +1 for quiz
+            ];
+        }
+
+        // ── Phase 2: Normalize allocations to fit exactly into totalSlots ──
+        $totalAllocated = collect($stageAllocations)->sum('total_slots');
+
+        // If we over-allocated, trim study slots from stages with the most
+        while ($totalAllocated > $totalSlots && $totalAllocated > $totalStages * 2) {
+            // Find the stage with the most study slots
+            $maxIdx = 0;
+            $maxStudy = 0;
+            foreach ($stageAllocations as $i => $alloc) {
+                if ($alloc['study_slots'] > $maxStudy) {
+                    $maxStudy = $alloc['study_slots'];
+                    $maxIdx = $i;
+                }
+            }
+            if ($stageAllocations[$maxIdx]['study_slots'] <= 1) {
+                break;
+            }
+            $stageAllocations[$maxIdx]['study_slots']--;
+            $stageAllocations[$maxIdx]['total_slots']--;
+            $totalAllocated--;
+        }
+
+        // If we under-allocated, add more study slots to stages
+        while ($totalAllocated < $totalSlots) {
+            // Add to stages round-robin, prioritizing those with higher estimated time
+            foreach ($stageAllocations as &$alloc) {
+                if ($totalAllocated >= $totalSlots) {
+                    break;
+                }
+                $alloc['study_slots']++;
+                $alloc['total_slots']++;
+                $totalAllocated++;
+            }
+            unset($alloc);
+        }
+
+        // ── Phase 3: Place items on slots ──
         $slotIndex = 0;
         $sortOrder = 0;
 
-        // Reset array keys to ensure $index starts at 0 and increments continuously
-        $stagesArray = $stages->values();
-
-        foreach ($stagesArray as $index => $stage) {
-            // Calculate estimated study time for this stage
+        foreach ($stageAllocations as $alloc) {
+            $stage = $alloc['stage'];
+            $studySlots = $alloc['study_slots'];
             $stageMinutes = $stage->estimated_study_minutes ?: 60;
 
-            // Determine how many days to spread this stage across
-            $daysNeeded = max(1, (int) ceil($stageMinutes / $minutesPerDay));
+            // Split study time across study days
+            $minutesPerSlot = max(15, (int) ceil($stageMinutes / max(1, $studySlots)));
 
-            // Apply pace: intensive = fewer days, light = more days
-            $daysNeeded = max(1, (int) round($daysNeeded / $paceMultiplier));
-
-            // Figure out the ideal starting slot for this stage to spread them out across $totalSlots
-            $remainingStages = max(0, $totalStages - $index);
-            // We need at least 2 slots per remaining stage (1 study, 1 quiz)
-            $slotsRequiredForRemaining = $remainingStages * 2;
-            $maxStartSlot = max($slotIndex, $totalSlots - $slotsRequiredForRemaining);
-
-            $idealStartSlot = (int) floor($index * ($totalSlots / max($totalStages, 1)));
-            $idealStartSlot = min($idealStartSlot, $maxStartSlot);
-
-            $slotIndex = max($slotIndex, $idealStartSlot);
-
-            // Cap daysNeeded so we don't exceed available slots
-            // We must leave at least 1 slot for the quiz of this stage
-            $daysNeededForStudy = min($daysNeeded, max(1, $totalSlots - $slotIndex - 1));
-
-            // Squeeze into the last available slot if we run out
-            if ($slotIndex >= $totalSlots) {
-                if ($totalSlots > 0) {
-                    $lastSlot = $slots[$totalSlots - 1];
-                    StudyPlanItem::create([
-                        'study_plan_id' => $plan->id,
-                        'stage_id' => $stage->id,
-                        'type' => 'study',
-                        'scheduled_date' => $lastSlot,
-                        'estimated_minutes' => $stageMinutes,
-                        'marks_weight' => $stage->marks_weight ?? 0,
-                        'sort_order' => $sortOrder++,
-                    ]);
-                    StudyPlanItem::create([
-                        'study_plan_id' => $plan->id,
-                        'stage_id' => $stage->id,
-                        'type' => 'quiz',
-                        'scheduled_date' => $lastSlot,
-                        'estimated_minutes' => 30,
-                        'marks_weight' => 0,
-                        'sort_order' => $sortOrder++,
-                    ]);
-                }
-                continue;
-            }
-
-            // Split study time across allocated days
-            $minutesPerSlot = (int) ceil($stageMinutes / max(1, $daysNeededForStudy));
-
-            for ($d = 0; $d < $daysNeededForStudy && $slotIndex < $totalSlots; $d++) {
+            for ($d = 0; $d < $studySlots && $slotIndex < $totalSlots; $d++) {
                 $remainingMinutes = $stageMinutes - ($d * $minutesPerSlot);
                 $allocatedMinutes = min($minutesPerSlot, max($remainingMinutes, 15));
 
@@ -293,23 +333,31 @@ class PlannerGenerationService
                 $slotIndex++;
             }
 
-            // Add the quiz on the next available preferred day slot
-            $quizSlot = $slotIndex < $totalSlots ? $slots[$slotIndex] : $slots[$totalSlots - 1];
-
-            StudyPlanItem::create([
-                'study_plan_id' => $plan->id,
-                'stage_id' => $stage->id,
-                'type' => 'quiz',
-                'scheduled_date' => $quizSlot,
-                'estimated_minutes' => 30, // quizzes take default 30 mins
-                'marks_weight' => 0,
-                'sort_order' => $sortOrder++,
-            ]);
-
-            // advance slot index after the quiz
+            // Place the quiz on the NEXT available slot (the day after study)
             if ($slotIndex < $totalSlots) {
+                StudyPlanItem::create([
+                    'study_plan_id' => $plan->id,
+                    'stage_id' => $stage->id,
+                    'type' => 'quiz',
+                    'scheduled_date' => $slots[$slotIndex],
+                    'estimated_minutes' => 30,
+                    'marks_weight' => 0,
+                    'sort_order' => $sortOrder++,
+                ]);
                 $slotIndex++;
+            } else {
+                // Squeeze quiz onto the last slot
+                StudyPlanItem::create([
+                    'study_plan_id' => $plan->id,
+                    'stage_id' => $stage->id,
+                    'type' => 'quiz',
+                    'scheduled_date' => $slots[$totalSlots - 1],
+                    'estimated_minutes' => 30,
+                    'marks_weight' => 0,
+                    'sort_order' => $sortOrder++,
+                ]);
             }
         }
     }
 }
+

@@ -130,14 +130,14 @@ return [
 
     // Weekly Planner
     'weekly_planner_title' => 'Weekly Study Planner',
-    'weekly_planner_desc' => 'Manually plan your study and test days for each stage.',
+    'weekly_planner_desc' => 'Plan your study sessions and quizzes on a visual calendar. Click any time slot to add a task.',
     'stage_week' => 'Stage / Week',
     'stage_completed' => 'Stage Completed',
     'week_label' => 'Week',
     'study' => 'Study',
     'test' => 'Test',
-    'assign_day' => 'Assign Day',
-    'assign_day_subtitle' => 'What would you like to schedule on this day?',
+    'assign_day' => 'Add Task',
+    'assign_day_subtitle' => 'Schedule a study session or quiz on this day.',
     'assign_study_slot' => 'Assign Study Slot',
     'assign_test_slot' => 'Assign Test Slot',
     'clear_study' => 'Clear Study',
