@@ -91,7 +91,7 @@ class StageAttempt extends Model
 
         return ! StageAttempt::where('user_id', $this->user_id)
             ->where('stage_id', $this->stage_id)
-            ->where('passed', PostgresBoolean::asQueryValue(true))
+            ->passed()
             ->where('id', '!=', $this->id)
             ->exists();
     }

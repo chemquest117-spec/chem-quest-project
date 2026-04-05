@@ -18,7 +18,7 @@ class AdminDashboardController extends Controller
             $totalStages = Stage::count();
             $totalAttempts = StageAttempt::count();
             $passRate = StageAttempt::count() > 0
-                ? round(StageAttempt::where('passed', true)->count() / StageAttempt::count() * 100, 1)
+                ? round(StageAttempt::passed()->count() / StageAttempt::count() * 100, 1)
                 : 0;
 
             $recentAttempts = StageAttempt::with(['user', 'stage'])

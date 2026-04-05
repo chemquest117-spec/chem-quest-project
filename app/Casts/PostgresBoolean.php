@@ -13,6 +13,10 @@ class PostgresBoolean implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): bool
     {
+        if (is_string($value)) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+        
         return (bool) $value;
     }
 

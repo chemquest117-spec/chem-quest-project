@@ -174,4 +174,5 @@ class StudyPlan extends Model
             default => 1.0,
         };
     }
+
 }

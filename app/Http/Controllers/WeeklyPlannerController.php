@@ -97,7 +97,7 @@ class WeeklyPlannerController extends Controller
             $completedEvents = 0;
             if ($activePlan) {
                 $totalEvents = $activePlan->days->count();
-                $completedEvents = $activePlan->days->completed()->count();
+                $completedEvents = $activePlan->days->where('is_completed', true)->count();
             }
 
             $colorOptions = WeeklyStudyPlanDay::COLORS;
@@ -337,7 +337,7 @@ class WeeklyPlannerController extends Controller
     {
         $plan->refresh();
         $totalDays = $plan->days()->count();
-        $completedDays = $plan->days()->pending()->count();
+        $completedDays = $plan->days->where('is_completed', true)->count();
 
         if ($totalDays > 0 && $totalDays === $completedDays) {
             $plan->update(['status' => 'completed']);

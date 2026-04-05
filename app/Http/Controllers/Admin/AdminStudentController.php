@@ -101,7 +101,7 @@ class AdminStudentController extends Controller
 
             // Overall stats
             $totalAttempts = $recentAttempts->count();
-            $passedAttempts = $recentAttempts->where('passed', true)->count();
+            $passedAttempts = $recentAttempts->passed()->count();
             $successRate = $totalAttempts > 0 ? round(($passedAttempts / $totalAttempts) * 100, 1) : 0;
             $totalTimeSpent = StageAttempt::where('user_id', $user->id)->sum('time_spent_seconds');
 
