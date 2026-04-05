@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +20,7 @@ class WeeklyStudyPlanDay extends Model
     ];
 
     protected $casts = [
-        'is_completed' => 'boolean',
+        'is_completed' => PostgresBoolean::class,
         'completed_at' => 'datetime',
     ];
 

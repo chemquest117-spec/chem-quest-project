@@ -91,7 +91,7 @@ class StageAttempt extends Model
 
         return ! StageAttempt::where('user_id', $this->user_id)
             ->where('stage_id', $this->stage_id)
-            ->where('passed', true)
+            ->where('passed', PostgresBoolean::asQueryValue(true))
             ->where('id', '!=', $this->id)
             ->exists();
     }
@@ -101,7 +101,7 @@ class StageAttempt extends Model
      */
     public function scopePassed($query)
     {
-        return $query->whereRaw('passed');
+        return $query->where('passed', PostgresBoolean::asQueryValue(true));
     }
 
     /**
@@ -109,6 +109,6 @@ class StageAttempt extends Model
      */
     public function scopeFailed($query)
     {
-        return $query->whereRaw('NOT passed');
+        return $query->where('passed', PostgresBoolean::asQueryValue(false));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Casts\PostgresBoolean;
 use App\Models\Stage;
 use App\Models\StudyPlan;
 use App\Models\StudyPlanItem;
@@ -100,7 +101,7 @@ class PlannerGenerationService
         // Remove slots that are already fully booked
         $existingDates = $plan->items()
             ->where('scheduled_date', '>=', now()->toDateString())
-            ->where('is_completed', false)
+            ->where('is_completed', PostgresBoolean::asQueryValue(false))
             ->selectRaw('scheduled_date, count(*) as item_count')
             ->groupBy('scheduled_date')
             ->pluck('item_count', 'scheduled_date');

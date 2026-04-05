@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Casts\PostgresBoolean;
 use App\Models\StageAttempt;
 use App\Models\StudyPlan;
 use App\Models\WeeklyStudyPlan;
@@ -30,7 +31,7 @@ class ProgressSyncService
         // Find the earliest pending item for this stage in the active plan
         $item = $activePlan->items()
             ->where('stage_id', $attempt->stage_id)
-            ->where('is_completed', false)
+            ->pending()
             ->orderBy('scheduled_date')
             ->first();
 
@@ -73,7 +74,7 @@ class ProgressSyncService
         $completedStageIds = $user->completedStageIds();
 
         $pendingItems = $plan->items()
-            ->where('is_completed', false)
+            ->pending()
             ->whereIn('stage_id', $completedStageIds)
             ->get();
 

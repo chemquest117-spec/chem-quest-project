@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -98,7 +99,7 @@ class StudyPlan extends Model
             return 0;
         }
 
-        $completed = $this->items()->where('is_completed', true)->count();
+        $completed = $this->items()->completed()->count();
         $progress = (int) round(($completed / $total) * 100);
 
         $this->update(['total_progress' => $progress]);
@@ -133,7 +134,7 @@ class StudyPlan extends Model
     public function missedItems()
     {
         return $this->items()
-            ->where('is_completed', false)
+            ->pending()
             ->where('scheduled_date', '<', now()->toDateString())
             ->orderBy('scheduled_date')
             ->get();
@@ -157,7 +158,7 @@ class StudyPlan extends Model
     {
         return $this->items()
             ->where('scheduled_date', '>=', now()->toDateString())
-            ->where('is_completed', false)
+            ->pending()
             ->orderBy('scheduled_date')
             ->orderBy('sort_order')
             ->get();

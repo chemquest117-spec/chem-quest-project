@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PostgresBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,8 +47,8 @@ class StudyPlanItem extends Model
         return [
             'scheduled_date' => 'date',
             'completed_at' => 'datetime',
-            'is_completed' => 'boolean',
-            'auto_rescheduled' => 'boolean',
+            'is_completed' => PostgresBoolean::class,
+            'auto_rescheduled' => PostgresBoolean::class,
             'estimated_minutes' => 'integer',
             'marks_weight' => 'integer',
             'sort_order' => 'integer',
@@ -71,17 +72,17 @@ class StudyPlanItem extends Model
 
     public function scopeCompleted($query)
     {
-        return $query->where('is_completed', true);
+        return $query->where('is_completed', PostgresBoolean::asQueryValue(true));
     }
 
     public function scopePending($query)
     {
-        return $query->where('is_completed', false);
+        return $query->where('is_completed', PostgresBoolean::asQueryValue(false));
     }
 
     public function scopeMissed($query)
     {
-        return $query->where('is_completed', false)
+        return $query->where('is_completed', PostgresBoolean::asQueryValue(false))
             ->where('scheduled_date', '<', now()->toDateString());
     }
 
@@ -93,7 +94,7 @@ class StudyPlanItem extends Model
     public function scopeUpcoming($query)
     {
         return $query->where('scheduled_date', '>=', now()->toDateString())
-            ->where('is_completed', false);
+            ->where('is_completed', PostgresBoolean::asQueryValue(false));
     }
 
     // ── Actions ──

@@ -99,7 +99,7 @@ class AdminAnalyticsController extends Controller
             $totalStudents = User::where('is_admin', false)->count();
             $totalAttempts = StageAttempt::count();
             $overallPassRate = $totalAttempts > 0
-                 ? round(StageAttempt::where('passed', true)->count() / $totalAttempts * 100, 1)
+                 ? round(StageAttempt::passed()->count() / $totalAttempts * 100, 1)
                  : 0;
             $avgStudyTime = round(StageAttempt::avg('time_spent_seconds') ?? 0);
 

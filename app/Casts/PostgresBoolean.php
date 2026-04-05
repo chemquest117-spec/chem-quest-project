@@ -23,12 +23,20 @@ class PostgresBoolean implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        $value = (bool) $value;
+        return self::asQueryValue($value);
+    }
+
+    /**
+     * Static helper for manual where clauses in Query Builder.
+     */
+    public static function asQueryValue(mixed $value): mixed
+    {
+        $boolValue = (bool) $value;
 
         if (config('database.default') === 'pgsql') {
-            return $value ? 'true' : 'false';
+            return $boolValue ? 'true' : 'false';
         }
 
-        return $value;
+        return $boolValue;
     }
 }

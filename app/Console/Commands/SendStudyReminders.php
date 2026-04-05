@@ -34,12 +34,13 @@ class SendStudyReminders extends Command
         $rescheduled = 0;
 
         foreach ($activePlans as $plan) {
+            /** @var StudyPlan $plan */
             $user = $plan->user;
 
             // Send reminders for today's tasks
             $todayCount = $plan->items()
                 ->where('scheduled_date', now()->toDateString())
-                ->where('is_completed', false)
+                ->pending()
                 ->count();
 
             if ($todayCount > 0) {
@@ -50,7 +51,7 @@ class SendStudyReminders extends Command
             // Check for yesterday's missed tasks
             $yesterdayMissed = $plan->items()
                 ->where('scheduled_date', now()->subDay()->toDateString())
-                ->where('is_completed', false)
+                ->pending()
                 ->count();
 
             if ($yesterdayMissed > 0) {
