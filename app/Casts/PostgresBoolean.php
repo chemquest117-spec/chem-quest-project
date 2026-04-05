@@ -16,7 +16,7 @@ class PostgresBoolean implements CastsAttributes
         if (is_string($value)) {
             return filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
-        
+
         return (bool) $value;
     }
 
