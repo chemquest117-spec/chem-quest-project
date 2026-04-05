@@ -168,7 +168,7 @@
                                                     {{-- Content --}}
                                                     <div class="flex-1 min-w-0">
                                                         <p class="text-sm font-medium {{ $item->is_completed ? 'text-emerald-300 line-through' : ($item->isOverdue() ? 'text-red-300' : 'text-white') }} truncate">
-                                                            {{ $item->stage->getTranslatedTitle() }}
+                                                            {{ $item->type === 'study' ? __('planner.study') : __('planner.stage_quiz') }}: {{ $item->stage->getTranslatedTitle() }}
                                                         </p>
                                                         <div class="flex items-center gap-3 mt-0.5 text-xs text-slate-500">
                                                             <span class="flex items-center gap-0.5">
@@ -192,10 +192,17 @@
 
                                                     {{-- Quiz Link --}}
                                                     @if(!$item->is_completed && $studyPlan->status === 'active')
+                                                        @if($item->type === 'study')
+                                                        <a href="{{ route('stages.show', $item->stage) }}"
+                                                            class="flex-shrink-0 px-3 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg text-xs font-medium transition">
+                                                            {{ __('planner.study') }}
+                                                        </a>
+                                                        @else
                                                         <a href="{{ route('stages.show', $item->stage) }}"
                                                             class="flex-shrink-0 px-3 py-1 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 rounded-lg text-xs font-medium transition">
                                                             {{ __('planner.start_quiz') }}
                                                         </a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             @endforeach

@@ -147,10 +147,17 @@
                         @endif
 
                         @if(!$item->is_completed)
-                        <a href="{{ route('stages.show', $item->stage) }}"
-                            class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 rounded-lg text-xs font-medium transition">
-                            <x-icon name="target" class="w-3 h-3" /> {{ __('planner.start_quiz') }}
-                        </a>
+                            @if($item->type === 'study')
+                            <a href="{{ route('stages.show', $item->stage) }}"
+                                class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg text-xs font-medium transition">
+                                <x-icon name="book-open" class="w-3 h-3" /> {{ __('planner.study') }}
+                            </a>
+                            @else
+                            <a href="{{ route('stages.show', $item->stage) }}"
+                                class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 rounded-lg text-xs font-medium transition">
+                                <x-icon name="target" class="w-3 h-3" /> {{ __('planner.start_quiz') }}
+                            </a>
+                            @endif
                         @endif
                     </div>
                     @endforeach
@@ -223,10 +230,12 @@
                                 <x-icon name="check" class="w-3 h-3" />
                                 @elseif($item->isOverdue())
                                 <x-icon name="exclamation" class="w-3 h-3" />
+                                @elseif($item->type === 'study')
+                                <x-icon name="book-open" class="w-3 h-3" />
                                 @else
                                 <x-icon name="clock" class="w-3 h-3" />
                                 @endif
-                                {{ $item->stage->getTranslatedTitle() }}
+                                {{ $item->type === 'study' ? __('planner.study') : __('planner.stage_quiz') }}: {{ $item->stage->getTranslatedTitle() }}
                                 <span class="text-slate-500">{{ $item->scheduled_date->format('D') }}</span>
                             </div>
                             @endforeach

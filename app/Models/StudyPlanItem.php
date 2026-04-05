@@ -31,6 +31,7 @@ class StudyPlanItem extends Model
     protected $fillable = [
         'study_plan_id',
         'stage_id',
+        'type',
         'scheduled_date',
         'estimated_minutes',
         'marks_weight',

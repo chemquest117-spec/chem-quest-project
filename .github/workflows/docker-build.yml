@@ -48,7 +48,7 @@ jobs:
           # Fetch the commit message securely and extract just the first line
           MSG="${{ github.event.head_commit.message }}"
           MSG_CLEAN=$(echo "$MSG" | head -n 1)
-          echo "app_version=${{ github.sha }} - ${{ github.event.head_commit.id }} - $MSG_CLEAN" >> $GITHUB_OUTPUT
+          echo "app_version=$MSG_CLEAN - ${{ github.event.head_commit.id }}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -62,3 +62,5 @@ jobs:
           # Use GHA cache for ultra-fast incremental builds
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Trigger Render Deploy
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"

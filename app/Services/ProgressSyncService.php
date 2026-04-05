@@ -27,14 +27,13 @@ class ProgressSyncService
             return;
         }
 
-        // Find the earliest pending item for this stage in the active plan
-        $item = $activePlan->items()
+        // Mark all pending items (study and quiz) for this stage as completed
+        $items = $activePlan->items()
             ->where('stage_id', $attempt->stage_id)
             ->pending()
-            ->orderBy('scheduled_date')
-            ->first();
+            ->get();
 
-        if ($item) {
+        foreach ($items as $item) {
             $item->markCompleted();
         }
 
