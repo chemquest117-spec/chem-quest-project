@@ -377,8 +377,11 @@ Run the test suite seamlessly:
 
 ## 🚀 CI/CD & Deployment
 
-- **GitHub Actions (`laravel.yml`)**: Automated workflows run Pest logic and Node asset builds on every code push to track regression.
-- **Multi-stage Dockerfile**: Ready for robust PaaS deployment, cleanly chaining `Node.js 18` Vite builds directly into `PHP 8.2 Apache` images for minimal payload size. Included extensions like `bcmath`.
+- **GitHub Actions (`laravel.yml`)**: Automated workflows run Pest logic and Node asset builds on every code push to track regression. Includes integrated Telegram notifications for CI success/failure.
+- **Docker Auto-Deploy (`docker-build.yml`)**: Triggers automated deployment to Render on `main` branch merges. Built-in Telegram alerts ensure admins are notified immediately of deploy status.
+- **Code Auto-Formatter (`pint.yml`)**: Continuous integration pipeline that automatically runs Laravel Pint and commits styled code back to PRs.
+- **Dependabot**: Configured to autonomously monitor and propose weekly updates across Composer, NPM, and GitHub Actions dependencies.
+- **Multi-stage Dockerfile**: Ready for robust PaaS deployment, cleanly chaining `Node.js 18` Vite builds directly into `PHP 8.3 Apache` images for minimal payload size. Included extensions like `bcmath`.
 
 ---
 
