@@ -179,6 +179,33 @@ The platform is fully localized into **English (EN)** and **Arabic (AR)** with h
 
 ---
 
+## 📝 Diverse Question Formats
+
+To ensure comprehensive testing, the platform supports varied question types:
+- **Multiple Choice Questions (MCQ)**: Configurable with dynamic answer shuffling.
+- **Short & Long Essay Questions**: Advanced keyword-based grading algorithm allows text-based answers and mathematical formulas instead of just multiple choice.
+- **Image Support**: Questions can now confidently host image uploads from Admins, enabling visual diagrams, complex equations, and chemical structure tests.
+
+---
+
+## 👨‍🏫 Advanced Admin Analytics & Management
+
+The admin panel offers deep insights and administrative controls:
+- **Detailed Student Profiles**: View performance over time, success rates by stage, and total time spent learning.
+- **Moderation Tools**: Safely soft-delete accounts, temporarily ban misbehaving users, and trigger instant password resets.
+- **Analytics Optimized**: Heavily aggregated DB queries ensure dashboard stat calculations scale performantly even with thousands of student attempts.
+
+---
+
+## 🌐 SEO & Social Sharing
+
+Fully optimized for external discovery and link sharing:
+- **Rich Meta Tags**: Implementation of dynamic Open Graph and Twitter Card markup across stage, quiz, and result pages.
+- **Social Previews**: Generates branded 1200x630 social fallback images ensuring visual consistency on platforms like Twitter and WhatsApp.
+- **SEO Ready**: Responsive page-specific titles, compelling meta descriptions, and clean semantic structures.
+
+---
+
 ## 📅 Weekly Flexible Study Planner
 
 A dedicated weekly planning system that allows students to customize their learning schedule.
@@ -300,6 +327,7 @@ Mixed difficulty (easy/medium/hard) covering:
 - **Login Rate Limiting**: Enforces strict throttling on failed Breeze authentication attempts.
 - **SystemGuard Defense**: Secure middleware licensing and application health checking proxy.
 - **PgBouncer Compatibility**: Fully hardened for PostgreSQL connection pooling (Supabase) via emulated prepares and strict type handling.
+- **Robust Exception Handling**: Controller-wide `try-catch` architecture ensuring safe error logging and user feedback without swallowing essential Laravel `ValidationException` and `HttpException` lifecycle events.
 
 ---
 

@@ -45,6 +45,14 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # Copy app code later
 COPY . .
 
+# Accept an optional version argument during build, default is 'latest'
+ARG APP_VERSION=latest
+ENV APP_VERSION=${APP_VERSION}
+
+# Generate a build version & timestamp tracker (cache breaks here on code changes)
+RUN echo "App Version: ${APP_VERSION}" > public/build_version.txt \
+ && date +"Build Date:  %Y-%m-%d %H:%M:%S" >> public/build_version.txt
+
 # Copy built frontend assets
 COPY --from=frontend /app/public/build ./public/build
 
@@ -67,11 +75,11 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
      /etc/apache2/sites-available/000-default.conf
 
 # Add this anywhere in Stage 2 to see current environment variables
-RUN env
+# RUN env
 
 
 # Create entrypoint script that runs migrations at startup (not build time)
-RUN echo '#!/bin/bash\necho "DEBUG: CURRENT_DB_CONNECTION: $DB_CONNECTION"\nenv\nphp artisan config:clear\nphp artisan route:clear\nphp artisan view:clear\nphp artisan optimize:clear\nphp artisan cache:clear\nphp artisan migrate --force\napache2-foreground' > /entrypoint.sh \
+RUN echo '#!/bin/bash\necho "======================================="\necho "      Starting ChemTrack Container "\necho "======================================="\ncat /var/www/html/public/build_version.txt\necho -e "\n======================================="\nphp artisan config:clear\nphp artisan route:clear\nphp artisan view:clear\nphp artisan optimize:clear\nphp artisan cache:clear\nphp artisan migrate --force\napache2-foreground' > /entrypoint.sh \
      && chmod +x /entrypoint.sh
 
 EXPOSE 80
