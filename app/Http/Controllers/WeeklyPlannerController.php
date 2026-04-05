@@ -145,7 +145,7 @@ class WeeklyPlannerController extends Controller
                 'start_time' => 'required|date_format:H:i',
                 'end_time' => 'required|date_format:H:i|after:start_time',
                 'notes' => 'nullable|string|max:1000',
-                'color' => 'nullable|string|in:' . implode(',', array_keys(WeeklyStudyPlanDay::COLORS)),
+                'color' => 'nullable|string|in:'.implode(',', array_keys(WeeklyStudyPlanDay::COLORS)),
             ]);
 
             $plan = WeeklyStudyPlan::where('user_id', Auth::id())->findOrFail($validated['plan_id']);
@@ -193,7 +193,7 @@ class WeeklyPlannerController extends Controller
                 'start_time' => 'sometimes|date_format:H:i',
                 'end_time' => 'sometimes|date_format:H:i',
                 'notes' => 'nullable|string|max:1000',
-                'color' => 'nullable|string|in:' . implode(',', array_keys(WeeklyStudyPlanDay::COLORS)),
+                'color' => 'nullable|string|in:'.implode(',', array_keys(WeeklyStudyPlanDay::COLORS)),
             ]);
 
             $event->update($validated);
