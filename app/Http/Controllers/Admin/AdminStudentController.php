@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -34,8 +35,8 @@ class AdminStudentController extends Controller
             session()->now('error', 'We encountered an unexpected error while loading the students list. Please try again, or contact support if the problem persists.');
 
             return view('admin.students.index', [
-                'students' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 20),
-                'stages' => collect()
+                'students' => new LengthAwarePaginator([], 0, 20),
+                'stages' => collect(),
             ]);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PostgresBoolean implements CastsAttributes
 {
@@ -34,9 +35,9 @@ class PostgresBoolean implements CastsAttributes
         $boolValue = (bool) $value;
 
         try {
-            // Dynamically detect the driver in use, because the default connection might 
+            // Dynamically detect the driver in use, because the default connection might
             // have a mapped name instead of 'pgsql', or be strictly overridden.
-            $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+            $driver = DB::connection()->getDriverName();
             if ($driver === 'pgsql') {
                 return $boolValue ? 'true' : 'false';
             }

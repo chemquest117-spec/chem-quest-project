@@ -170,7 +170,7 @@ class AdminAnalyticsController extends Controller
                 'overallPassRate' => 0,
                 'avgStudyTime' => 0,
                 'topPerformers' => collect(),
-                'problematicQuestions' => collect()
+                'problematicQuestions' => collect(),
             ]);
         }
     }

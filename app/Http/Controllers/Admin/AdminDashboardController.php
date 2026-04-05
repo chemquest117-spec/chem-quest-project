@@ -47,7 +47,7 @@ class AdminDashboardController extends Controller
                 'totalStages' => 0,
                 'totalAttempts' => 0,
                 'passRate' => 0,
-                'recentAttempts' => collect()
+                'recentAttempts' => collect(),
             ]);
         }
     }
