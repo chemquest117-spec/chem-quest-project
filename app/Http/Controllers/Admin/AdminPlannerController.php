@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminPlannerController extends Controller
 {
@@ -18,6 +20,10 @@ class AdminPlannerController extends Controller
             $stages = Stage::orderBy('order')->get();
 
             return view('admin.planner-settings', compact('stages'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -55,6 +61,10 @@ class AdminPlannerController extends Controller
             Cache::forget('all_stages');
 
             return back()->with('success', __('planner.settings_saved'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

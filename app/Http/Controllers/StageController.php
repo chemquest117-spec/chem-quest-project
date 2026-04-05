@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StageController extends Controller
 {
@@ -21,10 +23,14 @@ class StageController extends Controller
             $failedIds = $user->failedStageIds();
             $inProgressIds = $user->inProgressStageIds();
 
-            $metaTitle = 'Stages' . ' — ' . config('app.name');
+            $metaTitle = 'Stages'.' — '.config('app.name');
             $metaDescription = 'Explore all available chemistry stages and track your progress.';
 
             return view('stages.index', compact('stages', 'completedIds', 'failedIds', 'inProgressIds', 'user', 'metaTitle', 'metaDescription'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -70,10 +76,14 @@ class StageController extends Controller
                 ->take(5)
                 ->get();
 
-            $metaTitle = 'Stage: ' . $stage->getTranslatedTitle() . ' — ' . config('app.name');
-            $metaDescription = 'Take on the ' . $stage->getTranslatedTitle() . ' challenge completely tailored for you.';
+            $metaTitle = 'Stage: '.$stage->getTranslatedTitle().' — '.config('app.name');
+            $metaDescription = 'Take on the '.$stage->getTranslatedTitle().' challenge completely tailored for you.';
 
             return view('stages.show', compact('stage', 'isCompleted', 'bestAttempt', 'attemptHistory', 'hasActiveAttempt', 'user', 'metaTitle', 'metaDescription'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

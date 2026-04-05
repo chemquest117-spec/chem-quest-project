@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminAnalyticsController extends Controller
 {
@@ -150,6 +152,10 @@ class AdminAnalyticsController extends Controller
             });
 
             return view('admin.analytics', $data);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

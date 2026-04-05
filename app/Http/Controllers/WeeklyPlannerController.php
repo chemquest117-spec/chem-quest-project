@@ -7,6 +7,8 @@ use App\Models\WeeklyStudyPlan;
 use App\Models\WeeklyStudyPlanDay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class WeeklyPlannerController extends Controller
 {
@@ -28,6 +30,10 @@ class WeeklyPlannerController extends Controller
             $plans = WeeklyStudyPlan::with('days.plan', 'stage')->where('user_id', $user->id)->orderBy('week_number')->get();
 
             return view('weekly-planner.index', compact('plans'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -54,6 +60,10 @@ class WeeklyPlannerController extends Controller
             );
 
             return back()->with('status', 'planner-updated');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -78,6 +88,10 @@ class WeeklyPlannerController extends Controller
                 ->delete();
 
             return back()->with('status', 'planner-updated');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -109,6 +123,10 @@ class WeeklyPlannerController extends Controller
             }
 
             return back()->with('status', 'planner-updated');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -130,6 +148,10 @@ class WeeklyPlannerController extends Controller
             $plan->update(['status' => 'active']);
 
             return back()->with('status', 'planner-updated');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -150,6 +172,10 @@ class WeeklyPlannerController extends Controller
             } else {
                 $plan->update(['status' => 'active']);
             }
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

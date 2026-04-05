@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class LeaderboardController extends Controller
 {
@@ -28,10 +30,14 @@ class LeaderboardController extends Controller
                 ];
             });
 
-            $metaTitle = 'Leaderboard — ' . config('app.name');
-            $metaDescription = 'Check out the top students on ' . config('app.name') . '! See who is leading in points and stars.';
+            $metaTitle = 'Leaderboard — '.config('app.name');
+            $metaDescription = 'Check out the top students on '.config('app.name').'! See who is leading in points and stars.';
 
             return view('leaderboard.index', compact('students', 'studentsJson', 'metaTitle', 'metaDescription'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -53,6 +59,10 @@ class LeaderboardController extends Controller
             });
 
             return response()->json($students);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

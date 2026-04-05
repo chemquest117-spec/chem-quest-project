@@ -9,6 +9,8 @@ use App\Services\PlannerGenerationService;
 use App\Services\ProgressSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class StudyPlannerController extends Controller
 {
@@ -64,6 +66,10 @@ class StudyPlannerController extends Controller
                 'activePlan' => null,
                 'pastPlans' => $pastPlans,
             ]);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -84,6 +90,10 @@ class StudyPlannerController extends Controller
             });
 
             return view('planner.create', compact('stages'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -117,6 +127,10 @@ class StudyPlannerController extends Controller
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -147,9 +161,13 @@ class StudyPlannerController extends Controller
 
             $itemsByDate = $studyPlan->items
                 ->sortBy(['scheduled_date', 'sort_order'])
-                ->groupBy(fn($item) => $item->scheduled_date->toDateString());
+                ->groupBy(fn ($item) => $item->scheduled_date->toDateString());
 
             return view('planner.show', compact('studyPlan', 'itemsByWeek', 'itemsByDate'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -179,6 +197,10 @@ class StudyPlannerController extends Controller
             }
 
             return back()->with('success', $message);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -209,6 +231,10 @@ class StudyPlannerController extends Controller
             }
 
             return back()->with('success', __('planner.rescheduled', ['count' => $count]));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -232,6 +258,10 @@ class StudyPlannerController extends Controller
 
             return redirect()->route('planner.index')
                 ->with('success', __('planner.plan_deleted'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -258,6 +288,10 @@ class StudyPlannerController extends Controller
             $studyPlanItem->update($validated);
 
             return back()->with('success', __('planner.notes_saved'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

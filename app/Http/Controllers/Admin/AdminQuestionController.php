@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminQuestionController extends Controller
 {
@@ -19,6 +21,10 @@ class AdminQuestionController extends Controller
             $questions = $stage->questions()->orderBy('difficulty')->get();
 
             return view('admin.questions.index', compact('stage', 'questions'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -30,6 +36,10 @@ class AdminQuestionController extends Controller
     {
         try {
             return view('admin.questions.create', compact('stage'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -56,7 +66,6 @@ class AdminQuestionController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
-
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('questions', 'public');
                 $validated['image'] = $path;
@@ -72,6 +81,10 @@ class AdminQuestionController extends Controller
 
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question added successfully!');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -83,6 +96,10 @@ class AdminQuestionController extends Controller
     {
         try {
             return view('admin.questions.edit', compact('stage', 'question'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -126,6 +143,10 @@ class AdminQuestionController extends Controller
 
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question updated successfully!');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -147,6 +168,10 @@ class AdminQuestionController extends Controller
 
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question deleted successfully!');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -161,31 +186,35 @@ class AdminQuestionController extends Controller
     public function generate(Request $request, Stage $stage, AIQuestionService $aiService)
     {
         try {
-        // Rate limit: max 5 AI generations per minute per admin
-        $key = 'ai-generate:' . $request->user()->id;
+            // Rate limit: max 5 AI generations per minute per admin
+            $key = 'ai-generate:'.$request->user()->id;
 
-        if (RateLimiter::tooManyAttempts($key, 5)) {
-            $seconds = RateLimiter::availableIn($key);
+            if (RateLimiter::tooManyAttempts($key, 5)) {
+                $seconds = RateLimiter::availableIn($key);
+
+                return redirect()->route('admin.stages.questions.index', $stage)
+                    ->with('error', "Too many requests. Please wait {$seconds} seconds before trying again.");
+            }
+
+            RateLimiter::hit($key, 60);
+
+            $created = $aiService->generateQuestions($stage, 5);
+            $count = count($created);
+
+            // Clear cached question IDs since new questions were added
+            Cache::forget("stage_{$stage->id}_question_ids");
+
+            if ($count > 0) {
+                return redirect()->route('admin.stages.questions.index', $stage)
+                    ->with('success', "✨ AI generated {$count} new questions successfully!");
+            }
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('error', "Too many requests. Please wait {$seconds} seconds before trying again.");
-        }
-
-        RateLimiter::hit($key, 60);
-
-        $created = $aiService->generateQuestions($stage, 5);
-        $count = count($created);
-
-        // Clear cached question IDs since new questions were added
-        Cache::forget("stage_{$stage->id}_question_ids");
-
-        if ($count > 0) {
-            return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', "✨ AI generated {$count} new questions successfully!");
-        }
-
-        return redirect()->route('admin.stages.questions.index', $stage)
-            ->with('error', 'Could not generate questions. Please try again.');
+                ->with('error', 'Could not generate questions. Please try again.');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 

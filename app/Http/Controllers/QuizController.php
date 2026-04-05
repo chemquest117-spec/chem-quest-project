@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class QuizController extends Controller
 {
@@ -73,6 +75,10 @@ class QuizController extends Controller
             });
 
             return redirect()->route('quiz.show', $attempt);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -113,10 +119,14 @@ class QuizController extends Controller
                 return $this->gradeAttempt($attempt, $user, []);
             }
 
-            $metaTitle = 'Quiz: ' . $stage->getTranslatedTitle() . ' — ' . config('app.name');
-            $metaDescription = 'Currently taking the ' . $stage->getTranslatedTitle() . ' quiz. Good luck!';
+            $metaTitle = 'Quiz: '.$stage->getTranslatedTitle().' — '.config('app.name');
+            $metaDescription = 'Currently taking the '.$stage->getTranslatedTitle().' quiz. Good luck!';
 
             return view('quiz.show', compact('attempt', 'stage', 'answers', 'remainingSeconds', 'totalSeconds', 'metaTitle', 'metaDescription'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -162,6 +172,10 @@ class QuizController extends Controller
             }
 
             return response()->json(['error' => 'Answer not found'], 404);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -190,6 +204,10 @@ class QuizController extends Controller
             $submittedAnswers = $request->input('answers', []);
 
             return $this->gradeAttempt($attempt, $user, $submittedAnswers);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -229,10 +247,14 @@ class QuizController extends Controller
             $attempt->load(['stage', 'answers.question']);
 
             $percentage = $attempt->total_questions > 0 ? round(($attempt->score / $attempt->total_questions) * 100) : 0;
-            $metaTitle = 'Quiz Result: ' . $attempt->stage->getTranslatedTitle() . ' — ' . config('app.name');
-            $metaDescription = 'I scored ' . $percentage . '% on the ' . $attempt->stage->getTranslatedTitle() . ' quiz! Can you beat my score?';
+            $metaTitle = 'Quiz Result: '.$attempt->stage->getTranslatedTitle().' — '.config('app.name');
+            $metaDescription = 'I scored '.$percentage.'% on the '.$attempt->stage->getTranslatedTitle().' quiz! Can you beat my score?';
 
             return view('quiz.result', compact('attempt', 'user', 'metaTitle', 'metaDescription'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -314,6 +336,10 @@ class QuizController extends Controller
 
                 return redirect()->route('quiz.result', $attempt);
             });
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -358,7 +384,7 @@ class QuizController extends Controller
             $stopWords = ['the', 'is', 'at', 'which', 'on', 'and', 'a', 'an', 'of', 'in', 'to', 'with', 'for', 'it', 'as', 'by', 'are', 'be', 'this', 'that'];
             $expectedWords = array_filter(
                 preg_split('/[\s,;.]+/', $expectedAnswer),
-                fn($word) => mb_strlen($word) > 1 && ! in_array($word, $stopWords)
+                fn ($word) => mb_strlen($word) > 1 && ! in_array($word, $stopWords)
             );
 
             if (empty($expectedWords)) {
@@ -380,8 +406,13 @@ class QuizController extends Controller
             $matchRatio = $matchCount / count($expectedWords);
 
             return $matchRatio >= 0.65;
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
+
             return false;
         }
     }
@@ -409,6 +440,10 @@ class QuizController extends Controller
 
             $user->last_activity = $today;
             $user->save();
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
         }
@@ -438,7 +473,7 @@ class QuizController extends Controller
                     $user->increment('stars', 1);
                     $user->notify(new StageCompleted($attempt, [
                         'en' => "⭐ Perfect score on {$stage->title}! +50 bonus points!",
-                        'ar' => '⭐ درجة كاملة في ' . ($stage->title_ar ?: $stage->title) . '! +50 نقطة إضافية!',
+                        'ar' => '⭐ درجة كاملة في '.($stage->title_ar ?: $stage->title).'! +50 نقطة إضافية!',
                     ], 'success'));
                 }
 
@@ -447,8 +482,8 @@ class QuizController extends Controller
                     : "Great job retrying {$stage->title}! +{$points} points!";
 
                 $msgAr = $isFirstPass
-                    ? '🎉 لقد اجتزت ' . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!"
-                    : 'عمل رائع في إعادة ' . ($stage->title_ar ?: $stage->title) . "! +{$points} نقطة!";
+                    ? '🎉 لقد اجتزت '.($stage->title_ar ?: $stage->title)."! +{$points} نقطة!"
+                    : 'عمل رائع في إعادة '.($stage->title_ar ?: $stage->title)."! +{$points} نقطة!";
 
                 $user->notify(new StageCompleted($attempt, ['en' => $msgEn, 'ar' => $msgAr], 'success'));
 
@@ -457,15 +492,19 @@ class QuizController extends Controller
                 if ($nextStage && $isFirstPass) {
                     $user->notify(new StageCompleted($attempt, [
                         'en' => "🔓 Stage '{$nextStage->title}' is now unlocked!",
-                        'ar' => "🔓 المرحلة '" . ($nextStage->title_ar ?: $nextStage->title) . "' متاحة الآن!",
+                        'ar' => "🔓 المرحلة '".($nextStage->title_ar ?: $nextStage->title)."' متاحة الآن!",
                     ], 'info'));
                 }
             } else {
                 $user->notify(new StageCompleted($attempt, [
                     'en' => "Keep trying! You scored {$attempt->score}/{$attempt->total_questions} on {$stage->title}. You need {$stage->passing_percentage}% to pass.",
-                    'ar' => "استمر في المحاولة! لقد سجلت {$attempt->score}/{$attempt->total_questions} في " . ($stage->title_ar ?: $stage->title) . ". تحتاج إلى {$stage->passing_percentage}% للنجاح.",
+                    'ar' => "استمر في المحاولة! لقد سجلت {$attempt->score}/{$attempt->total_questions} في ".($stage->title_ar ?: $stage->title).". تحتاج إلى {$stage->passing_percentage}% للنجاح.",
                 ], 'warning'));
             }
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
         }

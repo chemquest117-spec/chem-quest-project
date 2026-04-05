@@ -7,7 +7,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProfileController extends Controller
 {
@@ -20,6 +22,10 @@ class ProfileController extends Controller
             return view('profile.edit', [
                 'user' => $request->user(),
             ]);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -44,6 +50,10 @@ class ProfileController extends Controller
             $request->user()->save();
 
             return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -73,6 +83,10 @@ class ProfileController extends Controller
             $request->session()->regenerateToken();
 
             return Redirect::to('/');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

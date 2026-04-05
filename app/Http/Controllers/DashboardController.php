@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DashboardController extends Controller
 {
@@ -25,7 +27,7 @@ class DashboardController extends Controller
             $totalStageCount = $stages->count();
 
             // Determine current stage without an extra query
-            $currentStage = $stages->first(fn($stage) => ! in_array($stage->id, $completedIds));
+            $currentStage = $stages->first(fn ($stage) => ! in_array($stage->id, $completedIds));
 
             // Eager load recent attempts with stage relation
             $notifications = $user->unreadNotifications()->latest()->take(10)->get();
@@ -82,6 +84,10 @@ class DashboardController extends Controller
                 'weeklyPlan',
                 'currentWeek'
             ));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

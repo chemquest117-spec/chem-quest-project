@@ -8,6 +8,8 @@ use App\Models\StageAttempt;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminStudentController extends Controller
 {
@@ -22,6 +24,10 @@ class AdminStudentController extends Controller
             $stages = Stage::orderBy('order')->get();
 
             return view('admin.students.index', compact('students', 'stages'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -82,7 +88,7 @@ class AdminStudentController extends Controller
                 $stagePerformance[] = [
                     'stage' => $stage,
                     'attempts' => $completed->count(),
-                    'avg_score' => round($completed->avg(fn($a) => $a->total_questions > 0 ? ($a->score / $a->total_questions) * 100 : 0), 1),
+                    'avg_score' => round($completed->avg(fn ($a) => $a->total_questions > 0 ? ($a->score / $a->total_questions) * 100 : 0), 1),
                     'best_score' => $bestAttempt ? round(($bestAttempt->score / max(1, $bestAttempt->total_questions)) * 100, 1) : 0,
                     'passed' => in_array($stage->id, $completedIds),
                     'avg_time' => round($completed->avg('time_spent_seconds')),
@@ -104,6 +110,10 @@ class AdminStudentController extends Controller
                 'successRate',
                 'totalTimeSpent'
             ));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -127,6 +137,10 @@ class AdminStudentController extends Controller
 
             return redirect()->route('admin.students.index')
                 ->with('success', "Student '{$user->name}' has been deleted.");
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -152,6 +166,10 @@ class AdminStudentController extends Controller
             $status = $user->is_banned ? 'banned' : 'unbanned';
 
             return back()->with('success', "Student '{$user->name}' has been {$status}.");
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -178,6 +196,10 @@ class AdminStudentController extends Controller
             return back()
                 ->with('success', "Password for '{$user->name}' has been reset successfully.")
                 ->with('temp_password', $newPassword);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

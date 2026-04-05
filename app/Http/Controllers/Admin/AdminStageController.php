@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminStageController extends Controller
 {
@@ -15,6 +17,10 @@ class AdminStageController extends Controller
             $stages = Stage::orderBy('order')->withCount('questions')->get();
 
             return view('admin.stages.index', compact('stages'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -28,6 +34,10 @@ class AdminStageController extends Controller
             $nextOrder = (Stage::max('order') ?? 0) + 1;
 
             return view('admin.stages.create', compact('nextOrder'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -51,6 +61,10 @@ class AdminStageController extends Controller
 
             return redirect()->route('admin.stages.index')
                 ->with('success', 'Stage created successfully!');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -64,6 +78,10 @@ class AdminStageController extends Controller
     {
         try {
             return view('admin.stages.edit', compact('stage'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e);
 
@@ -75,19 +93,19 @@ class AdminStageController extends Controller
     {
         try {
             $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'order' => 'required|integer|min:1|unique:stages,order,' . $stage->id,
-            'time_limit_minutes' => 'required|integer|min:1|max:120',
-            'passing_percentage' => 'required|integer|min:1|max:100',
-            'points_reward' => 'required|integer|min:0',
-        ]);
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'order' => 'required|integer|min:1|unique:stages,order,'.$stage->id,
+                'time_limit_minutes' => 'required|integer|min:1|max:120',
+                'passing_percentage' => 'required|integer|min:1|max:100',
+                'points_reward' => 'required|integer|min:0',
+            ]);
 
-        $stage->update($validated);
+            $stage->update($validated);
 
-        return redirect()->route('admin.stages.index')
-            ->with('success', 'Stage updated successfully!');
-    } catch (\Throwable $e) {
+            return redirect()->route('admin.stages.index')
+                ->with('success', 'Stage updated successfully!');
+        } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
             return back()
@@ -104,8 +122,12 @@ class AdminStageController extends Controller
 
             $stage->delete();
 
-        return redirect()->route('admin.stages.index')
-            ->with('success', 'Stage deleted successfully!');
+            return redirect()->route('admin.stages.index')
+                ->with('success', 'Stage deleted successfully!');
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 

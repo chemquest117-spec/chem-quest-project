@@ -4,11 +4,13 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CheckBanned;
 use App\Http\Middleware\CheckLicense;
 use App\Http\Middleware\SetLocale;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Sentry\Laravel\Integration;
 use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
+use Sentry\Laravel\Integration;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -33,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         Integration::handles($exceptions);
 
         // Convert common DB errors into friendly localized messages
-        $exceptions->render(function (\Illuminate\Database\QueryException $e, Request $request) {
+        $exceptions->render(function (QueryException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'A database error occurred. Our team has been notified.',
@@ -48,7 +50,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         // Handle expired sessions / CSRF tokens gracefully
-        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, Request $request) {
+        $exceptions->render(function (TokenMismatchException $e, Request $request) {
             return back()->with('error', 'Your session has expired. please refresh and try again.');
         });
     })->create();

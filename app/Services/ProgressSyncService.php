@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Casts\PostgresBoolean;
 use App\Models\StageAttempt;
 use App\Models\StudyPlan;
 use App\Models\WeeklyStudyPlan;
