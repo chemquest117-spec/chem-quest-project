@@ -13,7 +13,7 @@ class LeaderboardController extends Controller
     {
         try {
             $students = Cache::remember('leaderboard_data', 3600, function () {
-                return User::where('is_admin', false)
+                return User::student()
                     ->orderByDesc('total_points')
                     ->orderByDesc('stars')
                     ->take(50)
@@ -51,7 +51,7 @@ class LeaderboardController extends Controller
     {
         try {
             $students = Cache::remember('leaderboard_json_data', 3600, function () {
-                return User::where('is_admin', false)
+                return User::student()
                     ->orderByDesc('total_points')
                     ->orderByDesc('stars')
                     ->take(50)

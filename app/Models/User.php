@@ -100,6 +100,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Scope: only administrators.
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->where('is_admin', PostgresBoolean::asQueryValue(true));
+    }
+
+    /**
+     * Scope: only non-administrators (students).
+     */
+    public function scopeStudent($query)
+    {
+        return $query->where('is_admin', PostgresBoolean::asQueryValue(false));
+    }
+
+    /**
      * Get stages completed by this user (memoized per request).
      */
     public function completedStageIds(): array

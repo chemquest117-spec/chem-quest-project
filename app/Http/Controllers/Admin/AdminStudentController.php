@@ -16,7 +16,7 @@ class AdminStudentController extends Controller
     public function index()
     {
         try {
-            $students = User::where('is_admin', false)
+            $students = User::student()
                 ->withCount('attempts')
                 ->orderByDesc('total_points')
                 ->paginate(20);
@@ -31,9 +31,12 @@ class AdminStudentController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
-                ->with('error', 'We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.');
+            session()->now('error', 'We encountered an unexpected error while loading the students list. Please try again, or contact support if the problem persists.');
+
+            return view('admin.students.index', [
+                'students' => new \Illuminate\Pagination\LengthAwarePaginator([], 0, 20),
+                'stages' => collect()
+            ]);
         }
     }
 
@@ -117,8 +120,7 @@ class AdminStudentController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
+            return redirect()->route('admin.students.index')
                 ->with('error', 'We encountered an unexpected error while loading student profile. Please try again, or contact support if the problem persists.');
         }
     }

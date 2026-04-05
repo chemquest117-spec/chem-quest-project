@@ -95,7 +95,7 @@ class StudyPlanItem extends Model
     public function scopeUpcoming($query)
     {
         return $query->where('scheduled_date', '>=', now()->toDateString())
-            ->where('is_completed', PostgresBoolean::asQueryValue(false));
+            ->pending();
     }
 
     // ── Actions ──

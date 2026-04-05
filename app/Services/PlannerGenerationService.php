@@ -101,7 +101,7 @@ class PlannerGenerationService
         // Remove slots that are already fully booked
         $existingDates = $plan->items()
             ->where('scheduled_date', '>=', now()->toDateString())
-            ->where('is_completed', PostgresBoolean::asQueryValue(false))
+            ->pending()
             ->selectRaw('scheduled_date, count(*) as item_count')
             ->groupBy('scheduled_date')
             ->pluck('item_count', 'scheduled_date');

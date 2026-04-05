@@ -33,8 +33,18 @@ class PostgresBoolean implements CastsAttributes
     {
         $boolValue = (bool) $value;
 
-        if (config('database.default') === 'pgsql') {
-            return $boolValue ? 'true' : 'false';
+        try {
+            // Dynamically detect the driver in use, because the default connection might 
+            // have a mapped name instead of 'pgsql', or be strictly overridden.
+            $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+            if ($driver === 'pgsql') {
+                return $boolValue ? 'true' : 'false';
+            }
+        } catch (\Throwable $e) {
+            // Fallback if DB facade is not yet initialized or config fails
+            if (config('database.default') === 'pgsql') {
+                return $boolValue ? 'true' : 'false';
+            }
         }
 
         return $boolValue;
