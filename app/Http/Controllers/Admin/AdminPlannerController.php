@@ -14,9 +14,17 @@ class AdminPlannerController extends Controller
      */
     public function index()
     {
-        $stages = Stage::orderBy('order')->get();
+        try {
+            $stages = Stage::orderBy('order')->get();
 
-        return view('admin.planner-settings', compact('stages'));
+            return view('admin.planner-settings', compact('stages'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while loading planner settings. Please try again, or contact support if the problem persists.');
+        }
     }
 
     /**
@@ -24,27 +32,35 @@ class AdminPlannerController extends Controller
      */
     public function update(Request $request)
     {
-        $validated = $request->validate([
-            'stages' => 'required|array',
-            'stages.*.id' => 'required|exists:stages,id',
-            'stages.*.marks_weight' => 'required|integer|min:0|max:100',
-            'stages.*.estimated_study_minutes' => 'required|integer|min:10|max:600',
-            'stages.*.importance_score' => 'required|integer|min:1|max:10',
-            'stages.*.recommended_week' => 'nullable|integer|min:1|max:52',
-        ]);
-
-        foreach ($validated['stages'] as $stageData) {
-            Stage::where('id', $stageData['id'])->update([
-                'marks_weight' => $stageData['marks_weight'],
-                'estimated_study_minutes' => $stageData['estimated_study_minutes'],
-                'importance_score' => $stageData['importance_score'],
-                'recommended_week' => $stageData['recommended_week'],
+        try {
+            $validated = $request->validate([
+                'stages' => 'required|array',
+                'stages.*.id' => 'required|exists:stages,id',
+                'stages.*.marks_weight' => 'required|integer|min:0|max:100',
+                'stages.*.estimated_study_minutes' => 'required|integer|min:10|max:600',
+                'stages.*.importance_score' => 'required|integer|min:1|max:10',
+                'stages.*.recommended_week' => 'nullable|integer|min:1|max:52',
             ]);
+
+            foreach ($validated['stages'] as $stageData) {
+                Stage::where('id', $stageData['id'])->update([
+                    'marks_weight' => $stageData['marks_weight'],
+                    'estimated_study_minutes' => $stageData['estimated_study_minutes'],
+                    'importance_score' => $stageData['importance_score'],
+                    'recommended_week' => $stageData['recommended_week'],
+                ]);
+            }
+
+            // Clear cached stages
+            Cache::forget('all_stages');
+
+            return back()->with('success', __('planner.settings_saved'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while updating planner settings. Please try again, or contact support if the problem persists.');
         }
-
-        // Clear cached stages
-        Cache::forget('all_stages');
-
-        return back()->with('success', __('planner.settings_saved'));
     }
 }

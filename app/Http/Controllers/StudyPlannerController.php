@@ -22,47 +22,55 @@ class StudyPlannerController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
-        $activePlan = $user->activeStudyPlan();
+        try {
+            $user = $request->user();
+            $activePlan = $user->activeStudyPlan();
 
-        if ($activePlan) {
-            $activePlan->load(['items.stage']);
+            if ($activePlan) {
+                $activePlan->load(['items.stage']);
 
-            // Sync any completed stages
-            $this->progressService->syncAllForPlan($activePlan);
-            $activePlan->refresh();
+                // Sync any completed stages
+                $this->progressService->syncAllForPlan($activePlan);
+                $activePlan->refresh();
 
-            // Group items by week
-            $itemsByWeek = $activePlan->items
-                ->sortBy('scheduled_date')
-                ->groupBy(function ($item) {
-                    return $item->scheduled_date->startOfWeek()->format('Y-m-d');
-                });
+                // Group items by week
+                $itemsByWeek = $activePlan->items
+                    ->sortBy('scheduled_date')
+                    ->groupBy(function ($item) {
+                        return $item->scheduled_date->startOfWeek()->format('Y-m-d');
+                    });
 
-            $todayItems = $activePlan->todayItems();
-            $todayItems->load('stage');
-            $missedItems = $activePlan->missedItems();
-            $missedItems->load('stage');
+                $todayItems = $activePlan->todayItems();
+                $todayItems->load('stage');
+                $missedItems = $activePlan->missedItems();
+                $missedItems->load('stage');
 
-            return view('planner.index', compact(
-                'activePlan',
-                'itemsByWeek',
-                'todayItems',
-                'missedItems',
-            ));
+                return view('planner.index', compact(
+                    'activePlan',
+                    'itemsByWeek',
+                    'todayItems',
+                    'missedItems',
+                ));
+            }
+
+            // Show history of completed plans
+            $pastPlans = $user->studyPlans()
+                ->whereIn('status', [StudyPlan::STATUS_COMPLETED, StudyPlan::STATUS_EXPIRED, StudyPlan::STATUS_PAUSED])
+                ->latest()
+                ->take(5)
+                ->get();
+
+            return view('planner.index', [
+                'activePlan' => null,
+                'pastPlans' => $pastPlans,
+            ]);
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while loading the planner. Please try again, or contact support if the problem persists.');
         }
-
-        // Show history of completed plans
-        $pastPlans = $user->studyPlans()
-            ->whereIn('status', [StudyPlan::STATUS_COMPLETED, StudyPlan::STATUS_EXPIRED, StudyPlan::STATUS_PAUSED])
-            ->latest()
-            ->take(5)
-            ->get();
-
-        return view('planner.index', [
-            'activePlan' => null,
-            'pastPlans' => $pastPlans,
-        ]);
     }
 
     /**
@@ -70,11 +78,19 @@ class StudyPlannerController extends Controller
      */
     public function create()
     {
-        $stages = Cache::remember('all_stages', 86400, function () {
-            return Stage::orderBy('order')->get();
-        });
+        try {
+            $stages = Cache::remember('all_stages', 86400, function () {
+                return Stage::orderBy('order')->get();
+            });
 
-        return view('planner.create', compact('stages'));
+            return view('planner.create', compact('stages'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while showing the creation page. Please try again, or contact support if the problem persists.');
+        }
     }
 
     /**
@@ -101,6 +117,12 @@ class StudyPlannerController extends Controller
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.');
         }
     }
 
@@ -109,24 +131,32 @@ class StudyPlannerController extends Controller
      */
     public function show(Request $request, StudyPlan $studyPlan)
     {
-        // Authorization: plan belongs to user
-        if ($studyPlan->user_id !== $request->user()->id) {
-            abort(403);
+        try {
+            // Authorization: plan belongs to user
+            if ($studyPlan->user_id !== $request->user()->id) {
+                abort(403);
+            }
+
+            $studyPlan->load(['items.stage']);
+
+            $itemsByWeek = $studyPlan->items
+                ->sortBy('scheduled_date')
+                ->groupBy(function ($item) {
+                    return $item->scheduled_date->startOfWeek()->format('Y-m-d');
+                });
+
+            $itemsByDate = $studyPlan->items
+                ->sortBy(['scheduled_date', 'sort_order'])
+                ->groupBy(fn($item) => $item->scheduled_date->toDateString());
+
+            return view('planner.show', compact('studyPlan', 'itemsByWeek', 'itemsByDate'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while showing the study planner. Please try again, or contact support if the problem persists.');
         }
-
-        $studyPlan->load(['items.stage']);
-
-        $itemsByWeek = $studyPlan->items
-            ->sortBy('scheduled_date')
-            ->groupBy(function ($item) {
-                return $item->scheduled_date->startOfWeek()->format('Y-m-d');
-            });
-
-        $itemsByDate = $studyPlan->items
-            ->sortBy(['scheduled_date', 'sort_order'])
-            ->groupBy(fn ($item) => $item->scheduled_date->toDateString());
-
-        return view('planner.show', compact('studyPlan', 'itemsByWeek', 'itemsByDate'));
     }
 
     /**
@@ -134,20 +164,28 @@ class StudyPlannerController extends Controller
      */
     public function toggleItem(Request $request, StudyPlanItem $studyPlanItem)
     {
-        // Authorization
-        if ($studyPlanItem->studyPlan->user_id !== $request->user()->id) {
-            abort(403);
-        }
+        try {
+            // Authorization
+            if ($studyPlanItem->studyPlan->user_id !== $request->user()->id) {
+                abort(403);
+            }
 
-        if ($studyPlanItem->is_completed) {
-            $studyPlanItem->markIncomplete();
-            $message = __('planner.item_unmarked');
-        } else {
-            $studyPlanItem->markCompleted();
-            $message = __('planner.item_completed');
-        }
+            if ($studyPlanItem->is_completed) {
+                $studyPlanItem->markIncomplete();
+                $message = __('planner.item_unmarked');
+            } else {
+                $studyPlanItem->markCompleted();
+                $message = __('planner.item_completed');
+            }
 
-        return back()->with('success', $message);
+            return back()->with('success', $message);
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while toggling a study plan item completion. Please try again, or contact support if the problem persists.');
+        }
     }
 
     /**
@@ -155,21 +193,29 @@ class StudyPlannerController extends Controller
      */
     public function reschedule(Request $request, StudyPlan $studyPlan)
     {
-        if ($studyPlan->user_id !== $request->user()->id) {
-            abort(403);
+        try {
+            if ($studyPlan->user_id !== $request->user()->id) {
+                abort(403);
+            }
+
+            if ($studyPlan->status !== StudyPlan::STATUS_ACTIVE) {
+                return back()->with('error', __('planner.plan_not_active'));
+            }
+
+            $count = $this->generationService->reschedule($studyPlan);
+
+            if ($count === 0) {
+                return back()->with('info', __('planner.nothing_to_reschedule'));
+            }
+
+            return back()->with('success', __('planner.rescheduled', ['count' => $count]));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while rescheduling the study plan. Please try again, or contact support if the problem persists.');
         }
-
-        if ($studyPlan->status !== StudyPlan::STATUS_ACTIVE) {
-            return back()->with('error', __('planner.plan_not_active'));
-        }
-
-        $count = $this->generationService->reschedule($studyPlan);
-
-        if ($count === 0) {
-            return back()->with('info', __('planner.nothing_to_reschedule'));
-        }
-
-        return back()->with('success', __('planner.rescheduled', ['count' => $count]));
     }
 
     /**
@@ -177,14 +223,22 @@ class StudyPlannerController extends Controller
      */
     public function destroy(Request $request, StudyPlan $studyPlan)
     {
-        if ($studyPlan->user_id !== $request->user()->id) {
-            abort(403);
+        try {
+            if ($studyPlan->user_id !== $request->user()->id) {
+                abort(403);
+            }
+
+            $studyPlan->delete();
+
+            return redirect()->route('planner.index')
+                ->with('success', __('planner.plan_deleted'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while deleting the study plan. Please try again, or contact support if the problem persists.');
         }
-
-        $studyPlan->delete();
-
-        return redirect()->route('planner.index')
-            ->with('success', __('planner.plan_deleted'));
     }
 
     /**
@@ -192,16 +246,24 @@ class StudyPlannerController extends Controller
      */
     public function updateNotes(Request $request, StudyPlanItem $studyPlanItem)
     {
-        if ($studyPlanItem->studyPlan->user_id !== $request->user()->id) {
-            abort(403);
+        try {
+            if ($studyPlanItem->studyPlan->user_id !== $request->user()->id) {
+                abort(403);
+            }
+
+            $validated = $request->validate([
+                'notes' => 'nullable|string|max:500',
+            ]);
+
+            $studyPlanItem->update($validated);
+
+            return back()->with('success', __('planner.notes_saved'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while updating the study plan notes. Please try again, or contact support if the problem persists.');
         }
-
-        $validated = $request->validate([
-            'notes' => 'nullable|string|max:500',
-        ]);
-
-        $studyPlanItem->update($validated);
-
-        return back()->with('success', __('planner.notes_saved'));
     }
 }

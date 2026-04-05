@@ -10,4 +10,10 @@ return [
     'suspended_desc' => 'This system is currently unavailable.',
     'page_expired' => 'Page Expired',
     'page_expired_desc' => 'The page you are looking for has expired. Please refresh the page.',
+    'something_isnt_right' => 'Something isn\'t right',
+    'tech_details_logged' => 'We\'ve logged the technical details and our team is looking into it.',
+    'refresh_page' => 'Refresh Page',
+    'tried_everything' => 'Tried everything?',
+    'logout_relogin' => 'Logout & Re-login',
+    'contact_support' => 'Contact Support',
 ];

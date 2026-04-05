@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Sentry\Laravel\Integration;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,4 +31,24 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         Integration::handles($exceptions);
+
+        // Convert common DB errors into friendly localized messages
+        $exceptions->render(function (\Illuminate\Database\QueryException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'A database error occurred. Our team has been notified.',
+                    'error' => config('app.debug') ? $e->getMessage() : null,
+                ], 500);
+            }
+
+            return response()->view('errors.500', [
+                'exception' => $e,
+                'friendlyDefault' => 'We are having trouble connecting to our database. This is usually temporary—please try again in a moment.',
+            ], 500);
+        });
+
+        // Handle expired sessions / CSRF tokens gracefully
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, Request $request) {
+            return back()->with('error', 'Your session has expired. please refresh and try again.');
+        });
     })->create();

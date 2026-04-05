@@ -8,31 +8,55 @@ class NotificationController extends Controller
 {
     public function index(Request $request)
     {
-        $notifications = $request->user()->notifications()->paginate(15);
+        try {
+            $notifications = $request->user()->notifications()->paginate(15);
 
-        return view('notifications.index', compact('notifications'));
+            return view('notifications.index', compact('notifications'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while loading your notifications. Please try again, or contact support if the problem persists.');
+        }
     }
 
     public function markAsRead(Request $request, string $id)
     {
-        $notification = $request->user()->notifications()->findOrFail($id);
-        $notification->markAsRead();
+        try {
+            $notification = $request->user()->notifications()->findOrFail($id);
+            $notification->markAsRead();
 
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json(['success' => true]);
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json(['success' => true]);
+            }
+
+            return back()->with('success', __('messages.success'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while marking the notification as read. Please try again, or contact support if the problem persists.');
         }
-
-        return back()->with('success', __('messages.success'));
     }
 
     public function markAllRead(Request $request)
     {
-        $request->user()->unreadNotifications->markAsRead();
+        try {
+            $request->user()->unreadNotifications->markAsRead();
 
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json(['success' => true]);
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json(['success' => true]);
+            }
+
+            return back()->with('success', __('messages.success'));
+        } catch (\Throwable $e) {
+            report($e); // Log the error internally (to Sentry/Log)
+
+            return back()
+                ->withInput()
+                ->with('error', 'We encountered an unexpected error while marking all notifications as read. Please try again, or contact support if the problem persists.');
         }
-
-        return back()->with('success', __('messages.success'));
     }
 }
