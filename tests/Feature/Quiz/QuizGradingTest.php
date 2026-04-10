@@ -164,7 +164,7 @@ it('grades two-blank complete answers using the answer segment only', function (
     $essayQuestion = Question::factory()->create([
         'stage_id' => $this->stage->id,
         'type' => 'essay',
-        'expected_answer' => "-3 , +3",
+        'expected_answer' => '-3 , +3',
         'correct_answer' => null,
     ]);
 

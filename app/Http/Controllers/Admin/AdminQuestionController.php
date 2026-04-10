@@ -138,7 +138,7 @@ class AdminQuestionController extends Controller
                 $validated_nulls = [
                     'option_a' => null, 'option_b' => null, 'option_c' => null, 'option_d' => null,
                     'option_a_ar' => null, 'option_b_ar' => null, 'option_c_ar' => null, 'option_d_ar' => null,
-                    'correct_answer' => null
+                    'correct_answer' => null,
                 ];
             } else {
                 $rules['option_a'] = 'required|string|max:500';
@@ -151,7 +151,7 @@ class AdminQuestionController extends Controller
                 $rules['option_d_ar'] = 'nullable|string|max:500';
                 $rules['correct_answer'] = 'required|in:a,b,c,d';
                 $validated_nulls = [
-                    'expected_answer' => null, 'expected_answer_ar' => null
+                    'expected_answer' => null, 'expected_answer_ar' => null,
                 ];
             }
 
