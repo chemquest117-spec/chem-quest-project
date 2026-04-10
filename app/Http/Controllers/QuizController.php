@@ -360,6 +360,8 @@ class QuizController extends Controller
                 return false;
             }
 
+            $expectedAnswer = $this->extractExpectedAnswerSegment($expectedAnswer);
+
             // Normalize dashes/minus signs to standard hyphen for comparison
             $studentAnswer = str_replace(['−', '–', '—'], '-', $studentAnswer);
             $expectedAnswer = str_replace(['−', '–', '—'], '-', $expectedAnswer);
@@ -373,6 +375,15 @@ class QuizController extends Controller
             // Exact match (ignoring spaces)
             if ($studentNoSpace === $expectedNoSpace) {
                 return true;
+            }
+
+            // Accept numeric-only replies when expected answer includes the same number
+            $studentNumbers = $this->extractNumericTokens($studentNoSpace);
+            $expectedNumbers = $this->extractNumericTokens($expectedNoSpace);
+            if (! empty($studentNumbers) && ! empty($expectedNumbers)) {
+                if (array_values(array_unique($studentNumbers)) === array_values(array_unique($expectedNumbers))) {
+                    return true;
+                }
             }
 
             // If expected answer is a short phrase, equation, or number (<15 chars without spaces)
@@ -415,6 +426,32 @@ class QuizController extends Controller
 
             return false;
         }
+    }
+
+    /**
+     * Extract signed/decimal number tokens from a normalized answer string.
+     *
+     * @return array<int, string>
+     */
+    private function extractNumericTokens(string $value): array
+    {
+        preg_match_all('/[+-]?\d+(?:\.\d+)?/', $value, $matches);
+
+        return $matches[0] ?? [];
+    }
+
+    /**
+     * Extract the concise answer portion when expected answer includes labels/explanation blocks.
+     */
+    private function extractExpectedAnswerSegment(string $expectedAnswer): string
+    {
+        $normalized = str_replace(["\r\n", "\r"], "\n", $expectedAnswer);
+
+        if (preg_match('/answer\s*:\s*(.+?)(?:\n|explanation\s*:|$)/is', $normalized, $match)) {
+            return trim($match[1]);
+        }
+
+        return $expectedAnswer;
     }
 
     /**

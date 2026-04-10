@@ -11,7 +11,7 @@
                          <h1 class="text-3xl font-bold text-white mt-1 flex items-center gap-2"><x-icon
                                    name="document-text" class="w-7 h-7 text-blue-400" /> {{ $stage->getTranslatedTitle() }} — {{ __('admin.questions') }}
                          </h1>
-                         <p class="text-slate-400 text-sm">{{ __('admin.questions_count', ['count' => $questions->count()]) }}</p>
+                         <p class="text-slate-400 mt-2 text-sm">{{ __('admin.questions_count', ['count' => $questions->count()]) }}</p>
                     </div>
                     <div class="flex items-center gap-2">
                          <form action="{{ route('admin.stages.questions.generate', $stage) }}" method="POST"
@@ -62,8 +62,10 @@
                                                             @endif
                                                             {{ ucfirst($question->getTranslatedDifficulty()) }}
                                                        </span>
-                                                       @if($question->type === 'essay')
+                                                       @if($question->isEssay())
                                                             <span class="px-2 py-0.5 rounded text-xs bg-blue-500/20 text-blue-400">Essay</span>
+                                                       @elseif($question->isMcq())
+                                                            <span class="px-2 py-0.5 rounded text-xs bg-cyan-500/20 text-cyan-400">MCQ</span>
                                                        @endif
                                                   </div>
                                                   <p class="text-white font-medium mb-3">{{ $question->getTranslatedQuestionText() }}</p>

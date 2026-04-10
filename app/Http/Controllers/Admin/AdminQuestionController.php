@@ -50,29 +50,42 @@ class AdminQuestionController extends Controller
     public function store(Request $request, Stage $stage)
     {
         try {
-            $validated = $request->validate([
+            $rules = [
+                'type' => 'required|in:mcq,essay',
                 'question_text' => 'required|string|max:2000',
                 'question_text_ar' => 'nullable|string|max:2000',
-                'option_a' => 'required|string|max:500',
-                'option_a_ar' => 'nullable|string|max:500',
-                'option_b' => 'required|string|max:500',
-                'option_b_ar' => 'nullable|string|max:500',
-                'option_c' => 'required|string|max:500',
-                'option_c_ar' => 'nullable|string|max:500',
-                'option_d' => 'required|string|max:500',
-                'option_d_ar' => 'nullable|string|max:500',
-                'correct_answer' => 'required|in:a,b,c,d',
+                'explanation' => 'nullable|string|max:5000',
+                'explanation_ar' => 'nullable|string|max:5000',
                 'difficulty' => 'required|in:easy,medium,hard',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+            ];
+
+            if ($request->type === 'essay') {
+                $rules['expected_answer'] = 'required|string|max:5000';
+                $rules['expected_answer_ar'] = 'nullable|string|max:5000';
+            } else {
+                $rules['option_a'] = 'required|string|max:500';
+                $rules['option_a_ar'] = 'nullable|string|max:500';
+                $rules['option_b'] = 'required|string|max:500';
+                $rules['option_b_ar'] = 'nullable|string|max:500';
+                $rules['option_c'] = 'required|string|max:500';
+                $rules['option_c_ar'] = 'nullable|string|max:500';
+                $rules['option_d'] = 'required|string|max:500';
+                $rules['option_d_ar'] = 'nullable|string|max:500';
+                $rules['correct_answer'] = 'required|in:a,b,c,d';
+            }
+
+            $validated = $request->validate($rules);
 
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('questions', 'public');
                 $validated['image'] = $path;
             }
 
-            // Normalize correct_answer to lowercase
-            $validated['correct_answer'] = strtolower($validated['correct_answer']);
+            // Normalize correct_answer to lowercase if present
+            if (isset($validated['correct_answer'])) {
+                $validated['correct_answer'] = strtolower($validated['correct_answer']);
+            }
 
             $stage->questions()->create($validated);
 
@@ -110,21 +123,39 @@ class AdminQuestionController extends Controller
     public function update(Request $request, Stage $stage, Question $question)
     {
         try {
-            $validated = $request->validate([
+            $rules = [
+                'type' => 'required|in:mcq,essay',
                 'question_text' => 'required|string|max:2000',
                 'question_text_ar' => 'nullable|string|max:2000',
-                'option_a' => 'required|string|max:500',
-                'option_a_ar' => 'nullable|string|max:500',
-                'option_b' => 'required|string|max:500',
-                'option_b_ar' => 'nullable|string|max:500',
-                'option_c' => 'required|string|max:500',
-                'option_c_ar' => 'nullable|string|max:500',
-                'option_d' => 'required|string|max:500',
-                'option_d_ar' => 'nullable|string|max:500',
-                'correct_answer' => 'required|in:a,b,c,d',
                 'difficulty' => 'required|in:easy,medium,hard',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+            ];
+
+            if ($request->type === 'essay') {
+                $rules['expected_answer'] = 'required|string|max:5000';
+                $rules['expected_answer_ar'] = 'nullable|string|max:5000';
+                // Also nullify mcq fields since type is changed to essay
+                $validated_nulls = [
+                    'option_a' => null, 'option_b' => null, 'option_c' => null, 'option_d' => null,
+                    'option_a_ar' => null, 'option_b_ar' => null, 'option_c_ar' => null, 'option_d_ar' => null,
+                    'correct_answer' => null
+                ];
+            } else {
+                $rules['option_a'] = 'required|string|max:500';
+                $rules['option_a_ar'] = 'nullable|string|max:500';
+                $rules['option_b'] = 'required|string|max:500';
+                $rules['option_b_ar'] = 'nullable|string|max:500';
+                $rules['option_c'] = 'required|string|max:500';
+                $rules['option_c_ar'] = 'nullable|string|max:500';
+                $rules['option_d'] = 'required|string|max:500';
+                $rules['option_d_ar'] = 'nullable|string|max:500';
+                $rules['correct_answer'] = 'required|in:a,b,c,d';
+                $validated_nulls = [
+                    'expected_answer' => null, 'expected_answer_ar' => null
+                ];
+            }
+
+            $validated = array_merge($request->validate($rules), $validated_nulls);
 
             if ($request->hasFile('image')) {
                 // Delete old image if exists
@@ -136,8 +167,10 @@ class AdminQuestionController extends Controller
                 $validated['image'] = $path;
             }
 
-            // Normalize correct_answer
-            $validated['correct_answer'] = strtolower($validated['correct_answer']);
+            // Normalize correct_answer if present
+            if (isset($validated['correct_answer'])) {
+                $validated['correct_answer'] = strtolower($validated['correct_answer']);
+            }
 
             $question->update($validated);
 
