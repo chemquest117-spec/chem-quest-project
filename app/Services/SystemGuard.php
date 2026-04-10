@@ -32,7 +32,7 @@ class SystemGuard
 
         // 3. Cached Validation
         if (Cache::has(self::CACHE_KEY)) {
-            return Cache::get(self::CACHE_KEY);
+            return (bool) Cache::get(self::CACHE_KEY);
         }
 
         // 4. Remote Server Check
