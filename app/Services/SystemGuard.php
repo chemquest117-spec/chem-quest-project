@@ -31,7 +31,7 @@ class SystemGuard
         }
 
         // 3. Cached Validation
-        if (Cache::has(self::CACHE_KEY)) {
+        if (Cache::has(self::CACHE_KEY) && Cache::get(self::CACHE_KEY) != null) {
             return (bool) Cache::get(self::CACHE_KEY);
         }
 

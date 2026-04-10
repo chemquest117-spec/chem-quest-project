@@ -459,7 +459,8 @@ class QuizController extends Controller
 
             if ($passed) {
                 $isFirstPass = $attempt->isFirstPass();
-                $points = $isFirstPass ? $stage->points_reward : intval($stage->points_reward / 2);
+                $earnedPoints = intval($stage->points_reward * ($percentage / 100));
+                $points = $isFirstPass ? $earnedPoints : intval($earnedPoints / 2);
 
                 $user->increment('total_points', $points);
 
