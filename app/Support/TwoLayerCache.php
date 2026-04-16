@@ -30,12 +30,12 @@ final class TwoLayerCache
      *
      * Flow: request cache → memory → redis (SWR) → [lock → callback] → redis → memory
      *
-     * @param  string    $key              Global, non-user-specific cache key.
-     * @param  int       $redisTtlSeconds  TTL for Redis store (fresh window).
-     * @param  int       $memoryTtlSeconds TTL for in-process memory store.
-     * @param  callable  $callback         Closure to regenerate the value from DB.
-     * @param  int       $staleWindow      Additional seconds to serve stale data while refreshing.
-     *                                     Set to 0 to disable SWR (hard expiration).
+     * @param  string  $key  Global, non-user-specific cache key.
+     * @param  int  $redisTtlSeconds  TTL for Redis store (fresh window).
+     * @param  int  $memoryTtlSeconds  TTL for in-process memory store.
+     * @param  callable  $callback  Closure to regenerate the value from DB.
+     * @param  int  $staleWindow  Additional seconds to serve stale data while refreshing.
+     *                            Set to 0 to disable SWR (hard expiration).
      */
     public static function remember(
         string $key,
@@ -179,8 +179,8 @@ final class TwoLayerCache
         if ($staleWindow > 0) {
             // Store with SWR metadata
             $wrapped = [
-                'value'       => $value,
-                'expires_at'  => microtime(true) + $redisTtlSeconds,
+                'value' => $value,
+                'expires_at' => microtime(true) + $redisTtlSeconds,
                 'stale_until' => microtime(true) + $redisTtlSeconds + $staleWindow,
             ];
 

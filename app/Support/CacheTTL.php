@@ -18,22 +18,28 @@ namespace App\Support;
 final class CacheTTL
 {
     // ── Static data (stages, schema) ────────────────────────────
-    public const STATIC_REDIS   = 6 * 3600;   // 6 hours
-    public const STATIC_MEMORY  = 600;         // 10 minutes
-    public const STATIC_STALE   = 1800;        // 30 minutes stale window
+    public const STATIC_REDIS = 6 * 3600;   // 6 hours
+
+    public const STATIC_MEMORY = 600;         // 10 minutes
+
+    public const STATIC_STALE = 1800;        // 30 minutes stale window
 
     // ── Semi-dynamic data (question IDs, stage counts) ─────────
-    public const SEMI_REDIS     = 30 * 60;     // 30 minutes
-    public const SEMI_MEMORY    = 300;         // 5 minutes
-    public const SEMI_STALE     = 600;         // 10 minutes stale window
+    public const SEMI_REDIS = 30 * 60;     // 30 minutes
+
+    public const SEMI_MEMORY = 300;         // 5 minutes
+
+    public const SEMI_STALE = 600;         // 10 minutes stale window
 
     // ── Highly dynamic / global data (leaderboard) ─────────────
-    public const DYNAMIC_REDIS  = 5 * 60;      // 5 minutes
+    public const DYNAMIC_REDIS = 5 * 60;      // 5 minutes
+
     public const DYNAMIC_MEMORY = 60;          // 1 minute
-    public const DYNAMIC_STALE  = 120;         // 2 minutes stale window
+
+    public const DYNAMIC_STALE = 120;         // 2 minutes stale window
 
     // ── Per-user memory-only data (dashboard stats) ────────────
-    public const USER_MEMORY    = 1800;        // 30 minutes (memory-only, no Redis)
+    public const USER_MEMORY = 1800;        // 30 minutes (memory-only, no Redis)
 
     /**
      * Prevent instantiation.

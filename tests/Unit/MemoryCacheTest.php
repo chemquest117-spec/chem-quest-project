@@ -89,6 +89,7 @@ describe('MemoryCache', function () {
             $callCount = 0;
             $result = MemoryCache::remember('key', 60, function () use (&$callCount) {
                 $callCount++;
+
                 return 'computed_value';
             });
 
@@ -100,6 +101,7 @@ describe('MemoryCache', function () {
             $callCount = 0;
             $callback = function () use (&$callCount) {
                 $callCount++;
+
                 return 'computed_value';
             };
 
@@ -121,6 +123,7 @@ describe('MemoryCache', function () {
             $callCount = 0;
             $compute = function () use (&$callCount) {
                 $callCount++;
+
                 return 'result';
             };
 

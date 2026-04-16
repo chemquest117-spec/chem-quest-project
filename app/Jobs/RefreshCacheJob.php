@@ -56,7 +56,7 @@ class RefreshCacheJob implements ShouldQueue
 
             // Wrap with SWR metadata and write to Redis
             $wrapped = [
-                'value'      => $value,
+                'value' => $value,
                 'expires_at' => microtime(true) + $this->redisTtl,
                 'stale_until' => microtime(true) + $this->redisTtl + $this->staleWindow,
             ];
@@ -65,12 +65,12 @@ class RefreshCacheJob implements ShouldQueue
             MemoryCache::put($this->key, $wrapped, $this->memoryTtl);
 
             Log::debug('cache_refresh', [
-                'key'   => $this->key,
+                'key' => $this->key,
                 'layer' => 'background_job',
             ]);
         } catch (\Throwable $e) {
             Log::warning('cache_refresh_failed', [
-                'key'   => $this->key,
+                'key' => $this->key,
                 'error' => $e->getMessage(),
             ]);
         } finally {
