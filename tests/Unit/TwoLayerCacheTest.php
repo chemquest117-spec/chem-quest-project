@@ -1,7 +1,6 @@
 <?php
 
 use App\Jobs\RefreshCacheJob;
-use App\Support\CacheTTL;
 use App\Support\MemoryCache;
 use App\Support\TwoLayerCache;
 use Illuminate\Support\Facades\Cache;
@@ -19,6 +18,7 @@ describe('TwoLayerCache', function () {
             $callCount = 0;
             $result = TwoLayerCache::remember('test_key', 300, 60, function () use (&$callCount) {
                 $callCount++;
+
                 return 'db_value';
             });
 
@@ -30,6 +30,7 @@ describe('TwoLayerCache', function () {
             $callCount = 0;
             $callback = function () use (&$callCount) {
                 $callCount++;
+
                 return 'db_value';
             };
 
@@ -74,6 +75,7 @@ describe('TwoLayerCache', function () {
             $callCount = 0;
             $result = TwoLayerCache::remember('swr_fresh', 300, 60, function () use (&$callCount) {
                 $callCount++;
+
                 return 'recomputed';
             }, 120);
 
@@ -144,6 +146,7 @@ describe('TwoLayerCache', function () {
             $callCount = 0;
             $result = TwoLayerCache::remember('stamp_key', 300, 60, function () use (&$callCount) {
                 $callCount++;
+
                 return 'locked_value';
             });
 
@@ -157,6 +160,7 @@ describe('TwoLayerCache', function () {
             $callCount = 0;
             $callback = function () use (&$callCount) {
                 $callCount++;
+
                 return 'value';
             };
 
