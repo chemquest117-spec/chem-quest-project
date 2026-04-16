@@ -1,5 +1,7 @@
 <?php
 
+use App\Jobs\RefreshCacheJob;
+use App\Support\MemoryCache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,6 +18,12 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
+    ->beforeEach(function () {
+        // Static caches persist across tests in the same process — flush to prevent
+        // stale data from a previous test's DB state poisoning the current test.
+        MemoryCache::flush();
+        RefreshCacheJob::resetDispatched();
+    })
     ->in('Feature', 'Security', 'Unit');
 
 /*
