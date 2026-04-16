@@ -11,6 +11,7 @@ php artisan db:seed --class=QuestionSeeder --force
 php artisan config:clear
 php artisan view:clear
 php artisan cache:clear
+php artisan route:clear
 php artisan optimize:clear
 
 
@@ -65,7 +66,7 @@ gh repo create Learning_Project --public --source=. --remote=origin --push
 
 # git remote add origin https://github.com/Antony-gh/ROV-Workspace-New.git
 
-# git push -u origin 
+# git push -u origin
 
 
 git status

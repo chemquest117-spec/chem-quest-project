@@ -54,12 +54,16 @@ class AdminStudentController extends Controller
             $stages = Stage::orderBy('order')->get();
             $completedIds = $user->completedStageIds();
 
-            // Get all attempts grouped by stage
-            $attemptsByStage = StageAttempt::where('user_id', $user->id)
-                ->with('stage')
-                ->orderByDesc('created_at')
+            $stageAggregates = StageAttempt::where('user_id', $user->id)
+                ->whereNotNull('completed_at')
+                ->selectRaw('stage_id,
+                    count(*) as attempts,
+                    avg((score * 100.0) / nullif(total_questions, 0)) as avg_score_pct,
+                    max((score * 100.0) / nullif(total_questions, 0)) as best_score_pct,
+                    avg(time_spent_seconds) as avg_time')
+                ->groupBy('stage_id')
                 ->get()
-                ->groupBy('stage_id');
+                ->keyBy('stage_id');
 
             // Performance over time (last 30 attempts)
             $recentAttempts = StageAttempt::where('user_id', $user->id)
@@ -71,10 +75,9 @@ class AdminStudentController extends Controller
             // Calculate strengths and weaknesses by stage
             $stagePerformance = [];
             foreach ($stages as $stage) {
-                $stageAttempts = $attemptsByStage->get($stage->id, collect());
-                $completed = $stageAttempts->whereNotNull('completed_at');
+                $agg = $stageAggregates->get($stage->id);
 
-                if ($completed->isEmpty()) {
+                if (! $agg) {
                     $stagePerformance[] = [
                         'stage' => $stage,
                         'attempts' => 0,
@@ -87,15 +90,13 @@ class AdminStudentController extends Controller
                     continue;
                 }
 
-                $bestAttempt = $completed->sortByDesc('score')->first();
-
                 $stagePerformance[] = [
                     'stage' => $stage,
-                    'attempts' => $completed->count(),
-                    'avg_score' => round($completed->avg(fn ($a) => $a->total_questions > 0 ? ($a->score / $a->total_questions) * 100 : 0), 1),
-                    'best_score' => $bestAttempt ? round(($bestAttempt->score / max(1, $bestAttempt->total_questions)) * 100, 1) : 0,
+                    'attempts' => (int) $agg->attempts,
+                    'avg_score' => round((float) ($agg->avg_score_pct ?? 0), 1),
+                    'best_score' => round((float) ($agg->best_score_pct ?? 0), 1),
                     'passed' => in_array($stage->id, $completedIds),
-                    'avg_time' => round($completed->avg('time_spent_seconds')),
+                    'avg_time' => round((float) ($agg->avg_time ?? 0)),
                 ];
             }
 

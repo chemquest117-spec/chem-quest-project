@@ -169,7 +169,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme' => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tcp'),
         ],
 
         'cache' => [
@@ -183,13 +183,13 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme' => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tcp'),
         ],
 
         'session' => [
             'url' => env('REDIS_URL'),
             'username' => env('REDIS_USERNAME'),
-            'host' => env('REDIS_HOST'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_SESSION_DB', 2),
@@ -197,7 +197,7 @@ return [
             'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
-            'scheme' => env('REDIS_SCHEME', 'tls'),
+            'scheme' => env('REDIS_SCHEME', 'tcp'),
         ],
 
     ],

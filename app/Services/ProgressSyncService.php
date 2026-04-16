@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Casts\PostgresBoolean;
 use App\Models\StageAttempt;
 use App\Models\StudyPlan;
 use App\Models\WeeklyStudyPlan;
@@ -27,14 +28,18 @@ class ProgressSyncService
             return;
         }
 
-        // Mark all pending items (study and quiz) for this stage as completed
-        $items = $activePlan->items()
+        // Mark all pending items (study and quiz) for this stage as completed (bulk update).
+        $updated = $activePlan->items()
             ->where('stage_id', $attempt->stage_id)
             ->pending()
-            ->get();
+            ->update([
+                'is_completed' => PostgresBoolean::asQueryValue(true),
+                'completed_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        foreach ($items as $item) {
-            $item->markCompleted();
+        if ($updated > 0) {
+            $activePlan->calculateProgress();
         }
 
         // --- Weekly Planner Sync ---
@@ -71,13 +76,17 @@ class ProgressSyncService
         $user = $plan->user;
         $completedStageIds = $user->completedStageIds();
 
-        $pendingItems = $plan->items()
+        $updated = $plan->items()
             ->pending()
             ->whereIn('stage_id', $completedStageIds)
-            ->get();
+            ->update([
+                'is_completed' => PostgresBoolean::asQueryValue(true),
+                'completed_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        foreach ($pendingItems as $item) {
-            $item->markCompleted();
+        if ($updated > 0) {
+            $plan->calculateProgress();
         }
     }
 

@@ -20,12 +20,30 @@ class WeeklyPlannerController extends Controller
 
             // Ensure user has plans for all stages
             $stages = Stage::orderBy('order')->get();
-            foreach ($stages as $index => $stage) {
+            $existingWeeks = WeeklyStudyPlan::where('user_id', $user->id)
+                ->pluck('week_number')
+                ->all();
+
+            $missingRows = [];
+            $now = now();
+            foreach ($stages->values() as $index => $stage) {
                 $weekNumber = $index + 1;
-                WeeklyStudyPlan::firstOrCreate(
-                    ['user_id' => $user->id, 'week_number' => $weekNumber],
-                    ['stage_id' => $stage->id, 'status' => 'active']
-                );
+                if (in_array($weekNumber, $existingWeeks, true)) {
+                    continue;
+                }
+
+                $missingRows[] = [
+                    'user_id' => $user->id,
+                    'week_number' => $weekNumber,
+                    'stage_id' => $stage->id,
+                    'status' => 'active',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            if (count($missingRows) > 0) {
+                WeeklyStudyPlan::insert($missingRows);
             }
 
             // Determine which week to show

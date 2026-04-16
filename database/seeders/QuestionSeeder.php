@@ -95,7 +95,7 @@ class QuestionSeeder extends Seeder
             };
 
             $correctAnswer = null;
-            if ($q['type'] === 'mcq' && !empty($q['correct_answer']) && in_array(strtolower($q['correct_answer']), ['a', 'b', 'c', 'd'])) {
+            if ($q['type'] === 'mcq' && ! empty($q['correct_answer']) && in_array(strtolower($q['correct_answer']), ['a', 'b', 'c', 'd'])) {
                 $correctAnswer = strtolower($q['correct_answer']);
             } elseif ($q['type'] === 'mcq') {
                 $correctAnswer = 'a';

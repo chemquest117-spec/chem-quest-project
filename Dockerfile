@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
      libpq-dev \
      libzip-dev \
      && docker-php-ext-install pdo pdo_pgsql zip bcmath \
+     && docker-php-ext-install opcache \
      && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache rewrite
@@ -40,10 +41,13 @@ WORKDIR /var/www/html
 
 # Copy composer files first for caching
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader
 
 # Copy app code later
 COPY . .
+
+# Opcache tuning
+COPY docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Accept an optional version argument during build, default is 'latest'
 ARG APP_VERSION=latest
@@ -77,6 +81,8 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
 # Add this anywhere in Stage 2 to see current environment variables
 # RUN env
 
+# Set the server name to localhost
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Copy entrypoint script from repository (version-controlled)
 COPY entrypoint.sh /entrypoint.sh

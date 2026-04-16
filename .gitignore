@@ -47,3 +47,4 @@ phpstan_errors.txt
 .env.testing
 
 /backup
+/documentation

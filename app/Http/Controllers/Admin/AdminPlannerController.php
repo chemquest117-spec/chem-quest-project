@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
+use App\Support\StageSchemaCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -48,17 +48,25 @@ class AdminPlannerController extends Controller
                 'stages.*.recommended_week' => 'nullable|integer|min:1|max:52',
             ]);
 
-            foreach ($validated['stages'] as $stageData) {
-                Stage::where('id', $stageData['id'])->update([
+            $now = now();
+            $rows = array_map(function (array $stageData) use ($now) {
+                return [
+                    'id' => $stageData['id'],
                     'marks_weight' => $stageData['marks_weight'],
                     'estimated_study_minutes' => $stageData['estimated_study_minutes'],
                     'importance_score' => $stageData['importance_score'],
                     'recommended_week' => $stageData['recommended_week'],
-                ]);
-            }
+                    'updated_at' => $now,
+                ];
+            }, $validated['stages']);
 
-            // Clear cached stages
-            Cache::forget('all_stages');
+            Stage::upsert(
+                $rows,
+                ['id'],
+                ['marks_weight', 'estimated_study_minutes', 'importance_score', 'recommended_week', 'updated_at']
+            );
+
+            StageSchemaCache::bump();
 
             return back()->with('success', __('planner.settings_saved'));
         } catch (ValidationException $e) {

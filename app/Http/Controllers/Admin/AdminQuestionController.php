@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Stage;
 use App\Services\AIQuestionService;
+use App\Support\StageSchemaCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +21,9 @@ class AdminQuestionController extends Controller
     public function index(Stage $stage)
     {
         try {
-            $questions = $stage->questions()->orderBy('difficulty')->get();
+            $questions = $stage->questions()
+                ->orderBy('difficulty')
+                ->paginate(50);
 
             return view('admin.questions.index', compact('stage', 'questions'));
         } catch (ValidationException $e) {
@@ -120,8 +122,7 @@ class AdminQuestionController extends Controller
             $validated = $this->normalizeForQuestionSchema($validated);
             $stage->questions()->create($validated);
 
-            // Clear cached question IDs for this stage
-            Cache::forget("stage_{$stage->id}_question_ids");
+            StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question added successfully!');
@@ -236,6 +237,8 @@ class AdminQuestionController extends Controller
             $validated = $this->normalizeForQuestionSchema($validated);
             $question->update($validated);
 
+            StageSchemaCache::bump();
+
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question updated successfully!');
         } catch (ValidationException $e) {
@@ -258,8 +261,7 @@ class AdminQuestionController extends Controller
 
             $question->delete();
 
-            // Clear cached question IDs for this stage
-            Cache::forget("stage_{$stage->id}_question_ids");
+            StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
                 ->with('success', 'Question deleted successfully!');
@@ -296,8 +298,9 @@ class AdminQuestionController extends Controller
             $created = $aiService->generateQuestions($stage, 5);
             $count = count($created);
 
-            // Clear cached question IDs since new questions were added
-            Cache::forget("stage_{$stage->id}_question_ids");
+            if ($count > 0) {
+                StageSchemaCache::bump();
+            }
 
             if ($count > 0) {
                 return redirect()->route('admin.stages.questions.index', $stage)

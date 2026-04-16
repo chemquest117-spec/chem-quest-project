@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\StudyPlan;
+use App\Models\StudyPlanItem;
 use App\Notifications\MissedStudyTask;
 use App\Notifications\StudyReminder;
 use App\Services\PlannerGenerationService;
@@ -26,8 +27,26 @@ class SendStudyReminders extends Command
         }
 
         $activePlans = StudyPlan::active()
-            ->with(['user', 'items'])
+            ->with('user')
             ->get();
+
+        $today = now()->toDateString();
+        $yesterday = now()->subDay()->toDateString();
+
+        $countsByPlanId = StudyPlanItem::query()
+            ->select('study_plan_id')
+            ->selectRaw(
+                'sum(case when scheduled_date = ? and is_completed = false then 1 else 0 end) as today_pending',
+                [$today]
+            )
+            ->selectRaw(
+                'sum(case when scheduled_date = ? and is_completed = false then 1 else 0 end) as yesterday_pending',
+                [$yesterday]
+            )
+            ->whereIn('study_plan_id', $activePlans->pluck('id'))
+            ->groupBy('study_plan_id')
+            ->get()
+            ->keyBy('study_plan_id');
 
         $remindersSent = 0;
         $missedAlerts = 0;
@@ -38,10 +57,8 @@ class SendStudyReminders extends Command
             $user = $plan->user;
 
             // Send reminders for today's tasks
-            $todayCount = $plan->items()
-                ->where('scheduled_date', now()->toDateString())
-                ->pending()
-                ->count();
+            $planCounts = $countsByPlanId->get($plan->id);
+            $todayCount = (int) ($planCounts->today_pending ?? 0);
 
             if ($todayCount > 0) {
                 $user->notify(new StudyReminder($plan, $todayCount));
@@ -49,10 +66,7 @@ class SendStudyReminders extends Command
             }
 
             // Check for yesterday's missed tasks
-            $yesterdayMissed = $plan->items()
-                ->where('scheduled_date', now()->subDay()->toDateString())
-                ->pending()
-                ->count();
+            $yesterdayMissed = (int) ($planCounts->yesterday_pending ?? 0);
 
             if ($yesterdayMissed > 0) {
                 $user->notify(new MissedStudyTask($plan, $yesterdayMissed));

@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Casts\PostgresBoolean;
 use App\Models\AttemptAnswer;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Notifications\StageCompleted;
 use App\Services\ProgressSyncService;
+use App\Support\CacheTTL;
+use App\Support\MemoryCache;
+use App\Support\StageSchemaCache;
+use App\Support\TwoLayerCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -30,14 +34,24 @@ class QuizController extends Controller
                     ->with('error', __('messages.stage_locked'));
             }
 
+            // Cache question IDs for the stage to prevent heavy DB load per student attempt
+            $stageSchemaVersion = StageSchemaCache::version();
+            $questionIds = TwoLayerCache::remember(
+                "stage_{$stage->id}_question_ids:v{$stageSchemaVersion}",
+                CacheTTL::SEMI_REDIS,
+                CacheTTL::SEMI_MEMORY,
+                fn () => $stage->questions()->pluck('id')->all(),
+                CacheTTL::SEMI_STALE,
+            );
+
             // Check minimum questions
-            if ($stage->questions()->count() === 0) {
+            if (count($questionIds) === 0) {
                 return redirect()->route('stages.show', $stage)
                     ->with('error', __('messages.error'));
             }
 
             // Prevent concurrent quiz attempts on same stage (with DB lock to prevent race conditions)
-            $attempt = DB::transaction(function () use ($user, $stage) {
+            $attempt = DB::transaction(function () use ($user, $stage, $questionIds) {
                 $activeAttempt = StageAttempt::where('user_id', $user->id)
                     ->where('stage_id', $stage->id)
                     ->whereNull('completed_at')
@@ -52,23 +66,27 @@ class QuizController extends Controller
                 $newAttempt = StageAttempt::create([
                     'user_id' => $user->id,
                     'stage_id' => $stage->id,
-                    'total_questions' => $stage->questions()->count(),
+                    'total_questions' => count($questionIds),
                     'started_at' => Carbon::now(),
                 ]);
-
-                // Cache question IDs for the stage to prevent heavy DB load per student attempt
-                $questionIds = Cache::remember("stage_{$stage->id}_question_ids", 60 * 60, function () use ($stage) {
-                    return $stage->questions()->pluck('id')->toArray();
-                });
 
                 // Shuffle array in PHP instead of `ORDER BY RAND()` in DB
                 shuffle($questionIds);
 
+                $now = now();
+                $rows = [];
                 foreach ($questionIds as $questionId) {
-                    AttemptAnswer::create([
+                    $rows[] = [
                         'stage_attempt_id' => $newAttempt->id,
                         'question_id' => $questionId,
-                    ]);
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
+
+                // Bulk insert to reduce Postgres roundtrips (chunk to keep packets reasonable).
+                foreach (array_chunk($rows, 1000) as $chunk) {
+                    AttemptAnswer::insert($chunk);
                 }
 
                 return $newAttempt;
@@ -274,6 +292,8 @@ class QuizController extends Controller
             return DB::transaction(function () use ($attempt, $user, $submittedAnswers) {
                 $score = 0;
                 $answers = $attempt->answers()->with('question')->get();
+                $updates = [];
+                $now = now();
 
                 foreach ($answers as $answer) {
                     $question = $answer->question;
@@ -298,14 +318,27 @@ class QuizController extends Controller
                         $isCorrect = false;
                     }
 
-                    $answer->update([
+                    $updates[] = [
+                        'id' => $answer->id,
+                        'stage_attempt_id' => $answer->stage_attempt_id,
+                        'question_id' => $answer->question_id,
                         'selected_answer' => $selected,
-                        'is_correct' => $isCorrect,
-                    ]);
+                        'is_correct' => PostgresBoolean::asQueryValue($isCorrect),
+                        'created_at' => $answer->created_at ?? $now,
+                        'updated_at' => $now,
+                    ];
 
                     if ($isCorrect) {
                         $score++;
                     }
+                }
+
+                if (count($updates) > 0) {
+                    AttemptAnswer::upsert(
+                        $updates,
+                        ['id'],
+                        ['selected_answer', 'is_correct', 'updated_at']
+                    );
                 }
 
                 $totalQuestions = $answers->count();
@@ -330,8 +363,8 @@ class QuizController extends Controller
                 $this->updateStreak($user);
 
                 // Invalidate user dashboard caches so front-end reflects new stats immediately
-                Cache::forget("user_{$user->id}_dashboard_stats");
-                Cache::forget("user_{$user->id}_recent_attempts");
+                MemoryCache::forget("user_{$user->id}_dashboard_stats");
+                MemoryCache::forget("user_{$user->id}_recent_attempts");
 
                 // Sync with study planner (auto-mark items as completed)
                 if ($passed) {
@@ -460,6 +493,9 @@ class QuizController extends Controller
                         'ar' => '⭐ درجة كاملة في '.($stage->title_ar ?: $stage->title).'! +50 نقطة إضافية!',
                     ], 'success'));
                 }
+
+                TwoLayerCache::forget('leaderboard_data');
+                TwoLayerCache::forget('leaderboard_json_data');
 
                 $msgEn = $isFirstPass
                     ? "🎉 You passed {$stage->title}! +{$points} points!"

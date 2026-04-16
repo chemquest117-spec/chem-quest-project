@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
+use App\Support\CacheTTL;
+use App\Support\TwoLayerCache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -12,13 +13,17 @@ class LeaderboardController extends Controller
     public function index()
     {
         try {
-            $students = Cache::remember('leaderboard_data', 3600, function () {
-                return User::student()
+            $students = TwoLayerCache::remember(
+                'leaderboard_data',
+                CacheTTL::DYNAMIC_REDIS,
+                CacheTTL::DYNAMIC_MEMORY,
+                fn () => User::student()
                     ->orderByDesc('total_points')
                     ->orderByDesc('stars')
                     ->take(50)
-                    ->get();
-            });
+                    ->get(),
+                CacheTTL::DYNAMIC_STALE,
+            );
 
             $studentsJson = $students->map(function ($s) {
                 return [
@@ -50,13 +55,17 @@ class LeaderboardController extends Controller
     public function data()
     {
         try {
-            $students = Cache::remember('leaderboard_json_data', 3600, function () {
-                return User::student()
+            $students = TwoLayerCache::remember(
+                'leaderboard_json_data',
+                CacheTTL::DYNAMIC_REDIS,
+                CacheTTL::DYNAMIC_MEMORY,
+                fn () => User::student()
                     ->orderByDesc('total_points')
                     ->orderByDesc('stars')
                     ->take(50)
-                    ->get(['id', 'name', 'total_points', 'stars', 'streak']);
-            });
+                    ->get(['id', 'name', 'total_points', 'stars', 'streak']),
+                CacheTTL::DYNAMIC_STALE,
+            );
 
             return response()->json($students);
         } catch (ValidationException $e) {

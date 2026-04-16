@@ -3,6 +3,7 @@
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CheckBanned;
 use App\Http\Middleware\CheckLicense;
+use App\Http\Middleware\FlushRequestCache;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
+
+        $middleware->web(prepend: [
+            FlushRequestCache::class,
+        ]);
 
         $middleware->web(append: [
             SetLocale::class,

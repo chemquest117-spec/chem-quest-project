@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stage;
+use App\Support\CacheTTL;
+use App\Support\StageSchemaCache;
+use App\Support\TwoLayerCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -15,9 +17,14 @@ class StageController extends Controller
         try {
             $user = $request->user();
 
-            $stages = Cache::remember('all_stages_with_count', 43200, function () {
-                return Stage::orderBy('order')->withCount('questions')->get();
-            });
+            $stageSchemaVersion = StageSchemaCache::version();
+            $stages = TwoLayerCache::remember(
+                "all_stages_with_count:v{$stageSchemaVersion}",
+                CacheTTL::SEMI_REDIS,
+                CacheTTL::SEMI_MEMORY,
+                fn () => Stage::orderBy('order')->withCount('questions')->get(),
+                CacheTTL::SEMI_STALE,
+            );
 
             $completedIds = $user->completedStageIds();
             $failedIds = $user->failedStageIds();
@@ -45,9 +52,14 @@ class StageController extends Controller
         try {
             $user = $request->user();
 
-            $stages = Cache::remember('all_stages', 86400, function () {
-                return Stage::orderBy('order')->get();
-            });
+            $stageSchemaVersion = StageSchemaCache::version();
+            $stages = TwoLayerCache::remember(
+                "all_stages:v{$stageSchemaVersion}",
+                CacheTTL::STATIC_REDIS,
+                CacheTTL::STATIC_MEMORY,
+                fn () => Stage::orderBy('order')->get(),
+                CacheTTL::STATIC_STALE,
+            );
 
             $completedIds = $user->completedStageIds();
 

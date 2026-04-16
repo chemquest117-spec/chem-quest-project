@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stage;
+use App\Support\StageSchemaCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -59,6 +59,8 @@ class AdminStageController extends Controller
 
             Stage::create($validated);
 
+            StageSchemaCache::bump();
+
             return redirect()->route('admin.stages.index')
                 ->with('success', 'Stage created successfully!');
         } catch (ValidationException $e) {
@@ -103,6 +105,8 @@ class AdminStageController extends Controller
 
             $stage->update($validated);
 
+            StageSchemaCache::bump();
+
             return redirect()->route('admin.stages.index')
                 ->with('success', 'Stage updated successfully!');
         } catch (\Throwable $e) {
@@ -117,8 +121,7 @@ class AdminStageController extends Controller
     public function destroy(Stage $stage)
     {
         try {
-            // Clear cached question IDs for this stage
-            Cache::forget("stage_{$stage->id}_question_ids");
+            StageSchemaCache::bump();
 
             $stage->delete();
 

@@ -23,19 +23,28 @@ ChemTrack/
 │   │   │   ├── LeaderboardController.php           # Top students ranking
 │   │   │   ├── NotificationController.php          # Mark notifications read
 │   │   │   ├── QuizController.php                  # Quiz start/show/submit/result
-│   │   │   └── StageController.php                 # Stage list & detail
+│   │   │   ├── StageController.php                 # Stage list & detail
+│   │   │   └── StudyPlannerController.php          # Study planner management
 │   │   └── Middleware/
-│   │       └── AdminMiddleware.php                 # Admin route protection
+│   │       ├── AdminMiddleware.php                 # Admin route protection
+│   │       └── FlushRequestCache.php              # Per-request cache isolation
+│   ├── Jobs/
+│   │   └── RefreshCacheJob.php                     # SWR background cache refresh
 │   ├── Models/
 │   │   ├── AttemptAnswer.php                       # Individual question response
 │   │   ├── Question.php                            # MCQ with randomized scope
 │   │   ├── Stage.php                               # Stage with unlock logic
 │   │   ├── StageAttempt.php                        # Quiz attempt record
 │   │   └── User.php                                # Extended with gamification
-│   └── Notifications/
-│       └── StageCompleted.php                      # Database notification
+│   ├── Notifications/
+│   │   └── StageCompleted.php                      # Database notification
+│   └── Support/
+│       ├── CacheTTL.php                            # Centralized TTL constants
+│       ├── MemoryCache.php                         # Request + in-process memory cache
+│       ├── StageSchemaCache.php                    # Stage schema versioning
+│       └── TwoLayerCache.php                       # Hybrid cache: Memory → Redis → DB
 ├── bootstrap/
-│   └── app.php                                     # Admin middleware registered
+│   └── app.php                                     # Middleware + cache registered
 ├── database/
 │   ├── migrations/
 │   │   ├── 0001_01_01_000000_create_users_table.php       # + is_admin, points, stars
@@ -77,6 +86,11 @@ ChemTrack/
 │   │   ├── index.blade.php                         # Visual roadmap
 │   │   └── show.blade.php                          # Stage detail + start quiz
 │   └── welcome.blade.php                           # Landing page
+├── tests/
+│   └── Unit/
+│       ├── CacheTTLTest.php                        # TTL hierarchy validation
+│       ├── MemoryCacheTest.php                     # Request + memory cache tests
+│       └── TwoLayerCacheTest.php                   # Hybrid cache + SWR tests
 ├── routes/
 │   ├── auth.php                                    # Breeze auth routes
 │   └── web.php                                     # All app routes
@@ -331,6 +345,184 @@ Mixed difficulty (easy/medium/hard) covering:
 
 ---
 
+## ⚡ Production-Grade Hybrid Caching System
+
+ChemTrack uses a **hybrid cache** tuned for **single-instance** hosting (e.g. Render free tier) and **low Redis command volume** (e.g. Upstash ~500K commands/month). The goal is: **minimal Postgres load**, **very few Redis round-trips**, and **no thundering herd** when shared cache entries expire.
+
+### End-to-end lookup order
+
+Every global (non–per-user) value resolved through `TwoLayerCache` follows this pipeline:
+
+1. **Request micro-cache** — `MemoryCache::$requestCache` (same HTTP request only; deduplicates repeated lookups).
+2. **Process memory cache** — `MemoryCache` static store (same PHP worker across requests until TTL expires).
+3. **Redis** — Laravel `Cache` store (shared; optional SWR metadata wrapper).
+4. **Database** — callback runs only on a full miss, behind a **stampede lock** when the store supports it.
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│  Request Cache (static array, per-request)                          │
+│  └─ Zero-cost dedup — same key, same request = instant return       │
+├──────────────────────────────────────────────────────────────────────┤
+│  Memory Cache (static array, per-process)                           │
+│  └─ Survives across requests on the same PHP worker                 │
+├──────────────────────────────────────────────────────────────────────┤
+│  Redis Cache (shared, with SWR metadata)                            │
+│  └─ Stale-While-Revalidate: serves expired data while refreshing   │
+├──────────────────────────────────────────────────────────────────────┤
+│  Database (source of truth, behind stampede lock)                    │
+│  └─ Atomic lock prevents thundering herd on cache miss              │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### Implementation map (source files)
+
+| File | Role |
+| ---- | ---- |
+| [`app/Support/MemoryCache.php`](app/Support/MemoryCache.php) | Request micro-cache + per-process TTL store; `flushRequestCache()` per HTTP request |
+| [`app/Support/TwoLayerCache.php`](app/Support/TwoLayerCache.php) | Request → memory → Redis → DB; stampede lock; optional SWR wrapper; observability logs |
+| [`app/Support/CacheTTL.php`](app/Support/CacheTTL.php) | Normalized Redis / memory / stale-window constants (static / semi / dynamic / user-only) |
+| [`app/Support/StageSchemaCache.php`](app/Support/StageSchemaCache.php) | Schema version bump so `all_stages:v{n}` and related keys rotate without many Redis deletes |
+| [`app/Jobs/RefreshCacheJob.php`](app/Jobs/RefreshCacheJob.php) | Optional queued refresh for **serializable** rebuild callbacks (not Closures) |
+| [`app/Http/Middleware/FlushRequestCache.php`](app/Http/Middleware/FlushRequestCache.php) | Prepends web stack — clears `MemoryCache::$requestCache` each request (`bootstrap/app.php`) |
+
+### Example: global key with full hybrid + SWR + stampede protection
+
+```php
+use App\Support\CacheTTL;
+use App\Support\TwoLayerCache;
+
+$students = TwoLayerCache::remember(
+    'leaderboard_data',
+    CacheTTL::DYNAMIC_REDIS,    // fresh window in Redis
+    CacheTTL::DYNAMIC_MEMORY, // hot path: repeat requests hit memory, not Redis
+    fn () => User::student()
+        ->orderByDesc('total_points')
+        ->orderByDesc('stars')
+        ->take(50)
+        ->get(),
+    CacheTTL::DYNAMIC_STALE,    // serve stale briefly; refresh after response (Closure → terminating)
+);
+```
+
+With **`$staleWindow = 0`**, behavior is **hard TTL** (no `expires_at` / `stale_until` wrapper) — backward compatible for keys that should disappear from Redis exactly when expired.
+
+### Redis command budget (500K / month tiers)
+
+On a **memory hit** or **request hit**, Redis is **not** contacted. Typical costs when a key is **cold** at the Redis layer:
+
+- At least **one** `GET` (read-through).
+- On miss: **lock** acquisition/release (extra commands on Redis) + **one** `SET`/`PUT` to store the new value.
+- SWR extends the stored TTL to `redisTtl + staleWindow` so you avoid churn from ultra-short keys.
+
+**Design goal**: long Redis TTLs for static/semi-static data, short **memory** TTLs to bound RAM, and **per-user** data **only** in `MemoryCache` so leaderboard/stages do not share Redis quota with every student.
+
+### Request-level micro-caching (same-request deduplication)
+
+- **Implementation**: `app/Support/MemoryCache.php` — `get()` checks `MemoryCache::$requestCache` first, then the TTL-backed process store. Successful memory hits are **promoted** into the request cache for the rest of the request.
+- **Isolation**: `app/Http/Middleware/FlushRequestCache.php` calls `MemoryCache::flushRequestCache()` at the **start** of each web request (registered in `bootstrap/app.php`), so request-scoped data never leaks between requests on the same worker.
+
+```php
+// Per-user aggregates: memory-only (no Redis commands)
+MemoryCache::remember('user_'.$user->id.'_dashboard_stats', CacheTTL::USER_MEMORY, function () {
+    return /* single aggregate query */;
+});
+```
+
+### Cache stampede (thundering herd) protection
+
+On a **full miss** (nothing usable in memory or Redis), `TwoLayerCache` rebuilds via `computeWithStampedeProtection()`:
+
+- Uses `Cache::lock("{$key}:lock", 10)->block(3, $callback)` when the cache store implements `LockProvider` (Redis does).
+- **One** request recomputes; others wait up to **3 seconds**, then fall back to running the callback if the lock cannot be acquired (logged as `cache_lock_timeout`).
+
+This applies to **all** expensive keys that go through `TwoLayerCache::remember()` (e.g. leaderboard, `all_stages`, question ID lists).
+
+### Stale-while-revalidate (SWR)
+
+Optional **fifth argument** to `TwoLayerCache::remember($key, $redisTtl, $memoryTtl, $callback, $staleWindow)`:
+
+- When `$staleWindow > 0`, Redis stores a **wrapped** payload:
+
+  | Field | Meaning |
+  | ----- | ------- |
+  | `value` | The cached payload (e.g. Eloquent collection) |
+  | `expires_at` | Unix timestamp — end of **fresh** window |
+  | `stale_until` | Unix timestamp — end of **stale** window (may serve stale, refresh in background) |
+
+- **Fresh** (`now < expires_at`): return `value` immediately.
+- **Stale but acceptable** (`expires_at <= now < stale_until`): return `value` immediately, log `cache_stale`, trigger **background** refresh (non-blocking for the user).
+- **Too stale** (`now >= stale_until`): treat as expired; drop from memory and rebuild (with stampede lock).
+
+**Background refresh**:
+
+- **Closures** cannot be queued; refresh runs in `app()->terminating()` after the response is sent (see `TwoLayerCache::triggerBackgroundRefresh()`).
+- **Serializable callables** can use `app/Jobs/RefreshCacheJob.php` when you wire them that way.
+- In-process dedup: `RefreshCacheJob::isDispatched()` avoids flooding refreshes for the same key.
+
+Pass **`$staleWindow = 0`** (default) for **hard TTL** — no SWR wrapper (backward compatible).
+
+### Normalized TTL strategy (`CacheTTL`)
+
+All tier lengths live in `app/Support/CacheTTL.php` — **no scattered magic numbers**. Policy matches the product intent:
+
+| Tier | Volatility | Redis (`*_REDIS`) | Memory (`*_MEMORY`) | Stale (`*_STALE`) | Typical keys |
+| ---- | ---------- | ----------------- | ------------------- | ----------------- | ------------ |
+| **Static** | Rarely changes (stages / schema) | 6 hours | 10 min | 30 min | `all_stages:v{n}` |
+| **Semi-dynamic** | Occasional (question IDs, counts) | 30 min | 5 min | 10 min | `stage_{id}_question_ids:v{n}`, `all_stages_with_count:v{n}` |
+| **Dynamic / global** | Changes often (leaderboard) | 5 min | 1 min | 2 min | `leaderboard_data`, `leaderboard_json_data` |
+| **Per-user** | Per student | *none* | 30 min (`USER_MEMORY`) | — | `user_{id}_dashboard_*` (memory-only by design) |
+
+**Rules of thumb**:
+
+- Avoid **short Redis TTLs** on hot keys — they multiply `GET`/`SET` commands.
+- **Per-user** data stays **out of Redis** to respect strict quotas and keep semantics simple on one instance.
+
+### Schema versioning (invalidation without Redis key spam)
+
+Stage/question mutations bump `StageSchemaCache` so keys like `all_stages:v{n}` rotate — old entries expire naturally instead of many `forget()` calls.
+
+### Observability (logging)
+
+Structured logs help you see **which layer** served data and when Redis/DB were touched:
+
+| Event | Level | Payload |
+| ----- | ----- | ------- |
+| Request cache hit | `debug` | `cache_hit`, `layer` => `request`, `key` |
+| Memory cache hit | `debug` | `cache_hit`, `layer` => `memory`, `key` |
+| Redis hit | `info` | `cache_hit`, `layer` => `redis`, `key` |
+| Full miss (DB rebuild) | `info` | `cache_miss`, `layer` => `database`, `key` |
+| Serving stale (SWR) | `info` | `cache_stale`, `layer` => `swr`, `key` |
+| Background refresh | `debug` | `cache_refresh`, `key` |
+| Lock wait failed / timeout | `warning` | `cache_lock_timeout`, `key` |
+
+In **production**, set `LOG_LEVEL=info` to keep request/memory hits quiet while still seeing Redis hits, DB misses, and SWR events. Use `debug` temporarily when tuning cache efficiency or estimating Redis command volume.
+
+### Single-instance resilience (Render)
+
+- **Process memory** is cleared when the dyno restarts or the PHP worker recycles; **Redis** (if configured) survives and repopulates memory on first hit.
+- **Request cache** is always empty at the start of each request — safe after sleep/wake.
+
+### Tests
+
+Unit coverage lives in:
+
+- `tests/Unit/MemoryCacheTest.php` — request dedup, TTL, flush, forget
+- `tests/Unit/TwoLayerCacheTest.php` — hybrid flow, SWR, stampede behavior (with fakes)
+- `tests/Unit/CacheTTLTest.php` — TTL tier consistency
+
+Run: `./vendor/bin/pest tests/Unit/MemoryCacheTest.php tests/Unit/TwoLayerCacheTest.php tests/Unit/CacheTTLTest.php`
+
+Together these files define **38** focused unit tests (request dedup, TTL tiers, SWR, stampede locking, and backward compatibility). Broader HTTP-level baselines live under `tests/Feature/Performance/` (query counts / timing for dashboard, quiz, reminders, weekly planner).
+
+### Key design decisions (constraints preserved)
+
+- **Hybrid flow preserved**: request → memory → Redis → DB, with stampede lock on DB rebuild.
+- **Redis usage minimized**: memory fronting + long Redis TTLs on static/semi-static data; no per-user Redis cache for dashboard fragments.
+- **SWR is opt-in** via `staleWindow`; default `0` keeps previous “hard expiry” behavior.
+- **Closures** refresh after response via `terminating()`; queue job path exists for serializable rebuilders.
+
+---
+
 ## 🛡️ Anti-Cheat Security System
 
 The platform includes a robust, multi-layered anti-cheat system to ensure quiz integrity:
@@ -388,15 +580,16 @@ Run the test suite seamlessly:
 
 ## Tech Stack
 
-| Layer         | Technology                      |
-| ------------- | ------------------------------- |
-| Backend       | Laravel 12.54.1                 |
-| Frontend      | Blade + TailwindCSS + Alpine.js |
-| Globalization | Full EN/AR Localization + RTL   |
-| Database      | SQLite / PostgreSQL (Supabase)  |
-| Auth          | Laravel Breeze                  |
-| Testing       | Pest PHP v3.8.6                 |
-| Icons         | Centralized Heroicons 2.0 (SVG) |
-| Security      | Anti-Cheat 2.0 (Visibility API) |
-| Notifications | Global Toast System (Alpine.js) |
-| CI/CD         | GitHub Actions + Docker Multi-stage |
+| Layer         | Technology                                  |
+| ------------- | ------------------------------------------- |
+| Backend       | Laravel 12.54.1                             |
+| Frontend      | Blade + TailwindCSS + Alpine.js             |
+| Globalization | Full EN/AR Localization + RTL               |
+| Database      | SQLite / PostgreSQL (Supabase)              |
+| Caching       | Hybrid 4-Layer (Request → Memory → Redis → DB) |
+| Auth          | Laravel Breeze                              |
+| Testing       | Pest PHP v3.8.6                             |
+| Icons         | Centralized Heroicons 2.0 (SVG)             |
+| Security      | Anti-Cheat 2.0 (Visibility API)             |
+| Notifications | Global Toast System (Alpine.js)             |
+| CI/CD         | GitHub Actions + Docker Multi-stage         |

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stage;
+use App\Support\CacheTTL;
+use App\Support\MemoryCache;
+use App\Support\StageSchemaCache;
+use App\Support\TwoLayerCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -16,9 +19,14 @@ class DashboardController extends Controller
             $user = $request->user();
 
             // Cache immutable stage schema for 24 hours
-            $stages = Cache::remember('all_stages', 86400, function () {
-                return Stage::orderBy('order')->get();
-            });
+            $stageSchemaVersion = StageSchemaCache::version();
+            $stages = TwoLayerCache::remember(
+                "all_stages:v{$stageSchemaVersion}",
+                CacheTTL::STATIC_REDIS,
+                CacheTTL::STATIC_MEMORY,
+                fn () => Stage::orderBy('order')->get(),
+                CacheTTL::STATIC_STALE,
+            );
 
             // Single query for all completed stage IDs
             $completedIds = $user->completedStageIds();
@@ -33,14 +41,13 @@ class DashboardController extends Controller
             $notifications = $user->unreadNotifications()->latest()->take(10)->get();
 
             // Cache dashboard metrics per user for 30 minutes to save DB/Redis queries
-            $cacheSeconds = 1800;
-
-            $recentAttempts = Cache::remember("user_{$user->id}_recent_attempts", $cacheSeconds, function () use ($user) {
+            // Per-user data: keep it memory-only to avoid Redis command burn on Render free tier.
+            $recentAttempts = MemoryCache::remember("user_{$user->id}_recent_attempts", CacheTTL::USER_MEMORY, function () use ($user) {
                 return $user->attempts()->with('stage')->latest()->take(5)->get();
             });
 
             // Analytics metrics — single aggregate query cached heavily
-            $stats = Cache::remember("user_{$user->id}_dashboard_stats", $cacheSeconds, function () use ($user) {
+            $stats = MemoryCache::remember("user_{$user->id}_dashboard_stats", CacheTTL::USER_MEMORY, function () use ($user) {
                 return $user->attempts()
                     ->whereNotNull('completed_at')
                     ->selectRaw('count(*) as total_attempts, sum(case when passed = true then 1 else 0 end) as passed_attempts, avg(score) as avg_score, sum(time_spent_seconds) as total_time')

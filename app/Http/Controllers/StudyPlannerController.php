@@ -7,8 +7,10 @@ use App\Models\StudyPlan;
 use App\Models\StudyPlanItem;
 use App\Services\PlannerGenerationService;
 use App\Services\ProgressSyncService;
+use App\Support\CacheTTL;
+use App\Support\StageSchemaCache;
+use App\Support\TwoLayerCache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -85,9 +87,14 @@ class StudyPlannerController extends Controller
     public function create()
     {
         try {
-            $stages = Cache::remember('all_stages', 86400, function () {
-                return Stage::orderBy('order')->get();
-            });
+            $stageSchemaVersion = StageSchemaCache::version();
+            $stages = TwoLayerCache::remember(
+                "all_stages:v{$stageSchemaVersion}",
+                CacheTTL::STATIC_REDIS,
+                CacheTTL::STATIC_MEMORY,
+                fn () => Stage::orderBy('order')->get(),
+                CacheTTL::STATIC_STALE,
+            );
 
             return view('planner.create', compact('stages'));
         } catch (ValidationException $e) {
