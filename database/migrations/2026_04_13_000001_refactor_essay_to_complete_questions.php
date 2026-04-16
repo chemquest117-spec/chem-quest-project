@@ -43,7 +43,7 @@ return new class extends Migration
 
         // For PostgreSQL, update the enum constraint
         if (DB::getDriverName() === 'pgsql') {
-            DB::statement("ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check");
+            DB::statement('ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check');
             DB::statement("ALTER TABLE questions ADD CONSTRAINT questions_type_check CHECK (type::text = ANY (ARRAY['mcq'::text, 'complete'::text]))");
         }
     }
@@ -57,7 +57,7 @@ return new class extends Migration
         DB::table('questions')->where('type', 'complete')->update(['type' => 'essay']);
 
         if (DB::getDriverName() === 'pgsql') {
-            DB::statement("ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check");
+            DB::statement('ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check');
             DB::statement("ALTER TABLE questions ADD CONSTRAINT questions_type_check CHECK (type::text = ANY (ARRAY['mcq'::text, 'essay'::text]))");
         }
 

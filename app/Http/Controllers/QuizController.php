@@ -280,7 +280,7 @@ class QuizController extends Controller
                     $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
 
                     // Sanitize submitted answers
-                    if ($selected !== null && !is_array($selected)) {
+                    if ($selected !== null && ! is_array($selected)) {
                         $selected = strip_tags((string) $selected);
                     }
 

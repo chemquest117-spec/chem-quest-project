@@ -469,7 +469,7 @@ it('grades multi-blank questions correctly', function () {
         'type' => 'complete',
         'expected_answers' => [
             ['value' => -3, 'tolerance' => 0],
-            ['value' => 3, 'tolerance' => 0.1]
+            ['value' => 3, 'tolerance' => 0.1],
         ],
         'correct_answer' => null,
     ]);
@@ -506,4 +506,3 @@ it('grades multi-blank questions correctly', function () {
     $attemptAnswer->refresh();
     expect($attemptAnswer->is_correct)->toBeFalse();
 });
-

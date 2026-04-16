@@ -101,10 +101,18 @@ class AdminQuestionController extends Controller
             // Sync Arabic fields if they are not provided in the form
             $validated['question_text_ar'] = $validated['question_text'] ?? null;
             $validated['explanation_ar'] = $validated['explanation'] ?? null;
-            if (isset($validated['option_a'])) $validated['option_a_ar'] = $validated['option_a'];
-            if (isset($validated['option_b'])) $validated['option_b_ar'] = $validated['option_b'];
-            if (isset($validated['option_c'])) $validated['option_c_ar'] = $validated['option_c'];
-            if (isset($validated['option_d'])) $validated['option_d_ar'] = $validated['option_d'];
+            if (isset($validated['option_a'])) {
+                $validated['option_a_ar'] = $validated['option_a'];
+            }
+            if (isset($validated['option_b'])) {
+                $validated['option_b_ar'] = $validated['option_b'];
+            }
+            if (isset($validated['option_c'])) {
+                $validated['option_c_ar'] = $validated['option_c'];
+            }
+            if (isset($validated['option_d'])) {
+                $validated['option_d_ar'] = $validated['option_d'];
+            }
 
             $stage->questions()->create($validated);
 
@@ -204,14 +212,22 @@ class AdminQuestionController extends Controller
                 $validated['correct_answer'] = strtolower($validated['correct_answer']);
             }
 
-            // Sync Arabic fields if they are not provided in the form, 
+            // Sync Arabic fields if they are not provided in the form,
             // ensuring English edits take effect in bilingual environments without direct UI tabs.
             $validated['question_text_ar'] = $validated['question_text'] ?? null;
             $validated['explanation_ar'] = $validated['explanation'] ?? null;
-            if (isset($validated['option_a'])) $validated['option_a_ar'] = $validated['option_a'];
-            if (isset($validated['option_b'])) $validated['option_b_ar'] = $validated['option_b'];
-            if (isset($validated['option_c'])) $validated['option_c_ar'] = $validated['option_c'];
-            if (isset($validated['option_d'])) $validated['option_d_ar'] = $validated['option_d'];
+            if (isset($validated['option_a'])) {
+                $validated['option_a_ar'] = $validated['option_a'];
+            }
+            if (isset($validated['option_b'])) {
+                $validated['option_b_ar'] = $validated['option_b'];
+            }
+            if (isset($validated['option_c'])) {
+                $validated['option_c_ar'] = $validated['option_c'];
+            }
+            if (isset($validated['option_d'])) {
+                $validated['option_d_ar'] = $validated['option_d'];
+            }
 
             $question->update($validated);
 

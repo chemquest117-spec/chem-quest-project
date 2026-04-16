@@ -100,8 +100,8 @@ class QuestionSeeder extends Seeder
             }
 
             $expectedAnswersArr = null;
-            if ($q['type'] === 'essay' && !empty($q['expected_answer'])) {
-                 $expectedAnswersArr = [['value' => (float)$q['expected_answer'], 'tolerance' => 0]];
+            if ($q['type'] === 'essay' && ! empty($q['expected_answer'])) {
+                $expectedAnswersArr = [['value' => (float) $q['expected_answer'], 'tolerance' => 0]];
             }
 
             Question::firstOrCreate(
