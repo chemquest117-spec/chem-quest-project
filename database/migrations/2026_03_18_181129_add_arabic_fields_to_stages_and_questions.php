@@ -30,8 +30,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('stages_and_questions', function (Blueprint $table) {
-            //
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropColumn([
+                'question_text_ar',
+                'option_a_ar',
+                'option_b_ar',
+                'option_c_ar',
+                'option_d_ar',
+            ]);
+        });
+
+        Schema::table('stages', function (Blueprint $table) {
+            $table->dropColumn([
+                'title_ar',
+                'description_ar',
+            ]);
         });
     }
 };

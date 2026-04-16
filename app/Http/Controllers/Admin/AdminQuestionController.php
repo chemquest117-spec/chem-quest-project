@@ -9,12 +9,15 @@ use App\Services\AIQuestionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminQuestionController extends Controller
 {
+    private ?array $questionColumns = null;
+
     public function index(Stage $stage)
     {
         try {
@@ -26,7 +29,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to load questions. Please try again.');
         }
@@ -41,7 +44,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to load create question page. Please try again.');
         }
@@ -114,6 +117,7 @@ class AdminQuestionController extends Controller
                 $validated['option_d_ar'] = $validated['option_d'];
             }
 
+            $validated = $this->normalizeForQuestionSchema($validated);
             $stage->questions()->create($validated);
 
             // Clear cached question IDs for this stage
@@ -126,7 +130,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to save question. Please ensure the image is valid and try again.');
         }
@@ -141,7 +145,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to load edit question page. Please try again.');
         }
@@ -229,6 +233,7 @@ class AdminQuestionController extends Controller
                 $validated['option_d_ar'] = $validated['option_d'];
             }
 
+            $validated = $this->normalizeForQuestionSchema($validated);
             $question->update($validated);
 
             return redirect()->route('admin.stages.questions.index', $stage)
@@ -238,7 +243,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to update question. Please try again.');
         }
@@ -263,7 +268,7 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to delete question. Please try again.');
         }
@@ -306,9 +311,51 @@ class AdminQuestionController extends Controller
         } catch (HttpException $e) {
             throw $e;
         } catch (\Throwable $e) {
-            report($e);
+            $this->safeReport($e);
 
             return back()->withInput()->with('error', 'Failed to generate questions. Please try again.');
+        }
+    }
+
+    /**
+     * Normalize payload to whichever question schema exists in the target database.
+     */
+    private function normalizeForQuestionSchema(array $payload): array
+    {
+        $columns = $this->getQuestionColumns();
+        $hasExpectedAnswers = in_array('expected_answers', $columns, true);
+
+        // Legacy schema fallback: convert complete payload back to essay shape.
+        if (! $hasExpectedAnswers && ($payload['type'] ?? null) === 'complete') {
+            $answers = $payload['expected_answers'] ?? null;
+            $firstAnswer = is_array($answers) && isset($answers[0]['value']) ? (string) $answers[0]['value'] : null;
+
+            $payload['type'] = 'essay';
+            $payload['expected_answer'] = $payload['expected_answer'] ?? $firstAnswer;
+            $payload['expected_answer_ar'] = $payload['expected_answer_ar'] ?? $firstAnswer;
+            unset($payload['expected_answers']);
+        }
+
+        return array_intersect_key($payload, array_flip($columns));
+    }
+
+    private function getQuestionColumns(): array
+    {
+        if ($this->questionColumns !== null) {
+            return $this->questionColumns;
+        }
+
+        $this->questionColumns = Schema::getColumnListing('questions');
+
+        return $this->questionColumns;
+    }
+
+    private function safeReport(\Throwable $e): void
+    {
+        try {
+            report($e);
+        } catch (\Throwable $ignored) {
+            // Swallow logger failures (e.g. permission denied on storage/logs).
         }
     }
 }

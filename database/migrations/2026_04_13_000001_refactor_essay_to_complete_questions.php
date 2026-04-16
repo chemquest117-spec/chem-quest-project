@@ -16,9 +16,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('questions', function (Blueprint $table) {
-            $table->json('expected_answers')->nullable()->after('expected_answer_ar');
-        });
+        if (! Schema::hasColumn('questions', 'expected_answers')) {
+            Schema::table('questions', function (Blueprint $table) {
+                $table->json('expected_answers')->nullable()->after('expected_answer_ar');
+            });
+        }
+
+        // For PostgreSQL, use a temporary permissive check during data conversion.
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check');
+            DB::statement("ALTER TABLE questions ADD CONSTRAINT questions_type_check CHECK (type IS NULL OR type::text = ANY (ARRAY['mcq'::text, 'essay'::text, 'complete'::text]))");
+        }
 
         // Migrate existing essay questions: extract numeric values and convert to complete
         DB::table('questions')->where('type', 'essay')->chunkById(100, function ($questions) {
@@ -41,7 +49,13 @@ return new class extends Migration
             }
         });
 
-        // For PostgreSQL, update the enum constraint
+        // Normalize any unexpected/null type values before final strict constraint.
+        DB::table('questions')
+            ->whereNull('type')
+            ->orWhereNotIn('type', ['mcq', 'complete'])
+            ->update(['type' => 'mcq']);
+
+        // Tighten PostgreSQL check constraint to final allowed values.
         if (DB::getDriverName() === 'pgsql') {
             DB::statement('ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check');
             DB::statement("ALTER TABLE questions ADD CONSTRAINT questions_type_check CHECK (type::text = ANY (ARRAY['mcq'::text, 'complete'::text]))");
@@ -53,16 +67,19 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Convert complete questions back to essay
-        DB::table('questions')->where('type', 'complete')->update(['type' => 'essay']);
-
+        // For PostgreSQL, restore legacy check BEFORE data conversion.
         if (DB::getDriverName() === 'pgsql') {
             DB::statement('ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_type_check');
             DB::statement("ALTER TABLE questions ADD CONSTRAINT questions_type_check CHECK (type::text = ANY (ARRAY['mcq'::text, 'essay'::text]))");
         }
 
-        Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn('expected_answers');
-        });
+        // Convert complete questions back to essay
+        DB::table('questions')->where('type', 'complete')->update(['type' => 'essay']);
+
+        if (Schema::hasColumn('questions', 'expected_answers')) {
+            Schema::table('questions', function (Blueprint $table) {
+                $table->dropColumn('expected_answers');
+            });
+        }
     }
 };

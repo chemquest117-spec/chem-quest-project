@@ -21,7 +21,7 @@ class QuestionFactory extends Factory
             'option_b' => 'B',
             'option_c' => 'C',
             'option_d' => 'D',
-            'correct_answer' => 'A',
+            'correct_answer' => 'a',
             'difficulty' => 'easy',
             'topic' => 'General',
             'expected_answer' => 'A',

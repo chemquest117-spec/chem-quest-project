@@ -78,9 +78,9 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
 # RUN env
 
 
-# Create entrypoint script that runs migrations at startup (not build time)
-RUN echo '#!/bin/bash\necho "======================================="\necho "      Starting ChemTrack Container "\necho "======================================="\ncat /var/www/html/public/build_version.txt\necho -e "\n======================================="\nphp artisan config:clear\nphp artisan route:clear\nphp artisan view:clear\nphp artisan optimize:clear\nphp artisan cache:clear\nphp artisan migrate --force\napache2-foreground' > /entrypoint.sh \
-     && chmod +x /entrypoint.sh
+# Copy entrypoint script from repository (version-controlled)
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
 CMD ["/entrypoint.sh"]
