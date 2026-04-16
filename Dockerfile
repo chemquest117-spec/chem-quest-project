@@ -39,12 +39,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy composer files first for caching
+# Copy composer files first for caching (--no-scripts: artisan doesn't exist yet)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Copy app code later
+# Copy app code, then run deferred post-install scripts (package:discover etc.)
 COPY . .
+RUN composer run-script post-autoload-dump
 
 # Opcache tuning
 COPY docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
