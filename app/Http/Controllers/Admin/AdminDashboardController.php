@@ -14,11 +14,11 @@ class AdminDashboardController extends Controller
     public function index()
     {
         try {
-            $totalStudents = User::where('is_admin', false)->count();
+            $totalStudents = User::student()->count();
             $totalStages = Stage::count();
             $totalAttempts = StageAttempt::count();
             $passRate = StageAttempt::count() > 0
-                ? round(StageAttempt::where('passed', true)->count() / StageAttempt::count() * 100, 1)
+                ? round(StageAttempt::passed()->count() / StageAttempt::count() * 100, 1)
                 : 0;
 
             $recentAttempts = StageAttempt::with(['user', 'stage'])
@@ -40,9 +40,15 @@ class AdminDashboardController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading dashboard. Please try again, or contact support if the problem persists.');
+            session()->now('error', 'We encountered an unexpected error while loading dashboard. Please try again, or contact support if the problem persists.');
+
+            return view('admin.dashboard', [
+                'totalStudents' => 0,
+                'totalStages' => 0,
+                'totalAttempts' => 0,
+                'passRate' => 0,
+                'recentAttempts' => collect(),
+            ]);
         }
     }
 }

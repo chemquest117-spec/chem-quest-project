@@ -154,7 +154,7 @@ class QuizController extends Controller
 
             $request->validate([
                 'question_id' => 'required|integer',
-                'answer' => 'required|string|max:5000',
+                'answer' => 'required|string|max:100',
             ]);
 
             // Sanitize answer to prevent stored XSS
@@ -266,7 +266,7 @@ class QuizController extends Controller
 
     /**
      * Grade an attempt — core scoring logic.
-     * Handles both MCQ (exact match) and essay (keyword-based partial match).
+     * Handles MCQ (exact match) and complete (numeric comparison with optional tolerance).
      */
     private function gradeAttempt(StageAttempt $attempt, $user, array $submittedAnswers)
     {
@@ -280,16 +280,20 @@ class QuizController extends Controller
                     $selected = $submittedAnswers[$answer->question_id] ?? $answer->selected_answer;
 
                     // Sanitize submitted answers
-                    if ($selected !== null) {
-                        $selected = strip_tags($selected);
+                    if ($selected !== null && ! is_array($selected)) {
+                        $selected = strip_tags((string) $selected);
                     }
 
                     if ($question->isMcq()) {
                         // MCQ: exact match (case-insensitive)
                         $isCorrect = $selected !== null && strtolower(trim($selected)) === strtolower(trim($question->correct_answer));
-                    } elseif ($question->isEssay()) {
-                        // Essay: keyword-based scoring against expected_answer
-                        $isCorrect = $this->gradeEssay($selected, $question->expected_answer);
+                    } elseif ($question->isComplete()) {
+                        // For complete questions submitted as array, convert to JSON string
+                        if (is_array($selected)) {
+                            $selected = json_encode($selected);
+                        }
+                        // Complete: deterministic numeric comparison (multi-blank)
+                        $isCorrect = $this->gradeComplete($selected, $question->expected_answers);
                     } else {
                         $isCorrect = false;
                     }
@@ -350,71 +354,50 @@ class QuizController extends Controller
     }
 
     /**
-     * Grade an essay answer using keyword matching.
-     * Returns true if the student's answer contains enough key terms.
+     * Grade a complete (fill-in-the-blank) answer using deterministic numeric comparison.
+     * Supports multiple blanks — each blank's answer is compared to its expected value.
+     * Returns true only if ALL blanks are correct within their tolerance.
      */
-    private function gradeEssay(?string $studentAnswer, ?string $expectedAnswer): bool
+    private function gradeComplete(?string $selectedAnswer, ?array $expectedAnswers): bool
     {
-        try {
-            if (empty($studentAnswer) || empty($expectedAnswer)) {
+        if ($selectedAnswer === null || $selectedAnswer === '' || empty($expectedAnswers)) {
+            return false;
+        }
+
+        // Parse student answers — stored as JSON array (e.g. '["-2","3"]')
+        $studentAnswers = json_decode($selectedAnswer, true);
+        if (! is_array($studentAnswers)) {
+            // Single value (backward compat or single-blank question)
+            $studentAnswers = [$selectedAnswer];
+        }
+
+        // Must have same number of blanks answered
+        if (count($studentAnswers) !== count($expectedAnswers)) {
+            return false;
+        }
+
+        foreach ($expectedAnswers as $i => $expected) {
+            $studentVal = $studentAnswers[$i] ?? null;
+            if ($studentVal === null || $studentVal === '') {
                 return false;
             }
 
-            // Normalize dashes/minus signs to standard hyphen for comparison
-            $studentAnswer = str_replace(['−', '–', '—'], '-', $studentAnswer);
-            $expectedAnswer = str_replace(['−', '–', '—'], '-', $expectedAnswer);
+            // Normalize dashes/minus signs
+            $studentVal = str_replace(['−', '–', '—'], '-', trim((string) $studentVal));
 
-            $studentAnswer = strtolower(trim($studentAnswer));
-            $expectedAnswer = strtolower(trim($expectedAnswer));
-
-            $studentNoSpace = str_replace(' ', '', $studentAnswer);
-            $expectedNoSpace = str_replace(' ', '', $expectedAnswer);
-
-            // Exact match (ignoring spaces)
-            if ($studentNoSpace === $expectedNoSpace) {
-                return true;
+            if (! is_numeric($studentVal)) {
+                return false;
             }
 
-            // If expected answer is a short phrase, equation, or number (<15 chars without spaces)
-            if (mb_strlen($expectedNoSpace) < 15) {
-                return str_contains($studentNoSpace, $expectedNoSpace);
+            $expectedValue = (float) ($expected['value'] ?? 0);
+            $tolerance = (float) ($expected['tolerance'] ?? 0);
+
+            if (abs((float) $studentVal - $expectedValue) > $tolerance) {
+                return false;
             }
-
-            // For longer essay answers, extract keywords (ignore stop words and 1-char words)
-            $stopWords = ['the', 'is', 'at', 'which', 'on', 'and', 'a', 'an', 'of', 'in', 'to', 'with', 'for', 'it', 'as', 'by', 'are', 'be', 'this', 'that'];
-            $expectedWords = array_filter(
-                preg_split('/[\s,;.]+/', $expectedAnswer),
-                fn ($word) => mb_strlen($word) > 1 && ! in_array($word, $stopWords)
-            );
-
-            if (empty($expectedWords)) {
-                // Fallback: direct similarity check with a much higher threshold than 50%
-                similar_text($studentAnswer, $expectedAnswer, $percent);
-
-                return $percent >= 85;
-            }
-
-            // Count how many expected keywords appear in student answer
-            $matchCount = 0;
-            foreach ($expectedWords as $word) {
-                if (str_contains($studentAnswer, $word)) {
-                    $matchCount++;
-                }
-            }
-
-            // Student must match at least 65% of keywords for essays
-            $matchRatio = $matchCount / count($expectedWords);
-
-            return $matchRatio >= 0.65;
-        } catch (ValidationException $e) {
-            throw $e;
-        } catch (HttpException $e) {
-            throw $e;
-        } catch (\Throwable $e) {
-            report($e);
-
-            return false;
         }
+
+        return true;
     }
 
     /**
@@ -459,7 +442,8 @@ class QuizController extends Controller
 
             if ($passed) {
                 $isFirstPass = $attempt->isFirstPass();
-                $points = $isFirstPass ? $stage->points_reward : intval($stage->points_reward / 2);
+                $earnedPoints = intval($stage->points_reward * ($percentage / 100));
+                $points = $isFirstPass ? $earnedPoints : intval($earnedPoints / 2);
 
                 $user->increment('total_points', $points);
 

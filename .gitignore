@@ -44,3 +44,6 @@ routes.txt
 pest_output.txt
 phpstan_errors_utf8.txt
 phpstan_errors.txt
+.env.testing
+
+/backup

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -16,7 +17,7 @@ class AdminStudentController extends Controller
     public function index()
     {
         try {
-            $students = User::where('is_admin', false)
+            $students = User::student()
                 ->withCount('attempts')
                 ->orderByDesc('total_points')
                 ->paginate(20);
@@ -31,9 +32,12 @@ class AdminStudentController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
-                ->with('error', 'We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.');
+            session()->now('error', 'We encountered an unexpected error while loading the students list. Please try again, or contact support if the problem persists.');
+
+            return view('admin.students.index', [
+                'students' => new LengthAwarePaginator([], 0, 20),
+                'stages' => collect(),
+            ]);
         }
     }
 
@@ -97,7 +101,7 @@ class AdminStudentController extends Controller
 
             // Overall stats
             $totalAttempts = $recentAttempts->count();
-            $passedAttempts = $recentAttempts->where('passed', true)->count();
+            $passedAttempts = $recentAttempts->passed()->count();
             $successRate = $totalAttempts > 0 ? round(($passedAttempts / $totalAttempts) * 100, 1) : 0;
             $totalTimeSpent = StageAttempt::where('user_id', $user->id)->sum('time_spent_seconds');
 
@@ -117,8 +121,7 @@ class AdminStudentController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
+            return redirect()->route('admin.students.index')
                 ->with('error', 'We encountered an unexpected error while loading student profile. Please try again, or contact support if the problem persists.');
         }
     }

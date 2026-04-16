@@ -79,28 +79,59 @@
                                              @endif
                                         </span>
                                         <div class="flex-1">
-                                             <p class="text-white font-medium mb-2">{{ $answer->question->getTranslatedQuestionText() }}
-                                             </p>
+                                             @if(!$answer->question->isComplete())
+                                                  <p class="text-white font-medium mb-2">{{ $answer->question->getTranslatedQuestionText() }}
+                                                  </p>
+                                             @endif
                                              @if($answer->question->image)
                                                   <div class="mt-3 mb-2">
                                                        <img src="{{ asset('storage/' . $answer->question->image) }}" alt="Question Image" class="max-w-full sm:max-w-sm rounded-xl border border-white/10 shadow-lg object-contain">
                                                   </div>
                                              @endif
 
-                                             @if($answer->question->isEssay())
-                                                  <div class="mt-4 space-y-4">
-                                                       <div>
-                                                            <div class="text-xs uppercase tracking-wider text-slate-400 mb-1">{{ __('quiz.your_answer') }}</div>
-                                                            <div class="p-3 rounded-lg {{ $answer->is_correct ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300' : 'bg-red-500/10 border border-red-500/20 text-red-300' }}">
-                                                                 {{ $answer->selected_answer ?: __('quiz.not_answered') }}
-                                                            </div>
+                                             @if($answer->question->isComplete())
+                                                  @php
+                                                       $studentAnswers = json_decode($answer->selected_answer, true) ?? [];
+                                                       if (!is_array($studentAnswers) && $answer->selected_answer) {
+                                                            $studentAnswers = [$answer->selected_answer];
+                                                       }
+                                                       $expectedAnswers = $answer->question->expected_answers ?? [];
+                                                  @endphp
+                                                  <div class="mt-4 space-y-3">
+                                                       {{-- Show question text with filled-in answers inline --}}
+                                                       <div class="text-white font-medium text-sm sm:text-base leading-[2.5]">
+                                                            @php
+                                                                 $questionText = e($answer->question->getTranslatedQuestionText());
+                                                                 $parts = preg_split('/_{3,}/', $questionText);
+                                                            @endphp
+                                                            @foreach($parts as $pi => $part)
+                                                                 <span>{!! $part !!}</span>@if($pi < count($parts) - 1)@php
+                                                                      $sVal = $studentAnswers[$pi] ?? null;
+                                                                      $eVal = isset($expectedAnswers[$pi]) ? (float) $expectedAnswers[$pi]['value'] : null;
+                                                                      $tol = isset($expectedAnswers[$pi]) ? (float) ($expectedAnswers[$pi]['tolerance'] ?? 0) : 0;
+                                                                      $blankOk = $sVal !== null && $sVal !== '' && is_numeric($sVal) && $eVal !== null
+                                                                           && abs((float)$sVal - $eVal) <= $tol;
+                                                                 @endphp<span class="inline-flex items-center gap-0.5 mx-1 px-2 py-0.5 rounded-lg text-sm font-bold {{ $blankOk ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30' }}">{{ $sVal ?? '—' }}</span>@endif
+                                                            @endforeach
                                                        </div>
-                                                       <div>
-                                                            <div class="text-xs uppercase tracking-wider text-slate-400 mb-1">{{ __('quiz.expected_answer') }}</div>
-                                                            <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                                                                 {{ $answer->question->getTranslatedExpectedAnswer() }}
-                                                            </div>
-                                                       </div>
+
+                                                       {{-- Show expected values for wrong blanks --}}
+                                                       @foreach($expectedAnswers as $bi => $expected)
+                                                            @php
+                                                                 $sVal = $studentAnswers[$bi] ?? null;
+                                                                 $eVal = (float) ($expected['value'] ?? 0);
+                                                                 $tol = (float) ($expected['tolerance'] ?? 0);
+                                                                 $blankOk = $sVal !== null && $sVal !== '' && is_numeric($sVal)
+                                                                      && abs((float)$sVal - $eVal) <= $tol;
+                                                            @endphp
+                                                            @if(!$blankOk)
+                                                                 <p class="text-sm text-slate-400">
+                                                                      {{ __('quiz.blank_number', ['number' => $bi + 1]) }}:
+                                                                      {{ __('quiz.expected_numeric_answer') }} = <span class="text-emerald-400 font-bold">{{ $eVal }}</span>
+                                                                      @if($tol > 0) <span class="text-slate-500">(± {{ $tol }})</span> @endif
+                                                                 </p>
+                                                            @endif
+                                                       @endforeach
                                                   </div>
                                              @else
                                                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">

@@ -27,7 +27,7 @@ it('allows student to start a quiz', function () {
 
 it('prevents concurrent quiz attempts for the same stage', function () {
     // Manually create an ongoing attempt
-    StageAttempt::factory()->create([
+    $attempt = StageAttempt::factory()->create([
         'user_id' => $this->user->id,
         'stage_id' => $this->stage->id,
         'completed_at' => null,
@@ -35,7 +35,7 @@ it('prevents concurrent quiz attempts for the same stage', function () {
 
     actingAs($this->user)
         ->post(route('quiz.start', $this->stage))
-        ->assertRedirect(route('quiz.show', 1));
+        ->assertRedirect(route('quiz.show', $attempt->id));
 });
 
 it('auto-saves interim answers correctly', function () {

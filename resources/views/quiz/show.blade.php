@@ -58,12 +58,31 @@
                                                             {{ $index + 1 }}
                                                        </span>
                                                        <div class="flex-1 min-w-0">
-                                                            <p class="text-white font-medium text-sm sm:text-base">{{ $answer->question->getTranslatedQuestionText() }}</p>
-                                                             @if($answer->question->image)
-                                                                  <div class="mt-3 mb-2">
-                                                                       <img src="{{ asset('storage/' . $answer->question->image) }}" alt="{{ __('quiz.question_image') }}" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">
+                                                             @if($answer->question->isComplete())
+                                                                  {{-- Question text with inline blank inputs --}}
+                                                                  <div class="text-white font-medium text-sm sm:text-base leading-[2.5]">
+                                                                       @php
+                                                                            $questionText = e($answer->question->getTranslatedQuestionText());
+                                                                            $parts = preg_split('/_{3,}/', $questionText);
+                                                                            $blankCount = count($parts) - 1;
+                                                                       @endphp
+                                                                       @foreach($parts as $pi => $part)
+                                                                            <span>{!! $part !!}</span>@if($pi < $blankCount)<input type="number"
+                                                                                 class="inline-blank-input w-16 sm:w-20 bg-white/5 border-2 border-violet-400/40 hover:border-violet-400/60 focus:border-violet-500 rounded-lg px-2 py-0.5 mx-1 text-center text-violet-300 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                                                 data-question-id="{{ $answer->question_id }}"
+                                                                                 data-blank-index="{{ $pi }}"
+                                                                                 step="any" inputmode="decimal" placeholder="?"
+                                                                                 @input="selected = true">@endif
+                                                                       @endforeach
                                                                   </div>
+                                                             @else
+                                                                  <p class="text-white font-medium text-sm sm:text-base">{{ $answer->question->getTranslatedQuestionText() }}</p>
                                                              @endif
+                                                              @if($answer->question->image)
+                                                                   <div class="mt-3 mb-2">
+                                                                        <img src="{{ asset('storage/' . $answer->question->image) }}" alt="{{ __('quiz.question_image') }}" class="max-w-full sm:max-w-md rounded-xl border border-white/10 shadow-lg object-contain">
+                                                                   </div>
+                                                              @endif
                                                             <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded text-xs
                                                                    {{ $answer->question->difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
                               ($answer->question->difficulty === 'medium' ? 'bg-amber-500/20 text-amber-400' :
@@ -81,15 +100,10 @@
                                                   </div>
 
                                                   {{-- Options --}}
-                                                  @if($answer->question->isEssay())
-                                                       <div class="mt-4 ms-12">
-                                                            <textarea name="answers[{{ $answer->question_id }}]" 
-                                                                 rows="4" 
-                                                                 class="w-full bg-white/5 border-2 border-white/10 hover:border-emerald-400/40 focus:border-emerald-500 rounded-xl p-4 text-slate-300 focus:outline-none focus:ring-0 transition-all duration-300"
-                                                                 placeholder="{{ __('quiz.enter_your_answer_here') }}"
-                                                                 @input="selected = true"
-                                                            ></textarea>
-                                                       </div>
+                                                  @if($answer->question->isComplete())
+                                                       {{-- Hidden field collects all inline blank values as JSON --}}
+                                                       <input type="hidden" name="answers[{{ $answer->question_id }}]"
+                                                            class="inline-hidden-answer" data-question-id="{{ $answer->question_id }}">
                                                   @else
                                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 ms-12">
                                                             @foreach(['a', 'b', 'c', 'd'] as $option)
@@ -308,27 +322,42 @@
                               });
                          });
 
-                         // Auto-save answers for essay textareas (Debounced)
-                         let essayTimeouts = {};
-                         document.querySelectorAll('textarea').forEach(textarea => {
-                              textarea.addEventListener('input', (e) => {
-                                   const name = e.target.name;
-                                   const match = name.match(/answers\[(\d+)\]/);
-                                   if (match) {
-                                        const questionId = parseInt(match[1]);
-                                        
-                                        if (essayTimeouts[questionId]) {
-                                             clearTimeout(essayTimeouts[questionId]);
-                                        }
-                                        
-                                        essayTimeouts[questionId] = setTimeout(() => {
-                                             autoSave('{{ route("quiz.saveAnswer", $attempt) }}', {
-                                                  question_id: questionId,
-                                                  answer: e.target.value
-                                             });
-                                        }, 1000);
+                         // Auto-save answers for complete question inline blanks
+                         let numericTimeouts = {};
+
+                         function updateHiddenAnswer(questionId) {
+                              const inputs = document.querySelectorAll(`.inline-blank-input[data-question-id="${questionId}"]`);
+                              const values = Array.from(inputs).map(inp => inp.value);
+                              const hidden = document.querySelector(`.inline-hidden-answer[data-question-id="${questionId}"]`);
+                              if (hidden) {
+                                   hidden.value = JSON.stringify(values);
+                              }
+                              return values;
+                         }
+
+                         document.querySelectorAll('.inline-blank-input').forEach(input => {
+                              input.addEventListener('input', function(e) {
+                                   const questionId = e.target.dataset.questionId;
+                                   const values = updateHiddenAnswer(questionId);
+
+                                   if (numericTimeouts[questionId]) {
+                                        clearTimeout(numericTimeouts[questionId]);
                                    }
+
+                                   numericTimeouts[questionId] = setTimeout(() => {
+                                        autoSave('{{ route("quiz.saveAnswer", $attempt) }}', {
+                                             question_id: parseInt(questionId),
+                                             answer: JSON.stringify(values)
+                                        });
+                                   }, 1000);
                               });
+                         });
+
+                         // Ensure hidden fields are populated before form submit
+                         document.querySelector('form')?.addEventListener('submit', function() {
+                              const qids = new Set();
+                              document.querySelectorAll('.inline-blank-input').forEach(inp => qids.add(inp.dataset.questionId));
+                              qids.forEach(qid => updateHiddenAnswer(qid));
                          });
                     },
                     get display() {

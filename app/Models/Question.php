@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $explanation_ar
  * @property string|null $expected_answer
  * @property string|null $expected_answer_ar
+ * @property array|null $expected_answers
  * @property string|null $image
  * @property Carbon|null $deleted_at
  * @property Carbon $created_at
@@ -68,7 +69,12 @@ class Question extends Model
         'explanation_ar',
         'expected_answer',
         'expected_answer_ar',
+        'expected_answers',
         'image',
+    ];
+
+    protected $casts = [
+        'expected_answers' => 'array',
     ];
 
     public function stage(): BelongsTo
@@ -135,11 +141,27 @@ class Question extends Model
     }
 
     /**
-     * Check if this is an essay question.
+     * Check if this is a complete (fill-in-the-blank numeric) question.
+     */
+    public function isComplete(): bool
+    {
+        return $this->type === 'complete';
+    }
+
+    /**
+     * @deprecated Use isComplete() instead. Kept for backward compatibility.
      */
     public function isEssay(): bool
     {
-        return $this->type === 'essay';
+        return $this->isComplete();
+    }
+
+    /**
+     * Get the number of blanks (____) in the question text.
+     */
+    public function getBlankCount(): int
+    {
+        return preg_match_all('/_{3,}/', $this->getTranslatedQuestionText());
     }
 
     /**

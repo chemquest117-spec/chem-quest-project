@@ -337,7 +337,7 @@ class WeeklyPlannerController extends Controller
     {
         $plan->refresh();
         $totalDays = $plan->days()->count();
-        $completedDays = $plan->days()->where('is_completed', true)->count();
+        $completedDays = $plan->days->where('is_completed', true)->count();
 
         if ($totalDays > 0 && $totalDays === $completedDays) {
             $plan->update(['status' => 'completed']);

@@ -99,7 +99,7 @@ class AdminAnalyticsController extends Controller
                 ];
 
                 // Summary stats
-                $totalStudents = User::where('is_admin', false)->count();
+                $totalStudents = User::student()->count();
                 $totalAttempts = StageAttempt::count();
                 $overallPassRate = $totalAttempts > 0
                     ? round(StageAttempt::passed()->count() / $totalAttempts * 100, 1)
@@ -107,7 +107,7 @@ class AdminAnalyticsController extends Controller
                 $avgStudyTime = round(StageAttempt::avg('time_spent_seconds') ?? 0);
 
                 // Top performers
-                $topPerformers = User::where('is_admin', false)
+                $topPerformers = User::student()
                     ->orderByDesc('total_points')
                     ->take(5)
                     ->get();
@@ -159,9 +159,19 @@ class AdminAnalyticsController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            return back()
-                ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading analytics. Please try again, or contact support if the problem persists.');
+            session()->now('error', 'We encountered an unexpected error while loading analytics. Please try again, or contact support if the problem persists.');
+
+            return view('admin.analytics', [
+                'stageStats' => [],
+                'dailyActivity' => [],
+                'difficultyStats' => ['easy' => 0, 'medium' => 0, 'hard' => 0],
+                'totalStudents' => 0,
+                'totalAttempts' => 0,
+                'overallPassRate' => 0,
+                'avgStudyTime' => 0,
+                'topPerformers' => collect(),
+                'problematicQuestions' => collect(),
+            ]);
         }
     }
 }
