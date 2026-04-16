@@ -99,20 +99,26 @@ class QuestionSeeder extends Seeder
                 $correctAnswer = 'a';
             }
 
+            $expectedAnswersArr = null;
+            if ($q['type'] === 'essay' && !empty($q['expected_answer'])) {
+                 $expectedAnswersArr = [['value' => (float)$q['expected_answer'], 'tolerance' => 0]];
+            }
+
             Question::firstOrCreate(
                 [
                     'question_text' => $q['text'],
                     'stage_id' => $loId,
                 ],
                 [
-                    'type' => $q['type'],
+                    'type' => $q['type'] === 'essay' ? 'complete' : $q['type'],
                     'option_a' => $q['options'][0] ?? null,
                     'option_b' => $q['options'][1] ?? null,
                     'option_c' => $q['options'][2] ?? null,
                     'option_d' => $q['options'][3] ?? null,
                     'correct_answer' => $correctAnswer,
                     'explanation' => $q['explanation'] ?? null,
-                    'expected_answer' => $q['expected_answer'] ?? null,
+                    'expected_answer' => null,
+                    'expected_answers' => $expectedAnswersArr,
                     'difficulty' => $difficulty,
                     'difficulty_ar' => $difficulty_ar,
                     // To enable Arabic bilingual seamlessly, we copy the English till translation happens

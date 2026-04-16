@@ -29,15 +29,16 @@
                          <select name="type" id="question_type" required
                               class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:ring-cyan-500">
                               <option value="mcq" {{ old('type', $question->type ?? 'mcq') === 'mcq' ? 'selected' : '' }}>Multiple Choice</option>
-                              <option value="essay" {{ old('type', $question->type) === 'essay' ? 'selected' : '' }}>Essay</option>
+                              <option value="complete" {{ old('type', $question->type) === 'complete' ? 'selected' : '' }}>{{ __('quiz.complete_question') }}</option>
                          </select>
                          @error('type') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
                          <label class="block text-sm font-medium text-slate-300 mb-2">Question Text</label>
-                         <textarea name="question_text" rows="3" required
-                              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:ring-cyan-500">{{ old('question_text', $question->question_text) }}</textarea>
+                         <textarea name="question_text" id="question_text" rows="3" required
+                              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:ring-cyan-500"
+                              placeholder="{{ __('quiz.complete_question_placeholder') }}">{{ old('question_text', $question->question_text) }}</textarea>
                          @error('question_text') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -48,7 +49,8 @@
                          @error('explanation') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div id="mcq-fields" class="{{ old('type', $question->type ?? 'mcq') === 'essay' ? 'hidden' : '' }} space-y-6">
+                    {{-- MCQ Fields --}}
+                    <div id="mcq-fields" class="{{ old('type', $question->type ?? 'mcq') === 'complete' ? 'hidden' : '' }} space-y-6">
                          @foreach(['a', 'b', 'c', 'd'] as $opt)
                          <div>
                               <label class="block text-sm font-medium text-slate-300 mb-2">Option
@@ -70,14 +72,20 @@
                          </div>
                     </div>
 
-                    <div id="essay-fields" class="{{ old('type', $question->type ?? 'mcq') === 'mcq' ? 'hidden' : '' }} space-y-6">
-                         <div>
-                              <label class="block text-sm font-medium text-slate-300 mb-2">Expected Answer <span class="text-xs text-slate-400">(keywords student must mention)</span></label>
-                              <textarea name="expected_answer" id="expected_answer" rows="3"
-                                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500">{{ old('expected_answer', $question->expected_answer) }}</textarea>
-                              @error('expected_answer') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+                    {{-- Complete Question Fields --}}
+                    <div id="complete-fields" class="{{ old('type', $question->type ?? 'mcq') !== 'complete' ? 'hidden' : '' }} space-y-4">
+                         <div class="p-4 rounded-xl bg-violet-500/10 border border-violet-500/20">
+                              <p class="text-sm text-violet-300 mb-1">{{ __('quiz.blank_instructions') }}</p>
+                              <p class="text-xs text-slate-400">{{ __('quiz.blank_instructions_detail') }}</p>
+                              <p class="mt-2 text-sm text-violet-400 font-bold" id="blank-count-display">{{ __('quiz.blanks_detected', ['count' => 0]) }}</p>
                          </div>
+                         <div id="blanks-container" class="space-y-3">
+                              {{-- Dynamic blank answer fields inserted by JS --}}
+                         </div>
+                         @error('expected_answers') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+                         @error('expected_answers.*.value') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
+
                     <div class="grid grid-cols-1 gap-4">
                          <div>
                               <label class="block text-sm font-medium text-slate-300 mb-2">Difficulty</label>
@@ -101,28 +109,71 @@
      <script>
           document.addEventListener('DOMContentLoaded', function() {
                const typeSelect = document.getElementById('question_type');
+               const questionTextArea = document.getElementById('question_text');
                const mcqFields = document.getElementById('mcq-fields');
-               const essayFields = document.getElementById('essay-fields');
-               
-               const mcqInputs = [
-                    ...['a', 'b', 'c', 'd'].map(opt => document.getElementById('option_' + opt)),
-                    document.getElementById('correct_answer')
-               ];
-               const expectedAnswerInput = document.getElementById('expected_answer');
+               const completeFields = document.getElementById('complete-fields');
+               const blanksContainer = document.getElementById('blanks-container');
+               const blankCountDisplay = document.getElementById('blank-count-display');
+               const existingAnswers = @json(old('expected_answers', $question->expected_answers ?? []));
 
                function updateFields() {
-                    if (typeSelect.value === 'essay') {
+                    if (typeSelect.value === 'complete') {
                          mcqFields.classList.add('hidden');
-                         essayFields.classList.remove('hidden');
-                         mcqInputs.forEach(input => input.removeAttribute('required'));
-                         expectedAnswerInput.setAttribute('required', 'required');
+                         completeFields.classList.remove('hidden');
+                         detectBlanks();
                     } else {
-                         essayFields.classList.add('hidden');
+                         completeFields.classList.add('hidden');
                          mcqFields.classList.remove('hidden');
-                         expectedAnswerInput.removeAttribute('required');
-                         mcqInputs.forEach(input => input.setAttribute('required', 'required'));
                     }
                }
+
+               function detectBlanks() {
+                    const text = questionTextArea.value;
+                    const count = (text.match(/_{3,}/g) || []).length;
+                    blankCountDisplay.textContent = `${count} {{ __('quiz.blanks_word') }}`;
+
+                    const existing = blanksContainer.querySelectorAll('.blank-answer-group');
+
+                    for (let i = existing.length; i < count; i++) {
+                         addBlankField(i);
+                    }
+
+                    while (blanksContainer.querySelectorAll('.blank-answer-group').length > count) {
+                         blanksContainer.removeChild(blanksContainer.lastElementChild);
+                    }
+               }
+
+               function addBlankField(index) {
+                    const oldValue = existingAnswers[index]?.value ?? '';
+                    const oldTolerance = existingAnswers[index]?.tolerance ?? '';
+
+                    const div = document.createElement('div');
+                    div.className = 'blank-answer-group flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10';
+                    div.innerHTML = `
+                         <span class="text-violet-400 font-bold whitespace-nowrap text-sm">#${index + 1}</span>
+                         <div class="flex-1">
+                              <label class="block text-xs text-slate-400 mb-1">{{ __('quiz.expected_numeric_answer') }} *</label>
+                              <input type="number" name="expected_answers[${index}][value]" step="any" required
+                                   value="${oldValue}"
+                                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500"
+                                   placeholder="{{ __('quiz.enter_numeric_value') }}">
+                         </div>
+                         <div class="flex-1">
+                              <label class="block text-xs text-slate-400 mb-1">{{ __('quiz.tolerance') }} (±)</label>
+                              <input type="number" name="expected_answers[${index}][tolerance]" step="any" min="0"
+                                   value="${oldTolerance}"
+                                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500"
+                                   placeholder="{{ __('quiz.tolerance_placeholder') }}">
+                         </div>
+                    `;
+                    blanksContainer.appendChild(div);
+               }
+
+               questionTextArea.addEventListener('input', () => {
+                    if (typeSelect.value === 'complete') {
+                         detectBlanks();
+                    }
+               });
 
                typeSelect.addEventListener('change', updateFields);
                updateFields();

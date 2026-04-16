@@ -51,7 +51,7 @@ class AdminQuestionController extends Controller
     {
         try {
             $rules = [
-                'type' => 'required|in:mcq,essay',
+                'type' => 'required|in:mcq,complete',
                 'question_text' => 'required|string|max:2000',
                 'question_text_ar' => 'nullable|string|max:2000',
                 'explanation' => 'nullable|string|max:5000',
@@ -60,9 +60,10 @@ class AdminQuestionController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ];
 
-            if ($request->type === 'essay') {
-                $rules['expected_answer'] = 'required|string|max:5000';
-                $rules['expected_answer_ar'] = 'nullable|string|max:5000';
+            if ($request->type === 'complete') {
+                $rules['expected_answers'] = 'required|array|min:1';
+                $rules['expected_answers.*.value'] = 'required|numeric';
+                $rules['expected_answers.*.tolerance'] = 'nullable|numeric|min:0';
             } else {
                 $rules['option_a'] = 'required|string|max:500';
                 $rules['option_a_ar'] = 'nullable|string|max:500';
@@ -77,6 +78,16 @@ class AdminQuestionController extends Controller
 
             $validated = $request->validate($rules);
 
+            // Clean up expected_answers: cast values to float, set default tolerance
+            if (isset($validated['expected_answers'])) {
+                $validated['expected_answers'] = array_values(array_map(function ($item) {
+                    return [
+                        'value' => (float) $item['value'],
+                        'tolerance' => isset($item['tolerance']) && $item['tolerance'] !== '' ? (float) $item['tolerance'] : 0,
+                    ];
+                }, $validated['expected_answers']));
+            }
+
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('questions', 'public');
                 $validated['image'] = $path;
@@ -86,6 +97,14 @@ class AdminQuestionController extends Controller
             if (isset($validated['correct_answer'])) {
                 $validated['correct_answer'] = strtolower($validated['correct_answer']);
             }
+
+            // Sync Arabic fields if they are not provided in the form
+            $validated['question_text_ar'] = $validated['question_text'] ?? null;
+            $validated['explanation_ar'] = $validated['explanation'] ?? null;
+            if (isset($validated['option_a'])) $validated['option_a_ar'] = $validated['option_a'];
+            if (isset($validated['option_b'])) $validated['option_b_ar'] = $validated['option_b'];
+            if (isset($validated['option_c'])) $validated['option_c_ar'] = $validated['option_c'];
+            if (isset($validated['option_d'])) $validated['option_d_ar'] = $validated['option_d'];
 
             $stage->questions()->create($validated);
 
@@ -124,21 +143,23 @@ class AdminQuestionController extends Controller
     {
         try {
             $rules = [
-                'type' => 'required|in:mcq,essay',
+                'type' => 'required|in:mcq,complete',
                 'question_text' => 'required|string|max:2000',
                 'question_text_ar' => 'nullable|string|max:2000',
                 'difficulty' => 'required|in:easy,medium,hard',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ];
 
-            if ($request->type === 'essay') {
-                $rules['expected_answer'] = 'required|string|max:5000';
-                $rules['expected_answer_ar'] = 'nullable|string|max:5000';
-                // Also nullify mcq fields since type is changed to essay
+            if ($request->type === 'complete') {
+                $rules['expected_answers'] = 'required|array|min:1';
+                $rules['expected_answers.*.value'] = 'required|numeric';
+                $rules['expected_answers.*.tolerance'] = 'nullable|numeric|min:0';
+                // Nullify MCQ fields since type is changed to complete
                 $validated_nulls = [
                     'option_a' => null, 'option_b' => null, 'option_c' => null, 'option_d' => null,
                     'option_a_ar' => null, 'option_b_ar' => null, 'option_c_ar' => null, 'option_d_ar' => null,
                     'correct_answer' => null,
+                    'expected_answer' => null, 'expected_answer_ar' => null,
                 ];
             } else {
                 $rules['option_a'] = 'required|string|max:500';
@@ -152,10 +173,21 @@ class AdminQuestionController extends Controller
                 $rules['correct_answer'] = 'required|in:a,b,c,d';
                 $validated_nulls = [
                     'expected_answer' => null, 'expected_answer_ar' => null,
+                    'expected_answers' => null,
                 ];
             }
 
             $validated = array_merge($request->validate($rules), $validated_nulls);
+
+            // Clean up expected_answers: cast values to float, set default tolerance
+            if (isset($validated['expected_answers']) && is_array($validated['expected_answers'])) {
+                $validated['expected_answers'] = array_values(array_map(function ($item) {
+                    return [
+                        'value' => (float) $item['value'],
+                        'tolerance' => isset($item['tolerance']) && $item['tolerance'] !== '' ? (float) $item['tolerance'] : 0,
+                    ];
+                }, $validated['expected_answers']));
+            }
 
             if ($request->hasFile('image')) {
                 // Delete old image if exists
@@ -171,6 +203,15 @@ class AdminQuestionController extends Controller
             if (isset($validated['correct_answer'])) {
                 $validated['correct_answer'] = strtolower($validated['correct_answer']);
             }
+
+            // Sync Arabic fields if they are not provided in the form, 
+            // ensuring English edits take effect in bilingual environments without direct UI tabs.
+            $validated['question_text_ar'] = $validated['question_text'] ?? null;
+            $validated['explanation_ar'] = $validated['explanation'] ?? null;
+            if (isset($validated['option_a'])) $validated['option_a_ar'] = $validated['option_a'];
+            if (isset($validated['option_b'])) $validated['option_b_ar'] = $validated['option_b'];
+            if (isset($validated['option_c'])) $validated['option_c_ar'] = $validated['option_c'];
+            if (isset($validated['option_d'])) $validated['option_d_ar'] = $validated['option_d'];
 
             $question->update($validated);
 

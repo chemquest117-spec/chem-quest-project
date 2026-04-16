@@ -62,8 +62,8 @@
                                                             @endif
                                                             {{ ucfirst($question->getTranslatedDifficulty()) }}
                                                        </span>
-                                                       @if($question->isEssay())
-                                                            <span class="px-2 py-0.5 rounded text-xs bg-blue-500/20 text-blue-400">Essay</span>
+                                                       @if($question->isComplete())
+                                                            <span class="px-2 py-0.5 rounded text-xs bg-violet-500/20 text-violet-400">{{ __('quiz.complete_question') }}</span>
                                                        @elseif($question->isMcq())
                                                             <span class="px-2 py-0.5 rounded text-xs bg-cyan-500/20 text-cyan-400">MCQ</span>
                                                        @endif
@@ -88,10 +88,20 @@
                                                             </div>
                                                        @endforeach
                                                   </div>
-                                                  @elseif($question->isEssay())
-                                                  <div class="text-sm bg-blue-500/10 p-3 rounded-lg border border-blue-500/20">
-                                                       <span class="text-blue-400 font-medium">{{ __('quiz.expected_answer') }}:</span>
-                                                       <p class="text-slate-300 mt-1">{{ $question->expected_answer }}</p>
+                                                  @elseif($question->isComplete())
+                                                  <div class="text-sm bg-violet-500/10 p-3 rounded-lg border border-violet-500/20">
+                                                       <span class="text-violet-400 font-medium">{{ __('quiz.expected_numeric_answer') }}:</span>
+                                                       @if($question->expected_answers)
+                                                            @foreach($question->expected_answers as $bi => $ea)
+                                                                 <p class="text-slate-300 mt-1">
+                                                                      <span class="text-violet-400">#{{ $bi + 1 }}</span>
+                                                                      {{ $ea['value'] }}
+                                                                      @if(($ea['tolerance'] ?? 0) > 0)
+                                                                           <span class="text-xs text-slate-400">(± {{ $ea['tolerance'] }})</span>
+                                                                      @endif
+                                                                 </p>
+                                                            @endforeach
+                                                       @endif
                                                   </div>
                                                   @endif
                                              </div>
