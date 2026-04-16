@@ -1,1617 +1,1659 @@
 [
-  {
-    "lo": "LO1",
-    "question_number": 1,
-    "text": "In the following compound, calculate the oxidation number of nitrogen:\nN\u2082H\u2084",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "Hydrogen = +1\n4H = +4\n2N + 4 = 0\n2N = \u22124\nN = \u22122",
-    "expected_answer": "N = \u22122"
-  },
-  {
-    "lo": "LO1",
-    "question_number": 2,
-    "text": "Calculate the oxidation number of carbon in the compound:\nCH\u2083COOH\n\nThere are two different carbon atoms.\nA-First carbon (CH\u2083):",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "3H = +3\nC + 3 = 0\nC = \u22123\nB-Second carbon (COOH):",
-    "expected_answer": "C = \u22123"
-  },
-  {
-    "lo": "LO1",
-    "question_number": 3,
-    "text": "Calculate the oxidation number of phosphorus in the compound:\nP\u2084O\u2081\u2080",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "Oxygen = \u22122\n10O = \u221220\n4P \u2212 20 = 0\n4P = +20\nP = +5",
-    "expected_answer": "P = +5"
-  },
-  {
-    "lo": "LO1",
-    "question_number": 4,
-    "text": "In the following balanced reaction in acidic solution: As2\u200bO3\u200b+NO3\u2212\u200b\u2192H3\u200bAsO4\u200b+NO What is the total number of electrons (n) transferred per mole of As2\u200bO3\u200b reacted?",
-    "type": "mcq",
-    "options": [
-      "2 electrons",
-      "4 electrons",
-      "6 electrons",
-      "12 electrons"
-    ],
-    "correct_answer": "c",
-    "explanation": "Each As atom goes from +3 to +5, totaling 4 electrons for As2\u200b. When balanced with Nitrogen, 1 mole of As2\u200bO3\u200b corresponds to 6 electrons in the half-reaction).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 5,
-    "text": "When balancing the following half-reaction in a basic solution: CN\u2212\u2192CNO\u2212 Which of the following correctly describes the balancing of oxygen and hydrogen?",
-    "type": "mcq",
-    "options": [
-      "Add 1H2\u200bO to the reactants and 2H+ to the products.",
-      "Add 2OH\u2212 to the reactants and 1H2\u200bO to the products.",
-      "Add 1OH\u2212 to the products and 1H2\u200bO to the reactants.",
-      "Add 2H2\u200bO to the reactants and 4OH\u2212 to the products."
-    ],
-    "correct_answer": "b",
-    "explanation": "This follows the standard rule for basic solutions.\nEquation becomes: CN\u2212+2OH\u2212\u2192CNO\u2212+H2\u200bO+2e\u2212",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 6,
-    "text": "Magnetite (Fe3\u200bO4\u200b) is a classic example of a complex redox compound. Its oxidation state is best described as:",
-    "type": "mcq",
-    "options": [
-      "One atom is in the +2 state and two atoms are in the +3 state.",
-      "Two atoms are in the +2 state and one is in the +3 state.",
-      "All iron atoms have an average oxidation state of +2.67.",
-      "It is a complete reduction of iron and no oxidation is present."
-    ],
-    "correct_answer": "a",
-    "explanation": "It is a mixed oxide consisting of FeO and Fe2\u200bO3\u200b.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 7,
-    "text": "A constant current of 2.00 A is passed through a solution containing unknown metal ions Mn+. If 0.20 mol of metal is deposited by the transfer of 0.60 mol of electrons, what is the value of (n)?",
-    "type": "mcq",
-    "options": [
-      "+1",
-      "+2",
-      "+4",
-      "+3"
-    ],
-    "correct_answer": "d",
-    "explanation": "Calculated by dividing moles of electrons by moles of metal: 0.60/0.20=3.\nRule: Number of electrons per ion (n) = (total moles of electrons) \u00f7 (moles of precipitated metal).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 8,
-    "text": "According to the Nernst equation E=E\u2218\u2212(0.059/n)logQ, if the number of electrons transferred (n) increases while all other variables remain constant, the cell potential (E):",
-    "type": "mcq",
-    "options": [
-      "Becomes more sensitive to changes in concentration (Q).",
-      "Becomes less sensitive to changes in concentration (Q).",
-      "Always increases regardless of the value of Q.",
-      "Always decreases and reaches zero quickly."
-    ],
-    "correct_answer": "b",
-    "explanation": "Since n is in the denominator, a larger n reduces the impact of the log Q term.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 9,
-    "text": "Which of the following reactions represents a \"Disproportionation\" reaction (an advanced redox type)?",
-    "type": "mcq",
-    "options": [
-      "Zn + Cu2+\u2192(Zn2+) + Cu",
-      "2H2\u200bO2\u200b\u21922H2\u200bO+O2\u200b",
-      "CH4\u200b + 2O2\u200b\u2192CO2\u200b + 2H2\u200bO",
-      "HCl + NaOH\u2192NaCl + H2\u200bO"
-    ],
-    "correct_answer": "b",
-    "explanation": "Oxygen in hydrogen peroxide is both oxidized and reduced simultaneously.\nThe oxygen in H2O2 has an oxidation number of -1. In water (H2O) it becomes -2(reduction). In oxygen gas (O2) it becomes 0 (oxidation). Since oxygen did both things at the same time, it is a self-decomposition reaction.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 10,
-    "text": "During electrolysis of molten NaCl, which species is reduced?",
-    "type": "mcq",
-    "options": [
-      "Na\u207a",
-      "Cl\u207b",
-      "Na",
-      "Cl\u2082"
-    ],
-    "correct_answer": "a",
-    "explanation": "Positive Na+ ions move to the cathode and gain electrons (reduction) to form sodium metal.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 11,
-    "text": "A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C/mol e\u207b)",
-    "type": "mcq",
-    "options": [
-      "0.02 mol",
-      "0.20 mol",
-      "0.10 mol",
-      "0.04 mol"
-    ],
-    "correct_answer": "d",
-    "explanation": "Moles=FI\u00d7t\u200b=965004\u00d7965\u200b=0.04\u00a0mol.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 12,
-    "text": "In the electrolysis of aqueous CuSO\u2084 using inert electrodes, what is produced at the cathode?",
-    "type": "mcq",
-    "options": [
-      "Cu\u00b2\u207a",
-      "Cu(s)",
-      "H\u2082",
-      "O\u2082"
-    ],
-    "correct_answer": "b",
-    "explanation": "Cu2+ has a higher reduction potential than H+, so it reduces to solid copper metal at the cathode.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 13,
-    "text": "Which of the following solutions will NOT conduct electricity?",
-    "type": "mcq",
-    "options": [
-      "NaCl(aq)",
-      "HCl(aq)",
-      "C\u2086H\u2081\u2082O\u2086(aq)",
-      "KOH(aq)"
-    ],
-    "correct_answer": "c",
-    "explanation": "Glucose is a molecular compound that doesn't produce ions; ions are necessary to carry electric current.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 14,
-    "text": "Which factor most strongly affects the products formed during electrolysis?",
-    "type": "mcq",
-    "options": [
-      "Color of the solution",
-      "External pressure",
-      "Volume of container",
-      "Type of electrolyte and electrode"
-    ],
-    "correct_answer": "d",
-    "explanation": "The chemical nature of the substance and whether the electrode is inert or active determine the reaction.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 15,
-    "text": "In the electrolysis of brine (aqueous NaCl), why is Cl\u2082 formed at the anode instead of O\u2082?",
-    "type": "mcq",
-    "options": [
-      "Cl\u207b is harder to oxidize",
-      "Na\u207a reacts first",
-      "Water is inert",
-      "Cl\u207b is easier to oxidize than water"
-    ],
-    "correct_answer": "d",
-    "explanation": "Due to \"overpotential,\" it is kinetically easier and faster for Cl\u2212 to lose electrons than water.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 16,
-    "text": "How many grams of Cu (M = 63.5 g/mol, n = 2) are deposited when 193000 C passes through CuSO\u2084?",
-    "type": "mcq",
-    "options": [
-      "63.5 g",
-      "31.75 g",
-      "15.9 g",
-      "7.95 g"
-    ],
-    "correct_answer": "a",
-    "explanation": "193000\u00a0C=2\u00a0Faradays. Since Cu2+ needs 2e\u2212, exactly 1\u00a0mole (63.5\u00a0g) is deposited.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 17,
-    "text": "In electroplating, increasing current while keeping time constant will:",
-    "type": "mcq",
-    "options": [
-      "Decrease deposited mass",
-      "Increase deposited mass",
-      "No effect",
-      "Stop the reaction"
-    ],
-    "correct_answer": "b",
-    "explanation": "According to Faraday's law, mass is directly proportional to the total charge (I\u00d7t).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 18,
-    "text": "During electroplating, the source metal is connected to the:",
-    "type": "mcq",
-    "options": [
-      "Cathode",
-      "Anode",
-      "Salt bridge",
-      "Electrolyte only"
-    ],
-    "correct_answer": "b",
-    "explanation": "The source metal must undergo oxidation to dissolve into the solution, which happens at the positive anode.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 19,
-    "text": "Rusting of iron occurs fastest in:",
-    "type": "mcq",
-    "options": [
-      "Dry air",
-      "Pure water",
-      "Vacuum",
-      "Saltwater"
-    ],
-    "correct_answer": "d",
-    "explanation": "Saltwater is a strong electrolyte that speeds up the electrochemical flow of electrons in corrosion.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO1",
-    "question_number": 20,
-    "text": "Why does coating iron with zinc prevent corrosion?",
-    "type": "mcq",
-    "options": [
-      "Zinc reacts only with water",
-      "Zinc acts as a sacrificial anode",
-      "Zinc blocks oxygen completely",
-      "Zinc lowers temperature"
-    ],
-    "correct_answer": "b",
-    "explanation": "Zinc is more reactive than iron, so it oxidizes first to protect the iron underneath.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 1,
-    "text": "In a galvanic cell, if the external metal wire is replaced by a cotton string soaked in an electrolyte solution, what happens to the electron flow?",
-    "type": "mcq",
-    "options": [
-      "Flow continues because electrolytes conduct electricity.",
-      "The direction of flow reverses.",
-      "Flow increases due to the higher number of ions.",
-      "Flow stops because electrons do not travel through aqueous solutions."
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because flow stops because electrons do not travel through aqueous solutions..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 2,
-    "text": "Why does the standard cell potential (Ecell\u2218\u200b) remain constant regardless of the size of the electrodes used?",
-    "type": "mcq",
-    "options": [
-      "Because voltage is an intensive property that does not depend on the amount of substance.",
-      "Because size only affects resistance, not potential.",
-      "Because large electrodes reach equilibrium instantly.",
-      "Because Ecell\u2218\u200b depends only on temperature and pressure."
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because because voltage is an intensive property that does not depend on the amount of substance..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 3,
-    "text": "What happens to the reaction quotient (Q) as a battery approaches its \"death\"?",
-    "type": "mcq",
-    "options": [
-      "Q becomes zero.",
-      "Q becomes equal to the equilibrium constant (K).",
-      "Q becomes much smaller than 1.",
-      "Q remains constant while E\u2218 changes."
-    ],
-    "correct_answer": "b",
-    "explanation": "At equilibrium, Ecell\u200b=0 and Q=K.\nA battery dies when its potential becomes zero (E = 0). At this moment, the flow of electrons stops completely because there is no longer a potential difference to push them. Chemically, the reaction is said to have reached equilibrium. At equilibrium, the change in concentrations stops, and the value of Q becomes exactly equal to the value of the equilibrium constant (K).\nWhy is the answer (Q=K) and not (Q=0 or complete material consumption? Why not Q=0? Because Q=0 means the battery is brand new and has not yet been used (no output).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 4,
-    "text": "If Electrode A has Ered\u2218\u200b=\u22120.76V and Electrode B has Ered\u2218\u200b=\u22120.44V, which acts as the anode in a spontaneous cell?",
-    "type": "mcq",
-    "options": [
-      "Both can act as anode depending on concentration.",
-      "No spontaneous reaction can occur.",
-      "Electrode B.",
-      "Electrode A ."
-    ],
-    "correct_answer": "d",
-    "explanation": "Lower reduction potential/Higher oxidation potential).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 5,
-    "text": "In the Nernst equation, what happens to E if all coefficients in the balanced equation are doubled? A) E doubles as well.",
-    "type": "mcq",
-    "options": [
-      "E is reduced by half.",
-      "E remains constant.",
-      "E increases by Faraday's constant.",
-      ""
-    ],
-    "correct_answer": "c",
-    "explanation": "Doubling coefficients doubles both n and the powers in Q, canceling the effect).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 6,
-    "text": "In the Standard Hydrogen Electrode (SHE), what is the function of the Platinum black coating?",
-    "type": "mcq",
-    "options": [
-      "To act as a reactant that oxidizes over time.",
-      "To provide an inert surface with a large area for electron exchange.",
-      "To absorb oxygen to prevent hydrogen oxidation.",
-      "To raise the temperature of the solution."
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because to provide an inert surface with a large area for electron exchange. ..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 7,
-    "text": "Why can't the reduction potential of a single electrode be measured experimentally with a voltmeter?",
-    "type": "mcq",
-    "options": [
-      "Because voltmeters only measure current.",
-      "Because ions in solution block the voltmeter.",
-      "Because a single electrode potential is always zero.",
-      "Because the electrical circuit remains open with no return path for charge."
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because because the electrical circuit remains open with no return path for charge. ..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 8,
-    "text": "If Ecell\u2218\u200b for a reaction is \u22121.20V, what can be concluded about its spontaneity?",
-    "type": "mcq",
-    "options": [
-      "It is spontaneous in the forward direction.",
-      "It is in a state of dynamic equilibrium.",
-      "It is non-spontaneous and requires an external power source.",
-      "It is fast but consumes heat energy."
-    ],
-    "correct_answer": "c",
-    "explanation": "Negative voltage means \u0394G>0.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 9,
-    "text": "Which materials are suitable as \"Inert Electrodes\" in electrolysis?",
-    "type": "mcq",
-    "options": [
-      "Graphite and Platinum.",
-      "Zinc and Copper.",
-      "Sodium and Potassium.",
-      "Iron and Aluminum."
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because graphite and platinum...",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 10,
-    "text": "When charging a Lead storage battery, what happens to the concentration of sulfuric acid?",
-    "type": "mcq",
-    "options": [
-      "It decreases.",
-      "It turns into solid sulfur.",
-      "It remains constant.",
-      "It increases as the acid is regenerated."
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because it increases as the acid is regenerated...",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 11,
-    "text": "What is the fundamental difference in energy transformation between a Galvanic cell and an Electrolytic cell?",
-    "type": "mcq",
-    "options": [
-      "Both convert chemical to electrical energy.",
-      "Galvanic depends on heat; Electrolytic depends on light.",
-      "Galvanic is non-spontaneous; Electrolytic is spontaneous.",
-      "Galvanic: Chemical \u2192 Electrical; Electrolytic: Electrical \u2192 Chemical."
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because galvanic: chemical \u2192 electrical; electrolytic: electrical \u2192 chemical. ..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 12,
-    "text": "What is the direct effect of increasing the \"surface area\" of the electrodes in a car battery on its performance?",
-    "type": "mcq",
-    "options": [
-      "It increases the cell potential (Voltage).",
-      "It increases the amount of current (Amperes) that can be drawn in a short time.",
-      "It increases the value of the equilibrium constant (K) for the reaction.",
-      "It decreases the rate of anode corrosion over time."
-    ],
-    "correct_answer": "b",
-    "explanation": "Surface area increases the reaction \"rate\" and the ability to pump more electrons, but it does not change the voltage.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 13,
-    "text": "When measuring the potential of an unknown electrode relative to the Standard Hydrogen Electrode (SHE), it was found that electrons move \"from the unknown electrode to the hydrogen electrode.\" What can we conclude?",
-    "type": "mcq",
-    "options": [
-      "The standard potential of the unknown electrode has a positive sign.",
-      "The unknown electrode acts as the cathode.",
-      "The standard potential of the unknown electrode has a negative sign.",
-      "Hydrogen is the species being oxidized in this cell."
-    ],
-    "correct_answer": "c",
-    "explanation": "The movement of electrons away from the electrode means it is the \"anode,\" and an anode relative to hydrogen has a negative standard potential.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 14,
-    "text": "If you have a Concentration Cell with two copper electrodes, in which direction will the electrons move through the wire?",
-    "type": "mcq",
-    "options": [
-      "From the electrode immersed in the less concentrated solution to the more concentrated solution.",
-      "From the electrode immersed in the more concentrated solution to the less concentrated solution.",
-      "Electrons will not move because the electrodes are made of the same material (E\u2218=0).",
-      "Electrons only move if one of the solutions is heated."
-    ],
-    "correct_answer": "a",
-    "explanation": "In order for the system to reach equilibrium, the electrode in the dilute solution must oxidize to increase its concentration.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 15,
-    "text": "Two solutions have the same concentration (0.1 M): HCl and CH\u2083COOH. Which statement is most correct?",
-    "type": "mcq",
-    "options": [
-      "Both conduct equally because they have the same concentration.",
-      "HCl conducts better due to complete ionization.",
-      "CH\u2083COOH conducts better due to hydrogen bonding.",
-      "Both are non-electrolytes."
-    ],
-    "correct_answer": "b",
-    "explanation": "HCl is a strong electrolyte, so it ionizes completely and produces more ions, leading to higher conductivity. CH\u2083COOH is a weak electrolyte and only partially ionizes.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 16,
-    "text": "Which change would NOT significantly increase the conductivity of an electrolytic solution?",
-    "type": "mcq",
-    "options": [
-      "Increasing temperature.",
-      "Increasing ion concentration.",
-      "Using a stronger electrolyte.",
-      "Increasing the volume of the solution while keeping moles constant."
-    ],
-    "correct_answer": "d",
-    "explanation": "Increasing the volume while keeping the number of moles constant decreases the concentration of ions, so the conductivity does not increase.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 17,
-    "text": "In molten NaCl, the charge is carried mainly by:",
-    "type": "mcq",
-    "options": [
-      "Free electrons.",
-      "Neutral atoms.",
-      "Na\u207a and Cl\u207b ions.",
-      "Protons."
-    ],
-    "correct_answer": "c",
-    "explanation": "In molten ionic compounds, ions are free to move and carry the charge, not electrons.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO2",
-    "question_number": 1,
-    "text": "If you have two solutions with the same concentration, one HCl and the other CH\u2083COOH, explain why their electrical conductivity differs.",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because hcl fully ionizes into h\u207a and cl\u207b, producing many ions, while ch\u2083cooh partially ionizes, so fewer ions are available..",
-    "expected_answer": "HCl fully ionizes into H\u207a and Cl\u207b, producing many ions, while CH\u2083COOH partially ionizes, so fewer ions are available."
-  },
-  {
-    "lo": "LO2",
-    "question_number": 2,
-    "text": "Imagine you have an NaCl solution, and you increase the volume while keeping the number of moles constant. How would this affect the electrical conductivity?",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because ion concentration decreases, so conductivity does not increase. conductivity depends on ion concentration..",
-    "expected_answer": "Ion concentration decreases, so conductivity does not increase. Conductivity depends on ion concentration."
-  },
-  {
-    "lo": "LO2",
-    "question_number": 3,
-    "text": "Compare how charge is conducted in an aqueous NaCl solution versus molten NaCl.",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because in both, na\u207a and cl\u207b ions carry the charge. electrons do not move. ionic compounds conduct via ions, unlike metals..",
-    "expected_answer": "In both, Na\u207a and Cl\u207b ions carry the charge. Electrons do not move. Ionic compounds conduct via ions, unlike metals."
-  },
-  {
-    "lo": "LO3",
-    "question_number": 1,
-    "text": "What is the IUPAC name for (CH3\u200b)2\u200bCHCH(CH3\u200b)CH2\u200bCH=CH2\u200b?",
-    "type": "mcq",
-    "options": [
-      "4,5-dimethyl-1-hexene",
-      "4,5,5-trimethyl-1-pentene",
-      "2,3-dimethyl-5-hexene",
-      "4-methyl-4-isopropyl-1-butene"
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because 4,5-dimethyl-1-hexene.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 2,
-    "text": "Which of the following is the correct IUPAC name for the compound:\nCH\u2083\u2013CH=CH\u2013CH\u2082\u2013CH\u2083",
-    "type": "mcq",
-    "options": [
-      "Pent-1-ene",
-      "Pent-2-ene",
-      "2-Pentene",
-      "Pentene"
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because pent-2-ene.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 3,
-    "text": "Which is the correct IUPAC name for:\nCH\u2083\u2013CH(CH\u2083)\u2013CH\u2082\u2013CH\u2083",
-    "type": "mcq",
-    "options": [
-      "2-Methylbutane",
-      "3-Methylbutane",
-      "2-Methylpentane",
-      "2-Ethylbutane"
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because 2-methylbutane.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 4,
-    "text": "Which of the following is an example of a cycloalkane with the formula C6\u200bH12\u200b?",
-    "type": "mcq",
-    "options": [
-      "Ethylcyclobutane",
-      "Methylcyclopentane",
-      "Cyclohexane",
-      "All of the above"
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because all of the above.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 5,
-    "text": "Which of the following pairs are constitutional isomers?",
-    "type": "mcq",
-    "options": [
-      "CH3\u200bCH2\u200bOCH3\u200b and CH3\u200bCH2\u200bCHO",
-      "CH3\u200bCH2\u200bCHO and CH3\u200bCH2\u200bCH2\u200bOH",
-      "CH3\u200bCOCH2\u200bCH3\u200b and CH3\u200bCH2\u200bCOCH3\u200b",
-      "CH3\u200bCH2\u200bCH2\u200bCHO and CH3\u200bCOCH2\u200bCH3\u200b"
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because ch3\u200bch2\u200bch2\u200bcho and ch3\u200bcoch2\u200bch3\u200b.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 6,
-    "text": "How many constitutional isomers exist for the formula C4\u200bH9\u200bCl?",
-    "type": "mcq",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "5"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because 4.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 7,
-    "text": "What is the most typical reaction of simple alkenes?",
-    "type": "mcq",
-    "options": [
-      "Electrophilic substitution",
-      "Nucleophilic substitution",
-      "Electrophilic addition",
-      "Nucleophilic addition"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because electrophilic addition.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 8,
-    "text": "What is the likely product from the addition of Cl2\u200b to 1-butene?",
-    "type": "mcq",
-    "options": [
-      "CH3\u200bCH2\u200bCH2\u200bCH2\u200bCl",
-      "CH3\u200bCH2\u200bCHClCH2\u200bCl",
-      "ClCH2\u200bCH2\u200bCH2\u200bCH2\u200bCl",
-      "CH3\u200bCH2\u200bCCl2\u200bCH3\u200b"
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because ch3\u200bch2\u200bchclch2\u200bcl.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 9,
-    "text": "Which of the following molecules will NOT have a dipole moment?",
-    "type": "mcq",
-    "options": [
-      "CH3\u200bCl",
-      "CH3\u200bOCH3\u200b",
-      "CH2\u200bCl2\u200b",
-      "CCl4\u200b"
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because ccl4.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 10,
-    "text": "Which of the following molecules has a linear shape?",
-    "type": "mcq",
-    "options": [
-      "NH3\u200b",
-      "H2\u200bS",
-      "CO2\u200b",
-      "H2\u200bCO"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because co2.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 11,
-    "text": "Which of the following statements about carbon is NOT correct?",
-    "type": "mcq",
-    "options": [
-      "Carbon forms strong covalent bonds to itself, allowing chains and rings to be made.",
-      "Carbon expands its valence shell to accommodate more than eight electrons.",
-      "Carbon forms strong covalent bonds to elements like nitrogen and oxygen.",
-      "Carbon and hydrogen have similar electronegativity."
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because carbon expands its valence shell to accommodate more than eight electrons..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 12,
-    "text": "Which one of the following alcohols will be oxidized by Jones' reagent to a ketone having the same number of carbon atoms?",
-    "type": "mcq",
-    "options": [
-      "1-methylcyclohexanol",
-      "3,3-dimethylcyclopentanol",
-      "3-methyl-1-hexanol",
-      "3-ethyl-3-hexanol"
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because 3,3-dimethylcyclopentanol..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 13,
-    "text": "Which of the following describes the bonding in benzene correctly?",
-    "type": "mcq",
-    "options": [
-      "It has three isolated double bonds and three single bonds.",
-      "All C-C bonds have the same length due to resonance.",
-      "It is a highly reactive alkene.",
-      "It has a non-planar hexagonal shape."
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because all c-c bonds have the same length due to resonance..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 14,
-    "text": "Which of the following groups acts as a \"deactivating\" and \"meta-directing\" group in an aromatic ring?",
-    "type": "mcq",
-    "options": [
-      "-OH",
-      "-CH_3",
-      "-NO_2",
-      "-Cl"
-    ],
-    "correct_answer": "c",
-    "explanation": "Nitro group is strongly electron-withdrawing).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 15,
-    "text": "Which of the following is the most acidic compound?",
-    "type": "mcq",
-    "options": [
-      "Ethanol",
-      "Phenol",
-      "p-Nitrophenol",
-      "p-Methylphenol"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because p-nitrophenol.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 16,
-    "text": "Phenol reacts with bromine water (Br2/H2O) to give a white precipitate of:",
-    "type": "mcq",
-    "options": [
-      "2-bromophenol",
-      "4-bromophenol",
-      "2,4,6-tribromophenol",
-      "Bromobenzene"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because 2,4,6-tribromophenol.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 17,
-    "text": "What is the hybridization of a carbon atom in Methane (CH4)?",
-    "type": "mcq",
-    "options": [
-      "sp",
-      "sp^2",
-      "sp^3",
-      "dsp^2"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because sp^3.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 18,
-    "text": "Which of the following has the highest boiling point?",
-    "type": "mcq",
-    "options": [
-      "Methane (CH4)",
-      "Ethane (C2H6)",
-      "Propane (C3H8)",
-      "Butane (C4H10)"
-    ],
-    "correct_answer": "d",
-    "explanation": "",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 19,
-    "text": "What is the major product when 3-methyl-1-butene reacts with HCl? (Consider carbocation rearrangement)",
-    "type": "mcq",
-    "options": [
-      "1-chloro-3-methylbutane",
-      "2-chloro-3-methylbutane",
-      "2-chloro-2-methylbutane",
-      "1-chloro-2-methylbutane"
-    ],
-    "correct_answer": "c",
-    "explanation": "",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO3",
-    "question_number": 1,
-    "text": "A compound contains: C = 52.2%, H = 13.0%, O = 34.8%. The molar mass is 88 g/mol. Determine the empirical formula, the molecular formula, and state whether more than one structural formula is possible, explaining your reasoning.",
-    "type": "essay",
-    "options": [],
-    "correct_answer": "",
-    "explanation": "1. Assume 100 g of the compound \u2192 C = 52.2 g, H = 13.0 g, O = 34.8 g\n2. Calculate moles of each element:\nC: 52.2 \u00f7 12 \u2248 4.35 \u2248 4\nH: 13 \u00f7 1 \u2248 13 \u2192 adjusted to 10 for ratio\nO: 34.8 \u00f7 16 \u2248 2.175 \u2248 1\n3. Empirical formula \u2248 C\u2084H\u2081\u2080O\n4. Molar mass = 88 g/mol \u2192 matches the empirical formula \u2192 molecular formula = C\u2084H\u2081\u2080O\n5. Possibility of more than one structural formula: Yes, it can be an alcohol or an ether, so multiple structures are possible.",
-    "expected_answer": "Empirical formula: C\u2084H\u2081\u2080O\nMolecular formula: C\u2084H\u2081\u2080O\nStructural formula: More than one structure is possible (isomers exist)"
-  },
-  {
-    "lo": "LO4",
-    "question_number": 1,
-    "text": "Which statement correctly explains why shorter-chain hydrocarbons are more flammable than longer-chain hydrocarbons?",
-    "type": "mcq",
-    "options": [
-      "They have stronger intermolecular forces",
-      "They vaporise more easily",
-      "They contain more carbon atoms",
-      "They have higher boiling points"
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because they vaporise more easily.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 2,
-    "text": "Incomplete combustion of hydrocarbons can produce carbon monoxide.\nWhy is carbon monoxide dangerous?",
-    "type": "mcq",
-    "options": [
-      "It reduces oxygen transport in the blood",
-      "It reacts with oxygen in the air",
-      "It increases carbon dioxide levels",
-      "It causes acid rain"
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because it reduces oxygen transport in the blood.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 3,
-    "text": "Crude oil is separated into fractions by fractional distillation.\nWhy do different fractions separate?",
-    "type": "mcq",
-    "options": [
-      "They have different colours",
-      "They react differently with oxygen",
-      "They have different densities only",
-      "They have different boiling points"
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because they have different boiling points.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 4,
-    "text": "Which change occurs as the length of a hydrocarbon chain increases?",
-    "type": "mcq",
-    "options": [
-      "Volatility increases",
-      "Boiling point decreases",
-      "Viscosity increases",
-      "Flammability increases"
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because viscosity increases.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 5,
-    "text": "A hydrocarbon burns in a limited supply of oxygen.\nWhich set of products is most likely formed?",
-    "type": "mcq",
-    "options": [
-      "Carbon dioxide and water only",
-      "Carbon monoxide and water",
-      "Hydrogen and oxygen",
-      "Carbon dioxide only"
-    ],
-    "correct_answer": "b",
-    "explanation": "This is the correct characteristic because carbon monoxide and water.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 6,
-    "text": "Which of these alkanes has the highest boiling point?",
-    "type": "mcq",
-    "options": [
-      "C2H6",
-      "C3H8",
-      "C4H10",
-      ""
-    ],
-    "correct_answer": "c",
-    "explanation": "C4H10 has the highest boiling point of these three alkanes because it has the largest molecules, so the strongest intermolecular forces.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 7,
-    "text": "Which properties of the different compounds in petroleum enable its separation into fractions?\n1. boiling point\n2.chain length\n3.chemical reactivity\n4.solubility in water",
-    "type": "mcq",
-    "options": [
-      "1 and 2 B )1 and 3 C )2 and 4",
-      "3 and 4",
-      "",
-      ""
-    ],
-    "correct_answer": "a",
-    "explanation": "This is the correct characteristic because 1 and 2.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 8,
-    "text": ".Which substance has a main constituent that contains only one carbon atom per molecule?\nA ) bitumen\nB ) gasoline\nC ) natural gas\nD ) petroleum",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because natural gas.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 9,
-    "text": "What is the name of the process that could be used to produce propane, C3H8, from decane,\nC10H22?\nA )substitution\nB )reforming\nC )fractional distillation\nD )cracking",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "d",
-    "explanation": "This is the correct characteristic because cracking.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 10,
-    "text": "Why does Thermal Cracking produce a higher percentage of Alkenes compared to Catalytic Cracking?\n\u200bA) High heat causes homolytic fission, creating free radicals that eliminate hydrogen.\n\u200bB) High pressure forces molecules to form double bonds.\n\u200bC) Catalysts are only used to produce Alkanes.\n\u200bD) Thermal cracking only breaks C-H bonds, not C-C bonds.\n\u200bAnswer: A)High heat causes homolytic fission, creating free radicals that eliminate hydrogen.",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because high heat causes homolytic fission, creating free radicals that eliminate hydrogen..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 11,
-    "text": "What happens if a hydrocarbon molecule is larger than the pores of a Zeolite catalyst?\n\u200bA) The molecule will shrink automatically to fit.\n\u200bB) The reaction rate will increase on the surface.\n\u200bC) No cracking will occur because the molecule cannot reach the internal active sites.\n\u200bD) The Zeolite will expand its rigid structure to accommodate it.\n\u200bAnswer: C)No cracking will occur because the molecule cannot reach the internal active sites.",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because no cracking will occur because the molecule cannot reach the internal active sites..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 12,
-    "text": "NOx gases are an environmental challenge in car engines because:\n\u200bA) The fuel contains high amounts of nitrogen.\n\u200bB) High engine temperatures cause nitrogen and oxygen from the air to react.\n\u200bC) They are the main product of incomplete combustion.\n\u200bD) They are only produced when using leaded gasoline.\n\u200bAnswer: B)High engine temperatures cause nitrogen and oxygen from the air to react.",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because high engine temperatures cause nitrogen and oxygen from the air to react..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 13,
-    "text": "If Undecane (C11H24) is cracked into one Propene (C3H6) and one Butene (C4H8), what is the third product?\n\u200bA) C4H10 (Butane)\n\u200bB) C4H8 (Butene)\n\u200bC) C5H12 (Pentane)\n\u200bD) H2 (Hydrogen gas)\n\u200bAnswer: A)C4H10 (Butane)",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "",
-    "explanation": "Calculation: 11 - 3 - 4 = 4 Carbons | 24 - 6 - 8 = 10 Hydrogens)",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 14,
-    "text": "Thermodynamically, why must heat be continuously supplied to the cracking process?\n\u200bA) To keep the catalyst from solidifying.\n\u200bB) To prevent the formation of greenhouse gases.\n\u200bC) To increase the density of the crude oil.\n\u200bD) Because it is an Endothermic process where bond-breaking requires more energy than bond-making.\n\u200bAnswer: D)Because it is an Endothermic process where bond-breaking requires more energy than bond-making.",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "",
-    "explanation": "This is the correct characteristic because because it is an endothermic process where bond-breaking requires more energy than bond-making..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 15,
-    "text": "Bond length of (I) ethane, (II) ethene, (III) acetylene and (IV) benzene follows the order:\n(a) I > II > III > IV\n(b) I > II > IV> III\n(c) I > IV > II > III\n(d) III > IV > II > I",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "c",
-    "explanation": "Bond order is inversely proportional to bond length: I > IV > II > III",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 16,
-    "text": "Which of the following can be used as the halide component of a Friedel craft reaction?\n(a) Chlorobenzene\n(b) Bromobenzene\n(c) Chloroethene\n(d) Isopropyl chloride",
-    "type": "mcq",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "correct_answer": "d",
-    "explanation": "Only isopropyl chloride can be used as the halide component for Friedel craft reaction. In all other cases, the cleavage of the C-X bond is not possible.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 17,
-    "text": "In catalytic cracking, what is the primary role of a catalyst (such as a zeolite)?",
-    "type": "mcq",
-    "options": [
-      "To provide the energy needed to break carbon-carbon (CC-) bonds.",
-      "To increase the reaction pressure to promote the formation of alkenes.",
-      "To increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains.",
-      "To lower the reaction temperature below 100\u00b0C."
-    ],
-    "correct_answer": "c",
-    "explanation": "This is the correct characteristic because to increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains..",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 18,
-    "text": "Which of the following reactions represents the correct cracking of decane? (C10H22 \u2192 C8H18 + C2H4)",
-    "type": "mcq",
-    "options": [
-      "C10H222C5H11",
-      "C10H22 \u2192 C6H14 + C4H8)",
-      "C10H22 \u2192 C6H14 + C4H8",
-      "Both b and c)"
-    ],
-    "correct_answer": "d",
-    "explanation": "(Because cracking produces an alkane and an alkene, and the chains can vary)",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 19,
-    "text": "How does albedo feedback in polar regions affect global warming?",
-    "type": "mcq",
-    "options": [
-      "Melting ice increases albedo, which reflects heat and cools the atmosphere.",
-      "Melting ice decreases albedo, which increases heat absorption and accelerates melting.",
-      "Increased ice increases infrared absorption.",
-      "There is no relationship between ice and global warming. 5) b)Melting ice decreases albedo, which increases heat absorption and accelerates melting."
-    ],
-    "correct_answer": "",
-    "explanation": "(Reduced albedo leads to greater heat absorption).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO4",
-    "question_number": 20,
-    "text": "What is a major greenhouse gas responsible for enhanced global warming aside from CO2?",
-    "type": "mcq",
-    "options": [
-      "N2",
-      "O2",
-      "CH4",
-      "Ar"
-    ],
-    "correct_answer": "c",
-    "explanation": "Methane is a potent greenhouse gas emitted during the production and transport of coal, natural gas, and oil.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 1,
-    "text": "What is the kind of organic compounds that the general formula R\u2212COO\u2212R\u2217 refers to?",
-    "type": "mcq",
-    "options": [
-      "Esters",
-      "Ethers",
-      "Acids",
-      "Ketones"
-    ],
-    "correct_answer": "a",
-    "explanation": "The carboxyl group bonded to two alkyl groups (R\u2212COO\u2212R\u2032) defines the ester family.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 2,
-    "text": "During electrolysis of molten NaCl, which species is reduced?",
-    "type": "mcq",
-    "options": [
-      "Na\u207a",
-      "Cl\u207b",
-      "Na",
-      "Cl\u2082"
-    ],
-    "correct_answer": "a",
-    "explanation": "Positive Na+ ions migrate to the negative cathode where they gain electrons (reduction).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 3,
-    "text": "How many structural isomers does C4\u200bH10\u200b have?",
-    "type": "mcq",
-    "options": [
-      "two",
-      "five",
-      "three",
-      "four"
-    ],
-    "correct_answer": "a",
-    "explanation": "An alkane with 4 carbons has only two forms: straight-chain n-butane and branched isobutane.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 4,
-    "text": "A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C/mol e\u207b)",
-    "type": "mcq",
-    "options": [
-      "0.02 mol",
-      "0.04 mol",
-      "0.10 mol",
-      "0.20 mol"
-    ],
-    "correct_answer": "b",
-    "explanation": "Using Q=I\u00d7t, Q=3860C. Moles of e\u2212=3860/96500=0.04\u00a0mol.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 5,
-    "text": "To which group of organic reactions does hydrogenation belong?",
-    "type": "mcq",
-    "options": [
-      "elimination",
-      "substitution",
-      "addition",
-      "condensation"
-    ],
-    "correct_answer": "c",
-    "explanation": "Hydrogenation is an addition reaction where hydrogen atoms are added to unsaturated bonds.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 6,
-    "text": "In the electrolysis of aqueous CuSO4\u200b using inert electrodes, what is produced at the cathode?",
-    "type": "mcq",
-    "options": [
-      "Cu\u00b2\u207a",
-      "Cu(s)",
-      "H\u2082",
-      "O\u2082"
-    ],
-    "correct_answer": "b",
-    "explanation": "Cu2+ has a higher reduction potential than H+, so copper metal deposits at the cathode.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 7,
-    "text": "Which molecule is a ketone?",
-    "type": "mcq",
-    "options": [
-      "CH3\u200bCH2\u200bOCH3\u200b",
-      "CH3\u200bCH2\u200bCOCH3\u200b",
-      "CH3\u200bCH2\u200bCOOCH3\u200b",
-      "CH3\u200bCH2\u200bOH"
-    ],
-    "correct_answer": "b",
-    "explanation": "Ketones are characterized by a carbonyl group (C=O) bonded to two carbon atoms within the chain.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 8,
-    "text": "Which of the following solutions will NOT conduct electricity?",
-    "type": "mcq",
-    "options": [
-      "NaCl(aq)",
-      "HCl(aq)",
-      "C\u2086H\u2081\u2082O\u2086(aq)",
-      "KOH(aq)"
-    ],
-    "correct_answer": "c",
-    "explanation": "Glucose is a covalent compound that does not dissociate into ions, which are necessary to carry current.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 9,
-    "text": "What is the IUPAC name for the following compound: CH3\u200b\u2212C(CH3\u200b)2\u200b\u2212CH2\u200b\u2212CH(CH3\u200b)2\u200b?",
-    "type": "mcq",
-    "options": [
-      "1,3-pentamethylpropane",
-      "2,2,4-trimethylpentane",
-      "2,4,4-trimethylpentane",
-      "1,1,3,3-tetramethylbutane"
-    ],
-    "correct_answer": "b",
-    "explanation": "The longest chain has 5 carbons (pentane), and numbering gives the lowest positions to substituents.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 10,
-    "text": "Which factor most strongly affects the products formed during electrolysis?",
-    "type": "mcq",
-    "options": [
-      "Color of the solution",
-      "Type of electrolyte and electrode",
-      "Volume of container",
-      "External pressure"
-    ],
-    "correct_answer": "b",
-    "explanation": "The chemical nature of the ions and the reactivity of the electrode determine the reaction outcome.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 11,
-    "text": "When two identical atoms are on the same side of a double bond, the molecule is:",
-    "type": "mcq",
-    "options": [
-      "structural",
-      "rigid",
-      "cis",
-      "trans"
-    ],
-    "correct_answer": "c",
-    "explanation": "\"Cis\" isomerism occurs when identical functional groups are on the same side of the double bond.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 12,
-    "text": "In the electrolysis of brine (aqueous NaCl), why is Cl\u2082 formed at the anode instead of O\u2082?",
-    "type": "mcq",
-    "options": [
-      "Cl\u207b is harder to oxidize",
-      "Cl\u207b is easier to oxidize than water",
-      "Water is inert",
-      "Na\u207a reacts first"
-    ],
-    "correct_answer": "b",
-    "explanation": "In concentrated solutions, the oxidation of Cl\u2212 is kinetically favored over the oxidation of water.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 13,
-    "text": "What is the process of converting long chain hydrocarbons into shorter ones using heat and a catalyst?",
-    "type": "mcq",
-    "options": [
-      "Polymerization",
-      "Addition",
-      "Condensation",
-      "Cracking"
-    ],
-    "correct_answer": "d",
-    "explanation": "Cracking breaks down large, heavy hydrocarbon molecules into smaller ones like gasoline.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 14,
-    "text": "How many grams of Cu (M = 63.5 g/mol, n = 2) are deposited when 193000 C passes?",
-    "type": "mcq",
-    "options": [
-      "31.75 g",
-      "63.5 g",
-      "15.9 g",
-      "7.95 g"
-    ],
-    "correct_answer": "b",
-    "explanation": "193000C=2\u00a0Faradays. Since Cu2+ needs 2e\u2212, exactly 1 mole (63.5g) is deposited.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 15,
-    "text": "Which of the following compounds forms, by hydrolysis, a secondary alcohol?",
-    "type": "mcq",
-    "options": [
-      "sec\u2013butyl chloride",
-      "n\u2013butyl chloride",
-      "neo\u2013pentyl chloride",
-      "tert\u2013butyl chloride"
-    ],
-    "correct_answer": "a",
-    "explanation": "Hydrolysis of a secondary alkyl halide replaces the halogen with an OH on a secondary carbon.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 16,
-    "text": "In electroplating, increasing current while keeping time constant will:",
-    "type": "mcq",
-    "options": [
-      "Decrease deposited mass",
-      "Stop the reaction",
-      "No effect",
-      "Increase deposited mass"
-    ],
-    "correct_answer": "d",
-    "explanation": "Mass is proportional to total charge (Q=I\u00d7t). Increasing current increases the charge.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 17,
-    "text": "What is the expected product from adding HBr to propene?",
-    "type": "mcq",
-    "options": [
-      "2-bromopropane",
-      "1-bromopropane",
-      "1,2-dibromopropane",
-      "mixture of 1-bromo and 2-bromo propane"
-    ],
-    "correct_answer": "a",
-    "explanation": "Markovnikov's rule states the Br adds to the more substituted carbon atom.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 18,
-    "text": "During electroplating, the source metal is connected to the:",
-    "type": "mcq",
-    "options": [
-      "Cathode",
-      "Anode",
-      "Salt bridge",
-      "Electrolyte only"
-    ],
-    "correct_answer": "b",
-    "explanation": "The source metal must oxidize (lose electrons) to dissolve into the solution, which occurs at the anode.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 19,
-    "text": "The boiling point of any alcohol is much higher than that of the corresponding alkane due to:",
-    "type": "mcq",
-    "options": [
-      "The difference in molar mass",
-      "The presence of double bond",
-      "The difference in size of molecules",
-      "The hydrogen bonding in alcohol"
-    ],
-    "correct_answer": "d",
-    "explanation": "Strong intermolecular hydrogen bonds in alcohols require more energy to break than Van der Waals forces in alkanes.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 20,
-    "text": "Rusting of iron occurs fastest in:",
-    "type": "mcq",
-    "options": [
-      "Dry air",
-      "Pure water",
-      "Saltwater",
-      "Vacuum"
-    ],
-    "correct_answer": "c",
-    "explanation": "Salt acts as an electrolyte, increasing the conductivity of water and speeding up the electrochemical corrosion.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 21,
-    "text": "Which molecule contains a carbon atom bonded to itself to form a ring?",
-    "type": "mcq",
-    "options": [
-      "Propane",
-      "Butene",
-      "Cyclohexane",
-      "Ethyne"
-    ],
-    "correct_answer": "c",
-    "explanation": "\"Cyclo\" indicates a ring structure where carbon atoms bond to form a closed loop.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 22,
-    "text": "Why does coating iron with zinc prevent corrosion?",
-    "type": "mcq",
-    "options": [
-      "Zinc reacts only with water",
-      "Zinc acts as a sacrificial anode",
-      "Zinc blocks oxygen completely",
-      "Zinc lowers temperature"
-    ],
-    "correct_answer": "b",
-    "explanation": "Zinc is more reactive than iron; it oxidizes first to protect the iron underneath.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 23,
-    "text": "Which of the following is a characteristic of a chiral carbon?",
-    "type": "mcq",
-    "options": [
-      "Bonded to 4 identical groups",
-      "Bonded to 4 different groups",
-      "Part of a double bond",
-      "Has a negative charge"
-    ],
-    "correct_answer": "b",
-    "explanation": "Chirality (optical activity) requires a carbon atom to be bonded to four distinct substituents.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 24,
-    "text": "In which species does the central atom exhibit the highest oxidation number?",
-    "type": "mcq",
-    "options": [
-      "SO\u2082",
-      "SO\u2083\u00b2\u207b",
-      "H\u2082SO\u2084",
-      "S\u2082O\u2083\u00b2\u207b"
-    ],
-    "correct_answer": "c",
-    "explanation": "In H2\u200bSO4\u200b, Sulfur is in the +6 oxidation state, its maximum common state.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 25,
-    "text": "Which reaction is a combustion reaction of a hydrocarbon?",
-    "type": "mcq",
-    "options": [
-      "CH4\u200b+Cl2\u200b\u2192CH3\u200bCl+HCl",
-      "C2\u200bH4\u200b+H2\u200b\u2192C2\u200bH6\u200b",
-      "CH4\u200b+2O2\u200b\u2192CO2\u200b+2H2\u200bO",
-      "CH3\u200bOH+CH3\u200bCOOH\u2192Ester"
-    ],
-    "correct_answer": "c",
-    "explanation": "Combustion involves a substance reacting with oxygen to produce CO2\u200b and H2\u200bO.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 26,
-    "text": "Which reaction represents a disproportionation process?",
-    "type": "mcq",
-    "options": [
-      "Fe\u00b2\u207a \u2192 Fe\u00b3\u207a",
-      "Cu\u00b2\u207a \u2192 Cu",
-      "Cl\u2082 + H\u2082O \u2192 HCl + HClO",
-      "Zn + Cu\u00b2\u207a \u2192 Zn\u00b2\u207a + Cu"
-    ],
-    "correct_answer": "c",
-    "explanation": "Chlorine is simultaneously oxidized (to +1) and reduced (to -1).",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 27,
-    "text": "How many moles of water are produced from the burning of 1 mole of methyl cyclohexane (C7\u200bH14\u200b)?",
-    "type": "mcq",
-    "options": [
-      "1 mol",
-      "3 mol",
-      "6 mol",
-      "7 mol"
-    ],
-    "correct_answer": "d",
-    "explanation": "C7\u200bH14\u200b has 14 Hydrogens. Every 2 Hydrogens form 1 H2\u200bO, so 14/2=7\u00a0moles.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 28,
-    "text": "Given reduction potentials: Zn\u00b2\u207a/Zn = \u22120.76 V, Ag\u207a/Ag = +0.80 V. What is E\u00b0cell?",
-    "type": "mcq",
-    "options": [
-      "\u22121.56 V",
-      "+1.56 V",
-      "+0.04 V",
-      "\u22120.04 V"
-    ],
-    "correct_answer": "b",
-    "explanation": "E\u00b0cell=E\u00b0cathode\u2212E\u00b0anode=0.80\u2212(\u22120.76)=1.56V.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 29,
-    "text": "In which reaction is a C-C bond broken?",
-    "type": "mcq",
-    "options": [
-      "C6\u200bH5\u200b\u2013CH3\u200b+3H2\u200b\u2192C6\u200bH11\u200b\u2013CH3\u200b",
-      "C6\u200bH5\u200b\u2013NO2\u200b+3H2\u200b\u2192C6\u200bH5\u200b\u2013NH2\u200b+2H2\u200bO",
-      "C6\u200bH5\u200b\u2013CH3\u200b+H2\u200b\u2192C6\u200bH6\u200b+CH4\u200b",
-      "CH3\u200b\u2013CHO+H2\u200b\u2192CH3\u200b\u2013CH2\u200b\u2013OH"
-    ],
-    "correct_answer": "c",
-    "explanation": "This reaction removes the methyl group from the ring, breaking the bond between ring carbon and methyl carbon.",
-    "expected_answer": ""
-  },
-  {
-    "lo": "LO5",
-    "question_number": 30,
-    "text": "Which statement explains why sodium is not deposited during electrolysis of aqueous NaCl?",
-    "type": "mcq",
-    "options": [
-      "Sodium has low atomic mass",
-      "Sodium ions are too large",
-      "Water is reduced more easily than Na\u207a",
-      "Sodium does not form ions"
-    ],
-    "correct_answer": "c",
-    "explanation": "Water has a higher (less negative) reduction potential than Na+, so H2\u200b gas forms instead.",
-    "expected_answer": ""
-  }
+    {
+        "lo": "LO1",
+        "question_number": 1,
+        "text": "In the compound N₂H₄, the oxidation number of nitrogen is ____.",
+        "type": "complete",
+        "options": [],
+        "correct_answer": "",
+        "explanation": "Hydrogen = +1\n4H = +4\n2N + 4 = 0\n2N = −4\nN = −2",
+        "expected_answer": "",
+        "expected_answers": [
+            {
+                "value": -2,
+                "tolerance": 0
+            }
+        ]
+    },
+    {
+        "lo": "LO1",
+        "question_number": 2,
+        "text": "In the acetic acid molecule (CH₃COOH), the oxidation number of the first carbon (CH₃) is ____, while the oxidation number of the second carbon (COOH) is ____.",
+        "type": "complete",
+        "options": [],
+        "correct_answer": "",
+        "explanation": "A- First carbon (CH₃):\n* 3H = +3\n* C + 3 = 0\n* C = −3\nB- Second carbon (COOH):\n* 2O = −4\n* H = +1\n* C − 4 + 1 = 0\n* C = +3",
+        "expected_answer": "",
+        "expected_answers": [
+            {
+                "value": -3,
+                "tolerance": 0
+            },
+            {
+                "value": 3,
+                "tolerance": 0
+            }
+        ]
+    },
+    {
+        "lo": "LO1",
+        "question_number": 3,
+        "text": "In the compound P₄O₁₀, the oxidation number of phosphorus is ____.",
+        "type": "complete",
+        "options": [],
+        "correct_answer": "",
+        "explanation": "Oxygen = −2\n10O = −20\n4P − 20 = 0\n4P = +20\nP = +5",
+        "expected_answer": "",
+        "expected_answers": [
+            {
+                "value": 5,
+                "tolerance": 0
+            }
+        ]
+    },
+    {
+        "lo": "LO1",
+        "question_number": 4,
+        "text": "In the following balanced reaction in acidic solution: As2​O3​+NO3−​→H3​AsO4​+NO What is the total number of electrons (n) transferred per mole of As2​O3​ reacted?",
+        "type": "mcq",
+        "options": [
+            "2 electrons",
+            "4 electrons",
+            "6 electrons",
+            "12 electrons"
+        ],
+        "correct_answer": "c",
+        "explanation": "Each As atom goes from +3 to +5, totaling 4 electrons for As2​. When balanced with Nitrogen, 1 mole of As2​O3​ corresponds to 6 electrons in the half-reaction).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 5,
+        "text": "When balancing the following half-reaction in a basic solution: CN−→CNO− Which of the following correctly describes the balancing of oxygen and hydrogen?",
+        "type": "mcq",
+        "options": [
+            "Add 1H2​O to the reactants and 2H+ to the products.",
+            "Add 2OH− to the reactants and 1H2​O to the products.",
+            "Add 1OH− to the products and 1H2​O to the reactants.",
+            "Add 2H2​O to the reactants and 4OH− to the products."
+        ],
+        "correct_answer": "b",
+        "explanation": "This follows the standard rule for basic solutions.\nEquation becomes: CN−+2OH−→CNO−+H2​O+2e−",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 6,
+        "text": "Magnetite (Fe3​O4​) is a classic example of a complex redox compound. Its oxidation state is best described as:",
+        "type": "mcq",
+        "options": [
+            "One atom is in the +2 state and two atoms are in the +3 state.",
+            "Two atoms are in the +2 state and one is in the +3 state.",
+            "All iron atoms have an average oxidation state of +2.67.",
+            "It is a complete reduction of iron and no oxidation is present."
+        ],
+        "correct_answer": "a",
+        "explanation": "It is a mixed oxide consisting of FeO and Fe2​O3​.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 7,
+        "text": "A constant current of 2.00 A is passed through a solution containing unknown metal ions Mn+. If 0.20 mol of metal is deposited by the transfer of 0.60 mol of electrons, what is the value of (n)?",
+        "type": "mcq",
+        "options": [
+            "+1",
+            "+2",
+            "+4",
+            "+3"
+        ],
+        "correct_answer": "d",
+        "explanation": "Calculated by dividing moles of electrons by moles of metal: 0.60\/0.20=3.\nRule: Number of electrons per ion (n) = (total moles of electrons) ÷ (moles of precipitated metal).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 8,
+        "text": "According to the Nernst equation E=E∘−(0.059\/n)logQ, if the number of electrons transferred (n) increases while all other variables remain constant, the cell potential (E):",
+        "type": "mcq",
+        "options": [
+            "Becomes more sensitive to changes in concentration (Q).",
+            "Becomes less sensitive to changes in concentration (Q).",
+            "Always increases regardless of the value of Q.",
+            "Always decreases and reaches zero quickly."
+        ],
+        "correct_answer": "b",
+        "explanation": "Since n is in the denominator, a larger n reduces the impact of the log Q term.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 9,
+        "text": "Which of the following reactions represents a \"Disproportionation\" reaction (an advanced redox type)?",
+        "type": "mcq",
+        "options": [
+            "Zn + Cu2+→(Zn2+) + Cu",
+            "2H2​O2​→2H2​O+O2​",
+            "CH4​ + 2O2​→CO2​ + 2H2​O",
+            "HCl + NaOH→NaCl + H2​O"
+        ],
+        "correct_answer": "b",
+        "explanation": "Oxygen in hydrogen peroxide is both oxidized and reduced simultaneously.\nThe oxygen in H2O2 has an oxidation number of -1. In water (H2O) it becomes -2(reduction). In oxygen gas (O2) it becomes 0 (oxidation). Since oxygen did both things at the same time, it is a self-decomposition reaction.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 10,
+        "text": "During electrolysis of molten NaCl, which species is reduced?",
+        "type": "mcq",
+        "options": [
+            "Na⁺",
+            "Cl⁻",
+            "Na",
+            "Cl₂"
+        ],
+        "correct_answer": "a",
+        "explanation": "Positive Na+ ions move to the cathode and gain electrons (reduction) to form sodium metal.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 11,
+        "text": "A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C\/mol e⁻)",
+        "type": "mcq",
+        "options": [
+            "0.02 mol",
+            "0.20 mol",
+            "0.10 mol",
+            "0.04 mol"
+        ],
+        "correct_answer": "d",
+        "explanation": "Moles=FI×t​=965004×965​=0.04 mol.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 12,
+        "text": "In the electrolysis of aqueous CuSO₄ using inert electrodes, what is produced at the cathode?",
+        "type": "mcq",
+        "options": [
+            "Cu²⁺",
+            "Cu(s)",
+            "H₂",
+            "O₂"
+        ],
+        "correct_answer": "b",
+        "explanation": "Cu2+ has a higher reduction potential than H+, so it reduces to solid copper metal at the cathode.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 13,
+        "text": "Which of the following solutions will NOT conduct electricity?",
+        "type": "mcq",
+        "options": [
+            "NaCl(aq)",
+            "HCl(aq)",
+            "C₆H₁₂O₆(aq)",
+            "KOH(aq)"
+        ],
+        "correct_answer": "c",
+        "explanation": "Glucose is a molecular compound that doesn't produce ions; ions are necessary to carry electric current.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 14,
+        "text": "Which factor most strongly affects the products formed during electrolysis?",
+        "type": "mcq",
+        "options": [
+            "Color of the solution",
+            "External pressure",
+            "Volume of container",
+            "Type of electrolyte and electrode"
+        ],
+        "correct_answer": "d",
+        "explanation": "The chemical nature of the substance and whether the electrode is inert or active determine the reaction.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 15,
+        "text": "In the electrolysis of brine (aqueous NaCl), why is Cl₂ formed at the anode instead of O₂?",
+        "type": "mcq",
+        "options": [
+            "Cl⁻ is harder to oxidize",
+            "Na⁺ reacts first",
+            "Water is inert",
+            "Cl⁻ is easier to oxidize than water"
+        ],
+        "correct_answer": "d",
+        "explanation": "Due to \"overpotential,\" it is kinetically easier and faster for Cl− to lose electrons than water.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 16,
+        "text": "How many grams of Cu (M = 63.5 g\/mol, n = 2) are deposited when 193000 C passes through CuSO₄?",
+        "type": "mcq",
+        "options": [
+            "63.5 g",
+            "31.75 g",
+            "15.9 g",
+            "7.95 g"
+        ],
+        "correct_answer": "a",
+        "explanation": "193000 C=2 Faradays. Since Cu2+ needs 2e−, exactly 1 mole (63.5 g) is deposited.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 17,
+        "text": "In electroplating, increasing current while keeping time constant will:",
+        "type": "mcq",
+        "options": [
+            "Decrease deposited mass",
+            "Increase deposited mass",
+            "No effect",
+            "Stop the reaction"
+        ],
+        "correct_answer": "b",
+        "explanation": "According to Faraday's law, mass is directly proportional to the total charge (I×t).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 18,
+        "text": "During electroplating, the source metal is connected to the:",
+        "type": "mcq",
+        "options": [
+            "Cathode",
+            "Anode",
+            "Salt bridge",
+            "Electrolyte only"
+        ],
+        "correct_answer": "b",
+        "explanation": "The source metal must undergo oxidation to dissolve into the solution, which happens at the positive anode.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 19,
+        "text": "Rusting of iron occurs fastest in:",
+        "type": "mcq",
+        "options": [
+            "Dry air",
+            "Pure water",
+            "Vacuum",
+            "Saltwater"
+        ],
+        "correct_answer": "d",
+        "explanation": "Saltwater is a strong electrolyte that speeds up the electrochemical flow of electrons in corrosion.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO1",
+        "question_number": 20,
+        "text": "Why does coating iron with zinc prevent corrosion?",
+        "type": "mcq",
+        "options": [
+            "Zinc reacts only with water",
+            "Zinc acts as a sacrificial anode",
+            "Zinc blocks oxygen completely",
+            "Zinc lowers temperature"
+        ],
+        "correct_answer": "b",
+        "explanation": "Zinc is more reactive than iron, so it oxidizes first to protect the iron underneath.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 1,
+        "text": "In a galvanic cell, if the external metal wire is replaced by a cotton string soaked in an electrolyte solution, what happens to the electron flow?",
+        "type": "mcq",
+        "options": [
+            "Flow continues because electrolytes conduct electricity.",
+            "The direction of flow reverses.",
+            "Flow increases due to the higher number of ions.",
+            "Flow stops because electrons do not travel through aqueous solutions."
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because flow stops because electrons do not travel through aqueous solutions..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 2,
+        "text": "Why does the standard cell potential (Ecell∘​) remain constant regardless of the size of the electrodes used?",
+        "type": "mcq",
+        "options": [
+            "Because voltage is an intensive property that does not depend on the amount of substance.",
+            "Because size only affects resistance, not potential.",
+            "Because large electrodes reach equilibrium instantly.",
+            "Because Ecell∘​ depends only on temperature and pressure."
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because because voltage is an intensive property that does not depend on the amount of substance..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 3,
+        "text": "What happens to the reaction quotient (Q) as a battery approaches its \"death\"?",
+        "type": "mcq",
+        "options": [
+            "Q becomes zero.",
+            "Q becomes equal to the equilibrium constant (K).",
+            "Q becomes much smaller than 1.",
+            "Q remains constant while E∘ changes."
+        ],
+        "correct_answer": "b",
+        "explanation": "At equilibrium, Ecell​=0 and Q=K.\nA battery dies when its potential becomes zero (E = 0). At this moment, the flow of electrons stops completely because there is no longer a potential difference to push them. Chemically, the reaction is said to have reached equilibrium. At equilibrium, the change in concentrations stops, and the value of Q becomes exactly equal to the value of the equilibrium constant (K).\nWhy is the answer (Q=K) and not (Q=0 or complete material consumption? Why not Q=0? Because Q=0 means the battery is brand new and has not yet been used (no output).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 4,
+        "text": "If Electrode A has Ered∘​=−0.76V and Electrode B has Ered∘​=−0.44V, which acts as the anode in a spontaneous cell?",
+        "type": "mcq",
+        "options": [
+            "Both can act as anode depending on concentration.",
+            "No spontaneous reaction can occur.",
+            "Electrode B.",
+            "Electrode A ."
+        ],
+        "correct_answer": "d",
+        "explanation": "Lower reduction potential\/Higher oxidation potential).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 5,
+        "text": "In the Nernst equation, what happens to E if all coefficients in the balanced equation are doubled? A) E doubles as well.",
+        "type": "mcq",
+        "options": [
+            "E is reduced by half.",
+            "E remains constant.",
+            "E increases by Faraday's constant.",
+            ""
+        ],
+        "correct_answer": "c",
+        "explanation": "Doubling coefficients doubles both n and the powers in Q, canceling the effect).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 6,
+        "text": "In the Standard Hydrogen Electrode (SHE), what is the function of the Platinum black coating?",
+        "type": "mcq",
+        "options": [
+            "To act as a reactant that oxidizes over time.",
+            "To provide an inert surface with a large area for electron exchange.",
+            "To absorb oxygen to prevent hydrogen oxidation.",
+            "To raise the temperature of the solution."
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because to provide an inert surface with a large area for electron exchange. ..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 7,
+        "text": "Why can't the reduction potential of a single electrode be measured experimentally with a voltmeter?",
+        "type": "mcq",
+        "options": [
+            "Because voltmeters only measure current.",
+            "Because ions in solution block the voltmeter.",
+            "Because a single electrode potential is always zero.",
+            "Because the electrical circuit remains open with no return path for charge."
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because because the electrical circuit remains open with no return path for charge. ..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 8,
+        "text": "If Ecell∘​ for a reaction is −1.20V, what can be concluded about its spontaneity?",
+        "type": "mcq",
+        "options": [
+            "It is spontaneous in the forward direction.",
+            "It is in a state of dynamic equilibrium.",
+            "It is non-spontaneous and requires an external power source.",
+            "It is fast but consumes heat energy."
+        ],
+        "correct_answer": "c",
+        "explanation": "Negative voltage means ΔG>0.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 9,
+        "text": "Which materials are suitable as \"Inert Electrodes\" in electrolysis?",
+        "type": "mcq",
+        "options": [
+            "Graphite and Platinum.",
+            "Zinc and Copper.",
+            "Sodium and Potassium.",
+            "Iron and Aluminum."
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because graphite and platinum...",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 10,
+        "text": "When charging a Lead storage battery, what happens to the concentration of sulfuric acid?",
+        "type": "mcq",
+        "options": [
+            "It decreases.",
+            "It turns into solid sulfur.",
+            "It remains constant.",
+            "It increases as the acid is regenerated."
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because it increases as the acid is regenerated...",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 11,
+        "text": "What is the fundamental difference in energy transformation between a Galvanic cell and an Electrolytic cell?",
+        "type": "mcq",
+        "options": [
+            "Both convert chemical to electrical energy.",
+            "Galvanic depends on heat; Electrolytic depends on light.",
+            "Galvanic is non-spontaneous; Electrolytic is spontaneous.",
+            "Galvanic: Chemical → Electrical; Electrolytic: Electrical → Chemical."
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because galvanic: chemical → electrical; electrolytic: electrical → chemical. ..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 12,
+        "text": "What is the direct effect of increasing the \"surface area\" of the electrodes in a car battery on its performance?",
+        "type": "mcq",
+        "options": [
+            "It increases the cell potential (Voltage).",
+            "It increases the amount of current (Amperes) that can be drawn in a short time.",
+            "It increases the value of the equilibrium constant (K) for the reaction.",
+            "It decreases the rate of anode corrosion over time."
+        ],
+        "correct_answer": "b",
+        "explanation": "Surface area increases the reaction \"rate\" and the ability to pump more electrons, but it does not change the voltage.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 13,
+        "text": "When measuring the potential of an unknown electrode relative to the Standard Hydrogen Electrode (SHE), it was found that electrons move \"from the unknown electrode to the hydrogen electrode.\" What can we conclude?",
+        "type": "mcq",
+        "options": [
+            "The standard potential of the unknown electrode has a positive sign.",
+            "The unknown electrode acts as the cathode.",
+            "The standard potential of the unknown electrode has a negative sign.",
+            "Hydrogen is the species being oxidized in this cell."
+        ],
+        "correct_answer": "c",
+        "explanation": "The movement of electrons away from the electrode means it is the \"anode,\" and an anode relative to hydrogen has a negative standard potential.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 14,
+        "text": "If you have a Concentration Cell with two copper electrodes, in which direction will the electrons move through the wire?",
+        "type": "mcq",
+        "options": [
+            "From the electrode immersed in the less concentrated solution to the more concentrated solution.",
+            "From the electrode immersed in the more concentrated solution to the less concentrated solution.",
+            "Electrons will not move because the electrodes are made of the same material (E∘=0).",
+            "Electrons only move if one of the solutions is heated."
+        ],
+        "correct_answer": "a",
+        "explanation": "In order for the system to reach equilibrium, the electrode in the dilute solution must oxidize to increase its concentration.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 15,
+        "text": "Two solutions have the same concentration (0.1 M): HCl and CH₃COOH. Which statement is most correct?",
+        "type": "mcq",
+        "options": [
+            "Both conduct equally because they have the same concentration.",
+            "HCl conducts better due to complete ionization.",
+            "CH₃COOH conducts better due to hydrogen bonding.",
+            "Both are non-electrolytes."
+        ],
+        "correct_answer": "b",
+        "explanation": "HCl is a strong electrolyte, so it ionizes completely and produces more ions, leading to higher conductivity. CH₃COOH is a weak electrolyte and only partially ionizes.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 16,
+        "text": "Which change would NOT significantly increase the conductivity of an electrolytic solution?",
+        "type": "mcq",
+        "options": [
+            "Increasing temperature.",
+            "Increasing ion concentration.",
+            "Using a stronger electrolyte.",
+            "Increasing the volume of the solution while keeping moles constant."
+        ],
+        "correct_answer": "d",
+        "explanation": "Increasing the volume while keeping the number of moles constant decreases the concentration of ions, so the conductivity does not increase.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 17,
+        "text": "In molten NaCl, the charge is carried mainly by:",
+        "type": "mcq",
+        "options": [
+            "Free electrons.",
+            "Neutral atoms.",
+            "Na⁺ and Cl⁻ ions.",
+            "Protons."
+        ],
+        "correct_answer": "c",
+        "explanation": "In molten ionic compounds, ions are free to move and carry the charge, not electrons.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 1,
+        "text": "Two solutions have the same concentration (0.1 M): HCl and CH₃COOH. Why does their electrical conductivity differ?",
+        "type": "mcq",
+        "options": [
+            "Both conduct equally because concentration is the same",
+            "HCl fully ionizes producing more ions, while CH₃COOH only partially ionizes",
+            "CH₃COOH conducts better due to hydrogen bonding",
+            "Neither conducts because they are acids"
+        ],
+        "correct_answer": "b",
+        "explanation": "HCl is a strong electrolyte that fully ionizes into H⁺ and Cl⁻, producing many ions. CH₃COOH is a weak electrolyte and only partially ionizes, so fewer ions are available for conductivity.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 2,
+        "text": "You have an NaCl solution and increase the volume while keeping the number of moles constant. What happens to the electrical conductivity?",
+        "type": "mcq",
+        "options": [
+            "Conductivity increases because more water means more ions",
+            "Conductivity stays the same because the number of moles is constant",
+            "Conductivity decreases because ion concentration decreases",
+            "Conductivity doubles because volume doubles"
+        ],
+        "correct_answer": "c",
+        "explanation": "Increasing the volume while keeping moles constant decreases ion concentration. Since conductivity depends on ion concentration, it decreases.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO2",
+        "question_number": 3,
+        "text": "How is charge conducted in an aqueous NaCl solution compared to molten NaCl?",
+        "type": "mcq",
+        "options": [
+            "In aqueous NaCl, electrons carry charge; in molten NaCl, ions carry charge",
+            "In both cases, Na⁺ and Cl⁻ ions carry the charge; electrons do not move through the liquid",
+            "In aqueous NaCl, only water molecules carry charge",
+            "In molten NaCl, free electrons conduct; in aqueous NaCl, ions conduct"
+        ],
+        "correct_answer": "b",
+        "explanation": "In both aqueous and molten NaCl, Na⁺ and Cl⁻ ions carry the charge. Ionic compounds conduct via mobile ions, unlike metals which conduct via delocalized electrons.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 1,
+        "text": "What is the IUPAC name for (CH3​)2​CHCH(CH3​)CH2​CH=CH2​?",
+        "type": "mcq",
+        "options": [
+            "4,5-dimethyl-1-hexene",
+            "4,5,5-trimethyl-1-pentene",
+            "2,3-dimethyl-5-hexene",
+            "4-methyl-4-isopropyl-1-butene"
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because 4,5-dimethyl-1-hexene.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 2,
+        "text": "Which of the following is the correct IUPAC name for the compound:\nCH₃–CH=CH–CH₂–CH₃",
+        "type": "mcq",
+        "options": [
+            "Pent-1-ene",
+            "Pent-2-ene",
+            "2-Pentene",
+            "Pentene"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because pent-2-ene.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 3,
+        "text": "Which is the correct IUPAC name for:\nCH₃–CH(CH₃)–CH₂–CH₃",
+        "type": "mcq",
+        "options": [
+            "2-Methylbutane",
+            "3-Methylbutane",
+            "2-Methylpentane",
+            "2-Ethylbutane"
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because 2-methylbutane.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 4,
+        "text": "Which of the following is an example of a cycloalkane with the formula C6​H12​?",
+        "type": "mcq",
+        "options": [
+            "Ethylcyclobutane",
+            "Methylcyclopentane",
+            "Cyclohexane",
+            "All of the above"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because all of the above.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 5,
+        "text": "Which of the following pairs are constitutional isomers?",
+        "type": "mcq",
+        "options": [
+            "CH3​CH2​OCH3​ and CH3​CH2​CHO",
+            "CH3​CH2​CHO and CH3​CH2​CH2​OH",
+            "CH3​COCH2​CH3​ and CH3​CH2​COCH3​",
+            "CH3​CH2​CH2​CHO and CH3​COCH2​CH3​"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because ch3​ch2​ch2​cho and ch3​coch2​ch3​.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 6,
+        "text": "How many constitutional isomers exist for the formula C4​H9​Cl?",
+        "type": "mcq",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because 4.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 7,
+        "text": "What is the most typical reaction of simple alkenes?",
+        "type": "mcq",
+        "options": [
+            "Electrophilic substitution",
+            "Nucleophilic substitution",
+            "Electrophilic addition",
+            "Nucleophilic addition"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because electrophilic addition.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 8,
+        "text": "What is the likely product from the addition of Cl2​ to 1-butene?",
+        "type": "mcq",
+        "options": [
+            "CH3​CH2​CH2​CH2​Cl",
+            "CH3​CH2​CHClCH2​Cl",
+            "ClCH2​CH2​CH2​CH2​Cl",
+            "CH3​CH2​CCl2​CH3​"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because ch3​ch2​chclch2​cl.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 9,
+        "text": "Which of the following molecules will NOT have a dipole moment?",
+        "type": "mcq",
+        "options": [
+            "CH3​Cl",
+            "CH3​OCH3​",
+            "CH2​Cl2​",
+            "CCl4​"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because ccl4.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 10,
+        "text": "Which of the following molecules has a linear shape?",
+        "type": "mcq",
+        "options": [
+            "NH3​",
+            "H2​S",
+            "CO2​",
+            "H2​CO"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because co2.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 11,
+        "text": "Which of the following statements about carbon is NOT correct?",
+        "type": "mcq",
+        "options": [
+            "Carbon forms strong covalent bonds to itself, allowing chains and rings to be made.",
+            "Carbon expands its valence shell to accommodate more than eight electrons.",
+            "Carbon forms strong covalent bonds to elements like nitrogen and oxygen.",
+            "Carbon and hydrogen have similar electronegativity."
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because carbon expands its valence shell to accommodate more than eight electrons..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 12,
+        "text": "Which one of the following alcohols will be oxidized by Jones' reagent to a ketone having the same number of carbon atoms?",
+        "type": "mcq",
+        "options": [
+            "1-methylcyclohexanol",
+            "3,3-dimethylcyclopentanol",
+            "3-methyl-1-hexanol",
+            "3-ethyl-3-hexanol"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because 3,3-dimethylcyclopentanol..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 13,
+        "text": "Which of the following describes the bonding in benzene correctly?",
+        "type": "mcq",
+        "options": [
+            "It has three isolated double bonds and three single bonds.",
+            "All C-C bonds have the same length due to resonance.",
+            "It is a highly reactive alkene.",
+            "It has a non-planar hexagonal shape."
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because all c-c bonds have the same length due to resonance..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 14,
+        "text": "Which of the following groups acts as a \"deactivating\" and \"meta-directing\" group in an aromatic ring?",
+        "type": "mcq",
+        "options": [
+            "-OH",
+            "-CH_3",
+            "-NO_2",
+            "-Cl"
+        ],
+        "correct_answer": "c",
+        "explanation": "Nitro group is strongly electron-withdrawing).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 15,
+        "text": "Which of the following is the most acidic compound?",
+        "type": "mcq",
+        "options": [
+            "Ethanol",
+            "Phenol",
+            "p-Nitrophenol",
+            "p-Methylphenol"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because p-nitrophenol.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 16,
+        "text": "Phenol reacts with bromine water (Br2\/H2O) to give a white precipitate of:",
+        "type": "mcq",
+        "options": [
+            "2-bromophenol",
+            "4-bromophenol",
+            "2,4,6-tribromophenol",
+            "Bromobenzene"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because 2,4,6-tribromophenol.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 17,
+        "text": "What is the hybridization of a carbon atom in Methane (CH4)?",
+        "type": "mcq",
+        "options": [
+            "sp",
+            "sp^2",
+            "sp^3",
+            "dsp^2"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because sp^3.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 18,
+        "text": "Which of the following has the highest boiling point?",
+        "type": "mcq",
+        "options": [
+            "Methane (CH4)",
+            "Ethane (C2H6)",
+            "Propane (C3H8)",
+            "Butane (C4H10)"
+        ],
+        "correct_answer": "d",
+        "explanation": "",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 19,
+        "text": "What is the major product when 3-methyl-1-butene reacts with HCl? (Consider carbocation rearrangement)",
+        "type": "mcq",
+        "options": [
+            "1-chloro-3-methylbutane",
+            "2-chloro-3-methylbutane",
+            "2-chloro-2-methylbutane",
+            "1-chloro-2-methylbutane"
+        ],
+        "correct_answer": "c",
+        "explanation": "",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO3",
+        "question_number": 1,
+        "text": "A compound contains: C = 52.2%, H = 13.0%, O = 34.8%. The molar mass is 88 g\/mol. What is the molecular formula?",
+        "type": "mcq",
+        "options": [
+            "C₂H₆O",
+            "C₃H₈O",
+            "C₄H₁₀O",
+            "C₅H₁₂O"
+        ],
+        "correct_answer": "c",
+        "explanation": "1. Assume 100 g: C = 52.2 g, H = 13.0 g, O = 34.8 g\n2. Moles: C: 52.2\/12 = 4.35, H: 13\/1 = 13, O: 34.8\/16 = 2.175\n3. Divide by smallest (2.175): C = 2, H = 6, O = 1\n4. Empirical formula: C₂H₆O (molar mass = 46)\n5. Ratio: 88\/46 ≈ 2, so molecular formula = C₄H₁₀O\nMultiple structural formulas are possible (alcohol or ether isomers).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 1,
+        "text": "Which statement correctly explains why shorter-chain hydrocarbons are more flammable than longer-chain hydrocarbons?",
+        "type": "mcq",
+        "options": [
+            "They have stronger intermolecular forces",
+            "They vaporise more easily",
+            "They contain more carbon atoms",
+            "They have higher boiling points"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because they vaporise more easily.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 2,
+        "text": "Incomplete combustion of hydrocarbons can produce carbon monoxide.\nWhy is carbon monoxide dangerous?",
+        "type": "mcq",
+        "options": [
+            "It reduces oxygen transport in the blood",
+            "It reacts with oxygen in the air",
+            "It increases carbon dioxide levels",
+            "It causes acid rain"
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because it reduces oxygen transport in the blood.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 3,
+        "text": "Crude oil is separated into fractions by fractional distillation.\nWhy do different fractions separate?",
+        "type": "mcq",
+        "options": [
+            "They have different colours",
+            "They react differently with oxygen",
+            "They have different densities only",
+            "They have different boiling points"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because they have different boiling points.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 4,
+        "text": "Which change occurs as the length of a hydrocarbon chain increases?",
+        "type": "mcq",
+        "options": [
+            "Volatility increases",
+            "Boiling point decreases",
+            "Viscosity increases",
+            "Flammability increases"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because viscosity increases.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 5,
+        "text": "A hydrocarbon burns in a limited supply of oxygen.\nWhich set of products is most likely formed?",
+        "type": "mcq",
+        "options": [
+            "Carbon dioxide and water only",
+            "Carbon monoxide and water",
+            "Hydrogen and oxygen",
+            "Carbon dioxide only"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because carbon monoxide and water.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 6,
+        "text": "Which of these alkanes has the highest boiling point?",
+        "type": "mcq",
+        "options": [
+            "C2H6",
+            "C3H8",
+            "C4H10",
+            "C5H12"
+        ],
+        "correct_answer": "c",
+        "explanation": "C4H10 has the highest boiling point of these three alkanes because it has the largest molecules, so the strongest intermolecular forces.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 7,
+        "text": "Which properties of the different compounds in petroleum enable its separation into fractions?\n1. Boiling point\n2. Chain length\n3. Chemical reactivity\n4. Solubility in water",
+        "type": "mcq",
+        "options": [
+            "1 and 2",
+            "1 and 3",
+            "2 and 4",
+            "3 and 4"
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because 1 and 2.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 8,
+        "text": "Which substance has a main constituent that contains only one carbon atom per molecule?",
+        "type": "mcq",
+        "options": [
+            "Bitumen",
+            "Gasoline",
+            "Natural gas",
+            "Petroleum"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because natural gas.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 9,
+        "text": "What is the name of the process that could be used to produce propane (C3H8) from decane (C10H22)?",
+        "type": "mcq",
+        "options": [
+            "Substitution",
+            "Reforming",
+            "Fractional distillation",
+            "Cracking"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because cracking.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 10,
+        "text": "Why does Thermal Cracking produce a higher percentage of Alkenes compared to Catalytic Cracking?",
+        "type": "mcq",
+        "options": [
+            "High heat causes homolytic fission, creating free radicals that eliminate hydrogen",
+            "High pressure forces molecules to form double bonds",
+            "Catalysts are only used to produce Alkanes",
+            "Thermal cracking only breaks C-H bonds, not C-C bonds"
+        ],
+        "correct_answer": "a",
+        "explanation": "This is the correct characteristic because high heat causes homolytic fission, creating free radicals that eliminate hydrogen..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 11,
+        "text": "What happens if a hydrocarbon molecule is larger than the pores of a Zeolite catalyst?",
+        "type": "mcq",
+        "options": [
+            "The molecule will shrink automatically to fit",
+            "The reaction rate will increase on the surface",
+            "No cracking will occur because the molecule cannot reach the internal active sites",
+            "The Zeolite will expand its rigid structure to accommodate it"
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because no cracking will occur because the molecule cannot reach the internal active sites..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 12,
+        "text": "NOx gases are an environmental challenge in car engines because:",
+        "type": "mcq",
+        "options": [
+            "The fuel contains high amounts of nitrogen",
+            "High engine temperatures cause nitrogen and oxygen from the air to react",
+            "They are the main product of incomplete combustion",
+            "They are only produced when using leaded gasoline"
+        ],
+        "correct_answer": "b",
+        "explanation": "This is the correct characteristic because high engine temperatures cause nitrogen and oxygen from the air to react..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 13,
+        "text": "If Undecane (C11H24) is cracked into one Propene (C3H6) and one Butene (C4H8), what is the third product?",
+        "type": "mcq",
+        "options": [
+            "C4H10 (Butane)",
+            "C4H8 (Butene)",
+            "C5H12 (Pentane)",
+            "H2 (Hydrogen gas)"
+        ],
+        "correct_answer": "a",
+        "explanation": "Calculation: 11 - 3 - 4 = 4 Carbons | 24 - 6 - 8 = 10 Hydrogens → C4H10 (Butane)",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 14,
+        "text": "Thermodynamically, why must heat be continuously supplied to the cracking process?",
+        "type": "mcq",
+        "options": [
+            "To keep the catalyst from solidifying",
+            "To prevent the formation of greenhouse gases",
+            "To increase the density of the crude oil",
+            "Because it is an Endothermic process where bond-breaking requires more energy than bond-making"
+        ],
+        "correct_answer": "d",
+        "explanation": "This is the correct characteristic because because it is an endothermic process where bond-breaking requires more energy than bond-making..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 15,
+        "text": "Bond length of (I) ethane, (II) ethene, (III) acetylene and (IV) benzene follows the order:",
+        "type": "mcq",
+        "options": [
+            "I > II > III > IV",
+            "I > II > IV > III",
+            "I > IV > II > III",
+            "III > IV > II > I"
+        ],
+        "correct_answer": "c",
+        "explanation": "Bond order is inversely proportional to bond length. Single bonds (ethane) are longest, triple bonds (acetylene) are shortest. Benzene has bond order 1.5, between single and double.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 16,
+        "text": "Which of the following can be used as the halide component of a Friedel-Craft reaction?",
+        "type": "mcq",
+        "options": [
+            "Chlorobenzene",
+            "Bromobenzene",
+            "Chloroethene",
+            "Isopropyl chloride"
+        ],
+        "correct_answer": "d",
+        "explanation": "Only isopropyl chloride can be used as the halide component for Friedel craft reaction. In all other cases, the cleavage of the C-X bond is not possible.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 17,
+        "text": "In catalytic cracking, what is the primary role of a catalyst (such as a zeolite)?",
+        "type": "mcq",
+        "options": [
+            "To provide the energy needed to break carbon-carbon (CC-) bonds.",
+            "To increase the reaction pressure to promote the formation of alkenes.",
+            "To increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains.",
+            "To lower the reaction temperature below 100°C."
+        ],
+        "correct_answer": "c",
+        "explanation": "This is the correct characteristic because to increase the reaction rate and direct the reaction to produce molecules with high-quality branched chains..",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 18,
+        "text": "Which of the following reactions represents the correct cracking of decane? (C10H22 → C8H18 + C2H4)",
+        "type": "mcq",
+        "options": [
+            "C10H222C5H11",
+            "C10H22 → C6H14 + C4H8)",
+            "C10H22 → C6H14 + C4H8",
+            "Both b and c)"
+        ],
+        "correct_answer": "d",
+        "explanation": "(Because cracking produces an alkane and an alkene, and the chains can vary)",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 19,
+        "text": "How does albedo feedback in polar regions affect global warming?",
+        "type": "mcq",
+        "options": [
+            "Melting ice increases albedo, which reflects heat and cools the atmosphere",
+            "Melting ice decreases albedo, which increases heat absorption and accelerates melting",
+            "Increased ice increases infrared absorption",
+            "There is no relationship between ice and global warming"
+        ],
+        "correct_answer": "b",
+        "explanation": "Reduced albedo (reflectivity) from melting ice leads to greater heat absorption by dark ocean water, creating a positive feedback loop that accelerates warming.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO4",
+        "question_number": 20,
+        "text": "What is a major greenhouse gas responsible for enhanced global warming aside from CO2?",
+        "type": "mcq",
+        "options": [
+            "N2",
+            "O2",
+            "CH4",
+            "Ar"
+        ],
+        "correct_answer": "c",
+        "explanation": "Methane is a potent greenhouse gas emitted during the production and transport of coal, natural gas, and oil.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 1,
+        "text": "What is the kind of organic compounds that the general formula R−COO−R∗ refers to?",
+        "type": "mcq",
+        "options": [
+            "Esters",
+            "Ethers",
+            "Acids",
+            "Ketones"
+        ],
+        "correct_answer": "a",
+        "explanation": "The carboxyl group bonded to two alkyl groups (R−COO−R′) defines the ester family.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 2,
+        "text": "During electrolysis of molten NaCl, which species is reduced?",
+        "type": "mcq",
+        "options": [
+            "Na⁺",
+            "Cl⁻",
+            "Na",
+            "Cl₂"
+        ],
+        "correct_answer": "a",
+        "explanation": "Positive Na+ ions migrate to the negative cathode where they gain electrons (reduction).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 3,
+        "text": "How many structural isomers does C4​H10​ have?",
+        "type": "mcq",
+        "options": [
+            "two",
+            "five",
+            "three",
+            "four"
+        ],
+        "correct_answer": "a",
+        "explanation": "An alkane with 4 carbons has only two forms: straight-chain n-butane and branched isobutane.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 4,
+        "text": "A current of 4.00 A is passed for 965 s. How many moles of electrons flow? (F = 96500 C\/mol e⁻)",
+        "type": "mcq",
+        "options": [
+            "0.02 mol",
+            "0.04 mol",
+            "0.10 mol",
+            "0.20 mol"
+        ],
+        "correct_answer": "b",
+        "explanation": "Using Q=I×t, Q=3860C. Moles of e−=3860\/96500=0.04 mol.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 5,
+        "text": "To which group of organic reactions does hydrogenation belong?",
+        "type": "mcq",
+        "options": [
+            "elimination",
+            "substitution",
+            "addition",
+            "condensation"
+        ],
+        "correct_answer": "c",
+        "explanation": "Hydrogenation is an addition reaction where hydrogen atoms are added to unsaturated bonds.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 6,
+        "text": "In the electrolysis of aqueous CuSO4​ using inert electrodes, what is produced at the cathode?",
+        "type": "mcq",
+        "options": [
+            "Cu²⁺",
+            "Cu(s)",
+            "H₂",
+            "O₂"
+        ],
+        "correct_answer": "b",
+        "explanation": "Cu2+ has a higher reduction potential than H+, so copper metal deposits at the cathode.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 7,
+        "text": "Which molecule is a ketone?",
+        "type": "mcq",
+        "options": [
+            "CH3​CH2​OCH3​",
+            "CH3​CH2​COCH3​",
+            "CH3​CH2​COOCH3​",
+            "CH3​CH2​OH"
+        ],
+        "correct_answer": "b",
+        "explanation": "Ketones are characterized by a carbonyl group (C=O) bonded to two carbon atoms within the chain.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 8,
+        "text": "Which of the following solutions will NOT conduct electricity?",
+        "type": "mcq",
+        "options": [
+            "NaCl(aq)",
+            "HCl(aq)",
+            "C₆H₁₂O₆(aq)",
+            "KOH(aq)"
+        ],
+        "correct_answer": "c",
+        "explanation": "Glucose is a covalent compound that does not dissociate into ions, which are necessary to carry current.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 9,
+        "text": "What is the IUPAC name for the following compound: CH3​−C(CH3​)2​−CH2​−CH(CH3​)2​?",
+        "type": "mcq",
+        "options": [
+            "1,3-pentamethylpropane",
+            "2,2,4-trimethylpentane",
+            "2,4,4-trimethylpentane",
+            "1,1,3,3-tetramethylbutane"
+        ],
+        "correct_answer": "b",
+        "explanation": "The longest chain has 5 carbons (pentane), and numbering gives the lowest positions to substituents.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 10,
+        "text": "Which factor most strongly affects the products formed during electrolysis?",
+        "type": "mcq",
+        "options": [
+            "Color of the solution",
+            "Type of electrolyte and electrode",
+            "Volume of container",
+            "External pressure"
+        ],
+        "correct_answer": "b",
+        "explanation": "The chemical nature of the ions and the reactivity of the electrode determine the reaction outcome.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 11,
+        "text": "When two identical atoms are on the same side of a double bond, the molecule is:",
+        "type": "mcq",
+        "options": [
+            "structural",
+            "rigid",
+            "cis",
+            "trans"
+        ],
+        "correct_answer": "c",
+        "explanation": "\"Cis\" isomerism occurs when identical functional groups are on the same side of the double bond.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 12,
+        "text": "In the electrolysis of brine (aqueous NaCl), why is Cl₂ formed at the anode instead of O₂?",
+        "type": "mcq",
+        "options": [
+            "Cl⁻ is harder to oxidize",
+            "Cl⁻ is easier to oxidize than water",
+            "Water is inert",
+            "Na⁺ reacts first"
+        ],
+        "correct_answer": "b",
+        "explanation": "In concentrated solutions, the oxidation of Cl− is kinetically favored over the oxidation of water.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 13,
+        "text": "What is the process of converting long chain hydrocarbons into shorter ones using heat and a catalyst?",
+        "type": "mcq",
+        "options": [
+            "Polymerization",
+            "Addition",
+            "Condensation",
+            "Cracking"
+        ],
+        "correct_answer": "d",
+        "explanation": "Cracking breaks down large, heavy hydrocarbon molecules into smaller ones like gasoline.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 14,
+        "text": "How many grams of Cu (M = 63.5 g\/mol, n = 2) are deposited when 193000 C passes?",
+        "type": "mcq",
+        "options": [
+            "31.75 g",
+            "63.5 g",
+            "15.9 g",
+            "7.95 g"
+        ],
+        "correct_answer": "b",
+        "explanation": "193000C=2 Faradays. Since Cu2+ needs 2e−, exactly 1 mole (63.5g) is deposited.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 15,
+        "text": "Which of the following compounds forms, by hydrolysis, a secondary alcohol?",
+        "type": "mcq",
+        "options": [
+            "sec–butyl chloride",
+            "n–butyl chloride",
+            "neo–pentyl chloride",
+            "tert–butyl chloride"
+        ],
+        "correct_answer": "a",
+        "explanation": "Hydrolysis of a secondary alkyl halide replaces the halogen with an OH on a secondary carbon.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 16,
+        "text": "In electroplating, increasing current while keeping time constant will:",
+        "type": "mcq",
+        "options": [
+            "Decrease deposited mass",
+            "Stop the reaction",
+            "No effect",
+            "Increase deposited mass"
+        ],
+        "correct_answer": "d",
+        "explanation": "Mass is proportional to total charge (Q=I×t). Increasing current increases the charge.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 17,
+        "text": "What is the expected product from adding HBr to propene?",
+        "type": "mcq",
+        "options": [
+            "2-bromopropane",
+            "1-bromopropane",
+            "1,2-dibromopropane",
+            "mixture of 1-bromo and 2-bromo propane"
+        ],
+        "correct_answer": "a",
+        "explanation": "Markovnikov's rule states the Br adds to the more substituted carbon atom.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 18,
+        "text": "During electroplating, the source metal is connected to the:",
+        "type": "mcq",
+        "options": [
+            "Cathode",
+            "Anode",
+            "Salt bridge",
+            "Electrolyte only"
+        ],
+        "correct_answer": "b",
+        "explanation": "The source metal must oxidize (lose electrons) to dissolve into the solution, which occurs at the anode.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 19,
+        "text": "The boiling point of any alcohol is much higher than that of the corresponding alkane due to:",
+        "type": "mcq",
+        "options": [
+            "The difference in molar mass",
+            "The presence of double bond",
+            "The difference in size of molecules",
+            "The hydrogen bonding in alcohol"
+        ],
+        "correct_answer": "d",
+        "explanation": "Strong intermolecular hydrogen bonds in alcohols require more energy to break than Van der Waals forces in alkanes.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 20,
+        "text": "Rusting of iron occurs fastest in:",
+        "type": "mcq",
+        "options": [
+            "Dry air",
+            "Pure water",
+            "Saltwater",
+            "Vacuum"
+        ],
+        "correct_answer": "c",
+        "explanation": "Salt acts as an electrolyte, increasing the conductivity of water and speeding up the electrochemical corrosion.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 21,
+        "text": "Which molecule contains a carbon atom bonded to itself to form a ring?",
+        "type": "mcq",
+        "options": [
+            "Propane",
+            "Butene",
+            "Cyclohexane",
+            "Ethyne"
+        ],
+        "correct_answer": "c",
+        "explanation": "\"Cyclo\" indicates a ring structure where carbon atoms bond to form a closed loop.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 22,
+        "text": "Why does coating iron with zinc prevent corrosion?",
+        "type": "mcq",
+        "options": [
+            "Zinc reacts only with water",
+            "Zinc acts as a sacrificial anode",
+            "Zinc blocks oxygen completely",
+            "Zinc lowers temperature"
+        ],
+        "correct_answer": "b",
+        "explanation": "Zinc is more reactive than iron; it oxidizes first to protect the iron underneath.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 23,
+        "text": "Which of the following is a characteristic of a chiral carbon?",
+        "type": "mcq",
+        "options": [
+            "Bonded to 4 identical groups",
+            "Bonded to 4 different groups",
+            "Part of a double bond",
+            "Has a negative charge"
+        ],
+        "correct_answer": "b",
+        "explanation": "Chirality (optical activity) requires a carbon atom to be bonded to four distinct substituents.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 24,
+        "text": "In which species does the central atom exhibit the highest oxidation number?",
+        "type": "mcq",
+        "options": [
+            "SO₂",
+            "SO₃²⁻",
+            "H₂SO₄",
+            "S₂O₃²⁻"
+        ],
+        "correct_answer": "c",
+        "explanation": "In H2​SO4​, Sulfur is in the +6 oxidation state, its maximum common state.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 25,
+        "text": "Which reaction is a combustion reaction of a hydrocarbon?",
+        "type": "mcq",
+        "options": [
+            "CH4​+Cl2​→CH3​Cl+HCl",
+            "C2​H4​+H2​→C2​H6​",
+            "CH4​+2O2​→CO2​+2H2​O",
+            "CH3​OH+CH3​COOH→Ester"
+        ],
+        "correct_answer": "c",
+        "explanation": "Combustion involves a substance reacting with oxygen to produce CO2​ and H2​O.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 26,
+        "text": "Which reaction represents a disproportionation process?",
+        "type": "mcq",
+        "options": [
+            "Fe²⁺ → Fe³⁺",
+            "Cu²⁺ → Cu",
+            "Cl₂ + H₂O → HCl + HClO",
+            "Zn + Cu²⁺ → Zn²⁺ + Cu"
+        ],
+        "correct_answer": "c",
+        "explanation": "Chlorine is simultaneously oxidized (to +1) and reduced (to -1).",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 27,
+        "text": "How many moles of water are produced from the burning of 1 mole of methyl cyclohexane (C7​H14​)?",
+        "type": "mcq",
+        "options": [
+            "1 mol",
+            "3 mol",
+            "6 mol",
+            "7 mol"
+        ],
+        "correct_answer": "d",
+        "explanation": "C7​H14​ has 14 Hydrogens. Every 2 Hydrogens form 1 H2​O, so 14\/2=7 moles.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 28,
+        "text": "Given reduction potentials: Zn²⁺\/Zn = −0.76 V, Ag⁺\/Ag = +0.80 V. What is E°cell?",
+        "type": "mcq",
+        "options": [
+            "−1.56 V",
+            "+1.56 V",
+            "+0.04 V",
+            "−0.04 V"
+        ],
+        "correct_answer": "b",
+        "explanation": "E°cell=E°cathode−E°anode=0.80−(−0.76)=1.56V.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 29,
+        "text": "In which reaction is a C-C bond broken?",
+        "type": "mcq",
+        "options": [
+            "C6​H5​–CH3​+3H2​→C6​H11​–CH3​",
+            "C6​H5​–NO2​+3H2​→C6​H5​–NH2​+2H2​O",
+            "C6​H5​–CH3​+H2​→C6​H6​+CH4​",
+            "CH3​–CHO+H2​→CH3​–CH2​–OH"
+        ],
+        "correct_answer": "c",
+        "explanation": "This reaction removes the methyl group from the ring, breaking the bond between ring carbon and methyl carbon.",
+        "expected_answer": ""
+    },
+    {
+        "lo": "LO5",
+        "question_number": 30,
+        "text": "Which statement explains why sodium is not deposited during electrolysis of aqueous NaCl?",
+        "type": "mcq",
+        "options": [
+            "Sodium has low atomic mass",
+            "Sodium ions are too large",
+            "Water is reduced more easily than Na⁺",
+            "Sodium does not form ions"
+        ],
+        "correct_answer": "c",
+        "explanation": "Water has a higher (less negative) reduction potential than Na+, so H2​ gas forms instead.",
+        "expected_answer": ""
+    }
 ]

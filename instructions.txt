@@ -3,6 +3,10 @@
 git push -u new-origin main --force
 
 
+// Seeding
+php artisan db:seed --class=QuestionSeeder --force
+
+
 
 php artisan config:clear
 php artisan view:clear

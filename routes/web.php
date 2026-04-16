@@ -45,6 +45,20 @@ Route::get('/language/{locale}', function ($locale) {
 
 /*
 |--------------------------------------------------------------------------
+| CSRF Refresh (for long-lived tabs)
+|--------------------------------------------------------------------------
+|
+| Some users keep a tab open long enough for the session/CSRF token to rotate
+| or expire. Frontend code can call this endpoint to refresh the CSRF token
+| and retry failed requests once.
+|
+*/
+Route::get('/_csrf/refresh', function () {
+    return response()->json(['token' => csrf_token()]);
+})->middleware('throttle:60,1')->name('csrf.refresh');
+
+/*
+|--------------------------------------------------------------------------
 | Authenticated Student Routes
 |--------------------------------------------------------------------------
 */

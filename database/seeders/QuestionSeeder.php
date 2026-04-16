@@ -47,6 +47,9 @@ class QuestionSeeder extends Seeder
 
     private function seedJsonQuestions(): void
     {
+        // Clear existing questions to prevent duplicates during re-seeding
+        Question::truncate();
+
         $jsonPath = database_path('seeders/questions.json');
         if (! File::exists($jsonPath)) {
             $this->command->warn('questions.json not found. Did you run process_questions.py?');
@@ -92,17 +95,14 @@ class QuestionSeeder extends Seeder
             };
 
             $correctAnswer = null;
-            if ($q['type'] === 'mcq' && $q['correct_answer'] && in_array(strtolower($q['correct_answer']), ['a', 'b', 'c', 'd'])) {
+            if ($q['type'] === 'mcq' && !empty($q['correct_answer']) && in_array(strtolower($q['correct_answer']), ['a', 'b', 'c', 'd'])) {
                 $correctAnswer = strtolower($q['correct_answer']);
             } elseif ($q['type'] === 'mcq') {
-                // Default fallback if parsing missed it just in case
                 $correctAnswer = 'a';
             }
 
-            $expectedAnswersArr = null;
-            if ($q['type'] === 'essay' && ! empty($q['expected_answer'])) {
-                $expectedAnswersArr = [['value' => (float) $q['expected_answer'], 'tolerance' => 0]];
-            }
+            // Read expected_answers directly from JSON (already in correct format)
+            $expectedAnswersArr = $q['expected_answers'] ?? null;
 
             Question::firstOrCreate(
                 [
@@ -110,7 +110,7 @@ class QuestionSeeder extends Seeder
                     'stage_id' => $loId,
                 ],
                 [
-                    'type' => $q['type'] === 'essay' ? 'complete' : $q['type'],
+                    'type' => $q['type'],
                     'option_a' => $q['options'][0] ?? null,
                     'option_b' => $q['options'][1] ?? null,
                     'option_c' => $q['options'][2] ?? null,
@@ -121,14 +121,12 @@ class QuestionSeeder extends Seeder
                     'expected_answers' => $expectedAnswersArr,
                     'difficulty' => $difficulty,
                     'difficulty_ar' => $difficulty_ar,
-                    // To enable Arabic bilingual seamlessly, we copy the English till translation happens
                     'question_text_ar' => $q['text'],
                     'option_a_ar' => $q['options'][0] ?? null,
                     'option_b_ar' => $q['options'][1] ?? null,
                     'option_c_ar' => $q['options'][2] ?? null,
                     'option_d_ar' => $q['options'][3] ?? null,
                     'explanation_ar' => $q['explanation'] ?? null,
-                    'expected_answer_ar' => $q['expected_answer'] ?? null,
                 ]
             );
         }
