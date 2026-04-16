@@ -129,20 +129,7 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test --parallel --stop-on-failure
 
-      - name: Notify failure
-        if: failure()
-        run: |
-          curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d text="❌ ChemTrack CI Tests FAILED on main branch! Please check GitHub Actions logs."
-
-      - name: Notify success
-        if: success()
-        run: |
-          curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d text="✅ ChemTrack CI Tests PASSED flawlessly on main branch!"
-
+        
   # ==========================================
   # Step 4: Docker Build & Deploy (Main Only)
   # ==========================================
