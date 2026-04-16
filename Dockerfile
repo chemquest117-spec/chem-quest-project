@@ -45,7 +45,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Copy app code, then run deferred post-install scripts (package:discover etc.)
 COPY . .
-RUN composer run-script post-autoload-dump
+RUN mkdir -p bootstrap/cache && composer run-script post-autoload-dump
 
 # Opcache tuning
 COPY docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
