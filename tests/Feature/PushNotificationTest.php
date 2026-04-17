@@ -148,9 +148,10 @@ it('sends push notification to device token via HTTP v1', function () {
         'fcm.googleapis.com/v1/projects/*/messages:send' => Http::response(['name' => 'projects/test/messages/123'], 200),
     ]);
 
-    // Use a partial mock to bypass the RSA signing logic which fails with dummy keys
+    // Use a partial mock to bypass the RSA signing logic and file-system checks
     $service = Mockery::mock(PushNotificationService::class)->makePartial();
     $service->shouldReceive('getAccessToken')->andReturn('fake-access-token');
+    $service->shouldReceive('isEnabled')->andReturn(true);
 
     // Set the internal projectId for the mock
     $reflection = new ReflectionClass(PushNotificationService::class);
