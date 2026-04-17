@@ -50,6 +50,7 @@ class AdminAnnouncement extends Notification implements ShouldQueue
         return [
             'title' => $locale === 'ar' ? $this->titleAr : $this->titleEn,
             'body' => $locale === 'ar' ? $this->messageAr : $this->messageEn,
+            'category' => 'announcement', // Add to root for extra visibility
             'data' => [
                 'category' => 'announcement',
             ],

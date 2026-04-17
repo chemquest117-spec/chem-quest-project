@@ -28,6 +28,12 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 /**
+ * Force the new service worker to become active immediately.
+ */
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', (event) => event.waitUntil(clients.claim()));
+
+/**
  * Handle background messages — customize the notification shown to the user.
  */
 messaging.onBackgroundMessage((payload) => {
@@ -51,6 +57,26 @@ messaging.onBackgroundMessage((payload) => {
         // Auto-close after 10 seconds
         requireInteraction: false,
     };
+
+    // Broadcast to tabs with retries to handle page reloads/redirects
+    let attempts = 0;
+    const maxAttempts = 5;
+    const broadcast = () => {
+        self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+            if (clients && clients.length > 0) {
+                clients.forEach((client) => {
+                    client.postMessage({
+                        type: 'FCM_SW_MESSAGE',
+                        payload: payload
+                    });
+                });
+            } else if (attempts < maxAttempts) {
+                attempts++;
+                setTimeout(broadcast, 1000); // Retry every second
+            }
+        });
+    };
+    broadcast();
 
     return self.registration.showNotification(title, options);
 });

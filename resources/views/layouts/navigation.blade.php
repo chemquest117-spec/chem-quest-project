@@ -109,7 +109,31 @@
                 </div>
 
                 <!-- Notification Bell -->
-                <div class="relative" x-data="{ notifOpen: false, unreadCount: {{ auth()->user()->unreadNotifications->count() }}, markingRead: false }">
+                <div class="relative" x-data="{ 
+                        notifOpen: false, 
+                        unreadCount: {{ auth()->user()->unreadNotifications->count() }}, 
+                        markingRead: false 
+                    }"
+                    @fcm-message.window="
+                        unreadCount++;
+                        let list = document.getElementById('notification-list');
+                        let empty = document.getElementById('notification-empty');
+                        if (empty) empty.remove();
+                        if (list) {
+                            let html = `
+                                <div class='px-4 py-3 border-b border-white/5 bg-cyan-500/10 is-unread transition-colors'>
+                                    <div class='flex gap-2'>
+                                        <span class='w-2 h-2 mt-1.5 rounded-full bg-cyan-400 flex-shrink-0 unread-dot animate-pulse'></span>
+                                        <div class='flex-1'>
+                                            <p class='text-sm text-white font-medium'>${$event.detail.title}</p>
+                                            <p class='text-xs text-slate-400 mt-1'>Just now</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            list.insertAdjacentHTML('afterbegin', html);
+                        }
+                    ">
                     <button @click="notifOpen = !notifOpen" @click.away="notifOpen = false"
                         class="relative p-2 rounded-lg text-slate-300 hover:bg-white/10 transition">
                         <x-icon name="bell" class="w-5 h-5" />
@@ -142,7 +166,7 @@
                                 {{ __('navigation.mark_all_read') }}
                             </button>
                         </div>
-                        <div class="max-h-64 overflow-y-auto">
+                        <div class="max-h-64 overflow-y-auto" id="notification-list">
                             @forelse(auth()->user()->notifications->take(5) as $notification)
                                 <div class="px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors {{ is_null($notification->read_at) ? 'bg-cyan-500/10 is-unread' : '' }}">
                                     <div class="flex gap-2">
@@ -164,7 +188,7 @@
                                     </div>
                                 </div>
                             @empty
-                                <div class="px-4 py-6 text-center text-slate-400 text-sm flex items-center justify-center gap-1.5">
+                                <div id="notification-empty" class="px-4 py-6 text-center text-slate-400 text-sm flex items-center justify-center gap-1.5">
                                     <x-icon name="check-circle" class="w-4 h-4 text-emerald-400" /> {{ __('navigation.no_new_notifications') }}
                                 </div>
                             @endforelse

@@ -93,24 +93,21 @@
             </template>
         </div>
 
-        {{-- Flash Messages --}}
+        {{-- Flash Messages via Alpine Toast --}}
         @if(session('success'))
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" x-transition
-                class="max-w-7xl mx-auto mt-4 px-4">
-                <div
-                    class="bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-4 py-3 rounded-xl backdrop-blur-sm">
-                    {{ session('success') }}
-                </div>
-            </div>
+            <div x-data="{}" x-init="$dispatch('toast', { type: 'success', message: '{{ addslashes(session('success')) }}' })"></div>
         @endif
 
         @if(session('error'))
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" x-transition
-                class="max-w-7xl mx-auto mt-4 px-4">
-                <div class="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl backdrop-blur-sm">
-                    {{ session('error') }}
-                </div>
-            </div>
+            <div x-data="{}" x-init="$dispatch('toast', { type: 'error', message: '{{ addslashes(session('error')) }}' })"></div>
+        @endif
+        
+        @if(session('warning'))
+            <div x-data="{}" x-init="$dispatch('toast', { type: 'warning', message: '{{ addslashes(session('warning')) }}' })"></div>
+        @endif
+
+        @if(session('info'))
+            <div x-data="{}" x-init="$dispatch('toast', { type: 'info', message: '{{ addslashes(session('info')) }}' })"></div>
         @endif
 
         <!-- Page Heading -->

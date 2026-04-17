@@ -32,10 +32,38 @@ class AdminNotificationController extends Controller
             'target' => 'required|string|in:all,inactive,specific',
             'user_ids' => 'required_if:target,specific|array',
             'user_ids.*' => 'exists:users,id',
-            'title_en' => 'required|string|max:100',
-            'title_ar' => 'required|string|max:100',
-            'message_en' => 'required|string|max:500',
-            'message_ar' => 'required|string|max:500',
+            'title_en' => [
+                'required', 'string', 'max:100',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/[\x{0600}-\x{06FF}]/u', $value)) {
+                        $fail(__('validation.english_only', ['attribute' => $attribute]));
+                    }
+                },
+            ],
+            'title_ar' => [
+                'required', 'string', 'max:100',
+                function ($attribute, $value, $fail) {
+                    if (! preg_match('/[\x{0600}-\x{06FF}]/u', $value)) {
+                        $fail(__('validation.arabic_only', ['attribute' => $attribute]));
+                    }
+                },
+            ],
+            'message_en' => [
+                'required', 'string', 'max:500',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/[\x{0600}-\x{06FF}]/u', $value)) {
+                        $fail(__('validation.english_only', ['attribute' => $attribute]));
+                    }
+                },
+            ],
+            'message_ar' => [
+                'required', 'string', 'max:500',
+                function ($attribute, $value, $fail) {
+                    if (! preg_match('/[\x{0600}-\x{06FF}]/u', $value)) {
+                        $fail(__('validation.arabic_only', ['attribute' => $attribute]));
+                    }
+                },
+            ],
             'type' => 'required|string|in:info,success,warning',
         ]);
 

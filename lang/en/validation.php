@@ -166,6 +166,8 @@ return [
     'url' => 'The :attribute field must be a valid URL.',
     'ulid' => 'The :attribute field must be a valid ULID.',
     'uuid' => 'The :attribute field must be a valid UUID.',
+    'english_only' => 'The :attribute field must only contain English characters.',
+    'arabic_only' => 'The :attribute field must contain Arabic characters.',
 
     /*
     |--------------------------------------------------------------------------
@@ -195,6 +197,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'title_en' => 'English title',
+        'title_ar' => 'Arabic title',
+        'message_en' => 'English message',
+        'message_ar' => 'Arabic message',
+    ],
 
 ];

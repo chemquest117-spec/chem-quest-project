@@ -117,11 +117,22 @@ it('returns 0 when user has no device tokens', function () {
     expect($service->sendToUser($user, 'Title', 'Body'))->toBe(0);
 });
 
-it('sends push notification to device token via HTTP', function () {
-    config(['services.fcm.enabled' => true, 'services.fcm.server_key' => 'test-key']);
+it('sends push notification to device token via HTTP v1', function () {
+    config(['services.fcm.enabled' => true]);
+
+    // Create a dummy credentials file for testing
+    $dummyPath = storage_path('app/chem-track-58071-firebase-adminsdk-fbsvc-eca63e377e.json');
+    if (! file_exists($dummyPath)) {
+        file_put_contents($dummyPath, json_encode([
+            'project_id' => 'chem-track-test',
+            'client_email' => 'test@test.com',
+            'private_key' => '-----BEGIN PRIVATE KEY-----\nfake\n-----END PRIVATE KEY-----\n',
+        ]));
+    }
 
     Http::fake([
-        'fcm.googleapis.com/*' => Http::response(['success' => 1, 'failure' => 0], 200),
+        'oauth2.googleapis.com/token' => Http::response(['access_token' => 'fake-access-token'], 200),
+        'fcm.googleapis.com/v1/projects/*/messages:send' => Http::response(['name' => 'projects/test/messages/123'], 200),
     ]);
 
     $user = User::factory()->create();
@@ -137,9 +148,14 @@ it('sends push notification to device token via HTTP', function () {
     expect($sent)->toBe(1);
 
     Http::assertSent(function ($request) {
-        return str_contains($request->url(), 'fcm.googleapis.com')
-            && $request['to'] === 'test-device-token-abc'
-            && $request['notification']['title'] === 'Test Title';
+        if (str_contains($request->url(), 'oauth2.googleapis.com')) {
+            return true;
+        }
+
+        return str_contains($request->url(), 'fcm.googleapis.com/v1')
+            && $request['message']['token'] === 'test-device-token-abc'
+            && $request['message']['notification']['title'] === 'Test Title'
+            && $request['message']['data']['key'] === 'value';
     });
 });
 

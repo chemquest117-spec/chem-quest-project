@@ -99,9 +99,21 @@ async function registerToken() {
         });
 
         console.info('[FCM] Device token registered successfully.');
+
+        if (import.meta.env.DEV) {
+            window.dispatchEvent(new CustomEvent('toast', {
+                detail: { type: 'success', message: 'FCM Connection Established!' }
+            }));
+        }
+
         return token;
     } catch (err) {
         console.warn('[FCM] Token registration failed:', err.message);
+        if (import.meta.env.DEV) {
+            window.dispatchEvent(new CustomEvent('toast', {
+                detail: { type: 'error', message: 'FCM Error: ' + err.message }
+            }));
+        }
         return null;
     }
 }
@@ -114,32 +126,57 @@ function listenForForegroundMessages() {
 
     onMessage(messaging, (payload) => {
         console.info('[FCM] Foreground message received:', payload);
-
-        const notification = payload.notification || {};
-        const title = notification.title || 'ChemTrack';
-        const body = notification.body || '';
-        const data = payload.data || {};
-
-        // Map FCM category to toast type
-        const typeMap = {
-            success: 'success',
-            failure: 'warning',
-            streak: 'success',
-            comeback: 'info',
-            level_up: 'success',
-            reminder: 'info',
-        };
-
-        const toastType = typeMap[data.category] || 'info';
-
-        // Dispatch to Alpine.js toast system
-        window.dispatchEvent(new CustomEvent('toast', {
-            detail: {
-                type: toastType,
-                message: `${title}: ${body}`,
-            },
-        }));
+        handleMessagePayload(payload);
     });
+
+    // Also listen for messages sent from the Service Worker (in case it catches the message first)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'FCM_SW_MESSAGE') {
+                console.info('[FCM] Received message broadcast from Service Worker');
+                handleMessagePayload(event.data.payload);
+            }
+        });
+    }
+}
+
+/**
+ * Common handler for FCM message payloads (either from onMessage or Service Worker broadcast).
+ */
+function handleMessagePayload(payload) {
+    const notification = payload.notification || {};
+    const title = notification.title || 'ChemTrack';
+    const body = notification.body || '';
+    const data = payload.data || {};
+
+    const typeMap = {
+        success: 'success',
+        failure: 'warning',
+        streak: 'success',
+        comeback: 'info',
+        level_up: 'success',
+        reminder: 'info',
+        announcement: 'info',
+    };
+
+    const toastType = typeMap[data.category] || 'info';
+
+    // Dispatch to Alpine.js toast system
+    window.dispatchEvent(new CustomEvent('toast', {
+        detail: {
+            type: toastType,
+            message: `${title}: ${body}`,
+        },
+    }));
+
+    // Dispatch to Alpine.js notification bell counter and dropdown list
+    window.dispatchEvent(new CustomEvent('fcm-message', {
+        detail: {
+            title: title,
+            body: body,
+            category: data.category
+        }
+    }));
 }
 
 /**

@@ -34,7 +34,12 @@ class FcmChannel
 
         $title = $fcmData['title'] ?? config('app.name');
         $body = $fcmData['body'] ?? '';
-        $data = $fcmData['data'] ?? [];
+
+        // Merge any explicit data and top-level metadata into the final payload
+        $data = array_merge(
+            $fcmData['data'] ?? [],
+            array_diff_key($fcmData, array_flip(['title', 'body', 'data']))
+        );
 
         if (empty($body)) {
             return;

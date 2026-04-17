@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property string $token
  * @property string $platform
+ * @property string $browser
+ * @property string $os
+ * @property string $device
+ * @property string $ip_address
  * @property Carbon|null $last_used_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -21,6 +25,10 @@ class DeviceToken extends Model
         'user_id',
         'token',
         'platform',
+        'browser',
+        'os',
+        'device',
+        'ip_address',
         'last_used_at',
     ];
 

@@ -47,6 +47,8 @@ return [
     'fcm' => [
         'server_key' => env('FCM_SERVER_KEY'),
         'enabled' => env('FCM_ENABLED', false),
+        'credentials_path' => env('FCM_CREDENTIALS_PATH'),
+        'credentials_base64' => env('FCM_CREDENTIALS_BASE64'),
     ],
 
 ];
