@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\AdminAnnouncement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class AdminNotificationController extends Controller
@@ -80,7 +81,7 @@ class AdminNotificationController extends Controller
         }
 
         $users = $query->get();
-        \Illuminate\Support\Facades\Log::debug('[BROADCAST_DEBUG] Sending to ' . $users->count() . ' users.');
+        Log::debug('[BROADCAST_DEBUG] Sending to '.$users->count().' users.');
 
         if ($users->isEmpty()) {
             return back()->with('error', __('admin.no_users_found_matching_8e61'));
