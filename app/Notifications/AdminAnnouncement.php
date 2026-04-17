@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class AdminAnnouncement extends Notification implements ShouldQueue
+class AdminAnnouncement extends Notification
 {
     use Queueable;
 

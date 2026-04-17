@@ -86,6 +86,19 @@ class AdminNotificationController extends Controller
             return back()->with('error', __('admin.no_users_found_matching_8e61'));
         }
 
+        // Manually check if the database can even save notifications
+        try {
+            $testUser = $users->first();
+            $testUser->notifications()->create([
+                'id' => \Illuminate\Support\Str::uuid(),
+                'type' => 'App\Notifications\AdminAnnouncement',
+                'data' => ['message' => 'DB_TEST_STRICT', 'category' => 'announcement'],
+            ]);
+            error_log("[BROADCAST_DEBUG] Manual DB insert succeeded for user: " . $testUser->id);
+        } catch (\Exception $e) {
+            error_log("[BROADCAST_DEBUG] Manual DB insert FAILED: " . $e->getMessage());
+        }
+
         // Use Laravel's Notification Facade to chunk and send efficiently via queue
         Notification::send($users, new AdminAnnouncement(
             $validated['title_en'],
