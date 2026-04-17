@@ -148,13 +148,15 @@ it('sends push notification to device token via HTTP v1', function () {
         'fcm.googleapis.com/v1/projects/*/messages:send' => Http::response(['name' => 'projects/test/messages/123'], 200),
     ]);
 
-    $service = new PushNotificationService;
+    // Use a partial mock to bypass the RSA signing logic which fails with dummy keys
+    $service = Mockery::mock(PushNotificationService::class)->makePartial();
+    $service->shouldReceive('getAccessToken')->andReturn('fake-access-token');
 
-    // Debug info for GitHub logs
-    dump('FCM Enabled: '.(config('services.fcm.enabled') ? 'Yes' : 'No'));
-    dump('Credentials Path: '.$dummyPath);
-    dump('File Exists: '.(file_exists($dummyPath) ? 'Yes' : 'No'));
-    dump('Project ID: '.($service->getProjectId() ?: 'NULL'));
+    // Set the internal projectId for the mock
+    $reflection = new ReflectionClass(PushNotificationService::class);
+    $prop = $reflection->getProperty('projectId');
+    $prop->setAccessible(true);
+    $prop->setValue($service, 'chem-track-test');
 
     $user = User::factory()->create();
     DeviceToken::create([
@@ -174,7 +176,7 @@ it('sends push notification to device token via HTTP v1', function () {
             'token_count' => $user->deviceTokens()->count(),
             'is_enabled' => $service->isEnabled(),
         ];
-        throw new \Exception("FCM Fail: " . json_encode($diag));
+        throw new Exception('FCM Fail: '.json_encode($diag));
     }
 
     expect($sent)->toBe(1);
