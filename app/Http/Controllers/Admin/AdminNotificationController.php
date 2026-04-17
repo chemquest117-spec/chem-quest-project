@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\AdminAnnouncement;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class AdminNotificationController extends Controller
@@ -68,7 +67,7 @@ class AdminNotificationController extends Controller
             'type' => 'required|string|in:info,success,warning',
         ]);
 
-        $query = User::student()->whereNull('deleted_at');
+        $query = User::whereNull('deleted_at'); // Temporarily targeting all users for debugging
 
         if ($validated['target'] === 'specific') {
             $query->whereIn('id', $validated['user_ids']);
@@ -81,7 +80,7 @@ class AdminNotificationController extends Controller
         }
 
         $users = $query->get();
-        Log::debug('[BROADCAST_DEBUG] Sending to '.$users->count().' users.');
+        error_log('[BROADCAST_DEBUG] Sending to '.$users->count().' users. IDs: '.$users->pluck('id')->implode(','));
 
         if ($users->isEmpty()) {
             return back()->with('error', __('admin.no_users_found_matching_8e61'));
