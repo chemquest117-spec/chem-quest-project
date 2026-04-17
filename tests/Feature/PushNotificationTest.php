@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Notifications\Channels\FcmChannel;
 use App\Notifications\MotivationalNotification;
 use App\Services\PushNotificationService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 // ── MotivationalNotification Class ─────────────────────────────────
@@ -124,20 +125,20 @@ it('sends push notification to device token via HTTP v1', function () {
     $dummyPath = storage_path('app/chem-track-58071-firebase-adminsdk-fbsvc-eca63e377e.json');
 
     // Ensure directory exists
-    if (!is_dir(dirname($dummyPath))) {
+    if (! is_dir(dirname($dummyPath))) {
         mkdir(dirname($dummyPath), 0755, true);
     }
 
-    if (!file_exists($dummyPath)) {
+    if (! file_exists($dummyPath)) {
         file_put_contents($dummyPath, json_encode([
             'project_id' => 'chem-track-test',
             'client_email' => 'test@test.com',
-            'private_key' => "-----BEGIN PRIVATE KEY-----\n" . str_repeat('A', 1000) . "\n-----END PRIVATE KEY-----\n",
+            'private_key' => "-----BEGIN PRIVATE KEY-----\n".str_repeat('A', 1000)."\n-----END PRIVATE KEY-----\n",
         ]));
     }
 
     // Force clear the cache and config
-    \Illuminate\Support\Facades\Cache::forget('fcm_access_token');
+    Cache::forget('fcm_access_token');
     config(['services.fcm.enabled' => true]);
     config(['services.fcm.credentials_path' => $dummyPath]);
     config(['services.fcm.credentials_base64' => null]);
@@ -148,12 +149,12 @@ it('sends push notification to device token via HTTP v1', function () {
     ]);
 
     $service = new PushNotificationService;
-    
+
     // Debug info for GitHub logs
-    dump('FCM Enabled: ' . (config('services.fcm.enabled') ? 'Yes' : 'No'));
-    dump('Credentials Path: ' . $dummyPath);
-    dump('File Exists: ' . (file_exists($dummyPath) ? 'Yes' : 'No'));
-    dump('Project ID: ' . ($service->getProjectId() ?: 'NULL'));
+    dump('FCM Enabled: '.(config('services.fcm.enabled') ? 'Yes' : 'No'));
+    dump('Credentials Path: '.$dummyPath);
+    dump('File Exists: '.(file_exists($dummyPath) ? 'Yes' : 'No'));
+    dump('Project ID: '.($service->getProjectId() ?: 'NULL'));
 
     $user = User::factory()->create();
     DeviceToken::create([
