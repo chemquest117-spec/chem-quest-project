@@ -15,16 +15,16 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    apiKey: "AIzaSyDtxoTEV6LLbkarbDRqGGoEFb_gLHAqEGI",
+    authDomain: "chem-track-58071.firebaseapp.com",
+    projectId: "chem-track-58071",
+    storageBucket: "chem-track-58071.firebasestorage.app",
+    messagingSenderId: "297929137412",
+    appId: "1:297929137412:web:358794f21e4c5549af4451",
 };
 
 // VAPID key for web push (generate from Firebase Console → Project Settings → Cloud Messaging → Web Push certificates)
-const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY || '';
+const VAPID_KEY = "BO0oHMHP892ZXNp8lI8Fq6y1hCq6AG8xgiw0Z9JjnHfBUq7VIBxvh57fpnOMmG0zqTyXwfk3jQyj3K5XUYjCJ0Y";
 
 let messaging = null;
 
