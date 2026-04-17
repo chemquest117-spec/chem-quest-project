@@ -13,4 +13,6 @@ return [
     'profile' => 'Profile',
     'log_out' => 'Log Out',
     'weekly_planner' => 'Weekly Planner',
+    'view_all_notifications' => 'View all notifications',
+    'broadcast' => 'Broadcast',
 ];

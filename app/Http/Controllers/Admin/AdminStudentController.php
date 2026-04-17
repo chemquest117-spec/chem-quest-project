@@ -32,7 +32,7 @@ class AdminStudentController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            session()->now('error', 'We encountered an unexpected error while loading the students list. Please try again, or contact support if the problem persists.');
+            session()->now('error', __('admin.student_load_error'));
 
             return view('admin.students.index', [
                 'students' => new LengthAwarePaginator([], 0, 20),
@@ -123,7 +123,7 @@ class AdminStudentController extends Controller
             report($e); // Log the error internally (to Sentry/Log)
 
             return redirect()->route('admin.students.index')
-                ->with('error', 'We encountered an unexpected error while loading student profile. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.student_profile_error'));
         }
     }
 
@@ -134,13 +134,13 @@ class AdminStudentController extends Controller
     {
         try {
             if ($user->is_admin) {
-                return back()->with('error', 'Cannot delete admin accounts.');
+                return back()->with('error', __('admin.cannot_delete_admin'));
             }
 
             $user->delete();
 
             return redirect()->route('admin.students.index')
-                ->with('success', "Student '{$user->name}' has been deleted.");
+                ->with('success', __('admin.student_deleted', ['name' => $user->name]));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -150,7 +150,7 @@ class AdminStudentController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while deleting the student. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.student_delete_error'));
         }
     }
 
@@ -161,7 +161,7 @@ class AdminStudentController extends Controller
     {
         try {
             if ($user->is_admin) {
-                return back()->with('error', 'Cannot ban admin accounts.');
+                return back()->with('error', __('admin.cannot_ban_admin'));
             }
 
             $user->is_banned = ! ($user->is_banned ?? false);
@@ -169,7 +169,7 @@ class AdminStudentController extends Controller
 
             $status = $user->is_banned ? 'banned' : 'unbanned';
 
-            return back()->with('success', "Student '{$user->name}' has been {$status}.");
+            return back()->with('success', __('admin.student_status_changed', ['name' => $user->name, 'status' => $status]));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -179,7 +179,7 @@ class AdminStudentController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while updating the student status. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.student_status_error'));
         }
     }
 
@@ -190,7 +190,7 @@ class AdminStudentController extends Controller
     {
         try {
             if ($user->is_admin) {
-                return back()->with('error', 'Cannot reset admin passwords from here.');
+                return back()->with('error', __('admin.cannot_reset_admin'));
             }
 
             $newPassword = Str::random(10);
@@ -198,7 +198,7 @@ class AdminStudentController extends Controller
             $user->save();
 
             return back()
-                ->with('success', "Password for '{$user->name}' has been reset successfully.")
+                ->with('success', __('admin.student_password_reset', ['name' => $user->name]))
                 ->with('temp_password', $newPassword);
         } catch (ValidationException $e) {
             throw $e;
@@ -209,7 +209,7 @@ class AdminStudentController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while resetting the password. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.student_password_reset_error'));
         }
     }
 }

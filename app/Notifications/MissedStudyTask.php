@@ -46,7 +46,7 @@ class MissedStudyTask extends Notification implements ShouldQueue
         $locale = $notifiable->locale ?? app()->getLocale();
 
         return [
-            'title' => $locale === 'ar' ? '⚠️ مهام فائتة!' : '⚠️ Missed Tasks!',
+            'title' => __('planner.missed_tasks_title', [], $locale),
             'body' => $locale === 'ar'
                 ? __('planner.missed_message', ['count' => $this->missedCount], 'ar')
                 : __('planner.missed_message', ['count' => $this->missedCount], 'en'),

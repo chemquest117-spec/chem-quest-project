@@ -11,7 +11,6 @@ return [
     'recent_achievements' => 'الإنجازات الأخيرة',
     'your_progress' => 'التقدم الخاص بك',
     'view_all' => 'عرض الكل',
-
     'keep_burning' => 'حافظ على الشعلة!',
     'keep_earning' => 'استمر في كسب النقاط!',
     'more_to_go' => 'متبقي',
@@ -29,10 +28,9 @@ return [
     'no_attempts_yet' => 'لا توجد محاولات بعد. ابدأ اختبارك الأول!',
     'notifications' => 'الإشعارات',
     'all_caught_up' => 'أنت على اطلاع دائم!',
-
     'Profile' => 'الملف الشخصي',
     'Logout' => 'تسجيل الخروج',
-
     'minute' => 'دقيقة',
     'in_progress' => 'قيد التنفيذ',
+    'we_encountered_an_unexpected_4e4b' => '[AR] We encountered an unexpected error while loading your dashboard. Please try again, or contact support if the problem persists.',
 ];

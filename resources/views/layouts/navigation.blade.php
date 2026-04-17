@@ -79,7 +79,7 @@
                                 </a>
                                 <a href="{{ route('admin.notifications.create') }}"
                                    class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.notifications.*') ? 'text-amber-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
-                                    <x-icon name="bell" class="w-4 h-4" /> Broadcast
+                                    <x-icon name="bell" class="w-4 h-4" /> {{ __('navigation.broadcast') }}
                                 </a>
                             </div>
                         </li>
@@ -171,7 +171,7 @@
                         </div>
                         <div class="border-t border-white/10 bg-slate-800/50">
                             <a href="{{ route('notifications.index') }}" class="block px-4 py-2 text-center text-sm text-cyan-400 hover:text-cyan-300 hover:bg-white/5 transition">
-                                View all notifications
+                                {{ __('navigation.view_all_notifications') }}
                             </a>
                         </div>
                     </div>
@@ -323,7 +323,7 @@
                         <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}</a>
                     <a href="{{ route('admin.notifications.create') }}"
                         class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.notifications.*') ? 'bg-amber-500/10 text-amber-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
-                        <x-icon name="bell" class="w-4 h-4" /> Broadcast</a>
+                        <x-icon name="bell" class="w-4 h-4" /> {{ __('navigation.broadcast') }}</a>
                 </div>
             @endif
         </div>

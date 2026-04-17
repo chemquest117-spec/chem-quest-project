@@ -28,7 +28,7 @@
                                         <div class="flex items-center gap-2 text-white font-medium mb-1">
                                             <x-icon name="user-group" class="w-4 h-4 text-cyan-400" /> All Students
                                         </div>
-                                        <p class="text-xs text-slate-400">Broadcast to everyone</p>
+                                        <p class="text-xs text-slate-400">{{ __('navigation.broadcast') }} to everyone</p>
                                     </div>
                                 </label>
                                 
@@ -118,7 +118,7 @@
                         <div class="flex items-center justify-end mt-6 pt-6 border-t border-white/5">
                             <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
                                 <x-icon name="paper-airplane" class="w-5 h-5" />
-                                Send Broadcast
+                                Send {{ __('navigation.broadcast') }}
                             </button>
                         </div>
                     </form>

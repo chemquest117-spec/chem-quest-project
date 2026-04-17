@@ -43,7 +43,7 @@ class AdminAnalyticsController extends Controller
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
-            session()->now('error', 'We encountered an unexpected error while loading analytics. Please try again, or contact support if the problem persists.');
+            session()->now('error', __('admin.we_encountered_an_unexpected_6192'));
 
             return view('admin.analytics', [
                 'stageStats' => [],

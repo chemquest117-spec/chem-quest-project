@@ -29,7 +29,7 @@ class AdminPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading planner settings. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.we_encountered_an_unexpected_c42e'));
         }
     }
 
@@ -78,7 +78,7 @@ class AdminPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while updating planner settings. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.we_encountered_an_unexpected_5eb1'));
         }
     }
 }

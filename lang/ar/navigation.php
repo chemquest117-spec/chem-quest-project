@@ -12,5 +12,7 @@ return [
     'planner_settings' => 'إعدادات المخطط',
     'profile' => 'الملف الشخصي',
     'log_out' => 'تسجيل الخروج',
-    'weekly_planner' => 'خطة الدراسة (أسبوعي)',
+    'weekly_planner' => 'خطة الدراسة (أسبوعي]',
+    'view_all_notifications' => 'عرض كل الإشعارات',
+    'broadcast' => 'إذاعة',
 ];

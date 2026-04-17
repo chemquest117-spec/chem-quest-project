@@ -30,4 +30,9 @@ return [
     'in_progress' => 'In Progress',
     'continue_quiz' => 'Continue Quiz',
     'pass_rate_simple' => ':percentage% to pass',
+    'we_encountered_an_unexpected_d6a1' => 'We encountered an unexpected error while loading the stages. Please try again, or contact support if the problem persists.',
+    'you_have_already_completed_22e1' => 'You have already completed this stage.',
+    'we_encountered_an_unexpected_1349' => 'We encountered an unexpected error while loading the stage. Please try again, or contact support if the problem persists.',
+    'great_job_title' => '🎉 Great Job!',
+    'try_again_title' => '💪 Try Again!',
 ];

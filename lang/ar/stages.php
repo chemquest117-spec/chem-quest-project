@@ -30,4 +30,9 @@ return [
     'in_progress' => 'قيد التنفيذ',
     'continue_quiz' => 'أكمل الاختبار',
     'pass_rate_simple' => ':percentage% للنجاح',
+    'we_encountered_an_unexpected_d6a1' => '[AR] We encountered an unexpected error while loading the stages. Please try again, or contact support if the problem persists.',
+    'you_have_already_completed_22e1' => '[AR] You have already completed this stage.',
+    'we_encountered_an_unexpected_1349' => '[AR] We encountered an unexpected error while loading the stage. Please try again, or contact support if the problem persists.',
+    'great_job_title' => '🎉 أحسنت!',
+    'try_again_title' => '💪 حاول مجدداً!',
 ];

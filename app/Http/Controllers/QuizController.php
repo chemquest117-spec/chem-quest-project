@@ -103,7 +103,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while starting the quiz. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_5997'));
         }
     }
 
@@ -151,7 +151,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the quiz. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_4d3e'));
         }
     }
 
@@ -200,7 +200,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while saving your answer. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_cefd'));
         }
     }
 
@@ -232,7 +232,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while submitting your quiz. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_ead5'));
         }
     }
 
@@ -260,7 +260,7 @@ class QuizController extends Controller
 
             if ($hasActiveAttempt) {
                 return redirect()->route('stages.index')
-                    ->with('error', 'You cannot view old results while taking an active quiz.');
+                    ->with('error', __('quiz.you_cannot_view_old_f50b'));
             }
 
             $attempt->load(['stage', 'answers.question']);
@@ -279,7 +279,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading your quiz results. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_eef8'));
         }
     }
 
@@ -386,7 +386,7 @@ class QuizController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while grading your quiz. Please try again, or contact support if the problem persists.');
+                ->with('error', __('quiz.we_encountered_an_unexpected_6179'));
         }
     }
 

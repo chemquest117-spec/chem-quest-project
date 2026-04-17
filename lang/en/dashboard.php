@@ -28,10 +28,9 @@ return [
     'no_attempts_yet' => 'No attempts yet. Start your first quiz!',
     'notifications' => 'Notifications',
     'all_caught_up' => 'All caught up!',
-
     'Profile' => 'Profile',
     'Logout' => 'Logout',
-
     'minute' => 'minutes',
     'in_progress' => 'In Progress',
+    'we_encountered_an_unexpected_4e4b' => 'We encountered an unexpected error while loading your dashboard. Please try again, or contact support if the problem persists.',
 ];

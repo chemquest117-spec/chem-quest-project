@@ -1,14 +1,11 @@
 <?php
 
 return [
-    // Page titles
     'title' => 'Study Planner',
     'my_plan' => 'My Study Plan',
     'create_plan' => 'Create Study Plan',
     'plan_details' => 'Plan Details',
     'planner_settings' => 'Planner Settings',
-
-    // Setup wizard
     'setup_title' => 'Set Up Your Study Plan',
     'setup_subtitle' => 'Let\'s create a personalized study schedule that works for you.',
     'step' => 'Step :number',
@@ -25,16 +22,12 @@ return [
     'next' => 'Next',
     'previous' => 'Previous',
     'generate_plan' => 'Generate My Plan',
-
-    // Pace options
     'pace_light' => 'Light',
     'pace_light_desc' => 'Relaxed pace with room for review. Best for early starters.',
     'pace_medium' => 'Medium',
     'pace_medium_desc' => 'Balanced workload. Recommended for most students.',
     'pace_intensive' => 'Intensive',
     'pace_intensive_desc' => 'Fast-paced coverage. Best when short on time.',
-
-    // Day names
     'sun' => 'Sun',
     'mon' => 'Mon',
     'tue' => 'Tue',
@@ -49,15 +42,13 @@ return [
     'thursday' => 'Thursday',
     'friday' => 'Friday',
     'saturday' => 'Saturday',
-
-    // Dashboard / index
     'no_active_plan' => 'No Active Study Plan',
     'no_plan_desc' => 'Create a personalized study schedule to stay on track for your exam.',
     'get_started' => 'Get Started',
     'today_tasks' => 'Today\'s Tasks',
     'nothing_today' => 'No tasks scheduled today. Enjoy your break!',
     'missed_tasks' => 'Missed Tasks',
-    'missed_warning' => ':count task(s) missed. Reschedule to stay on track.',
+    'missed_warning' => ':count task(s] missed. Reschedule to stay on track.',
     'weekly_view' => 'Weekly View',
     'week' => 'Week :number',
     'days_remaining' => ':days days until exam',
@@ -65,70 +56,52 @@ return [
     'plan_status' => 'Plan Status',
     'past_plans' => 'Past Plans',
     'no_past_plans' => 'No previous study plans.',
-
-    // Status labels
     'status_active' => 'Active',
     'status_completed' => 'Completed',
     'status_paused' => 'Paused',
     'status_expired' => 'Expired',
-
-    // Plan details
     'scheduled_for' => 'Scheduled for :date',
     'est_time' => ':minutes min',
     'marks' => ':marks marks',
     'completed_at' => 'Completed :time',
     'auto_rescheduled' => 'Auto-rescheduled',
-    'rescheduled_times' => 'Rescheduled :count time(s)',
+    'rescheduled_times' => 'Rescheduled :count time(s]',
     'add_notes' => 'Add notes...',
-
-    // Actions
     'reschedule_missed' => 'Reschedule Missed Tasks',
     'delete_plan' => 'Delete Plan',
     'delete_confirm' => 'Are you sure? This will permanently delete your study plan.',
     'view_plan' => 'View Plan',
     'create_new' => 'Create New Plan',
     'start_quiz' => 'Start Quiz',
-
-    // Flash messages
     'plan_created' => 'Your study plan has been generated! 🎉',
     'plan_deleted' => 'Study plan deleted successfully.',
     'plan_not_active' => 'This plan is no longer active.',
     'item_completed' => 'Great job! Task marked as completed. ✅',
     'item_unmarked' => 'Task marked as incomplete.',
-    'rescheduled' => ':count missed task(s) rescheduled successfully.',
+    'rescheduled' => ':count missed task(s] rescheduled successfully.',
     'nothing_to_reschedule' => 'No missed tasks to reschedule.',
     'notes_saved' => 'Notes saved.',
     'settings_saved' => 'Planner settings saved successfully.',
-
-    // Admin settings
     'stage_name' => 'Stage',
     'marks_weight' => 'Marks Weight',
-    'estimated_minutes' => 'Est. Study (min)',
-    'importance_score' => 'Importance (1-10)',
+    'estimated_minutes' => 'Est. Study (min]',
+    'importance_score' => 'Importance (1-10]',
     'recommended_week' => 'Rec. Week',
     'save_settings' => 'Save Settings',
-
-    // Notifications
     'reminder_title' => 'Study Reminder',
-    'reminder_message' => 'You have :count study task(s) scheduled for today.',
+    'reminder_message' => 'You have :count study task(s] scheduled for today.',
     'missed_title' => 'Missed Study Task',
-    'missed_message' => 'You missed :count study task(s) yesterday. Don\'t fall behind!',
-
-    // Widget
+    'missed_message' => 'You missed :count study task(s] yesterday. Don\'t fall behind!',
     'widget_title' => 'Study Planner',
     'widget_today' => 'Today\'s Study',
     'widget_progress' => ':progress% complete',
     'widget_no_plan' => 'Set up your study planner',
     'widget_exam_in' => 'Exam in :days days',
-
-    // Misc
     'review_day' => 'Review Day',
     'overdue' => 'Overdue',
     'on_track' => 'On Track',
     'behind' => 'Behind Schedule',
     'ahead' => 'Ahead of Schedule',
-
-    // Weekly Planner
     'weekly_planner_title' => 'Weekly Study Planner',
     'weekly_planner_desc' => 'Plan your study sessions and quizzes on a visual calendar. Click any time slot to add a task.',
     'stage_week' => 'Stage / Week',
@@ -148,7 +121,7 @@ return [
     'not_scheduled' => 'Not scheduled',
     'study_session' => 'Study Session',
     'stage_quiz' => 'Stage Quiz',
-    'mastered_msg' => "You've mastered this week's learning outcome.",
+    'mastered_msg' => 'You\'ve mastered this week\'s learning outcome.',
     'no_plan_initialized' => 'No plan initialized for this week.',
     'go_to_planner' => 'Go to Weekly Planner',
     'not_set' => 'Not Set',
@@ -161,8 +134,6 @@ return [
         'thu' => 'Thu',
         'fri' => 'Fri',
     ],
-
-    // Setup Wizard
     'err_exam_after_start' => 'Exam date must be after the start date.',
     'err_min_days' => 'At least 3 days are required between start and exam date.',
     'err_select_day' => 'Please select at least one preferred study day.',
@@ -171,4 +142,26 @@ return [
     'days_selected' => ':count days selected',
     'hrs' => 'hrs',
     'intelligent_schedule_msg' => ':count stages will be intelligently scheduled based on your preferences.',
+    'click_to_add_task' => 'Click any time slot to add a task',
+    'all_weeks_overview' => 'All Weeks Overview',
+    'add_task' => 'Add Task',
+    'remove_task' => 'Remove Task',
+    'notes' => 'Notes',
+    'type' => 'Type',
+    'day' => 'Day',
+    'time_from' => 'From',
+    'color' => 'Color',
+    'completed' => 'Completed',
+    'now_status' => 'NOW',
+    'rescheduled_label' => 'rescheduled',
+    'we_encountered_an_unexpected_f96e' => 'We encountered an unexpected error while loading the planner. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_a126' => 'We encountered an unexpected error while showing the creation page. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_37ee' => 'We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_b597' => 'We encountered an unexpected error while showing the study planner. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_0f06' => 'We encountered an unexpected error while toggling a study plan item completion. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_e5b3' => 'We encountered an unexpected error while rescheduling the study plan. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_3aa1' => 'We encountered an unexpected error while deleting the study plan. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_403b' => 'We encountered an unexpected error while updating the study plan notes. Please try again, or contact support if the problem persists.',
+    'missed_tasks_title' => '⚠️ Missed Tasks!',
+    'study_time_title' => '📚 Study Time!',
 ];

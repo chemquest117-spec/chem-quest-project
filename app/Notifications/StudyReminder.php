@@ -46,7 +46,7 @@ class StudyReminder extends Notification implements ShouldQueue
         $locale = $notifiable->locale ?? app()->getLocale();
 
         return [
-            'title' => $locale === 'ar' ? '📚 وقت المذاكرة!' : '📚 Study Time!',
+            'title' => __('planner.study_time_title', [], $locale),
             'body' => $locale === 'ar'
                 ? __('planner.reminder_message', ['count' => $this->taskCount], 'ar')
                 : __('planner.reminder_message', ['count' => $this->taskCount], 'en'),

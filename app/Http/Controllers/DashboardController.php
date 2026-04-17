@@ -100,7 +100,7 @@ class DashboardController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading your dashboard. Please try again, or contact support if the problem persists.');
+                ->with('error', __('dashboard.we_encountered_an_unexpected_4e4b'));
         }
     }
 }

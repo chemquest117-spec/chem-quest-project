@@ -15,7 +15,7 @@ class AdminNotificationController extends Controller
      */
     public function create()
     {
-        $header = __('Send Broadcast Notification');
+        $header = __('Send {{ __('navigation.broadcast') }} Notification');
 
         // Fetch students to populate a dropdown if the admin wants to target specific users
         $students = User::student()->orderBy('name')->get(['id', 'name', 'email']);
@@ -54,7 +54,7 @@ class AdminNotificationController extends Controller
         $users = $query->get();
 
         if ($users->isEmpty()) {
-            return back()->with('error', 'No users found matching the selected criteria.');
+            return back()->with('error', __('admin.no_users_found_matching_8e61'));
         }
 
         // Use Laravel's Notification Facade to chunk and send efficiently via queue

@@ -23,7 +23,7 @@ class NotificationController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading your notifications. Please try again, or contact support if the problem persists.');
+                ->with('error', __('notifications.we_encountered_an_unexpected_ebed'));
         }
     }
 
@@ -47,7 +47,7 @@ class NotificationController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while marking the notification as read. Please try again, or contact support if the problem persists.');
+                ->with('error', __('notifications.we_encountered_an_unexpected_4280'));
         }
     }
 
@@ -70,7 +70,7 @@ class NotificationController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while marking all notifications as read. Please try again, or contact support if the problem persists.');
+                ->with('error', __('notifications.we_encountered_an_unexpected_99ce'));
         }
     }
 }

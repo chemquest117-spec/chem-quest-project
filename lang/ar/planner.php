@@ -1,14 +1,11 @@
 <?php
 
 return [
-    // Page titles
     'title' => 'مخطط الدراسة',
     'my_plan' => 'خطتي الدراسية',
     'create_plan' => 'إنشاء خطة دراسية',
     'plan_details' => 'تفاصيل الخطة',
     'planner_settings' => 'إعدادات المخطط',
-
-    // Setup wizard
     'setup_title' => 'أعد خطتك الدراسية',
     'setup_subtitle' => 'لنقم بإنشاء جدول دراسي مخصص يناسبك.',
     'step' => 'الخطوة :number',
@@ -25,16 +22,12 @@ return [
     'next' => 'التالي',
     'previous' => 'السابق',
     'generate_plan' => 'إنشاء خطتي',
-
-    // Pace options
     'pace_light' => 'خفيفة',
     'pace_light_desc' => 'وتيرة مريحة مع وقت للمراجعة. الأفضل للبدء المبكر.',
     'pace_medium' => 'متوسطة',
     'pace_medium_desc' => 'حمل عمل متوازن. مُوصى به لمعظم الطلاب.',
     'pace_intensive' => 'مكثفة',
     'pace_intensive_desc' => 'تغطية سريعة. الأفضل عند ضيق الوقت.',
-
-    // Day names
     'sun' => 'أحد',
     'mon' => 'إثنين',
     'tue' => 'ثلاثاء',
@@ -49,8 +42,6 @@ return [
     'thursday' => 'الخميس',
     'friday' => 'الجمعة',
     'saturday' => 'السبت',
-
-    // Dashboard / index
     'no_active_plan' => 'لا توجد خطة دراسية نشطة',
     'no_plan_desc' => 'أنشئ جدولاً دراسياً مخصصاً للبقاء على المسار الصحيح لامتحانك.',
     'get_started' => 'ابدأ الآن',
@@ -65,14 +56,10 @@ return [
     'plan_status' => 'حالة الخطة',
     'past_plans' => 'الخطط السابقة',
     'no_past_plans' => 'لا توجد خطط دراسية سابقة.',
-
-    // Status labels
     'status_active' => 'نشطة',
     'status_completed' => 'مكتملة',
     'status_paused' => 'متوقفة',
     'status_expired' => 'منتهية',
-
-    // Plan details
     'scheduled_for' => 'مجدول لـ :date',
     'est_time' => ':minutes دقيقة',
     'marks' => ':marks درجة',
@@ -80,16 +67,12 @@ return [
     'auto_rescheduled' => 'أُعيدت جدولته تلقائياً',
     'rescheduled_times' => 'أُعيدت الجدولة :count مرة',
     'add_notes' => 'أضف ملاحظات...',
-
-    // Actions
     'reschedule_missed' => 'إعادة جدولة المهام الفائتة',
     'delete_plan' => 'حذف الخطة',
     'delete_confirm' => 'هل أنت متأكد؟ سيتم حذف خطتك الدراسية نهائياً.',
     'view_plan' => 'عرض الخطة',
     'create_new' => 'إنشاء خطة جديدة',
     'start_quiz' => 'بدء الاختبار',
-
-    // Flash messages
     'plan_created' => 'تم إنشاء خطتك الدراسية! 🎉',
     'plan_deleted' => 'تم حذف الخطة الدراسية بنجاح.',
     'plan_not_active' => 'هذه الخطة لم تعد نشطة.',
@@ -99,36 +82,26 @@ return [
     'nothing_to_reschedule' => 'لا توجد مهام فائتة لإعادة جدولتها.',
     'notes_saved' => 'تم حفظ الملاحظات.',
     'settings_saved' => 'تم حفظ إعدادات المخطط بنجاح.',
-
-    // Admin settings
     'stage_name' => 'المرحلة',
     'marks_weight' => 'وزن الدرجات',
-    'estimated_minutes' => 'وقت الدراسة (دقيقة)',
-    'importance_score' => 'الأهمية (1-10)',
+    'estimated_minutes' => 'وقت الدراسة (دقيقة]',
+    'importance_score' => 'الأهمية (1-10]',
     'recommended_week' => 'الأسبوع الموصى',
     'save_settings' => 'حفظ الإعدادات',
-
-    // Notifications
     'reminder_title' => 'تذكير بالدراسة',
     'reminder_message' => 'لديك :count مهمة دراسية مجدولة لليوم.',
     'missed_title' => 'مهمة دراسية فائتة',
     'missed_message' => 'فاتتك :count مهمة دراسية أمس. لا تتأخر!',
-
-    // Widget
     'widget_title' => 'مخطط الدراسة',
     'widget_today' => 'دراسة اليوم',
     'widget_progress' => 'مكتمل :progress%',
     'widget_no_plan' => 'أعد مخطط دراستك',
     'widget_exam_in' => 'الامتحان بعد :days يوم',
-
-    // Misc
     'review_day' => 'يوم المراجعة',
     'overdue' => 'متأخر',
     'on_track' => 'على المسار',
     'behind' => 'متأخر عن الجدول',
     'ahead' => 'متقدم على الجدول',
-
-    // Weekly Planner
     'weekly_planner_title' => 'المخطط الأسبوعي',
     'weekly_planner_desc' => 'خطط جلسات الدراسة والاختبار على تقويم مرئي. انقر على أي وقت لإضافة مهمة.',
     'stage_week' => 'المرحلة / الأسبوع',
@@ -161,8 +134,6 @@ return [
         'thu' => 'الخميس',
         'fri' => 'الجمعة',
     ],
-
-    // Setup Wizard
     'err_exam_after_start' => 'يجب أن يكون تاريخ الامتحان بعد تاريخ البدء.',
     'err_min_days' => 'يجب وجود 3 أيام على الأقل بين تاريخ البدء والامتحان.',
     'err_select_day' => 'يرجى اختيار يوم واحد على الأقل للدراسة.',
@@ -171,4 +142,26 @@ return [
     'days_selected' => 'تم اختيار :count أيام',
     'hrs' => 'ساعة',
     'intelligent_schedule_msg' => 'سيتم جدولة :count مراحل بذكاء بناءً على تفضيلاتك.',
+    'click_to_add_task' => 'انقر على أي فترة لإضافة مهمة',
+    'all_weeks_overview' => 'نظرة عامة على جميع الأسابيع',
+    'add_task' => 'إضافة مهمة',
+    'remove_task' => 'إزالة مهمة',
+    'notes' => 'ملاحظات',
+    'type' => 'النوع',
+    'day' => 'اليوم',
+    'time_from' => 'من',
+    'color' => 'اللون',
+    'completed' => 'مكتمل',
+    'now_status' => 'الآن',
+    'rescheduled_label' => 'أعيد جدولته',
+    'we_encountered_an_unexpected_f96e' => '[AR] We encountered an unexpected error while loading the planner. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_a126' => '[AR] We encountered an unexpected error while showing the creation page. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_37ee' => '[AR] We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_b597' => '[AR] We encountered an unexpected error while showing the study planner. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_0f06' => '[AR] We encountered an unexpected error while toggling a study plan item completion. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_e5b3' => '[AR] We encountered an unexpected error while rescheduling the study plan. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_3aa1' => '[AR] We encountered an unexpected error while deleting the study plan. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_403b' => '[AR] We encountered an unexpected error while updating the study plan notes. Please try again, or contact support if the problem persists.',
+    'missed_tasks_title' => '⚠️ مهام فائتة!',
+    'study_time_title' => '📚 وقت المذاكرة!',
 ];

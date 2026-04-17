@@ -54,8 +54,8 @@ class StageCompleted extends Notification implements ShouldQueue
 
         return [
             'title' => $this->attempt->passed
-                ? ($locale === 'ar' ? '🎉 أحسنت!' : '🎉 Great Job!')
-                : ($locale === 'ar' ? '💪 حاول مجدداً!' : '💪 Try Again!'),
+                ? __('stages.great_job_title', [], $locale)
+                : __('stages.try_again_title', [], $locale),
             'body' => $body,
             'data' => [
                 'stage_id' => $this->attempt->stage_id,

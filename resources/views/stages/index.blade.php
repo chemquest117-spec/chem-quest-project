@@ -119,14 +119,14 @@
                                                             min</span>
                                                        <span class="flex items-center gap-1"><x-icon
                                                                  name="document-text" class="w-3 h-3" />
-                                                            {{ $stage->questions_count }} questions</span>
+                                                            {{ __('stages.questions_count', ['count' => $stage->questions_count]) }}</span>
                                                        <span class="flex items-center gap-1"><x-icon name="target"
                                                                  class="w-3 h-3" /> {{ $stage->passing_percentage }}% to
                                                             pass</span>
                                                        <span
                                                             class="flex items-center gap-1 {{ $isCompleted ? 'text-emerald-400' : '' }}"><x-icon
                                                                  name="medal" class="w-3 h-3" />
-                                                            +{{ $stage->points_reward }} pts</span>
+                                                            +{{ __('stages.points', ['points' => $stage->points_reward]) }}</span>
                                                   </div>
                                              </div>
 

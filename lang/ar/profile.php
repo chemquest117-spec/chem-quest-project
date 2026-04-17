@@ -8,13 +8,11 @@ return [
     'delete_account_confirm_desc' => 'بمجرد حذف حسابك، سيتم حذف جميع موارده وبياناته نهائيًا. يرجى إدخال كلمة المرور الخاصة بك لتأكيد رغبتك في حذف الحساب نهائيًا.',
     'password' => 'كلمة المرور',
     'cancel' => 'إلغاء',
-
     'update_password' => 'تحديث كلمة المرور',
     'update_password_desc' => 'تأكد من أن حسابك يستخدم كلمة مرور طويلة وعشوائية للحفاظ على أمانه.',
     'current_password' => 'كلمة المرور الحالية',
     'new_password' => 'كلمة المرور الجديدة',
     'confirm_password' => 'تأكيد كلمة المرور',
-
     'profile_information' => 'معلومات الملف الشخصي',
     'profile_information_desc' => 'قم بتحديث معلومات الملف الشخصي وعنوان البريد الإلكتروني الخاص بحسابك.',
     'name' => 'الاسم',
@@ -22,7 +20,9 @@ return [
     'email_unverified' => 'عنوان بريدك الإلكتروني غير مؤكد.',
     'resend_verification' => 'انقر هنا لإعادة إرسال رسالة التأكيد عبر البريد الإلكتروني.',
     'verification_link_sent' => 'تم إرسال رابط تأكيد جديد إلى عنوان بريدك الإلكتروني.',
-
     'save' => 'حفظ',
     'saved' => 'تم الحفظ.',
+    'we_encountered_an_unexpected_2419' => '[AR] We encountered an unexpected error while loading your profile. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_84f7' => '[AR] We encountered an unexpected error while updating your profile. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_9ef4' => '[AR] We encountered an unexpected error while deleting your account. Please try again, or contact support if the problem persists.',
 ];

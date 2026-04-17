@@ -77,7 +77,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the planner. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_f96e'));
         }
     }
 
@@ -106,7 +106,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while showing the creation page. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_a126'));
         }
     }
 
@@ -143,7 +143,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while generating your plan. Please check your dates and try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_37ee'));
         }
     }
 
@@ -180,7 +180,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while showing the study planner. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_b597'));
         }
     }
 
@@ -213,7 +213,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while toggling a study plan item completion. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_0f06'));
         }
     }
 
@@ -247,7 +247,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while rescheduling the study plan. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_e5b3'));
         }
     }
 
@@ -274,7 +274,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while deleting the study plan. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_3aa1'));
         }
     }
 
@@ -304,7 +304,7 @@ class StudyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while updating the study plan notes. Please try again, or contact support if the problem persists.');
+                ->with('error', __('planner.we_encountered_an_unexpected_403b'));
         }
     }
 }

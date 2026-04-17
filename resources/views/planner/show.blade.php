@@ -46,7 +46,7 @@
                 </div>
                 <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 text-center">
                     <div class="text-2xl font-bold text-emerald-400">{{ $studyPlan->items->where('is_completed', true)->count() }}</div>
-                    <div class="text-xs text-slate-400 mt-1">Completed</div>
+                    <div class="text-xs text-slate-400 mt-1">{{ __('planner.completed') }}</div>
                 </div>
                 <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 text-center">
                     <div class="text-2xl font-bold text-red-400">{{ $studyPlan->items->filter(fn($i) => $i->isOverdue())->count() }}</div>
@@ -86,7 +86,7 @@
                         <div class="p-5 border-b border-white/10 flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 @if($isCurrentWeek)
-                                    <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs font-bold rounded-full">NOW</span>
+                                    <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs font-bold rounded-full">{{ __('planner.now_status') }}</span>
                                 @endif
                                 <h3 class="text-lg font-bold text-white">
                                     {{ __('planner.week', ['number' => $weekNum]) }}
@@ -179,9 +179,9 @@
                                                                     <x-icon name="medal" class="w-3 h-3" /> {{ $item->marks_weight }}
                                                                 </span>
                                                             @endif
-                                                            @if($item->auto_rescheduled)
+                                                            @if($item->auto_{{ __('planner.rescheduled_label') }})
                                                                 <span class="text-amber-400 flex items-center gap-0.5">
-                                                                    <x-icon name="arrow-right" class="w-3 h-3" /> rescheduled
+                                                                    <x-icon name="arrow-right" class="w-3 h-3" /> {{ __('planner.rescheduled_label') }}
                                                                 </span>
                                                             @endif
                                                             @if($item->is_completed && $item->completed_at)

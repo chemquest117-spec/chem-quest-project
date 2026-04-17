@@ -92,12 +92,12 @@ class MotivationalNotification extends Notification implements ShouldQueue
     private function resolveTitle(string $locale): string
     {
         return match ($this->category) {
-            'success' => $locale === 'ar' ? '🎉 أحسنت!' : '🎉 Great Job!',
-            'failure' => $locale === 'ar' ? '💪 لا تستسلم!' : '💪 Don\'t Give Up!',
-            'streak' => $locale === 'ar' ? '🔥 سلسلة رائعة!' : '🔥 Streak!',
-            'comeback' => $locale === 'ar' ? '👋 نفتقدك!' : '👋 We Miss You!',
-            'level_up' => $locale === 'ar' ? '🚀 قريب من الإنجاز!' : '🚀 Almost There!',
-            'reminder' => $locale === 'ar' ? '📚 وقت المذاكرة!' : '📚 Study Time!',
+            'success' => __('notifications.success_title', [], $locale),
+            'failure' => __('notifications.failure_title', [], $locale),
+            'streak' => __('notifications.streak_title', [], $locale),
+            'comeback' => __('notifications.comeback_title', [], $locale),
+            'level_up' => __('notifications.level_up_title', [], $locale),
+            'reminder' => __('notifications.reminder_title', [], $locale),
             default => config('app.name'),
         };
     }

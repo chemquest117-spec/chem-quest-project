@@ -43,7 +43,7 @@ class StageController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the stages. Please try again, or contact support if the problem persists.');
+                ->with('error', __('stages.we_encountered_an_unexpected_d6a1'));
         }
     }
 
@@ -72,7 +72,7 @@ class StageController extends Controller
 
             if ($isCompleted) {
                 return redirect()->route('stages.index')
-                    ->with('error', 'You have already completed this stage.');
+                    ->with('error', __('stages.you_have_already_completed_22e1'));
             }
 
             $stage->loadCount('questions');
@@ -101,7 +101,7 @@ class StageController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the stage. Please try again, or contact support if the problem persists.');
+                ->with('error', __('stages.we_encountered_an_unexpected_1349'));
         }
     }
 }

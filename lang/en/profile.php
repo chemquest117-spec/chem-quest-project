@@ -8,21 +8,21 @@ return [
     'delete_account_confirm_desc' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
     'password' => 'Password',
     'cancel' => 'Cancel',
-
     'update_password' => 'Update Password',
     'update_password_desc' => 'Ensure your account is using a long, random password to stay secure.',
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
-
     'profile_information' => 'Profile Information',
-    'profile_information_desc' => "Update your account's profile information and email address.",
+    'profile_information_desc' => 'Update your account\'s profile information and email address.',
     'name' => 'Name',
     'email' => 'Email',
     'email_unverified' => 'Your email address is unverified.',
     'resend_verification' => 'Click here to re-send the verification email.',
     'verification_link_sent' => 'A new verification link has been sent to your email address.',
-
     'save' => 'Save',
     'saved' => 'Saved.',
+    'we_encountered_an_unexpected_2419' => 'We encountered an unexpected error while loading your profile. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_84f7' => 'We encountered an unexpected error while updating your profile. Please try again, or contact support if the problem persists.',
+    'we_encountered_an_unexpected_9ef4' => 'We encountered an unexpected error while deleting your account. Please try again, or contact support if the problem persists.',
 ];

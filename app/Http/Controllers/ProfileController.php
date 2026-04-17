@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading your profile. Please try again, or contact support if the problem persists.');
+                ->with('error', __('profile.we_encountered_an_unexpected_2419'));
         }
     }
 
@@ -59,7 +59,7 @@ class ProfileController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while updating your profile. Please try again, or contact support if the problem persists.');
+                ->with('error', __('profile.we_encountered_an_unexpected_84f7'));
         }
     }
 
@@ -92,7 +92,7 @@ class ProfileController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while deleting your account. Please try again, or contact support if the problem persists.');
+                ->with('error', __('profile.we_encountered_an_unexpected_9ef4'));
         }
     }
 }

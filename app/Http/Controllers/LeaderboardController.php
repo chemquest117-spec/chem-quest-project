@@ -48,7 +48,7 @@ class LeaderboardController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the leaderboard. Please try again, or contact support if the problem persists.');
+                ->with('error', __('leaderboard.we_encountered_an_unexpected_db9c'));
         }
     }
 
@@ -77,7 +77,7 @@ class LeaderboardController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while loading the leaderboard data. Please try again, or contact support if the problem persists.');
+                ->with('error', __('leaderboard.we_encountered_an_unexpected_3645'));
         }
     }
 }

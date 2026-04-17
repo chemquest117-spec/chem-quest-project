@@ -145,7 +145,7 @@ class WeeklyPlannerController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while showing the weekly planner. Please try again.');
+                ->with('error', __('planner.load_error'));
         }
     }
 
@@ -180,7 +180,7 @@ class WeeklyPlannerController extends Controller
                 'is_completed' => false,
             ]);
 
-            return back()->with('success', 'Task added successfully!');
+            return back()->with('success', __('planner.add_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -188,7 +188,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Failed to add task. Please try again.');
+            return back()->withInput()->with('error', __('planner.add_error'));
         }
     }
 
@@ -216,7 +216,7 @@ class WeeklyPlannerController extends Controller
 
             $event->update($validated);
 
-            return back()->with('success', 'Task updated!');
+            return back()->with('success', __('planner.update_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -224,7 +224,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Failed to update task.');
+            return back()->withInput()->with('error', __('planner.update_error'));
         }
     }
 
@@ -242,7 +242,7 @@ class WeeklyPlannerController extends Controller
 
             $this->updatePlanStatus($event->plan);
 
-            return back()->with('success', 'Task removed.');
+            return back()->with('success', __('planner.remove_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -250,7 +250,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->with('error', 'Failed to remove task.');
+            return back()->with('error', __('planner.remove_error'));
         }
     }
 
@@ -277,7 +277,7 @@ class WeeklyPlannerController extends Controller
 
             $this->updatePlanStatus($event->plan);
 
-            return back()->with('success', $event->is_completed ? 'Task completed!' : 'Task unmarked.');
+            return back()->with('success', $event->is_completed ? __('planner.complete_success') : __('planner.unmark_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -285,7 +285,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->with('error', 'Failed to toggle task.');
+            return back()->with('error', __('planner.toggle_error'));
         }
     }
 
@@ -303,7 +303,7 @@ class WeeklyPlannerController extends Controller
             $plan->days()->delete();
             $plan->update(['status' => 'active']);
 
-            return back()->with('success', 'Week plan reset.');
+            return back()->with('success', __('planner.reset_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -311,7 +311,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->with('error', 'Failed to reset week.');
+            return back()->with('error', __('planner.reset_error'));
         }
     }
 
@@ -339,7 +339,7 @@ class WeeklyPlannerController extends Controller
 
             $plan->days()->where('action_type', $request->action_type)->delete();
 
-            return back()->with('success', 'Tasks cleared.');
+            return back()->with('success', __('planner.clear_success'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -347,7 +347,7 @@ class WeeklyPlannerController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->with('error', 'Failed to clear tasks.');
+            return back()->with('error', __('planner.clear_error'));
         }
     }
 

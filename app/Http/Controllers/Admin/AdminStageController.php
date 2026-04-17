@@ -24,7 +24,7 @@ class AdminStageController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Failed to load stages. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_stages_247c'));
         }
     }
 
@@ -41,7 +41,7 @@ class AdminStageController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Failed to load create stage page. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_create_594b'));
         }
     }
 
@@ -62,7 +62,7 @@ class AdminStageController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', 'Stage created successfully!');
+                ->with('success', '{{ __('admin.stage_created') }}');
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -72,7 +72,7 @@ class AdminStageController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while creating stage. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.we_encountered_an_unexpected_2923'));
         }
     }
 
@@ -87,7 +87,7 @@ class AdminStageController extends Controller
         } catch (\Throwable $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Failed to load edit stage page. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_edit_7ea8'));
         }
     }
 
@@ -108,13 +108,13 @@ class AdminStageController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', 'Stage updated successfully!');
+                ->with('success', '{{ __('admin.stage_updated') }}');
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while updating stage. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.we_encountered_an_unexpected_c699'));
         }
     }
 
@@ -126,7 +126,7 @@ class AdminStageController extends Controller
             $stage->delete();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', 'Stage deleted successfully!');
+                ->with('success', '{{ __('admin.stage_deleted') }}');
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -136,7 +136,7 @@ class AdminStageController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'We encountered an unexpected error while deleting stage. Please try again, or contact support if the problem persists.');
+                ->with('error', __('admin.we_encountered_an_unexpected_2ff1'));
         }
     }
 }

@@ -33,7 +33,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to load questions. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_questions_2a9c'));
         }
     }
 
@@ -48,7 +48,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to load create question page. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_create_2b5d'));
         }
     }
 
@@ -125,7 +125,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', 'Question added successfully!');
+                ->with('success', '{{ __('admin.question_added') }}');
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -133,7 +133,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to save question. Please ensure the image is valid and try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_save_question_4f89'));
         }
     }
 
@@ -148,7 +148,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to load edit question page. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_load_edit_0518'));
         }
     }
 
@@ -240,7 +240,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', 'Question updated successfully!');
+                ->with('success', '{{ __('admin.question_updated') }}');
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -248,7 +248,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to update question. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_update_question_3509'));
         }
     }
 
@@ -264,7 +264,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', 'Question deleted successfully!');
+                ->with('success', '{{ __('admin.question_deleted') }}');
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -272,7 +272,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to delete question. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_delete_question_4413'));
         }
     }
 
@@ -308,7 +308,7 @@ class AdminQuestionController extends Controller
             }
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('error', 'Could not generate questions. Please try again.');
+                ->with('error', __('admin.could_not_generate_questions_a758'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -316,7 +316,7 @@ class AdminQuestionController extends Controller
         } catch (\Throwable $e) {
             $this->safeReport($e);
 
-            return back()->withInput()->with('error', 'Failed to generate questions. Please try again.');
+            return back()->withInput()->with('error', __('admin.failed_to_generate_questions_4d20'));
         }
     }
 

@@ -182,14 +182,15 @@ Implemented in `app/Models/Stage.php` → `isUnlockedFor(User $user)`
 
 ---
 
-## 🌍 Globalization & Localization (Bilingual support)
+## 🌍 Globalization & Localization (100% Bilingual Support)
 
-The platform is fully localized into **English (EN)** and **Arabic (AR)** with high-quality translations and **RTL (Right-to-Left)** support.
+The platform achieves **Zero Hardcoded Strings**, fully localizing every user-facing interaction into **English (EN)** and **Arabic (AR)**, featuring deep RTL (Right-to-Left) UI support.
 
-- **Automated Routing**: Language detection and switching via URL or user preference.
-- **Localized UI**: Every interface from authentication to complex quiz results is fully translated.
-- **RTL Support**: The layout dynamically adjusts for Arabic users, ensuring a natural reading and interaction flow.
-- **Translation Keys**: Implemented using Laravel's `__()` helper and modular language files (`lang/en`, `lang/ar`).
+- **Automated Routing & Preferences**: Language detection dynamically swaps system context (`app()->getLocale()`) driven by user preference or URL parameters.
+- **Zero Hardcoded Controller/Service Logic**: Alert messages, validations, and custom exceptions organically route through Laravel's `__()` helper dynamically (e.g., `__('admin.student_deleted', ['name' => $user->name])`).
+- **Comprehensive View Localization**: Every Blade interface, from Breeze authentication to complex `Alpine.js` planner components and dashboard SVG rendering, draws from isolated domain arrays.
+- **Dynamic Localized Push Notifications**: FCM (Firebase Cloud Messaging) background jobs proactively fetch the target student's preferred locale (`$notifiable->locale`) when broadcasting motivational pushes or scheduled daily reminders.
+- **Nested Domain Structuring**: Translation files efficiently scope huge language maps (`lang/en/planner.php`, `lang/en/admin.php`, `lang/ar/notifications.php`), preventing key pollution.
 
 ---
 

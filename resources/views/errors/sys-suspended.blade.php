@@ -13,7 +13,7 @@
           <p class="text-slate-400 mb-10 leading-relaxed text-lg max-w-sm mx-auto">
                {{ __('errors.suspended_desc') }}
                <br>
-               <span class="text-sm mt-4 block text-slate-500">Please contact the system administrator for more information.</span>
+               <span class="text-sm mt-4 block text-slate-500">{{ __('errors.contact_admin') }}</span>
           </p>
 
           <a href="{{ url('/') }}"

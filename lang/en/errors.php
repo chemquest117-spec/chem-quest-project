@@ -16,4 +16,5 @@ return [
     'tried_everything' => 'Tried everything?',
     'logout_relogin' => 'Logout & Re-login',
     'contact_support' => 'Contact Support',
+    'contact_admin' => 'Please contact the system administrator for more information.',
 ];
