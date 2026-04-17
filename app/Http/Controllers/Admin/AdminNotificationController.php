@@ -80,6 +80,7 @@ class AdminNotificationController extends Controller
         }
 
         $users = $query->get();
+        \Illuminate\Support\Facades\Log::debug('[BROADCAST_DEBUG] Sending to ' . $users->count() . ' users.');
 
         if ($users->isEmpty()) {
             return back()->with('error', __('admin.no_users_found_matching_8e61'));

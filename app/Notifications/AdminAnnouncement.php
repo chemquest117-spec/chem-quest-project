@@ -50,9 +50,13 @@ class AdminAnnouncement extends Notification implements ShouldQueue
         return [
             'title' => $locale === 'ar' ? $this->titleAr : $this->titleEn,
             'body' => $locale === 'ar' ? $this->messageAr : $this->messageEn,
-            'category' => 'announcement', // Add to root for extra visibility
+            'icon' => '/favicon-32x32.png',
+            'type' => $this->type,
+            'category' => 'announcement', // Important for the frontend filter
             'data' => [
                 'category' => 'announcement',
+                'type' => $this->type,
+                'click_action' => url('/'),
             ],
         ];
     }
