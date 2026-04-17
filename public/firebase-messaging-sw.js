@@ -15,15 +15,17 @@
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
 
-firebase.initializeApp({
-    apiKey: "AIzaSyDtxoTEV6LLbkarbDRqGGoEFb_gLHAqEGI",
-    authDomain: "chem-track-58071.firebaseapp.com",
-    projectId: "chem-track-58071",
-    storageBucket: "chem-track-58071.firebasestorage.app",
-    messagingSenderId: "297929137412",
-    appId: "1:297929137412:web:358794f21e4c5549af4451",
-    measurementId: "G-JYZ2WZC6SW",
-});
+// These values are injected dynamically or set as defaults
+const firebaseConfig = self.firebaseConfig || {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
