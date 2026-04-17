@@ -125,7 +125,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', '{{ __('admin.question_added') }}');
+                ->with('success', __('admin.question_added'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -240,7 +240,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', '{{ __('admin.question_updated') }}');
+                ->with('success', __('admin.question_updated'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -264,7 +264,7 @@ class AdminQuestionController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.questions.index', $stage)
-                ->with('success', '{{ __('admin.question_deleted') }}');
+                ->with('success', __('admin.question_deleted'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {

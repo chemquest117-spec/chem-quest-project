@@ -62,7 +62,7 @@ class AdminStageController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', '{{ __('admin.stage_created') }}');
+                ->with('success', __('admin.stage_created'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {
@@ -108,7 +108,11 @@ class AdminStageController extends Controller
             StageSchemaCache::bump();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', '{{ __('admin.stage_updated') }}');
+                ->with('success', __('admin.stage_updated'));
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (HttpException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
 
@@ -126,7 +130,7 @@ class AdminStageController extends Controller
             $stage->delete();
 
             return redirect()->route('admin.stages.index')
-                ->with('success', '{{ __('admin.stage_deleted') }}');
+                ->with('success', __('admin.stage_deleted'));
         } catch (ValidationException $e) {
             throw $e;
         } catch (HttpException $e) {

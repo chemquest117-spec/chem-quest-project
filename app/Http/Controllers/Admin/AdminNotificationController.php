@@ -15,7 +15,7 @@ class AdminNotificationController extends Controller
      */
     public function create()
     {
-        $header = __('Send {{ __('navigation.broadcast') }} Notification');
+        $header = __('admin.send_broadcast_title');
 
         // Fetch students to populate a dropdown if the admin wants to target specific users
         $students = User::student()->orderBy('name')->get(['id', 'name', 'email']);
@@ -66,6 +66,6 @@ class AdminNotificationController extends Controller
             $validated['type']
         ));
 
-        return back()->with('success', "Notification dispatched successfully to {$users->count()} student(s).");
+        return back()->with('success', __('admin.notification_dispatched_successfully', ['count' => $users->count()]));
     }
 }

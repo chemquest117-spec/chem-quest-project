@@ -93,4 +93,6 @@ return [
     'failed_to_load_edit_7ea8' => 'Failed to load edit stage page. Please try again.',
     'we_encountered_an_unexpected_c699' => 'We encountered an unexpected error while updating stage. Please try again, or contact support if the problem persists.',
     'we_encountered_an_unexpected_2ff1' => 'We encountered an unexpected error while deleting stage. Please try again, or contact support if the problem persists.',
+    'send_broadcast_title' => 'Send Broadcast Notification',
+    'notification_dispatched_successfully' => 'Notification dispatched successfully to :count student(s).',
 ];

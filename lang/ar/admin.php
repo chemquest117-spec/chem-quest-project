@@ -93,4 +93,6 @@ return [
     'failed_to_load_edit_7ea8' => '[AR] Failed to load edit stage page. Please try again.',
     'we_encountered_an_unexpected_c699' => '[AR] We encountered an unexpected error while updating stage. Please try again, or contact support if the problem persists.',
     'we_encountered_an_unexpected_2ff1' => '[AR] We encountered an unexpected error while deleting stage. Please try again, or contact support if the problem persists.',
+    'send_broadcast_title' => 'إرسال إشعار للكل',
+    'notification_dispatched_successfully' => 'تم إرسال الإشعار بنجاح إلى :count طالب(طلاب).',
 ];
