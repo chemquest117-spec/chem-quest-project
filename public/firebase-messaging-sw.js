@@ -16,16 +16,29 @@ importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
 
 // These values are injected dynamically or set as defaults
-const firebaseConfig = self.firebaseConfig || {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+// These values will be received from the main thread during registration
+let firebaseConfig = {
+    apiKey: "REPLACED_BY_ENV",
+    authDomain: "REPLACED_BY_ENV",
+    projectId: "REPLACED_BY_ENV",
+    storageBucket: "REPLACED_BY_ENV",
+    messagingSenderId: "REPLACED_BY_ENV",
+    appId: "REPLACED_BY_ENV",
 };
 
-firebase.initializeApp(firebaseConfig);
+// Listen for the config if it's sent from the main thread
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SET_CONFIG') {
+        firebaseConfig = event.data.config;
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+    }
+});
+
+if (firebaseConfig.apiKey !== "REPLACED_BY_ENV") {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const messaging = firebase.messaging();
 

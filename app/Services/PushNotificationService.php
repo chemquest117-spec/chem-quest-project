@@ -38,6 +38,11 @@ class PushNotificationService
         }
     }
 
+    public function getProjectId(): ?string
+    {
+        return $this->projectId;
+    }
+
     /**
      * Send a push notification to all devices for a given user.
      */
