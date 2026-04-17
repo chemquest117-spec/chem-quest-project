@@ -174,7 +174,7 @@ it('sends push notification to device token via HTTP v1', function () {
             'token_count' => $user->deviceTokens()->count(),
             'is_enabled' => $service->isEnabled(),
         ];
-        throw new \Exception("FCM Fail: " . json_encode($diag));
+        throw new Exception('FCM Fail: '.json_encode($diag));
     }
 
     expect($sent)->toBe(1);
