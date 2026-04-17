@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->hasMany(WeeklyStudyPlan::class);
     }
 
+    public function deviceTokens(): HasMany
+    {
+        return $this->hasMany(DeviceToken::class);
+    }
+
     /**
      * Get the user's currently active study plan.
      */

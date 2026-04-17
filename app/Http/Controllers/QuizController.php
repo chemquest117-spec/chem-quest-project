@@ -7,6 +7,7 @@ use App\Models\AttemptAnswer;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Notifications\StageCompleted;
+use App\Services\MotivationService;
 use App\Services\ProgressSyncService;
 use App\Support\CacheTTL;
 use App\Support\MemoryCache;
@@ -361,6 +362,9 @@ class QuizController extends Controller
 
                 // Update study streak
                 $this->updateStreak($user);
+
+                // Send motivational notification (success/failure/streak/level-up)
+                app(MotivationService::class)->afterQuizCompletion($attempt, $user);
 
                 // Invalidate user dashboard caches so front-end reflects new stats immediately
                 MemoryCache::forget("user_{$user->id}_dashboard_stats");

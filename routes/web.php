@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\AdminAnalyticsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\AdminPlannerController;
 use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AdminStageController;
 use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeviceTokenController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
@@ -87,6 +89,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.readAll');
 
+    // Device Token (FCM Push Notifications)
+    Route::post('/device-token', [DeviceTokenController::class, 'store'])->name('device-token.store');
+    Route::delete('/device-token', [DeviceTokenController::class, 'destroy'])->name('device-token.destroy');
+
     // Profile (Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -146,6 +152,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Planner Settings
     Route::get('/planner-settings', [AdminPlannerController::class, 'index'])->name('planner-settings');
     Route::post('/planner-settings', [AdminPlannerController::class, 'update'])->name('planner-settings.update');
+
+    // Broadcast Notifications
+    Route::get('/notifications', [AdminNotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications', [AdminNotificationController::class, 'store'])->name('notifications.store');
 });
 
 /*

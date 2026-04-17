@@ -44,4 +44,9 @@ return [
         'admin_email' => env('LICENSE_ADMIN_EMAIL'),
     ],
 
+    'fcm' => [
+        'server_key' => env('FCM_SERVER_KEY'),
+        'enabled' => env('FCM_ENABLED', false),
+    ],
+
 ];

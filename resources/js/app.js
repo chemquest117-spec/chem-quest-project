@@ -1,10 +1,17 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import { initFCM } from './firebase-messaging';
 
 window.Alpine = Alpine;
 
 Alpine.start();
+
+// Initialize Firebase Cloud Messaging for push notifications
+// Only runs on authenticated pages (where CSRF meta tag exists)
+if (document.querySelector('meta[name="csrf-token"]')) {
+    initFCM();
+}
 
 // Refresh CSRF token when returning to an old tab.
 (() => {

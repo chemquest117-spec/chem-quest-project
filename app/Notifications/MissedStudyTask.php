@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\StudyPlan;
+use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -18,7 +19,13 @@ class MissedStudyTask extends Notification implements ShouldQueue
 
     public function via($notifiable): array
     {
-        return ['database'];
+        $channels = ['database'];
+
+        if ($notifiable->deviceTokens()->exists()) {
+            $channels[] = FcmChannel::class;
+        }
+
+        return $channels;
     }
 
     public function toArray($notifiable): array
@@ -28,8 +35,25 @@ class MissedStudyTask extends Notification implements ShouldQueue
             'message_en' => __('planner.missed_message', ['count' => $this->missedCount], 'en'),
             'message_ar' => __('planner.missed_message', ['count' => $this->missedCount], 'ar'),
             'type' => 'warning',
+            'category' => 'reminder',
             'plan_id' => $this->plan->id,
             'missed_count' => $this->missedCount,
+        ];
+    }
+
+    public function toFcm($notifiable): array
+    {
+        $locale = $notifiable->locale ?? app()->getLocale();
+
+        return [
+            'title' => $locale === 'ar' ? '⚠️ مهام فائتة!' : '⚠️ Missed Tasks!',
+            'body' => $locale === 'ar'
+                ? __('planner.missed_message', ['count' => $this->missedCount], 'ar')
+                : __('planner.missed_message', ['count' => $this->missedCount], 'en'),
+            'data' => [
+                'category' => 'reminder',
+                'plan_id' => $this->plan->id,
+            ],
         ];
     }
 }

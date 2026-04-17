@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Notifications\Channels;
+
+use App\Services\PushNotificationService;
+use Illuminate\Notifications\Notification;
+
+/**
+ * Custom notification channel for Firebase Cloud Messaging (FCM).
+ *
+ * Any notification that includes 'fcm' in its via() method and implements
+ * a toFcm($notifiable) method will be delivered through this channel.
+ */
+class FcmChannel
+{
+    public function __construct(
+        private PushNotificationService $pushService,
+    ) {}
+
+    /**
+     * Send the given notification via FCM push.
+     */
+    public function send(object $notifiable, Notification $notification): void
+    {
+        if (! $this->pushService->isEnabled()) {
+            return;
+        }
+
+        if (! method_exists($notification, 'toFcm')) {
+            return;
+        }
+
+        $fcmData = $notification->toFcm($notifiable);
+
+        $title = $fcmData['title'] ?? config('app.name');
+        $body = $fcmData['body'] ?? '';
+        $data = $fcmData['data'] ?? [];
+
+        if (empty($body)) {
+            return;
+        }
+
+        $this->pushService->sendToUser($notifiable, $title, $body, $data);
+    }
+}
