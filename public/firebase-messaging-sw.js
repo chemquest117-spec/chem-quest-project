@@ -16,17 +16,16 @@ importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
 
 // These values are injected dynamically or set as defaults
-// These values will be received from the main thread during registration
 let firebaseConfig = {
-    apiKey: "REPLACED_BY_ENV",
-    authDomain: "REPLACED_BY_ENV",
-    projectId: "REPLACED_BY_ENV",
-    storageBucket: "REPLACED_BY_ENV",
-    messagingSenderId: "REPLACED_BY_ENV",
-    appId: "REPLACED_BY_ENV",
+    apiKey: "AIzaSyDtxoTEV6LLbkarbDRqGGoEFb_gLHAqEGI",
+    authDomain: "chem-track-58071.firebaseapp.com",
+    projectId: "chem-track-58071",
+    storageBucket: "chem-track-58071.firebasestorage.app",
+    messagingSenderId: "297929137412",
+    appId: "1:297929137412:web:358794f21e4c5549af4451",
 };
 
-// Listen for the config if it's sent from the main thread
+// Also listen for any dynamic overrides from the main thread
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SET_CONFIG') {
         firebaseConfig = event.data.config;
@@ -36,7 +35,8 @@ self.addEventListener('message', (event) => {
     }
 });
 
-if (firebaseConfig.apiKey !== "REPLACED_BY_ENV") {
+// Initialize early if we have config
+if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
