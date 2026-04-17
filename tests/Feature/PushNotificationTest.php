@@ -135,6 +135,12 @@ it('sends push notification to device token via HTTP v1', function () {
         'fcm.googleapis.com/v1/projects/*/messages:send' => Http::response(['name' => 'projects/test/messages/123'], 200),
     ]);
 
+    // Clear any path from the developer's .env and use the dummy file
+    config(['services.fcm.credentials_path' => $dummyPath]);
+    config(['services.fcm.credentials_base64' => null]);
+
+    $service = new PushNotificationService;
+
     $user = User::factory()->create();
     DeviceToken::create([
         'user_id' => $user->id,
@@ -142,7 +148,6 @@ it('sends push notification to device token via HTTP v1', function () {
         'platform' => 'android',
     ]);
 
-    $service = new PushNotificationService;
     $sent = $service->sendToUser($user, 'Test Title', 'Test Body', ['key' => 'value']);
 
     expect($sent)->toBe(1);
