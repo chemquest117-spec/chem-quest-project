@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\AdminAnnouncement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class AdminNotificationController extends Controller
 {
@@ -90,13 +91,13 @@ class AdminNotificationController extends Controller
         try {
             $testUser = $users->first();
             $testUser->notifications()->create([
-                'id' => \Illuminate\Support\Str::uuid(),
+                'id' => Str::uuid(),
                 'type' => 'App\Notifications\AdminAnnouncement',
                 'data' => ['message' => 'DB_TEST_STRICT', 'category' => 'announcement'],
             ]);
-            error_log("[BROADCAST_DEBUG] Manual DB insert succeeded for user: " . $testUser->id);
+            error_log('[BROADCAST_DEBUG] Manual DB insert succeeded for user: '.$testUser->id);
         } catch (\Exception $e) {
-            error_log("[BROADCAST_DEBUG] Manual DB insert FAILED: " . $e->getMessage());
+            error_log('[BROADCAST_DEBUG] Manual DB insert FAILED: '.$e->getMessage());
         }
 
         // Use Laravel's Notification Facade to chunk and send efficiently via queue

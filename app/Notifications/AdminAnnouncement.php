@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Notifications\Channels\FcmChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
 class AdminAnnouncement extends Notification
