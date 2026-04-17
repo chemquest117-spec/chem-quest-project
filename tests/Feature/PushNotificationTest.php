@@ -165,8 +165,15 @@ it('sends push notification to device token via HTTP v1', function () {
     $sent = $service->sendToUser($user, 'Test Title', 'Test Body', ['key' => 'value']);
 
     if ($sent === 0) {
-        dump('Sent is 0. Checking tokens...');
-        dump('User Token Count: ' . $user->deviceTokens()->count());
+        $diag = [
+            'config_enabled' => config('services.fcm.enabled'),
+            'project_id' => $service->getProjectId(),
+            'file_exists' => file_exists($dummyPath),
+            'dummy_path' => $dummyPath,
+            'token_count' => $user->deviceTokens()->count(),
+            'is_enabled' => $service->isEnabled(),
+        ];
+        throw new \Exception("FCM Fail: " . json_encode($diag));
     }
 
     expect($sent)->toBe(1);
