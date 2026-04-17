@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\AdminAnnouncement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class AdminNotificationController extends Controller
 {
