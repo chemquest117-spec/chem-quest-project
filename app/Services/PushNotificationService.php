@@ -180,7 +180,7 @@ class PushNotificationService
     /**
      * Get or generate OAuth2 access token for FCM v1 API and cache it.
      */
-    private function getAccessToken(): ?string
+    public function getAccessToken(): ?string
     {
         return Cache::remember('fcm_v1_access_token', now()->addMinutes(50), function () {
             if (! file_exists($this->credentialsFile)) {
