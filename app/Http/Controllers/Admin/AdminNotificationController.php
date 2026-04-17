@@ -67,7 +67,7 @@ class AdminNotificationController extends Controller
             'type' => 'required|string|in:info,success,warning',
         ]);
 
-        $query = User::whereNull('deleted_at'); // Temporarily targeting all users for debugging
+        $query = User::student()->whereNull('deleted_at');
 
         if ($validated['target'] === 'specific') {
             $query->whereIn('id', $validated['user_ids']);
@@ -80,26 +80,12 @@ class AdminNotificationController extends Controller
         }
 
         $users = $query->get();
-        error_log('[BROADCAST_DEBUG] Sending to '.$users->count().' users. IDs: '.$users->pluck('id')->implode(','));
 
         if ($users->isEmpty()) {
             return back()->with('error', __('admin.no_users_found_matching_8e61'));
         }
 
-        // Manually check if the database can even save notifications
-        try {
-            $testUser = $users->first();
-            $testUser->notifications()->create([
-                'id' => \Illuminate\Support\Str::uuid(),
-                'type' => 'App\Notifications\AdminAnnouncement',
-                'data' => ['message' => 'DB_TEST_STRICT', 'category' => 'announcement'],
-            ]);
-            error_log("[BROADCAST_DEBUG] Manual DB insert succeeded for user: " . $testUser->id);
-        } catch (\Exception $e) {
-            error_log("[BROADCAST_DEBUG] Manual DB insert FAILED: " . $e->getMessage());
-        }
-
-        // Use Laravel's Notification Facade to chunk and send efficiently via queue
+        // Use Laravel's Notification Facade to chunk and send efficiently
         Notification::send($users, new AdminAnnouncement(
             $validated['title_en'],
             $validated['title_ar'],

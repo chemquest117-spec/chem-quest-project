@@ -4,7 +4,6 @@ namespace App\Notifications\Channels;
 
 use App\Services\PushNotificationService;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Custom notification channel for Firebase Cloud Messaging (FCM).
@@ -24,8 +23,6 @@ class FcmChannel
     public function send(object $notifiable, Notification $notification): void
     {
         if (! $this->pushService->isEnabled()) {
-            Log::warning('FCM is disabled in settings.');
-
             return;
         }
 
@@ -34,7 +31,6 @@ class FcmChannel
         }
 
         $fcmData = $notification->toFcm($notifiable);
-        Log::info('Attempting to send FCM to user: '.$notifiable->id);
 
         $title = $fcmData['title'] ?? config('app.name');
         $body = $fcmData['body'] ?? '';
