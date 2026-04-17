@@ -68,10 +68,11 @@ async function registerToken() {
 
     try {
         // Register the service worker explicitly
-        // Register service worker and inject config
-        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        // Register service worker and wait until it is fully active
+        await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        const registration = await navigator.serviceWorker.ready;
         
-        // Wait for the SW to be ready and send the config
+        // Inject config (if needed as a backup)
         if (registration.active) {
             registration.active.postMessage({
                 type: 'SET_CONFIG',
