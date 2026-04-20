@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -56,10 +58,11 @@ class AdminStudentController extends Controller
 
             $stageAggregates = StageAttempt::where('user_id', $user->id)
                 ->whereNotNull('completed_at')
+                ->where('total_questions', '>', 0)
                 ->selectRaw('stage_id,
                     count(*) as attempts,
-                    avg((score * 100.0) / nullif(total_questions, 0)) as avg_score_pct,
-                    max((score * 100.0) / nullif(total_questions, 0)) as best_score_pct,
+                    avg((score * 100.0) / total_questions) as avg_score_pct,
+                    max((score * 100.0) / total_questions) as best_score_pct,
                     avg(time_spent_seconds) as avg_time')
                 ->groupBy('stage_id')
                 ->get()
@@ -102,7 +105,7 @@ class AdminStudentController extends Controller
 
             // Overall stats
             $totalAttempts = $recentAttempts->count();
-            $passedAttempts = $recentAttempts->passed()->count();
+            $passedAttempts = $recentAttempts->where('passed', true)->count();
             $successRate = $totalAttempts > 0 ? round(($passedAttempts / $totalAttempts) * 100, 1) : 0;
             $totalTimeSpent = StageAttempt::where('user_id', $user->id)->sum('time_spent_seconds');
 
@@ -133,11 +136,23 @@ class AdminStudentController extends Controller
     public function destroy(User $user)
     {
         try {
-            if ($user->is_admin) {
+            if ($user->role !== 'student') {
                 return back()->with('error', __('admin.cannot_delete_admin'));
             }
 
+            $oldValues = $user->toArray();
             $user->delete();
+
+            // Log the action
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'delete_student',
+                'model_type' => User::class,
+                'model_id' => $user->id,
+                'old_values' => $oldValues,
+                'ip_address' => request()->ip(),
+                'description' => "Deleted student account for {$user->name}",
+            ]);
 
             return redirect()->route('admin.students.index')
                 ->with('success', __('admin.student_deleted', ['name' => $user->name]));
@@ -160,14 +175,27 @@ class AdminStudentController extends Controller
     public function toggleBan(User $user)
     {
         try {
-            if ($user->is_admin) {
+            if ($user->role !== 'student') {
                 return back()->with('error', __('admin.cannot_ban_admin'));
             }
 
+            $oldValues = ['is_banned' => $user->is_banned];
             $user->is_banned = ! ($user->is_banned ?? false);
             $user->save();
 
             $status = $user->is_banned ? 'banned' : 'unbanned';
+
+            // Log the action
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => $user->is_banned ? 'block_student' : 'unblock_student',
+                'model_type' => User::class,
+                'model_id' => $user->id,
+                'old_values' => $oldValues,
+                'new_values' => ['is_banned' => $user->is_banned],
+                'ip_address' => request()->ip(),
+                'description' => ucfirst($status) . " student {$user->name}",
+            ]);
 
             return back()->with('success', __('admin.student_status_changed', ['name' => $user->name, 'status' => $status]));
         } catch (ValidationException $e) {
@@ -210,6 +238,106 @@ class AdminStudentController extends Controller
             return back()
                 ->withInput()
                 ->with('error', __('admin.student_password_reset_error'));
+        }
+    }
+
+    /**
+     * Show the form for creating a new student.
+     */
+    public function create()
+    {
+        return view('admin.students.create');
+    }
+
+    /**
+     * Store a newly created student.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'student',
+            ]);
+
+            // Log the action
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'create_student',
+                'model_type' => User::class,
+                'model_id' => $user->id,
+                'new_values' => $user->toArray(),
+                'ip_address' => $request->ip(),
+                'description' => "Created student account for {$user->name}",
+            ]);
+
+            return redirect()->route('admin.students.show', $user)
+                ->with('success', __('admin.student_created'));
+        } catch (\Throwable $e) {
+            report($e);
+            return back()->withInput()->with('error', __('admin.student_create_error'));
+        }
+    }
+
+    /**
+     * Show the form for editing the student.
+     */
+    public function edit(User $user)
+    {
+        if ($user->role !== 'student') {
+            abort(404);
+        }
+
+        return view('admin.students.edit', compact('user'));
+    }
+
+    /**
+     * Update the student.
+     */
+    public function update(Request $request, User $user)
+    {
+        if ($user->role !== 'student') {
+            abort(404);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        ]);
+
+        try {
+            $oldValues = $user->toArray();
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+            // Log the action
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'update_student',
+                'model_type' => User::class,
+                'model_id' => $user->id,
+                'old_values' => $oldValues,
+                'new_values' => $user->toArray(),
+                'ip_address' => $request->ip(),
+                'description' => "Updated student account for {$user->name}",
+            ]);
+
+            return redirect()->route('admin.students.show', $user)
+                ->with('success', __('admin.student_updated'));
+        } catch (\Throwable $e) {
+            report($e);
+            return back()->withInput()->with('error', __('admin.student_update_error'));
         }
     }
 }

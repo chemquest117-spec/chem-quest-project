@@ -9,6 +9,12 @@
                <h1 class="text-3xl font-bold text-white mt-1 mb-8 flex items-center gap-2"><x-icon name="users"
                          class="w-7 h-7 text-cyan-400" /> {{ __('admin.student_progress') }}</h1>
 
+               <div class="mb-6">
+                    <a href="{{ route('admin.students.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition">
+                         Create New Student
+                    </a>
+               </div>
+
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
                     <div class="overflow-x-auto">
                          <table class="w-full">

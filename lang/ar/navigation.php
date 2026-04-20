@@ -15,4 +15,8 @@ return [
     'weekly_planner' => 'خطة الدراسة (أسبوعي]',
     'view_all_notifications' => 'عرض كل الإشعارات',
     'broadcast' => 'إذاعة',
+    'students' => 'الطلاب',
+    'admins' => 'المشرفين',
+    'license' => 'الترخيص',
+    'audit_logs' => 'سجلات التدقيق',
 ];

@@ -15,4 +15,8 @@ return [
     'weekly_planner' => 'Weekly Planner',
     'view_all_notifications' => 'View all notifications',
     'broadcast' => 'Broadcast',
+    'students' => 'Students',
+    'admins' => 'Admins',
+    'license' => 'License',
+    'audit_logs' => 'Audit Logs',
 ];

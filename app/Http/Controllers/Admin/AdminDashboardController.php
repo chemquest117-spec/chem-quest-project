@@ -15,6 +15,9 @@ class AdminDashboardController extends Controller
     {
         try {
             $totalStudents = User::student()->count();
+            $activeStudents = User::student()->where('is_banned', false)->count();
+            $blockedStudents = User::student()->where('is_banned', true)->count();
+            $totalAdmins = User::whereIn('role', ['admin', 'super_admin'])->count();
             $totalStages = Stage::count();
             $totalAttempts = StageAttempt::count();
             $passRate = StageAttempt::count() > 0
@@ -26,12 +29,21 @@ class AdminDashboardController extends Controller
                 ->take(10)
                 ->get();
 
+            $recentAuditLogs = \App\Models\AuditLog::with('user')
+                ->latest()
+                ->take(10)
+                ->get();
+
             return view('admin.dashboard', compact(
                 'totalStudents',
+                'activeStudents',
+                'blockedStudents',
+                'totalAdmins',
                 'totalStages',
                 'totalAttempts',
                 'passRate',
-                'recentAttempts'
+                'recentAttempts',
+                'recentAuditLogs'
             ));
         } catch (ValidationException $e) {
             throw $e;
@@ -44,6 +56,9 @@ class AdminDashboardController extends Controller
 
             return view('admin.dashboard', [
                 'totalStudents' => 0,
+                'activeStudents' => 0,
+                'blockedStudents' => 0,
+                'totalAdmins' => 0,
                 'totalStages' => 0,
                 'totalAttempts' => 0,
                 'passRate' => 0,

@@ -212,6 +212,8 @@ To ensure comprehensive testing, the platform supports varied question types:
 ## 👨‍🏫 Advanced Admin Analytics & Management
 
 The admin panel offers deep insights and administrative controls:
+- **Hierarchical Role Management**: Differentiates between `admin` (teachers/staff) and `super_admin` (owners). Super Admins have exclusive access to manage system Licenses, Audit Logs, and other Admins. Safely built-in protections strictly prevent super admins from editing or deleting peer super admins.
+- **Extensive Navigation**: The admin sidebar dynamically exposes advanced routes (`Students`, `Admins`, `License`, `Audit Logs`) conditionally based on authorization level, seamlessly localized across English and Arabic.
 - **Detailed Student Profiles**: View performance over time, success rates by stage, and total time spent learning.
 - **Moderation Tools**: Safely soft-delete accounts, temporarily ban misbehaving users, and trigger instant password resets.
 - **Analytics Optimized**: Heavily aggregated DB queries ensure dashboard stat calculations scale performantly even with thousands of student attempts.

@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAnalyticsController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\AdminPlannerController;
 use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AdminStageController;
 use App\Http\Controllers\Admin\AdminStudentController;
+use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceTokenController;
 use App\Http\Controllers\LeaderboardController;
@@ -144,10 +147,25 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Student Management
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [AdminStudentController::class, 'create'])->name('students.create');
+    Route::post('/students', [AdminStudentController::class, 'store'])->name('students.store');
     Route::get('/students/{user}', [AdminStudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{user}/edit', [AdminStudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{user}', [AdminStudentController::class, 'update'])->name('students.update');
     Route::delete('/students/{user}', [AdminStudentController::class, 'destroy'])->name('students.destroy');
     Route::post('/students/{user}/toggle-ban', [AdminStudentController::class, 'toggleBan'])->name('students.toggleBan');
     Route::post('/students/{user}/reset-password', [AdminStudentController::class, 'resetPassword'])->name('students.resetPassword');
+
+    // Admin Management (Super Admin only)
+    Route::middleware('role:super_admin')->group(function () {
+        Route::resource('admins', AdminController::class);
+        Route::get('/license', [LicenseController::class, 'index'])->name('license.index');
+        Route::post('/license/activate', [LicenseController::class, 'activate'])->name('license.activate');
+        Route::post('/license/deactivate', [LicenseController::class, 'deactivate'])->name('license.deactivate');
+    });
+
+    // Audit Logs (Admin and Super Admin)
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit.index');
 
     // Planner Settings
     Route::get('/planner-settings', [AdminPlannerController::class, 'index'])->name('planner-settings');

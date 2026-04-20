@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,6 +47,7 @@ class User extends Authenticatable
         'stars',
         'streak',
         'last_activity',
+        'role',
     ];
 
     protected $hidden = [
@@ -93,6 +95,40 @@ class User extends Authenticatable
         return $this->hasMany(DeviceToken::class);
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class);
+    }
+
+    /**
+     * Check if user has a specific role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role || $this->roles()->where('name', $role)->exists();
+    }
+
+    /**
+     * Check if user has a specific permission.
+     */
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions()->where('name', $permission)->exists() ||
+               $this->roles()->whereHas('permissions', function ($query) use ($permission) {
+                   $query->where('name', $permission);
+               })->exists();
+    }
+
     /**
      * Get the user's currently active study plan.
      */
@@ -113,11 +149,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope: only non-administrators (students).
+     * Scope: only students.
      */
     public function scopeStudent($query)
     {
-        return $query->where('is_admin', PostgresBoolean::asQueryValue(false));
+        return $query->where('role', 'student');
     }
 
     /**
