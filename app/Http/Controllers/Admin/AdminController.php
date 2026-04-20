@@ -7,8 +7,6 @@ use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminController extends Controller
 {
@@ -25,6 +23,7 @@ class AdminController extends Controller
             return view('admin.admins.index', compact('admins'));
         } catch (\Throwable $e) {
             report($e);
+
             return back()->with('error', 'Failed to load admins');
         }
     }
@@ -72,6 +71,7 @@ class AdminController extends Controller
                 ->with('success', 'Admin created successfully');
         } catch (\Throwable $e) {
             report($e);
+
             return back()->withInput()->with('error', 'Failed to create admin');
         }
     }
@@ -95,7 +95,7 @@ class AdminController extends Controller
      */
     public function edit(User $admin)
     {
-        if (!in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! in_array($admin->role, ['admin', 'super_admin'])) {
             abort(404);
         }
 
@@ -111,7 +111,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, User $admin)
     {
-        if (!in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! in_array($admin->role, ['admin', 'super_admin'])) {
             abort(404);
         }
 
@@ -121,7 +121,7 @@ class AdminController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $admin->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$admin->id,
             'role' => 'required|in:admin,super_admin',
         ]);
 
@@ -150,6 +150,7 @@ class AdminController extends Controller
                 ->with('success', 'Admin updated successfully');
         } catch (\Throwable $e) {
             report($e);
+
             return back()->withInput()->with('error', 'Failed to update admin');
         }
     }
@@ -159,7 +160,7 @@ class AdminController extends Controller
      */
     public function destroy(User $admin)
     {
-        if (!in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! in_array($admin->role, ['admin', 'super_admin'])) {
             abort(404);
         }
 
@@ -191,6 +192,7 @@ class AdminController extends Controller
                 ->with('success', 'Admin deleted successfully');
         } catch (\Throwable $e) {
             report($e);
+
             return back()->with('error', 'Failed to delete admin');
         }
     }

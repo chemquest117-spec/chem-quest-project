@@ -3,6 +3,8 @@
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CheckBanned;
 use App\Http\Middleware\CheckLicense;
+use App\Http\Middleware\CheckPermission;
+use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\FlushRequestCache;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Database\QueryException;
@@ -34,8 +36,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin' => AdminMiddleware::class,
-            'role' => \App\Http\Middleware\CheckRole::class,
-            'permission' => \App\Http\Middleware\CheckPermission::class,
+            'role' => CheckRole::class,
+            'permission' => CheckPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

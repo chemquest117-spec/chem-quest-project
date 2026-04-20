@@ -31,7 +31,7 @@ class LicenseController extends Controller
         try {
             $license = License::where('key', $request->key)->first();
 
-            if (!$license) {
+            if (! $license) {
                 $license = License::create([
                     'key' => $request->key,
                     'is_active' => true,
@@ -60,6 +60,7 @@ class LicenseController extends Controller
             return back()->with('success', 'License activated successfully');
         } catch (\Throwable $e) {
             report($e);
+
             return back()->with('error', 'Failed to activate license');
         }
     }
@@ -91,6 +92,7 @@ class LicenseController extends Controller
             return back()->with('success', 'License deactivated successfully');
         } catch (\Throwable $e) {
             report($e);
+
             return back()->with('error', 'Failed to deactivate license');
         }
     }

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class SuperAdminSeeder extends Seeder
 {
@@ -12,11 +13,11 @@ class SuperAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $superAdmin = \App\Models\User::firstOrCreate(
+        $superAdmin = User::firstOrCreate(
             ['email' => 'superadmin@chemtrack.com'],
             [
                 'name' => 'Super Admin',
-                'password' => \Illuminate\Support\Facades\Hash::make('my-password-1234'),
+                'password' => Hash::make('my-password-1234'),
                 'role' => 'super_admin',
             ]
         );

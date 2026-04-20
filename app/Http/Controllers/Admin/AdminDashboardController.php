@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
@@ -29,7 +30,7 @@ class AdminDashboardController extends Controller
                 ->take(10)
                 ->get();
 
-            $recentAuditLogs = \App\Models\AuditLog::with('user')
+            $recentAuditLogs = AuditLog::with('user')
                 ->latest()
                 ->take(10)
                 ->get();

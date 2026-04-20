@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RolePermissionSeeder extends Seeder
@@ -42,18 +43,18 @@ class RolePermissionSeeder extends Seeder
             'view_audit_logs',
         ];
 
-        $adminRole = \App\Models\Role::where('name', 'admin')->first();
-        $superAdminRole = \App\Models\Role::where('name', 'super_admin')->first();
+        $adminRole = Role::where('name', 'admin')->first();
+        $superAdminRole = Role::where('name', 'super_admin')->first();
 
         if ($adminRole) {
             $adminRole->permissions()->sync(
-                \App\Models\Permission::whereIn('name', $adminPermissions)->pluck('id')
+                Permission::whereIn('name', $adminPermissions)->pluck('id')
             );
         }
 
         if ($superAdminRole) {
             $superAdminRole->permissions()->sync(
-                \App\Models\Permission::whereIn('name', $superAdminPermissions)->pluck('id')
+                Permission::whereIn('name', $superAdminPermissions)->pluck('id')
             );
         }
     }

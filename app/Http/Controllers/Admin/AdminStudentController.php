@@ -194,7 +194,7 @@ class AdminStudentController extends Controller
                 'old_values' => $oldValues,
                 'new_values' => ['is_banned' => $user->is_banned],
                 'ip_address' => request()->ip(),
-                'description' => ucfirst($status) . " student {$user->name}",
+                'description' => ucfirst($status)." student {$user->name}",
             ]);
 
             return back()->with('success', __('admin.student_status_changed', ['name' => $user->name, 'status' => $status]));
@@ -283,6 +283,7 @@ class AdminStudentController extends Controller
                 ->with('success', __('admin.student_created'));
         } catch (\Throwable $e) {
             report($e);
+
             return back()->withInput()->with('error', __('admin.student_create_error'));
         }
     }
@@ -310,7 +311,7 @@ class AdminStudentController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
         ]);
 
         try {
@@ -337,6 +338,7 @@ class AdminStudentController extends Controller
                 ->with('success', __('admin.student_updated'));
         } catch (\Throwable $e) {
             report($e);
+
             return back()->withInput()->with('error', __('admin.student_update_error'));
         }
     }
