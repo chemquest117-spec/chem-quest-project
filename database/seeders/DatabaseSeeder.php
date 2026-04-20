@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StageSeeder::class,
             QuestionSeeder::class,
+            AnalyticsEnrichmentSeeder::class,
         ]);
     }
 }

@@ -42,6 +42,7 @@ class AdminAnalyticsController extends Controller
             throw $e;
         } catch (\Throwable $e) {
             report($e); // Log the error internally (to Sentry/Log)
+            file_put_contents(base_path('scratch/last_analytics_error.txt'), $e->getMessage().PHP_EOL.$e->getTraceAsString());
 
             session()->now('error', __('admin.we_encountered_an_unexpected_6192'));
 
@@ -154,7 +155,7 @@ class AdminAnalyticsController extends Controller
             DB::raw('sum(case when is_correct = false then 1 else 0 end) as wrong_count')
         )
             ->groupBy('question_id')
-            ->having('total_attempts', '>=', 2)
+            ->havingRaw('count(*) >= 2')
             ->orderByDesc(DB::raw('sum(case when is_correct = false then 1 else 0 end) * 1.0 / count(*)'))
             ->take(5)
             ->get();
