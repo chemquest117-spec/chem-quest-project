@@ -55,12 +55,18 @@ ChemTrack/
 │   │   └── 2026_..._create_notifications_table.php        # Notifications
 │   └── seeders/
 │       ├── DatabaseSeeder.php
-│       ├── QuestionSeeder.php                      # 50 chemistry questions
-│       ├── StageSeeder.php                         # 5 progressive stages
-│       └── UserSeeder.php                          # Admin + Student accounts
+│       ├── QuestionSeeder.php                      # LO-based chemistry questions
+│       ├── StageSeeder.php                         # 5 LO stages
+│       ├── UserSeeder.php                          # Idempotent admin + student accounts
+│       ├── AnalyticsEnrichmentSeeder.php           # Full analytics/dashboard synthetic data
+│       ├── StageAttemptsSeeder.php                 # Stage attempts seed slice
+│       ├── DailyActivitySeeder.php                 # Daily activity seed slice
+│       ├── StagePassSeeder.php                     # Stage pass-rate seed slice
+│       └── ProblematicQuestionsSeeder.php          # Problematic-questions seed slice
 ├── resources/views/
 │   ├── admin/
 │   │   ├── dashboard.blade.php                     # Admin stats overview
+│   │   ├── analytics.blade.php                     # Admin analytics charts (mobile/desktop tuned)
 │   │   ├── questions/
 │   │   │   ├── create.blade.php                    # Add question form
 │   │   │   ├── edit.blade.php                      # Edit question form
@@ -138,8 +144,8 @@ npm run dev
 
 | Role                | Email                 | Password |
 | ------------------- | --------------------- | -------- |
-| **Admin (Teacher)** | admin@chemtrack.com   | password |
-| **Student**         | student@chemtrack.com | password |
+| **Admin (Teacher)** | admin@chemtrack.com   | my-password-1234 |
+| **Student**         | student@chemtrack.com | my-password-1234 |
 
 ---
 
@@ -209,6 +215,48 @@ The admin panel offers deep insights and administrative controls:
 - **Detailed Student Profiles**: View performance over time, success rates by stage, and total time spent learning.
 - **Moderation Tools**: Safely soft-delete accounts, temporarily ban misbehaving users, and trigger instant password resets.
 - **Analytics Optimized**: Heavily aggregated DB queries ensure dashboard stat calculations scale performantly even with thousands of student attempts.
+- **Analytics Dashboard Widgets**:
+  - Stage performance (average score by LO)
+  - Daily activity trend (attempts vs passed)
+  - Pass-rate doughnut per stage
+  - Stage breakdown table (attempts, score, pass rate, time)
+  - Top performers list
+  - Problematic questions panel with direct edit links
+- **Chart UX Improvements**:
+  - Mobile-first layout tuning for cards, charts, tables, and analytics lists
+  - Compact X-axis labels (`LO1..LO5`) to prevent overlap
+  - Full LO names preserved via tooltip + under-chart legend mapping
+  - Doughnut label fallback handling and responsive legend sizing/placement
+
+---
+
+## 🌱 Seeder Strategy (Idempotent + Analytics-Rich)
+
+Seeding is now safe to run repeatedly and designed to produce realistic analytics data.
+
+- `UserSeeder` uses `updateOrCreate` keyed by email, preventing duplicate-key crashes on reruns.
+- `DatabaseSeeder` runs the full chain: base entities + analytics enrichment.
+- `AnalyticsEnrichmentSeeder` synthesizes:
+  - stage attempts over the last 30 days
+  - daily activity distribution
+  - stage-wise pass-rate variance
+  - attempt answers with controlled wrong-answer pressure for problematic questions
+  - dashboard enrichment (`total_points`, `stars`, `streak`, `last_activity`)
+
+### Run full seeding
+
+```bash
+php artisan db:seed
+```
+
+### Run specific analytics slices
+
+```bash
+php artisan db:seed --class=StageAttemptsSeeder
+php artisan db:seed --class=DailyActivitySeeder
+php artisan db:seed --class=StagePassSeeder
+php artisan db:seed --class=ProblematicQuestionsSeeder
+```
 
 ---
 
@@ -308,12 +356,12 @@ function quizTimer(totalSeconds) {
 
 ## 📚 Seeded Content
 
-### 5 Chemistry Stages
-1. **Atomic Structure** — 10 questions, 10 min, +100 pts
-2. **Chemical Bonding** — 10 questions, 12 min, +120 pts
-3. **Reactions & Equations** — 10 questions, 15 min, +140 pts
-4. **Acids, Bases & pH** — 10 questions, 12 min, +150 pts
-5. **Organic Chemistry** — 10 questions, 15 min, +200 pts
+### 5 LO Chemistry Stages
+1. **LO1: Redox & Electrochemistry**
+2. **LO2: Galvanic Cells & Conductivity**
+3. **LO3: Organic Nomenclature & Reactions**
+4. **LO4: Hydrocarbons & Petrochemistry**
+5. **LO5: Functional Groups, Electrolysis & Isomerism**
 
 ### 50 Real Chemistry Questions
 Mixed difficulty (easy/medium/hard) covering:
