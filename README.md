@@ -47,7 +47,7 @@ ChemTrack/
 │   └── app.php                                     # Middleware + cache registered
 ├── database/
 │   ├── migrations/
-│   │   ├── 0001_01_01_000000_create_users_table.php       # + is_admin, points, stars
+│   │   ├── 0001_01_01_000000_create_users_table.php       # + role, points, stars
 │   │   ├── 2025_01_01_000010_create_stages_table.php      # Stages
 │   │   ├── 2025_01_01_000020_create_questions_table.php   # Questions
 │   │   ├── 2025_01_01_000030_create_stage_attempts_table.php  # Attempts
@@ -165,7 +165,7 @@ AttemptAnswer ─ belongsTo ──→ Question
 ### Tables
 | Table               | Key Fields                                                                                      |
 | ------------------- | ----------------------------------------------------------------------------------------------- |
-| **users**           | name, email, password, is_admin, total_points, stars                                            |
+| **users**           | name, email, password, role, total_points, stars                                                |
 | **stages**          | title, description, order, time_limit_minutes, passing_percentage, points_reward                |
 | **questions**       | stage_id, question_text, option_a/b/c/d, correct_answer, difficulty                             |
 | **stage_attempts**  | user_id, stage_id, score, total_questions, passed, time_spent_seconds, started_at, completed_at |

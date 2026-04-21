@@ -5,8 +5,8 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
-    $this->admin = User::factory()->create(['is_admin' => true]);
-    $this->student = User::factory()->create(['is_admin' => false]);
+    $this->admin = User::factory()->create(['role' => 'admin']);
+    $this->student = User::factory()->create(['role' => 'student']);
 });
 
 it('admin can view student list', function () {

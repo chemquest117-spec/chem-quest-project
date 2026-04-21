@@ -6,7 +6,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
-    $this->admin = User::factory()->create(['is_admin' => true]);
+    $this->admin = User::factory()->create(['role' => 'admin']);
     $this->stage = Stage::factory()->create();
 });
 

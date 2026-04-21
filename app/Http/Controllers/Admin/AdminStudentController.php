@@ -49,7 +49,7 @@ class AdminStudentController extends Controller
     public function show(User $user)
     {
         try {
-            if ($user->is_admin) {
+            if ($user->role === 'admin') {
                 abort(404);
             }
 
@@ -217,7 +217,7 @@ class AdminStudentController extends Controller
     public function resetPassword(User $user)
     {
         try {
-            if ($user->is_admin) {
+            if ($user->role === 'admin') {
                 return back()->with('error', __('admin.cannot_reset_admin'));
             }
 

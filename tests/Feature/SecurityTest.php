@@ -36,6 +36,6 @@ it('prevents unauthenticated access to dashboard', function () {
 });
 
 it('prevents non-admin users from accessing admin panel', function () {
-    $user = User::factory()->create(['is_admin' => false]);
+    $user = User::factory()->create(['role' => 'student']);
     $this->actingAs($user)->get('/admin/dashboard')->assertStatus(403);
 });

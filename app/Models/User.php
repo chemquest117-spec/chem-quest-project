@@ -23,7 +23,6 @@ use Laravel\Cashier\Billable;
  * @property int $total_points
  * @property int $stars
  * @property int $streak
- * @property bool $is_admin
  * @property bool $is_banned
  * @property Carbon|null $last_activity
  * @property string|null $remember_token
@@ -60,7 +59,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => PostgresBoolean::class,
+            'role' => 'string',
             'is_banned' => PostgresBoolean::class,
             'last_activity' => 'date',
         ];
@@ -141,11 +140,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Scope: only super administrators.
+     */
+    public function scopeSuperAdmin($query)
+    {
+        return $query->where('role', 'super_admin');
+    }
+
+    /**
      * Scope: only administrators.
      */
     public function scopeAdmin($query)
     {
-        return $query->where('is_admin', PostgresBoolean::asQueryValue(true));
+        return $query->whereIn('role', ['admin', 'super_admin']);
     }
 
     /**

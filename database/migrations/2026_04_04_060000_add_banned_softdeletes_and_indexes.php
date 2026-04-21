@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // Add is_banned to users
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_banned')->default(false)->after('is_admin');
+            $table->boolean('is_banned')->default(false)->after('role');
             $table->softDeletes();
             $table->index('last_activity');
         });

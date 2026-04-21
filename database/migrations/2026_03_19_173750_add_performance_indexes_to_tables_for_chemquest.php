@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->index('is_admin');
+            $table->index('role');
             $table->index('total_points');
             $table->index('stars');
         });
@@ -46,7 +46,7 @@ return new class extends Migration
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->dropIndex(['is_admin']);
+            $table->dropIndex(['role']);
             $table->dropIndex(['total_points']);
             $table->dropIndex(['stars']);
         });

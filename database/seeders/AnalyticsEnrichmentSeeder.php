@@ -64,7 +64,7 @@ class AnalyticsEnrichmentSeeder extends Seeder
                 ->create()
                 ->each(function (User $student): void {
                     $student->forceFill([
-                        'is_admin' => false,
+                        'role' => 'student',
                         'is_banned' => false,
                         'total_points' => random_int(120, 3200),
                         'stars' => random_int(2, 90),

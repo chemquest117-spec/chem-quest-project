@@ -10,8 +10,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::table('users')->where('is_admin', true)->update(['role' => 'admin']);
-        DB::table('users')->where('is_admin', false)->update(['role' => 'student']);
+        DB::table('users')
+            ->whereNull('role')
+            ->orWhere('role', 'user')
+            ->update(['role' => 'student']);
     }
 
     /**

@@ -166,7 +166,7 @@ it('sends level-up notification when 1 stage remaining', function () {
 it('sends comeback notification to inactive students', function () {
     $inactiveUser = User::factory()->create([
         'last_activity' => now()->subDays(5),
-        'is_admin' => false,
+        'role' => 'student',
     ]);
 
     $count = $this->service->sendComebackNotifications();
@@ -180,7 +180,7 @@ it('sends comeback notification to inactive students', function () {
 it('does not send comeback to recently active students', function () {
     User::factory()->create([
         'last_activity' => now(),
-        'is_admin' => false,
+        'role' => 'student',
     ]);
 
     $count = $this->service->sendComebackNotifications();
@@ -191,7 +191,7 @@ it('does not send comeback to recently active students', function () {
 it('does not send comeback to admin users', function () {
     User::factory()->create([
         'last_activity' => now()->subDays(5),
-        'is_admin' => true,
+        'role' => 'admin',
     ]);
 
     $count = $this->service->sendComebackNotifications();
@@ -204,7 +204,7 @@ it('does not send comeback to admin users', function () {
 it('sends streak milestone notifications in batch', function () {
     $user = User::factory()->create([
         'streak' => 7,
-        'is_admin' => false,
+        'role' => 'student',
     ]);
 
     $count = $this->service->sendStreakMilestoneNotifications();
