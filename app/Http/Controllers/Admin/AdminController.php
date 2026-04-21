@@ -81,9 +81,9 @@ class AdminController extends Controller
      */
     public function show(User $admin)
     {
-        // if (!in_array($admin->role, ['admin', 'super_admin'])) {
-        //     abort(404);
-        // }
+        if (! $admin->hasRole(['admin', 'super_admin'])) {
+            abort(404);
+        }
 
         $admin->loadMissing('auditLogs');
 
@@ -95,11 +95,11 @@ class AdminController extends Controller
      */
     public function edit(User $admin)
     {
-        if (! in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! $admin->hasRole(['admin', 'super_admin'])) {
             abort(404);
         }
 
-        if ($admin->role === 'super_admin' && $admin->id !== auth()->id()) {
+        if ($admin->hasRole('super_admin') && $admin->id !== auth()->id()) {
             abort(403, 'You cannot edit other super admins.');
         }
 
@@ -111,11 +111,11 @@ class AdminController extends Controller
      */
     public function update(Request $request, User $admin)
     {
-        if (! in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! $admin->hasRole(['admin', 'super_admin'])) {
             abort(404);
         }
 
-        if ($admin->role === 'super_admin' && $admin->id !== auth()->id()) {
+        if ($admin->hasRole('super_admin') && $admin->id !== auth()->id()) {
             abort(403, 'You cannot edit other super admins.');
         }
 
@@ -160,16 +160,16 @@ class AdminController extends Controller
      */
     public function destroy(User $admin)
     {
-        if (! in_array($admin->role, ['admin', 'super_admin'])) {
+        if (! $admin->hasRole(['admin', 'super_admin'])) {
             abort(404);
         }
 
-        if ($admin->role === 'super_admin' && $admin->id !== auth()->id()) {
+        if ($admin->hasRole('super_admin') && $admin->id !== auth()->id()) {
             abort(403, 'You cannot delete other super admins.');
         }
 
         // Prevent deleting the last super admin
-        if ($admin->role === 'super_admin' && User::where('role', 'super_admin')->count() <= 1) {
+        if ($admin->hasRole('super_admin') && User::where('role', 'super_admin')->count() <= 1) {
             return back()->with('error', 'Cannot delete the last super admin');
         }
 

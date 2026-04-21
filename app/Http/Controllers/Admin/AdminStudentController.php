@@ -49,7 +49,7 @@ class AdminStudentController extends Controller
     public function show(User $user)
     {
         try {
-            if ($user->role === 'admin') {
+            if ($user->hasRole(['admin', 'super_admin'])) {
                 abort(404);
             }
 
@@ -136,7 +136,7 @@ class AdminStudentController extends Controller
     public function destroy(User $user)
     {
         try {
-            if ($user->role !== 'student') {
+            if (! $user->hasRole('student')) {
                 return back()->with('error', __('admin.cannot_delete_admin'));
             }
 
@@ -175,7 +175,7 @@ class AdminStudentController extends Controller
     public function toggleBan(User $user)
     {
         try {
-            if ($user->role !== 'student') {
+            if (! $user->hasRole('student')) {
                 return back()->with('error', __('admin.cannot_ban_admin'));
             }
 
@@ -217,7 +217,7 @@ class AdminStudentController extends Controller
     public function resetPassword(User $user)
     {
         try {
-            if ($user->role === 'admin') {
+            if ($user->hasRole(['admin', 'super_admin'])) {
                 return back()->with('error', __('admin.cannot_reset_admin'));
             }
 
@@ -293,7 +293,7 @@ class AdminStudentController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->role !== 'student') {
+        if (! $user->hasRole('student')) {
             abort(404);
         }
 
@@ -305,7 +305,7 @@ class AdminStudentController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if ($user->role !== 'student') {
+        if (! $user->hasRole('student')) {
             abort(404);
         }
 

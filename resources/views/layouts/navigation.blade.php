@@ -57,7 +57,7 @@
                         </div>
                     </li>
 
-                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                    @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super_admin'))
                     <li class="flex items-center relative" x-data="{ adminOpen: false }">
                         <button @click="adminOpen = !adminOpen" @click.away="adminOpen = false"
                             class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
@@ -81,7 +81,7 @@
                                 class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
                                 <x-icon name="users" class="w-4 h-4" /> {{ __('navigation.students') }}
                             </a>
-                            @if (auth()->user()->role === 'super_admin')
+                            @if (auth()->user()->hasRole('super_admin'))
                             <a href="{{ route('admin.admins.index') }}"
                                 class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
                                 <x-icon name="user-group" class="w-4 h-4" /> {{ __('navigation.admins') }}
@@ -387,7 +387,7 @@
                 </div>
             </div>
 
-            @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+            @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super_admin'))
             <div class="border-t border-white/5 pt-2">
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-400 hover:bg-blue-500/10">
@@ -395,7 +395,7 @@
                 <a href="{{ route('admin.students.index') }}"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
                     <x-icon name="users" class="w-4 h-4" /> {{ __('navigation.students') }}</a>
-                @if (auth()->user()->role === 'super_admin')
+                @if (auth()->user()->hasRole('super_admin'))
                 <a href="{{ route('admin.admins.index') }}"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
                     <x-icon name="user-group" class="w-4 h-4" /> {{ __('navigation.admins') }}</a>

@@ -19,18 +19,18 @@
                                    <h2 class="text-xl font-bold text-white">{{ $admin->name }}</h2>
                                    <p class="text-slate-400">{{ $admin->email }}</p>
                                    <div class="mt-4">
-                                        <span class="px-3 py-1 text-sm rounded-full {{ $admin->role === 'super_admin' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400' }}">
+                                        <span class="px-3 py-1 text-sm rounded-full {{ $admin->hasRole('super_admin') ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400' }}">
                                              {{ ucfirst(str_replace('_', ' ', $admin->role)) }}
                                         </span>
                                    </div>
                               </div>
 
                               <div class="mt-6 space-y-3">
-                                   @if($admin->role !== 'super_admin' && $admin->id !== auth()->id())
+                                   @if(! $admin->hasRole('super_admin') && $admin->id !== auth()->id())
                                         <a href="{{ route('admin.admins.edit', ['admin' => $admin]) }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition text-center block">
                                              Edit Admin
                                         </a>
-                                        @if($admin->role !== 'super_admin' || \App\Models\User::where('role', 'super_admin')->count() > 1)
+                                        @if(! $admin->hasRole('super_admin') || \App\Models\User::where('role', 'super_admin')->count() > 1)
                                              <form action="{{ route('admin.admins.destroy', ['admin' => $admin]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this admin?')">
                                                   @csrf
                                                   @method('DELETE')

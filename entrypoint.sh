@@ -31,6 +31,7 @@ fi
 
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan migrate --force
+  php artisan db:seed --class=SuperAdminSeeder --force
 fi
 
 exec apache2-foreground

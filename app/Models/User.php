@@ -20,6 +20,7 @@ use Laravel\Cashier\Billable;
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
+ * @property string $role
  * @property int $total_points
  * @property int $stars
  * @property int $streak
@@ -110,11 +111,30 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has a specific role.
+     * Check if user has one or more specific roles.
+     *
+     * @param  string|array<int, string>  $role
      */
-    public function hasRole(string $role): bool
+    public function hasRole(string|array $role): bool
     {
-        return $this->role === $role || $this->roles()->where('name', $role)->exists();
+        $roles = is_array($role) ? $role : [$role];
+        $normalizedRoles = array_values(array_unique(array_map(
+            static fn (string $value): string => strtolower(trim($value)),
+            $roles
+        )));
+
+        if ($normalizedRoles === []) {
+            return false;
+        }
+
+        $currentRole = strtolower((string) $this->role);
+        if (in_array($currentRole, $normalizedRoles, true)) {
+            return true;
+        }
+
+        return $this->roles()
+            ->whereIn('name', $normalizedRoles)
+            ->exists();
     }
 
     /**

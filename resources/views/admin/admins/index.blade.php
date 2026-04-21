@@ -41,7 +41,7 @@
                                                   </div>
                                              </td>
                                              <td class="px-6 py-4">
-                                                  <span class="px-2 py-1 text-xs rounded-full {{ $admin->role === 'super_admin' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400' }}">
+                                                  <span class="px-2 py-1 text-xs rounded-full {{ $admin->hasRole('super_admin') ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400' }}">
                                                        {{ ucfirst(str_replace('_', ' ', $admin->role)) }}
                                                   </span>
                                              </td>
@@ -53,13 +53,13 @@
                                                             <x-icon name="eye" class="w-3 h-3" />
                                                             View
                                                        </a>
-                                                       @if($admin->role !== 'super_admin' && $admin->id !== auth()->id())
+                                                       @if(! $admin->hasRole('super_admin') && $admin->id !== auth()->id())
                                                             <a href="{{ route('admin.admins.edit', $admin) }}"
                                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-400 hover:text-green-300 hover:bg-green-500/10 rounded-md transition-colors">
                                                                  <x-icon name="pencil" class="w-3 h-3" />
                                                                  Edit
                                                             </a>
-                                                            @if($admin->role !== 'super_admin' || $admins->where('role', 'super_admin')->count() > 1)
+                                                            @if(! $admin->hasRole('super_admin') || $admins->where('role', 'super_admin')->count() > 1)
                                                                  <form action="{{ route('admin.admins.destroy', ['admin' => $admin]) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
                                                                       @csrf
                                                                       @method('DELETE')
