@@ -80,7 +80,7 @@
                     @endif
                     <a href="{{ route('admin.audit.index') }}"
                          class="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-6 hover:bg-orange-500/20 transition text-center group">
-                         <x-icon name="file-text"
+                         <x-icon name="clipboard-document-list"
                               class="w-8 h-8 mx-auto mb-2 text-orange-400 group-hover:scale-110 transition-transform" />
                          <div class="text-white font-bold">Audit Logs</div>
                          <div class="text-sm text-slate-400">System activity</div>
@@ -144,7 +144,7 @@
 
                {{-- Recent Audit Logs --}}
                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><x-icon name="file-text"
+                    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><x-icon name="clipboard-document-list"
                               class="w-5 h-5 text-orange-400" /> Recent Activity</h2>
                     <div class="space-y-3">
                          @forelse($recentAuditLogs as $log)

@@ -447,6 +447,6 @@
 </svg>
 @break
 
-@default`
+@default
 <span>{{ $name }}</span>
 @endswitch
