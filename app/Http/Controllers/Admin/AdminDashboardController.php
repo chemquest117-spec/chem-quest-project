@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Casts\PostgresBoolean;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
-use App\Casts\PostgresBoolean;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
