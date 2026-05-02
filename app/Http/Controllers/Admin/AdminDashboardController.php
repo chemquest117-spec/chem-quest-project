@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
+use App\Casts\PostgresBoolean;
 use App\Models\Stage;
 use App\Models\StageAttempt;
 use App\Models\User;
@@ -16,8 +17,8 @@ class AdminDashboardController extends Controller
     {
         try {
             $totalStudents = User::student()->count();
-            $activeStudents = User::student()->where('is_banned', false)->count();
-            $blockedStudents = User::student()->where('is_banned', true)->count();
+            $activeStudents = User::student()->where('is_banned', PostgresBoolean::asQueryValue(false))->count();
+            $blockedStudents = User::student()->where('is_banned', PostgresBoolean::asQueryValue(true))->count();
             $totalAdmins = User::whereIn('role', ['admin', 'super_admin'])->count();
             $totalStages = Stage::count();
             $totalAttempts = StageAttempt::count();
@@ -64,6 +65,7 @@ class AdminDashboardController extends Controller
                 'totalAttempts' => 0,
                 'passRate' => 0,
                 'recentAttempts' => collect(),
+                'recentAuditLogs' => collect(),
             ]);
         }
     }

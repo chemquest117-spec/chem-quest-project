@@ -74,34 +74,34 @@
                             x-transition:enter-end="opacity-100 scale-100"
                             class="absolute top-full start-0 mt-2 w-48 bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
                             <a href="{{ route('admin.dashboard') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.dashboard') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}
                             </a>
                             <a href="{{ route('admin.students.index') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.students.*') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="users" class="w-4 h-4" /> {{ __('navigation.students') }}
                             </a>
                             @if (auth()->user()->hasRole('super_admin'))
                             <a href="{{ route('admin.admins.index') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.admins.*') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="user-group" class="w-4 h-4" /> {{ __('navigation.admins') }}
                             </a>
                             <a href="{{ route('admin.license.index') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.license.*') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="key" class="w-4 h-4" /> {{ __('navigation.license') }}
                             </a>
                             <a href="{{ route('admin.audit.index') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.audit.*') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="clipboard-document-list" class="w-4 h-4" /> {{ __('navigation.audit_logs') }}
                             </a>
                             @endif
                             <div class="border-t border-white/5"></div>
                             <a href="{{ route('admin.analytics') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.analytics') ? 'text-amber-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}
                             </a>
                             <a href="{{ route('admin.planner-settings') }}"
-                                class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 transition-colors">
+                                class="flex items-center gap-2 px-4 py-2 text-sm {{ request()->routeIs('admin.planner-settings') ? 'text-blue-400 font-bold bg-white/5' : 'text-slate-300 hover:bg-white/10' }} transition-colors">
                                 <x-icon name="academic-cap" class="w-4 h-4" />
                                 {{ __('navigation.planner_settings') }}
                             </a>
@@ -390,24 +390,24 @@
             @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super_admin'))
             <div class="border-t border-white/5 pt-2">
                 <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-400 hover:bg-blue-500/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-blue-500/10 text-blue-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="cog" class="w-4 h-4" /> {{ __('navigation.admin') }}</a>
                 <a href="{{ route('admin.students.index') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.students.*') ? 'bg-blue-500/10 text-blue-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="users" class="w-4 h-4" /> {{ __('navigation.students') }}</a>
                 @if (auth()->user()->hasRole('super_admin'))
                 <a href="{{ route('admin.admins.index') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.admins.*') ? 'bg-blue-500/10 text-blue-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="user-group" class="w-4 h-4" /> {{ __('navigation.admins') }}</a>
                 <a href="{{ route('admin.license.index') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.license.*') ? 'bg-blue-500/10 text-blue-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="key" class="w-4 h-4" /> {{ __('navigation.license') }}</a>
                 <a href="{{ route('admin.audit.index') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.audit.*') ? 'bg-blue-500/10 text-blue-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="document-text" class="w-4 h-4" /> {{ __('navigation.audit_logs') }}</a>
                 @endif
                 <a href="{{ route('admin.analytics') }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-500/10">
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.analytics') ? 'bg-amber-500/10 text-amber-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">
                     <x-icon name="chart-line" class="w-4 h-4" /> {{ __('navigation.analytics') }}</a>
                 <a href="{{ route('admin.notifications.create') }}"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg {{ request()->routeIs('admin.notifications.*') ? 'bg-amber-500/10 text-amber-400 font-bold' : 'text-slate-300 hover:bg-white/10' }}">

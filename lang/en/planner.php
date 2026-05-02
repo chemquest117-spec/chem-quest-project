@@ -164,4 +164,5 @@ return [
     'we_encountered_an_unexpected_403b' => 'We encountered an unexpected error while updating the study plan notes. Please try again, or contact support if the problem persists.',
     'missed_tasks_title' => '⚠️ Missed Tasks!',
     'study_time_title' => '📚 Study Time!',
+    'add_success' => 'Plan added successfully!',
 ];

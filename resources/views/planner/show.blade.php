@@ -179,7 +179,7 @@
                                                                     <x-icon name="medal" class="w-3 h-3" /> {{ $item->marks_weight }}
                                                                 </span>
                                                             @endif
-                                                            @if($item->auto_{{ __('planner.rescheduled_label') }})
+                                                            @if($item->auto_rescheduled)
                                                                 <span class="text-amber-400 flex items-center gap-0.5">
                                                                     <x-icon name="arrow-right" class="w-3 h-3" /> {{ __('planner.rescheduled_label') }}
                                                                 </span>
