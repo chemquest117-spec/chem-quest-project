@@ -6,7 +6,7 @@
                <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-1 text-slate-400 hover:text-white text-sm">
                     <x-icon name="arrow-right" class="w-4 h-4 rotate-180" /> {{ __('admin.dashboard') }}</a>
-               <h1 class="text-3xl font-bold text-white mt-1 mb-8 flex items-center gap-2"><x-icon name="file-text"
+               <h1 class="text-3xl font-bold text-white mt-1 mb-8 flex items-center gap-2"><x-icon name="clipboard-document-list"
                          class="w-7 h-7 text-cyan-400" /> Audit Logs</h1>
 
                <!-- Filters -->
@@ -17,7 +17,7 @@
                               <select name="action" id="action" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                    <option value="">All Actions</option>
                                    @foreach($actions as $action)
-                                        <option value="{{ $action }}" {{ request('action') === $action ? 'selected' : '' }}>{{ ucfirst(str_replace('_', ' ', $action)) }}</option>
+                                   <option value="{{ $action }}" {{ request('action') === $action ? 'selected' : '' }}>{{ ucfirst(str_replace('_', ' ', $action)) }}</option>
                                    @endforeach
                               </select>
                          </div>
@@ -27,7 +27,7 @@
                               <select name="user_id" id="user_id" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                    <option value="">All Users</option>
                                    @foreach(\App\Models\User::whereIn('role', ['admin', 'super_admin'])->get() as $user)
-                                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                   <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                                    @endforeach
                               </select>
                          </div>
@@ -70,26 +70,26 @@
                               </thead>
                               <tbody>
                                    @forelse($logs as $log)
-                                        <tr class="border-b border-white/5 hover:bg-white/5">
-                                             <td class="px-6 py-4">
-                                                  <div class="text-white font-medium">{{ $log->user->name ?? 'Unknown' }}</div>
-                                                  <div class="text-xs text-slate-500">{{ $log->user->email ?? '' }}</div>
-                                             </td>
-                                             <td class="px-6 py-4">
-                                                  <span class="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400">
-                                                       {{ ucfirst(str_replace('_', ' ', $log->action)) }}
-                                                  </span>
-                                             </td>
-                                             <td class="px-6 py-4 text-slate-300">{{ $log->description }}</td>
-                                             <td class="px-6 py-4 text-slate-300 font-mono text-sm">{{ $log->ip_address }}</td>
-                                             <td class="px-6 py-4 text-slate-300">{{ $log->created_at->format('M d, Y H:i') }}</td>
-                                        </tr>
+                                   <tr class="border-b border-white/5 hover:bg-white/5">
+                                        <td class="px-6 py-4">
+                                             <div class="text-white font-medium">{{ $log->user->name ?? 'Unknown' }}</div>
+                                             <div class="text-xs text-slate-500">{{ $log->user->email ?? '' }}</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                             <span class="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-400">
+                                                  {{ ucfirst(str_replace('_', ' ', $log->action)) }}
+                                             </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-300">{{ $log->description }}</td>
+                                        <td class="px-6 py-4 text-slate-300 font-mono text-sm">{{ $log->ip_address }}</td>
+                                        <td class="px-6 py-4 text-slate-300">{{ $log->created_at->format('M d, Y H:i') }}</td>
+                                   </tr>
                                    @empty
-                                        <tr>
-                                             <td colspan="5" class="px-6 py-8 text-center text-slate-400">
-                                                  No audit logs found
-                                             </td>
-                                        </tr>
+                                   <tr>
+                                        <td colspan="5" class="px-6 py-8 text-center text-slate-400">
+                                             No audit logs found
+                                        </td>
+                                   </tr>
                                    @endforelse
                               </tbody>
                          </table>
